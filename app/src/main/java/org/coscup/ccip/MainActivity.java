@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import org.coscup.ccip.adapter.ScenarioAdapter;
 import org.coscup.ccip.model.Attendee;
 import org.coscup.ccip.network.CCIPClient;
 import org.coscup.ccip.util.TokenUtil;
@@ -24,9 +28,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final TextView hello = (TextView) findViewById(R.id.hello);
+        final RecyclerView scenarioView = (RecyclerView) findViewById(R.id.scenarios);
         String token;
 
         mActivity = this;
+        scenarioView.setLayoutManager(new LinearLayoutManager(mActivity));
+        scenarioView.setItemAnimator(new DefaultItemAnimator());
 
         if (getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             token = getIntent().getData().getQueryParameter("token");
@@ -47,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Attendee attendee = response.body();
                     hello.setText("Hello " + attendee.getUserId());
+                    scenarioView.setAdapter(new ScenarioAdapter(mActivity, attendee.getScenarios()));
                 } else {
                     hello.setText("invalid token");
                 }
