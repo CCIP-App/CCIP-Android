@@ -57,7 +57,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (scenario.getUsed() == null) {
             holder.status.setText("Unused");
         } else {
-            holder.status.setText(sdf.format(new Date(scenario.getAvailableTime() * 1000L)));
+            holder.status.setText(sdf.format(new Date(scenario.getUsed() * 1000L)));
         }
 
         sdf = new SimpleDateFormat("MM/dd HH:mm");
