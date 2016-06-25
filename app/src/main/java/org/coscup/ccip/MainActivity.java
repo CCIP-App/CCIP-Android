@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.coscup.ccip.adapter.ScenarioAdapter;
 import org.coscup.ccip.model.Attendee;
@@ -22,7 +23,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private Activity mActivity;
-    TextView hello;
+    TextView userId;
     RecyclerView scenarioView;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        hello = (TextView) findViewById(R.id.hello);
+        userId = (TextView) findViewById(R.id.user_id);
         scenarioView = (RecyclerView) findViewById(R.id.scenarios);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
 
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (token == null) {
-            hello.setText("Please open this app via link");
+            userId.setText("Please open this app via link");
             return;
         }
 
@@ -72,17 +73,17 @@ public class MainActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
                     Attendee attendee = response.body();
-                    hello.setText("Hello " + attendee.getUserId());
+                    userId.setText("Hello " + attendee.getUserId());
                     scenarioView.setAdapter(new ScenarioAdapter(mActivity, attendee.getScenarios()));
                 } else {
-                    hello.setText("invalid token");
+                    Toast.makeText(mActivity, "invalid token", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Attendee> call, Throwable t) {
                 swipeRefreshLayout.setRefreshing(false);
-                hello.setText("get status fail");
+                Toast.makeText(mActivity, "get status fail, " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
