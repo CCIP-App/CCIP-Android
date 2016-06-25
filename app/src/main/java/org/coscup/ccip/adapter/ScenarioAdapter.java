@@ -7,13 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.coscup.ccip.R;
+import org.coscup.ccip.model.Attendee;
 import org.coscup.ccip.model.Scenario;
+import org.coscup.ccip.network.CCIPClient;
+import org.coscup.ccip.util.TokenUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -47,11 +55,11 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         ViewHolder holder = ((ViewHolder) viewHolder);
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm:ss");
 
-        Scenario scenario = mScenarioList.get(position);
+        final Scenario scenario = mScenarioList.get(position);
         holder.scenarioName.setText(scenario.getId());
 
         if (scenario.getUsed() == null) {
@@ -66,6 +74,30 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         timeRange.append(" ~ ");
         timeRange.append(sdf.format(new Date(scenario.getExpireTime() * 1000L)));
         holder.allowTimeRange.setText(timeRange);
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<Attendee> attendeeCall = CCIPClient.get().use(scenario.getId(), TokenUtil.getToken(mContext));
+                attendeeCall.enqueue(new Callback<Attendee>() {
+                    @Override
+                    public void onResponse(Call<Attendee> call, Response<Attendee> response) {
+                        if (response.isSuccessful()) {
+                            Attendee attendee = response.body();
+                            mScenarioList = attendee.getScenarios();
+                            notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(mContext, "Already used or expire", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Attendee> call, Throwable t) {
+                        Toast.makeText(mContext, "Use req fail, " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
     }
 
     @Override
