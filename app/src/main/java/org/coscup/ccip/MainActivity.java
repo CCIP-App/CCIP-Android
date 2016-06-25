@@ -53,19 +53,19 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        updateStatus(token);
+        updateStatus();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                updateStatus(token);
+                updateStatus();
             }
         });
 
     }
 
-    void updateStatus(String token) {
-        Call<Attendee> attendee = CCIPClient.get().status(token);
+    void updateStatus() {
+        Call<Attendee> attendee = CCIPClient.get().status(TokenUtil.getToken(mActivity));
         attendee.enqueue(new Callback<Attendee>() {
             @Override
             public void onResponse(Call<Attendee> call, Response<Attendee> response) {
