@@ -36,20 +36,15 @@ public class MainActivity extends AppCompatActivity {
         scenarioView = (RecyclerView) findViewById(R.id.scenarios);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
 
-        final String token;
-
         mActivity = this;
         scenarioView.setLayoutManager(new LinearLayoutManager(mActivity));
         scenarioView.setItemAnimator(new DefaultItemAnimator());
 
         if (getIntent().getAction().equals(Intent.ACTION_VIEW)) {
-            token = getIntent().getData().getQueryParameter("token");
-            TokenUtil.setToken(mActivity, token);
-        } else {
-            token = TokenUtil.getToken(mActivity);
+            TokenUtil.setToken(mActivity, getIntent().getData().getQueryParameter("token"));
         }
 
-        if (token == null) {
+        if (TokenUtil.getToken(mActivity) == null) {
             userId.setText("Please open this app via link");
             return;
         }
