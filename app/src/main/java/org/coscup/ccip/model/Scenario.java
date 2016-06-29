@@ -2,6 +2,8 @@
 package org.coscup.ccip.model;
 
 import javax.annotation.Generated;
+
+import com.google.gson.JsonElement;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -19,7 +21,7 @@ public class Scenario {
     private Integer availableTime;
     @SerializedName("attr")
     @Expose
-    private Attr attr;
+    private JsonElement attr;
     @SerializedName("expire_time")
     @Expose
     private Integer expireTime;
@@ -86,7 +88,7 @@ public class Scenario {
      * @return
      *     The attr
      */
-    public Attr getAttr() {
+    public JsonElement getAttr() {
         return attr;
     }
 
@@ -95,7 +97,7 @@ public class Scenario {
      * @param attr
      *     The attr
      */
-    public void setAttr(Attr attr) {
+    public void setAttr(JsonElement attr) {
         this.attr = attr;
     }
 
