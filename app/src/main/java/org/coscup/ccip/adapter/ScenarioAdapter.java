@@ -78,6 +78,13 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         timeRange.append(sdf.format(new Date(scenario.getExpireTime() * 1000L)));
         holder.allowTimeRange.setText(timeRange);
 
+        if (scenario.getDisabled() != null) {
+            holder.allowTimeRange.setVisibility(View.GONE);
+            holder.disableReason.setVisibility(View.VISIBLE);
+            holder.disableReason.setText(scenario.getDisabled());
+            return;
+        }
+
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
