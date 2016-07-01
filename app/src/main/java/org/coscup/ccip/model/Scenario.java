@@ -28,6 +28,9 @@ public class Scenario {
     @SerializedName("used")
     @Expose
     private Integer used;
+    @SerializedName("disabled")
+    @Expose
+    private String disabled;
 
     /**
      * 
@@ -135,6 +138,24 @@ public class Scenario {
      */
     public void setUsed(Integer used) {
         this.used = used;
+    }
+
+    /**
+     *
+     * @return
+     *     The disabled
+     */
+    public String getDisabled() {
+        return disabled;
+    }
+
+    /**
+     *
+     * @param disabled
+     *     The used
+     */
+    public void setDisabled(String disabled) {
+        this.disabled = disabled;
     }
 
 }
