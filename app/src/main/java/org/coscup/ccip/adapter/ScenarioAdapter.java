@@ -1,6 +1,7 @@
 package org.coscup.ccip.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -82,10 +83,12 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
             holder.allowTimeRange.setVisibility(View.GONE);
             holder.disableReason.setVisibility(View.VISIBLE);
             holder.disableReason.setText(scenario.getDisabled());
+            setCardUnclickable(holder.card);
             return;
         }
 
         if (scenario.getUsed() == null) {
+            holder.card.setClickable(true);
             holder.card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -97,7 +100,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                                 Attendee attendee = response.body();
                                 mScenarioList = attendee.getScenarios();
                                 notifyDataSetChanged();
-                                holder.card.setOnClickListener(null);
+                                setCardUnclickable(holder.card);
                             } else {
                                 Toast.makeText(mContext, "Already used or expire", Toast.LENGTH_LONG).show();
                             }
@@ -110,7 +113,15 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                     });
                 }
             });
+        } else {
+            setCardUnclickable(holder.card);
         }
+    }
+
+    private void setCardUnclickable(CardView card) {
+        card.setClickable(false);
+        card.setOnClickListener(null);
+        card.setCardBackgroundColor(Color.LTGRAY);
     }
 
     @Override

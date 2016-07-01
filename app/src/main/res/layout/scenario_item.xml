@@ -9,8 +9,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:clickable="true"
-        android:focusable="true"
         card_view:cardUseCompatPadding="true"
         android:foreground="?android:attr/selectableItemBackground">
 
