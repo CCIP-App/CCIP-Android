@@ -1,6 +1,7 @@
 package org.coscup.ccip.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView scenarioName, status, allowTimeRange, disableReason;
+        public CardView card;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -38,6 +40,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
             status = (TextView) itemView.findViewById(R.id.status);
             allowTimeRange = (TextView) itemView.findViewById(R.id.allow_time_range);
             disableReason = (TextView) itemView.findViewById(R.id.disable_reason);
+            card = (CardView) itemView.findViewById(R.id.card);
         }
     }
 
@@ -75,7 +78,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         timeRange.append(sdf.format(new Date(scenario.getExpireTime() * 1000L)));
         holder.allowTimeRange.setText(timeRange);
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Call<Attendee> attendeeCall = CCIPClient.get().use(scenario.getId(), TokenUtil.getToken(mContext));
