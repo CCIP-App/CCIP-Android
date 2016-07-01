@@ -49,15 +49,18 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        updateStatus();
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 updateStatus();
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateStatus();
     }
 
     void updateStatus() {
