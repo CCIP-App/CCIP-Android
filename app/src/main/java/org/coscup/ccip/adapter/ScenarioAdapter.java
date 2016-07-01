@@ -59,7 +59,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
-        ViewHolder holder = ((ViewHolder) viewHolder);
+        final ViewHolder holder = ((ViewHolder) viewHolder);
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm:ss");
 
         final Scenario scenario = mScenarioList.get(position);
@@ -85,29 +85,32 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
             return;
         }
 
-        holder.card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Call<Attendee> attendeeCall = CCIPClient.get().use(scenario.getId(), TokenUtil.getToken(mContext));
-                attendeeCall.enqueue(new Callback<Attendee>() {
-                    @Override
-                    public void onResponse(Call<Attendee> call, Response<Attendee> response) {
-                        if (response.isSuccessful()) {
-                            Attendee attendee = response.body();
-                            mScenarioList = attendee.getScenarios();
-                            notifyDataSetChanged();
-                        } else {
-                            Toast.makeText(mContext, "Already used or expire", Toast.LENGTH_LONG).show();
+        if (scenario.getUsed() == null) {
+            holder.card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Call<Attendee> attendeeCall = CCIPClient.get().use(scenario.getId(), TokenUtil.getToken(mContext));
+                    attendeeCall.enqueue(new Callback<Attendee>() {
+                        @Override
+                        public void onResponse(Call<Attendee> call, Response<Attendee> response) {
+                            if (response.isSuccessful()) {
+                                Attendee attendee = response.body();
+                                mScenarioList = attendee.getScenarios();
+                                notifyDataSetChanged();
+                                holder.card.setOnClickListener(null);
+                            } else {
+                                Toast.makeText(mContext, "Already used or expire", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<Attendee> call, Throwable t) {
-                        Toast.makeText(mContext, "Use req fail, " + t.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
+                        @Override
+                        public void onFailure(Call<Attendee> call, Throwable t) {
+                            Toast.makeText(mContext, "Use req fail, " + t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            });
+        }
     }
 
     @Override
