@@ -127,7 +127,6 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         use(scenario, holder);
-                        startCountdownActivity(scenario);
                     }
                 })
                 .setNegativeButton("嗚嗚 我後悔了", null)
@@ -142,7 +141,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         mContext.startActivity(intent);
     }
 
-    public void use(Scenario scenario, final ViewHolder holder) {
+    public void use(final Scenario scenario, final ViewHolder holder) {
         Call<Attendee> attendeeCall = CCIPClient.get().use(scenario.getId(), TokenUtil.getToken(mContext));
         attendeeCall.enqueue(new Callback<Attendee>() {
             @Override
@@ -152,6 +151,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                     mScenarioList = attendee.getScenarios();
                     notifyDataSetChanged();
                     setCardUnclickable(holder.card);
+                    startCountdownActivity(scenario);
                 } else {
                     Toast.makeText(mContext, "Already used or expire", Toast.LENGTH_LONG).show();
                 }
