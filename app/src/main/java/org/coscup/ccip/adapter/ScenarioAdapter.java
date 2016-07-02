@@ -117,15 +117,19 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         use(scenario, holder);
-                        Gson gson = new Gson();
-                        Intent intent = new Intent();
-                        intent.setClass(mContext, CountdownActivity.class);
-                        intent.putExtra(CountdownActivity.INTENT_EXTRA_SCENARIO, gson.toJson(scenario));
-                        mContext.startActivity(intent);
+                        startCountdownActivity(scenario);
                     }
                 })
                 .setNegativeButton("嗚嗚 我後悔了", null)
                 .show();
+    }
+
+    public void startCountdownActivity(Scenario scenario) {
+        Gson gson = new Gson();
+        Intent intent = new Intent();
+        intent.setClass(mContext, CountdownActivity.class);
+        intent.putExtra(CountdownActivity.INTENT_EXTRA_SCENARIO, gson.toJson(scenario));
+        mContext.startActivity(intent);
     }
 
     public void use(Scenario scenario, final ViewHolder holder) {
