@@ -98,7 +98,11 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
             holder.card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showConfirmDialog(scenario, holder);
+                    if (scenario.getCountdown() > 0) {
+                        showConfirmDialog(scenario, holder);
+                    } else {
+                        use(scenario, holder);
+                    }
                 }
             });
         } else {
