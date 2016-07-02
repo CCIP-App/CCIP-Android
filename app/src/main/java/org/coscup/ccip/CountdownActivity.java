@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.coscup.ccip.model.Scenario;
 
@@ -40,6 +41,14 @@ public class CountdownActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        JsonObject attr = scenario.getAttr().getAsJsonObject();
+        if (attr.get("diet") != null) {
+            String diet = attr.get("diet").getAsString();
+            if (diet.equals("meat")) {
+                countdownLayot.setBackgroundColor(Color.parseColor("#FFA000"));
+            }
+        }
 
         long countdown;
 
