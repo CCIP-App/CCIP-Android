@@ -70,7 +70,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm:ss");
 
         final Scenario scenario = mScenarioList.get(position);
-        holder.scenarioName.setText(scenario.getId());
+        holder.scenarioName.setText(mContext.getResources().getIdentifier(scenario.getId(), "string", mContext.getPackageName()));
 
         if (scenario.getUsed() == null) {
             holder.status.setText("Unused");

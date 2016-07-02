@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CCIP</string>
+    <string name="day1checkin">Day 1 Checkin</string>
+    <string name="day2checkin">Day 2 Checkin</string>
+    <string name="day1lunch">Day 1 Lunch</string>
+    <string name="day2lunch">Day 2 Lunch</string>
+    <string name="kit">Welcome Kit</string>
 </resources>
