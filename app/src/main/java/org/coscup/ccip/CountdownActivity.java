@@ -35,9 +35,9 @@ public class CountdownActivity extends AppCompatActivity {
         long countdown;
 
         if (scenario.getUsed() == null) {
-            countdown = 60 * 1000L;
+            countdown = scenario.getCountdown() * 1000L;
         } else {
-            countdown = ((long) (scenario.getUsed() + scenario.getCountdown())) * 1000L - new Date().getTime();
+            countdown = (scenario.getUsed() + scenario.getCountdown()) * 1000L - new Date().getTime();
         }
 
         new CountDownTimer(countdown, 1000L) {
