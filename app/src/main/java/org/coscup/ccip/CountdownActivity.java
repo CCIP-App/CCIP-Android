@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,10 +28,18 @@ public class CountdownActivity extends AppCompatActivity {
         final TextView countdownText = (TextView) findViewById(R.id.countdown);
         final TextView currentTimeText = (TextView) findViewById(R.id.current_time);
         final RelativeLayout countdownLayot = (RelativeLayout) findViewById(R.id.countdown_layout);
+        final Button button = (Button) findViewById(R.id.button);
 
         final Gson gson = new Gson();
         final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         final Scenario scenario = gson.fromJson(getIntent().getStringExtra(INTENT_EXTRA_SCENARIO), Scenario.class);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         long countdown;
 
