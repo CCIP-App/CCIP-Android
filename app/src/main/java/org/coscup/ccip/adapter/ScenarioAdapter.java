@@ -92,30 +92,34 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
             holder.card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Call<Attendee> attendeeCall = CCIPClient.get().use(scenario.getId(), TokenUtil.getToken(mContext));
-                    attendeeCall.enqueue(new Callback<Attendee>() {
-                        @Override
-                        public void onResponse(Call<Attendee> call, Response<Attendee> response) {
-                            if (response.isSuccessful()) {
-                                Attendee attendee = response.body();
-                                mScenarioList = attendee.getScenarios();
-                                notifyDataSetChanged();
-                                setCardUnclickable(holder.card);
-                            } else {
-                                Toast.makeText(mContext, "Already used or expire", Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Attendee> call, Throwable t) {
-                            Toast.makeText(mContext, "Use req fail, " + t.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    use(scenario, holder);
                 }
             });
         } else {
             setCardUnclickable(holder.card);
         }
+    }
+
+    public void use(Scenario scenario, final ViewHolder holder) {
+        Call<Attendee> attendeeCall = CCIPClient.get().use(scenario.getId(), TokenUtil.getToken(mContext));
+        attendeeCall.enqueue(new Callback<Attendee>() {
+            @Override
+            public void onResponse(Call<Attendee> call, Response<Attendee> response) {
+                if (response.isSuccessful()) {
+                    Attendee attendee = response.body();
+                    mScenarioList = attendee.getScenarios();
+                    notifyDataSetChanged();
+                    setCardUnclickable(holder.card);
+                } else {
+                    Toast.makeText(mContext, "Already used or expire", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Attendee> call, Throwable t) {
+                Toast.makeText(mContext, "Use req fail, " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void setCardUnclickable(CardView card) {
