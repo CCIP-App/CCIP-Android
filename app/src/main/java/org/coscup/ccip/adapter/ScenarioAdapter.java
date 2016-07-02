@@ -1,7 +1,10 @@
 package org.coscup.ccip.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -11,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import org.coscup.ccip.CountdownActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Attendee;
 import org.coscup.ccip.model.Scenario;
@@ -92,7 +98,21 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
             holder.card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    use(scenario, holder);
+                    new AlertDialog.Builder(mContext)
+                            .setTitle("按下去就悲劇囉")
+                            .setPositiveButton("好啦", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    use(scenario, holder);
+                                    Gson gson = new Gson();
+                                    Intent intent = new Intent();
+                                    intent.setClass(mContext, CountdownActivity.class);
+                                    intent.putExtra(CountdownActivity.INTENT_EXTRA_SCENARIO, gson.toJson(scenario));
+                                    mContext.startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton("嗚嗚 我後悔了", null)
+                            .show();
                 }
             });
         } else {
