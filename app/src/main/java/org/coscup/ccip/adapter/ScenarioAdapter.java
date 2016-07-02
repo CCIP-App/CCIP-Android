@@ -98,26 +98,30 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
             holder.card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new AlertDialog.Builder(mContext)
-                            .setTitle("按下去就悲劇囉")
-                            .setPositiveButton("好啦", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    use(scenario, holder);
-                                    Gson gson = new Gson();
-                                    Intent intent = new Intent();
-                                    intent.setClass(mContext, CountdownActivity.class);
-                                    intent.putExtra(CountdownActivity.INTENT_EXTRA_SCENARIO, gson.toJson(scenario));
-                                    mContext.startActivity(intent);
-                                }
-                            })
-                            .setNegativeButton("嗚嗚 我後悔了", null)
-                            .show();
+                    showConfirmDialog(scenario, holder);
                 }
             });
         } else {
             setCardUnclickable(holder.card);
         }
+    }
+
+    public void showConfirmDialog(final Scenario scenario, final ViewHolder holder) {
+        new AlertDialog.Builder(mContext)
+                .setTitle("按下去就悲劇囉")
+                .setPositiveButton("好啦", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        use(scenario, holder);
+                        Gson gson = new Gson();
+                        Intent intent = new Intent();
+                        intent.setClass(mContext, CountdownActivity.class);
+                        intent.putExtra(CountdownActivity.INTENT_EXTRA_SCENARIO, gson.toJson(scenario));
+                        mContext.startActivity(intent);
+                    }
+                })
+                .setNegativeButton("嗚嗚 我後悔了", null)
+                .show();
     }
 
     public void use(Scenario scenario, final ViewHolder holder) {
