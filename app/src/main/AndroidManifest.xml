@@ -24,10 +24,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="coscup.cprteam.org"
+                    android:host="ccip.cprteam.org"
                     android:scheme="http" />
                 <data
-                    android:host="coscup.cprteam.org"
+                    android:host="ccip.cprteam.org"
                     android:scheme="https" />
             </intent-filter>
         </activity>
