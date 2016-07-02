@@ -32,7 +32,15 @@ public class CountdownActivity extends AppCompatActivity {
         final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         final Scenario scenario = gson.fromJson(getIntent().getStringExtra(INTENT_EXTRA_SCENARIO), Scenario.class);
 
-        new CountDownTimer(scenario.getCountdown() * 1000, 1000) {
+        long countdown;
+
+        if (scenario.getUsed() == null) {
+            countdown = 60 * 1000L;
+        } else {
+            countdown = ((long) (scenario.getUsed() + scenario.getCountdown())) * 1000L - new Date().getTime();
+        }
+
+        new CountDownTimer(countdown, 1000L) {
 
             @Override
             public void onTick(long l) {
