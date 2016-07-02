@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="day1checkin">Day 1 報到</string>
+    <string name="day2checkin">Day 2 報到</string>
+    <string name="day1lunch">Day 1 午餐</string>
+    <string name="day2lunch">Day 2 午餐</string>
+    <string name="kit">迎賓袋</string>
+</resources>
