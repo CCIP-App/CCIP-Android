@@ -106,7 +106,17 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                 }
             });
         } else {
-            setCardUnclickable(holder.card);
+            if (new Date().getTime() / 1000 - scenario.getUsed() < scenario.getCountdown()) {
+                holder.card.setClickable(true);
+                holder.card.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startCountdownActivity(scenario);
+                    }
+                });
+            } else {
+                setCardUnclickable(holder.card);
+            }
         }
     }
 
