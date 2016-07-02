@@ -25,6 +25,9 @@ public class Scenario {
     @SerializedName("expire_time")
     @Expose
     private Integer expireTime;
+    @SerializedName("countdown")
+    @Expose
+    private Integer countdown;
     @SerializedName("used")
     @Expose
     private Integer used;
@@ -120,6 +123,24 @@ public class Scenario {
      */
     public void setExpireTime(Integer expireTime) {
         this.expireTime = expireTime;
+    }
+
+    /**
+     *
+     * @return
+     *     The countdown
+     */
+    public Integer getCountdown() {
+        return countdown;
+    }
+
+    /**
+     *
+     * @param countdown
+     *     The countdown
+     */
+    public void setCountdown(Integer countdown) {
+        this.countdown = countdown;
     }
 
     /**
