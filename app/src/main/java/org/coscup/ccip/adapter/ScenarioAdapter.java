@@ -19,8 +19,10 @@ import com.google.gson.Gson;
 import org.coscup.ccip.CountdownActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Attendee;
+import org.coscup.ccip.model.Error;
 import org.coscup.ccip.model.Scenario;
 import org.coscup.ccip.network.CCIPClient;
+import org.coscup.ccip.network.ErrorUtil;
 import org.coscup.ccip.util.TokenUtil;
 
 import java.text.SimpleDateFormat;
@@ -153,7 +155,12 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                     setCardUnclickable(holder.card);
                     startCountdownActivity(scenario);
                 } else {
-                    Toast.makeText(mContext, "Already used or expire", Toast.LENGTH_LONG).show();
+                    if (response.code() == 400) {
+                        Error error = ErrorUtil.parseError(response);
+                        Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(mContext, "Unexpected response", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 
