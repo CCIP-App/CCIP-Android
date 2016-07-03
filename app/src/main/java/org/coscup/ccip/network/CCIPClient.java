@@ -2,6 +2,9 @@
 package org.coscup.ccip.network;
 
 import org.coscup.ccip.model.Attendee;
+import org.coscup.ccip.model.Error;
+
+import java.lang.annotation.Annotation;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -14,16 +17,23 @@ public class CCIPClient{
 
     public static final String API_BASE_URL = "https://ccip.cprteam.org";
 
+    private static Retrofit retrofit;
     private static CCIPService sCCIPService;
 
-    public static CCIPService get() {
-        if (sCCIPService == null) {
-            Retrofit retrofit = new Retrofit.Builder()
+    public static Retrofit getRetrofit() {
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
+        }
 
-            sCCIPService = retrofit.create(CCIPService.class);
+        return retrofit;
+    }
+
+    public static CCIPService get() {
+        if (sCCIPService == null) {
+            sCCIPService = getRetrofit().create(CCIPService.class);
         }
 
         return sCCIPService;
