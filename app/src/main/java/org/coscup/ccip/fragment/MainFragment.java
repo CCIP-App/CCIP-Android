@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.coscup.ccip.MainActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.adapter.ScenarioAdapter;
 import org.coscup.ccip.model.Attendee;
@@ -28,7 +29,7 @@ import retrofit2.Response;
 public class MainFragment extends Fragment {
 
     private Activity mActivity;
-    TextView userId;
+    TextView msg;
     RecyclerView scenarioView;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -38,7 +39,7 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        userId = (TextView) view.findViewById(R.id.user_id);
+        msg = (TextView) view.findViewById(R.id.msg);
         scenarioView = (RecyclerView) view.findViewById(R.id.scenarios);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
 
@@ -51,7 +52,8 @@ public class MainFragment extends Fragment {
         }
 
         if (TokenUtil.getToken(mActivity) == null) {
-            userId.setText("Please open this app via link");
+            msg.setVisibility(View.VISIBLE);
+            msg.setText("Please open this app via link");
             swipeRefreshLayout.setVisibility(View.GONE);
         }
 
@@ -79,7 +81,7 @@ public class MainFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
                     Attendee attendee = response.body();
-                    userId.setText("Hello " + attendee.getUserId());
+                    MainActivity.setUserId(attendee.getUserId());
                     scenarioView.setAdapter(new ScenarioAdapter(mActivity, attendee.getScenarios()));
                 } else {
                     Toast.makeText(mActivity, "invalid token", Toast.LENGTH_LONG).show();

@@ -12,12 +12,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import org.coscup.ccip.fragment.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    private static TextView userIdTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        userIdTextView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_id);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -89,5 +92,9 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    public static void setUserId(String userId) {
+        userIdTextView.setText(userId);
     }
 }
