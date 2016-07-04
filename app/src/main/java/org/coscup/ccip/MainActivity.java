@@ -1,88 +1,93 @@
 package org.coscup.ccip;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
-import org.coscup.ccip.adapter.ScenarioAdapter;
-import org.coscup.ccip.model.Attendee;
-import org.coscup.ccip.network.CCIPClient;
-import org.coscup.ccip.util.TokenUtil;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import org.coscup.ccip.fragment.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
-
-    private Activity mActivity;
-    TextView userId;
-    RecyclerView scenarioView;
-    SwipeRefreshLayout swipeRefreshLayout;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        userId = (TextView) findViewById(R.id.user_id);
-        scenarioView = (RecyclerView) findViewById(R.id.scenarios);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        mActivity = this;
-        scenarioView.setLayoutManager(new LinearLayoutManager(mActivity));
-        scenarioView.setItemAnimator(new DefaultItemAnimator());
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        if (getIntent().getAction().equals(Intent.ACTION_VIEW)) {
-            TokenUtil.setToken(mActivity, getIntent().getData().getQueryParameter("token"));
-        }
+        setSupportActionBar(toolbar);
+        setupDrawerContent(navigationView);
 
-        if (TokenUtil.getToken(mActivity) == null) {
-            userId.setText("Please open this app via link");
-            return;
-        }
+        drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                updateStatus();
-            }
-        });
+        setTitle(R.string.fast_pass);
+        Fragment fragment = new MainFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.content_frame, fragment);
+        ft.commit();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        updateStatus();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
-    void updateStatus() {
-        Call<Attendee> attendee = CCIPClient.get().status(TokenUtil.getToken(mActivity));
-        attendee.enqueue(new Callback<Attendee>() {
-            @Override
-            public void onResponse(Call<Attendee> call, Response<Attendee> response) {
-                swipeRefreshLayout.setRefreshing(false);
-                if (response.isSuccessful()) {
-                    Attendee attendee = response.body();
-                    userId.setText("Hello " + attendee.getUserId());
-                    scenarioView.setAdapter(new ScenarioAdapter(mActivity, attendee.getScenarios()));
-                } else {
-                    Toast.makeText(mActivity, "invalid token", Toast.LENGTH_LONG).show();
-                }
-            }
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
 
-            @Override
-            public void onFailure(Call<Attendee> call, Throwable t) {
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(mActivity, "get status fail, " + t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+                        Fragment fragment = null;
+
+                        switch (menuItem.getItemId()) {
+                            case R.id.fast_pass:
+                                fragment = new MainFragment();
+                                break;
+                        }
+
+                        mDrawerLayout.closeDrawers();
+                        setTitle(menuItem.getTitle());
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction ft = fragmentManager.beginTransaction();
+                        ft.replace(R.id.content_frame, fragment);
+                        ft.commit();
+
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 }
