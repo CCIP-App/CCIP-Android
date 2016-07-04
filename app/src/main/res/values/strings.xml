@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">CCIP</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="fast_pass">Fast Pass</string>
+
     <string name="day1checkin">Day 1 Checkin</string>
     <string name="day2checkin">Day 2 Checkin</string>
     <string name="day1lunch">Day 1 Lunch</string>
