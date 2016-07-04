@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.coscup.ccip.fragment.IRCFragment;
 import org.coscup.ccip.fragment.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.fast_pass:
                                 fragment = new MainFragment();
+                                break;
+                            case R.id.irc:
+                                fragment = new IRCFragment();
                                 break;
                         }
 
