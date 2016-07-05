@@ -53,7 +53,7 @@ public class MainFragment extends Fragment {
 
         if (TokenUtil.getToken(mActivity) == null) {
             msg.setVisibility(View.VISIBLE);
-            msg.setText("Please open this app via link");
+            msg.setText(R.string.open_via_link);
             swipeRefreshLayout.setVisibility(View.GONE);
         }
 
