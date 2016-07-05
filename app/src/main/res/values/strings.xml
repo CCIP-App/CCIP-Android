@@ -8,6 +8,8 @@
     <string name="fast_pass">Fast Pass</string>
     <string name="irclog">IRC Log</string>
 
+    <string name="open_via_link">Please open this app via link</string>
+
     <string name="day1checkin">Day 1 Checkin</string>
     <string name="day2checkin">Day 2 Checkin</string>
     <string name="day1lunch">Day 1 Lunch</string>
@@ -16,6 +18,4 @@
     <string name="confirm_dialog_title">You will be G__G</string>
     <string name="positive_button">Okay</string>
     <string name="negative_button">ㄒ_ㄒ...I regret.</string>
-    <string name="open_via_link">Please open this app via link</string>
-
 </resources>
