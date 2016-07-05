@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="fast_pass">快速通關</string>
+    <string name="schedule">議程</string>
 
     <string name="day1checkin">Day 1 報到</string>
     <string name="day2checkin">Day 2 報到</string>

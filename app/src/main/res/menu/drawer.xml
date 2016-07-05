@@ -11,5 +11,10 @@
             android:checked="true"
             android:icon="@android:drawable/sym_action_chat"
             android:title="@string/irclog"/>
+        <item
+            android:id="@+id/schedule"
+            android:checked="true"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="@string/schedule"/>
     </group>
 </menu>
