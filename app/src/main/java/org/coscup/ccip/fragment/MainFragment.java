@@ -74,6 +74,12 @@ public class MainFragment extends Fragment {
     }
 
     void updateStatus() {
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
         Call<Attendee> attendee = CCIPClient.get().status(TokenUtil.getToken(mActivity));
         attendee.enqueue(new Callback<Attendee>() {
             @Override
