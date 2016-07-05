@@ -124,14 +124,14 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void showConfirmDialog(final Scenario scenario, final ViewHolder holder) {
         new AlertDialog.Builder(mContext)
-                .setTitle("按下去就悲劇囉")
-                .setPositiveButton("好啦", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.confirm_dialog_title)
+                .setPositiveButton(R.string.positive_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         use(scenario, holder);
                     }
                 })
-                .setNegativeButton("嗚嗚 我後悔了", null)
+                .setNegativeButton(R.string.negative_button, null)
                 .show();
     }
 

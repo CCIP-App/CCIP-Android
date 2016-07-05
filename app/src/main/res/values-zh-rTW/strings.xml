@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">CCIP</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
     <string name="fast_pass">快速通關</string>
+    <string name="irclog">IRC Log</string>
 
     <string name="day1checkin">Day 1 報到</string>
     <string name="day2checkin">Day 2 報到</string>
     <string name="day1lunch">Day 1 午餐</string>
     <string name="day2lunch">Day 2 午餐</string>
     <string name="kit">迎賓袋</string>
+    <string name="confirm_dialog_title">按下去就悲劇囉</string>
+    <string name="positive_button">好啦</string>
+    <string name="negative_button">嗚嗚 我後悔了</string>
+    <string name="open_via_link">請透過連結開啟此應用程式</string>
+
 </resources>

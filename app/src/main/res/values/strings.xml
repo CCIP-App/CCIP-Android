@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CCIP</string>
 
@@ -12,4 +13,9 @@
     <string name="day1lunch">Day 1 Lunch</string>
     <string name="day2lunch">Day 2 Lunch</string>
     <string name="kit">Welcome Kit</string>
+    <string name="confirm_dialog_title">You will be G__G</string>
+    <string name="positive_button">Okay</string>
+    <string name="negative_button">ㄒ_ㄒ...I regret.</string>
+    <string name="open_via_link">Please open this app via link</string>
+
 </resources>
