@@ -1,8 +1,9 @@
 
 package org.coscup.ccip.network;
 
-import org.coscup.ccip.model.Attendee;
 import org.coscup.ccip.model.Program;
+import org.coscup.ccip.model.Room;
+import org.coscup.ccip.model.Type;
 
 import java.util.List;
 
@@ -10,8 +11,6 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public class COSCUPClient {
 
@@ -42,5 +41,11 @@ public class COSCUPClient {
     public interface COSCUPService {
         @GET("program.json")
         Call<List<Program>> program();
+
+        @GET("room.json")
+        Call<List<Room>> room();
+
+        @GET("type.json")
+        Call<List<Type>> type();
     }
 }
