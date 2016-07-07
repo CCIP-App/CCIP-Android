@@ -1,6 +1,7 @@
 package org.coscup.ccip.adapter;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -64,6 +65,17 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.type.setText(program.getType() == null ? "" : typeMap.get(program.getType()).getNamezh());
         holder.subject.setText(program.getSubject());
         holder.endTime.setText(program.getEndtime());
+
+        holder.card.setClickable(true);
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(mContext)
+                        .setTitle(program.getSubject())
+                        .setMessage(program.getAbstract())
+                        .show();
+            }
+        });
     }
 
     @Override
