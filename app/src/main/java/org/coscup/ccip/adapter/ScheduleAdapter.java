@@ -1,10 +1,8 @@
 package org.coscup.ccip.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -12,27 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import org.coscup.ccip.CountdownActivity;
 import org.coscup.ccip.R;
-import org.coscup.ccip.model.Attendee;
-import org.coscup.ccip.model.Error;
 import org.coscup.ccip.model.Program;
 import org.coscup.ccip.model.Scenario;
-import org.coscup.ccip.network.CCIPClient;
-import org.coscup.ccip.network.ErrorUtil;
-import org.coscup.ccip.util.TokenUtil;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -62,7 +49,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_scenario, parent, false);
+                .inflate(R.layout.item_schedule, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -74,53 +61,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         final List<Program> programs = mProgramSlotList.get(position);
         holder.scenarioName.setText(programs.get(0).getStarttime());
-
-//        if (scenario.getUsed() == null) {
-//            holder.status.setText("Unused");
-//        } else {
-//            holder.status.setText(sdf.format(new Date(scenario.getUsed() * 1000L)));
-//        }
-//
-//        sdf = new SimpleDateFormat("MM/dd HH:mm");
-//        StringBuffer timeRange = new StringBuffer();
-//        timeRange.append(sdf.format(new Date(scenario.getAvailableTime() * 1000L)));
-//        timeRange.append(" ~ ");
-//        timeRange.append(sdf.format(new Date(scenario.getExpireTime() * 1000L)));
-//        holder.allowTimeRange.setText(timeRange);
-//
-//        if (scenario.getDisabled() != null) {
-//            holder.allowTimeRange.setVisibility(View.GONE);
-//            holder.disableReason.setVisibility(View.VISIBLE);
-//            holder.disableReason.setText(scenario.getDisabled());
-//            setCardUnclickable(holder.card);
-//            return;
-//        }
-//
-//        if (scenario.getUsed() == null) {
-//            holder.card.setClickable(true);
-//            holder.card.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    if (scenario.getCountdown() > 0) {
-//                        showConfirmDialog(scenario, holder);
-//                    } else {
-//                        use(scenario, holder);
-//                    }
-//                }
-//            });
-//        } else {
-//            if (new Date().getTime() / 1000 - scenario.getUsed() < scenario.getCountdown()) {
-//                holder.card.setClickable(true);
-//                holder.card.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        startCountdownActivity(scenario);
-//                    }
-//                });
-//            } else {
-//                setCardUnclickable(holder.card);
-//            }
-//        }
     }
 
     public void startCountdownActivity(Scenario scenario) {
