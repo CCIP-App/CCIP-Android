@@ -28,7 +28,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public CardView card;
-        public TextView subject, type, room, endTime;
+        public TextView subject, type, room, endTime, lang;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -37,6 +37,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
             type = (TextView) itemView.findViewById(R.id.type);
             room = (TextView) itemView.findViewById(R.id.room);
             endTime = (TextView) itemView.findViewById(R.id.end_time);
+            lang = (TextView) itemView.findViewById(R.id.lang);
         }
     }
 
@@ -65,6 +66,10 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.type.setText(program.getType() == null ? "" : typeMap.get(program.getType()).getNamezh());
         holder.subject.setText(program.getSubject());
         holder.endTime.setText(program.getEndtime());
+
+        if (program.getLang() != null && !program.getLang().equals("ZH")) {
+            holder.lang.setText(program.getLang());
+        }
 
         holder.card.setClickable(true);
         holder.card.setOnClickListener(new View.OnClickListener() {
