@@ -22,16 +22,16 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView programName, status, allowTimeRange, disableReason;
         public CardView card;
+        public TextView subject, type, allowTimeRange, disableReason;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            programName = (TextView) itemView.findViewById(R.id.scenario_name);
-            status = (TextView) itemView.findViewById(R.id.status);
+            card = (CardView) itemView.findViewById(R.id.card);
+            subject = (TextView) itemView.findViewById(R.id.subject);
+            type = (TextView) itemView.findViewById(R.id.type);
             allowTimeRange = (TextView) itemView.findViewById(R.id.allow_time_range);
             disableReason = (TextView) itemView.findViewById(R.id.disable_reason);
-            card = (CardView) itemView.findViewById(R.id.card);
         }
     }
 
@@ -43,7 +43,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_scenario, parent, false);
+                .inflate(R.layout.item_program, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -54,7 +54,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm:ss");
 
         final Program program = mProgramList.get(position);
-        holder.programName.setText(program.getSubject());
+        holder.subject.setText(program.getSubject());
     }
 
     @Override
