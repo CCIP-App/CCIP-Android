@@ -153,7 +153,10 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                     mScenarioList = attendee.getScenarios();
                     notifyDataSetChanged();
                     setCardUnclickable(holder.card);
-                    startCountdownActivity(scenario);
+
+                    if (scenario.getCountdown() > 0) {
+                        startCountdownActivity(scenario);
+                    }
                 } else {
                     if (response.code() == 400) {
                         Error error = ErrorUtil.parseError(response);
