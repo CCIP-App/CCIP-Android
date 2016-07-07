@@ -49,6 +49,7 @@ public class ScheduleFragment extends Fragment {
         scenarioView.setLayoutManager(new LinearLayoutManager(mActivity));
         scenarioView.setItemAnimator(new DefaultItemAnimator());
 
+        swipeRefreshLayout.setEnabled(false);
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
