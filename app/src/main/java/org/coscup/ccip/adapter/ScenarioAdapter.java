@@ -61,7 +61,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.scenario_item, parent, false);
+                .inflate(R.layout.item_scenario, parent, false);
 
         return new ViewHolder(itemView);
     }
