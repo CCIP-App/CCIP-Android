@@ -27,15 +27,15 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public CardView card;
-        public TextView subject, type, allowTimeRange, disableReason;
+        public TextView subject, type, room, endTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
             card = (CardView) itemView.findViewById(R.id.card);
             subject = (TextView) itemView.findViewById(R.id.subject);
             type = (TextView) itemView.findViewById(R.id.type);
-            allowTimeRange = (TextView) itemView.findViewById(R.id.allow_time_range);
-            disableReason = (TextView) itemView.findViewById(R.id.disable_reason);
+            room = (TextView) itemView.findViewById(R.id.room);
+            endTime = (TextView) itemView.findViewById(R.id.end_time);
         }
     }
 
@@ -60,8 +60,10 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm:ss");
 
         final Program program = mProgramList.get(position);
-        holder.subject.setText(program.getSubject());
+        holder.room.setText(program.getRoom());
         holder.type.setText(program.getType() == null ? "" : typeMap.get(program.getType()).getNamezh());
+        holder.subject.setText(program.getSubject());
+        holder.endTime.setText(program.getEndtime());
     }
 
     @Override
