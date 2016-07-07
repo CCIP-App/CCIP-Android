@@ -11,14 +11,18 @@ import android.widget.TextView;
 
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Program;
+import org.coscup.ccip.model.Type;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
     private List<Program> mProgramList;
+    private Map<String, String> roomMap;
+    private Map<Integer, Type> typeMap;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -35,9 +39,11 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public ProgramAdapter(Context context, List<Program> programList) {
+    public ProgramAdapter(Context context, List<Program> programList, Map<String, String> roomMap, Map<Integer, Type> typeMap) {
         mContext = context;
         mProgramList = programList;
+        this.roomMap = roomMap;
+        this.typeMap = typeMap;
     }
 
     @Override
@@ -55,6 +61,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         final Program program = mProgramList.get(position);
         holder.subject.setText(program.getSubject());
+        holder.type.setText(program.getType() == null ? "" : typeMap.get(program.getType()).getNamezh());
     }
 
     @Override

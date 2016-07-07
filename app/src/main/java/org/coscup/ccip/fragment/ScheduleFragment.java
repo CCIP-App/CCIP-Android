@@ -131,7 +131,7 @@ public class ScheduleFragment extends Fragment {
                     for (String key : keys) {
                         programSlotList.add(map.get(key));
                         swipeRefreshLayout.setRefreshing(false);
-                        scenarioView.setAdapter(new ScheduleAdapter(mActivity, programSlotList));
+                        scenarioView.setAdapter(new ScheduleAdapter(mActivity, programSlotList, roomMap, typeMap));
                     }
                 } else {
 

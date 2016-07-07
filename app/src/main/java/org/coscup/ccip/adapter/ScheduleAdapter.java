@@ -1,5 +1,6 @@
 package org.coscup.ccip.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,14 +13,18 @@ import android.widget.TextView;
 
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Program;
+import org.coscup.ccip.model.Type;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
     private List<List<Program>> mProgramSlotList;
+    private Map roomMap, typeMap;
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -33,9 +38,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public ScheduleAdapter(Context context, List<List<Program>> programSlotList) {
+    public ScheduleAdapter(Context context, List<List<Program>> programSlotList, Map<String, String> roomMap, Map<Integer, Type> typeMap) {
         mContext = context;
         mProgramSlotList = programSlotList;
+        this.roomMap = roomMap;
+        this.typeMap = typeMap;
     }
 
     @Override
@@ -56,7 +63,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         final List<Program> programs = mProgramSlotList.get(position);
         holder.startTimeText.setText(programs.get(0).getStarttime());
-        holder.programView.setAdapter(new ProgramAdapter(mContext, programs));
+        holder.programView.setAdapter(new ProgramAdapter(mContext, programs, roomMap, typeMap));
     }
 
     @Override
