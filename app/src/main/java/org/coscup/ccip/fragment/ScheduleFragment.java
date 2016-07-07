@@ -1,13 +1,19 @@
 package org.coscup.ccip.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.coscup.ccip.R;
+import org.coscup.ccip.adapter.ScheduleAdapter;
 import org.coscup.ccip.model.Program;
 import org.coscup.ccip.model.Room;
 import org.coscup.ccip.model.Type;
@@ -26,11 +32,29 @@ import retrofit2.Response;
 
 public class ScheduleFragment extends Fragment {
 
+    private Activity mActivity;
+    RecyclerView scenarioView;
+    SwipeRefreshLayout swipeRefreshLayout;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
+
+        scenarioView = (RecyclerView) view.findViewById(R.id.schedule);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+
+        mActivity = getActivity();
+        scenarioView.setLayoutManager(new LinearLayoutManager(mActivity));
+        scenarioView.setItemAnimator(new DefaultItemAnimator());
+
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
 
         Call<List<Room>> roomCall = COSCUPClient.get().room();
         roomCall.enqueue(new Callback<List<Room>>() {
@@ -106,6 +130,8 @@ public class ScheduleFragment extends Fragment {
                     List<List<Program>> programSlotList = new ArrayList();
                     for (String key : keys) {
                         programSlotList.add(map.get(key));
+                        swipeRefreshLayout.setRefreshing(false);
+                        scenarioView.setAdapter(new ScheduleAdapter(mActivity, programSlotList));
                     }
                 } else {
 
