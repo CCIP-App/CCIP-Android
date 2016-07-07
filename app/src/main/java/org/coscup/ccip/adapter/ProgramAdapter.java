@@ -1,8 +1,7 @@
 package org.coscup.ccip.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -16,32 +15,35 @@ import org.coscup.ccip.model.Program;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
-    private List<List<Program>> mProgramSlotList;
+    private List<Program> mProgramList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView startTimeText;
-        private RecyclerView programView;
+        public TextView programName, status, allowTimeRange, disableReason;
+        public CardView card;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            startTimeText = (TextView) itemView.findViewById(R.id.start_time);
-            programView = (RecyclerView) itemView.findViewById(R.id.programs);
+            programName = (TextView) itemView.findViewById(R.id.scenario_name);
+            status = (TextView) itemView.findViewById(R.id.status);
+            allowTimeRange = (TextView) itemView.findViewById(R.id.allow_time_range);
+            disableReason = (TextView) itemView.findViewById(R.id.disable_reason);
+            card = (CardView) itemView.findViewById(R.id.card);
         }
     }
 
-    public ScheduleAdapter(Context context, List<List<Program>> programSlotList) {
+    public ProgramAdapter(Context context, List<Program> programList) {
         mContext = context;
-        mProgramSlotList = programSlotList;
+        mProgramList = programList;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_schedule, parent, false);
+                .inflate(R.layout.item_scenario, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -51,16 +53,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
         final ViewHolder holder = ((ViewHolder) viewHolder);
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm:ss");
 
-        holder.programView.setLayoutManager(new LinearLayoutManager(mContext));
-        holder.programView.setItemAnimator(new DefaultItemAnimator());
-
-        final List<Program> programs = mProgramSlotList.get(position);
-        holder.startTimeText.setText(programs.get(0).getStarttime());
-        holder.programView.setAdapter(new ProgramAdapter(mContext, programs));
+        final Program program = mProgramList.get(position);
+        holder.programName.setText(program.getSubject());
     }
 
     @Override
     public int getItemCount() {
-        return mProgramSlotList.size();
+        return mProgramList.size();
     }
 }
