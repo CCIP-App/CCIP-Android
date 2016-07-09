@@ -29,6 +29,9 @@
                 <data
                     android:host="ccip.cprteam.org"
                     android:scheme="https" />
+                <data
+                    android:host="login"
+                    android:scheme="ccip" />
             </intent-filter>
         </activity>
         <activity android:name=".CountdownActivity"></activity>
