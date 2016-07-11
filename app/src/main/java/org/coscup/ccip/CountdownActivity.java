@@ -46,7 +46,10 @@ public class CountdownActivity extends AppCompatActivity {
         if (attr.get("diet") != null) {
             String diet = attr.get("diet").getAsString();
             if (diet.equals("meat")) {
-                countdownLayot.setBackgroundColor(Color.parseColor("#FFA000"));
+                countdownLayot.setBackgroundColor(getResources().getColor(R.color.colorDietMeat));
+            }
+            else{
+                countdownLayot.setBackgroundColor(getResources().getColor(R.color.colorDietVegetarian));
             }
         }
 
