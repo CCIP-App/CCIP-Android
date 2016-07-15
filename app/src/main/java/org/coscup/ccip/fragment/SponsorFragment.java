@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import org.coscup.ccip.R;
+import org.coscup.ccip.network.webclient.OfficialWebViewClient;
 
 public class SponsorFragment extends Fragment {
 
@@ -35,6 +36,7 @@ public class SponsorFragment extends Fragment {
                 setWebProgress(newProgress);
             }
         });
+        webView.setWebViewClient(new OfficialWebViewClient());
         webView.loadUrl("http://coscup.org/2016/sponsors.html");
 
         WebSettings settings = webView.getSettings();
