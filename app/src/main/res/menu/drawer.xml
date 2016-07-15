@@ -16,5 +16,15 @@
             android:checked="true"
             android:icon="@android:drawable/ic_menu_agenda"
             android:title="@string/schedule"/>
+        <item
+            android:id="@+id/sponsors"
+            android:checked="true"
+            android:icon="@android:drawable/ic_menu_crop"
+            android:title="@string/sponsors"/>
+        <item
+            android:id="@+id/staffs"
+            android:checked="true"
+            android:icon="@android:drawable/ic_menu_help"
+            android:title="@string/staffs"/>
     </group>
 </menu>

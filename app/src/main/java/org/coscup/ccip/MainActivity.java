@@ -17,6 +17,8 @@ import android.widget.TextView;
 import org.coscup.ccip.fragment.IRCFragment;
 import org.coscup.ccip.fragment.MainFragment;
 import org.coscup.ccip.fragment.ScheduleFragment;
+import org.coscup.ccip.fragment.SponsorFragment;
+import org.coscup.ccip.fragment.StaffFragment;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -75,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.schedule:
                                 fragment = new ScheduleFragment();
+                                break;
+                            case R.id.sponsors:
+                                fragment = new SponsorFragment();
+                                break;
+                            case R.id.staffs:
+                                fragment = new StaffFragment();
                                 break;
                         }
 
