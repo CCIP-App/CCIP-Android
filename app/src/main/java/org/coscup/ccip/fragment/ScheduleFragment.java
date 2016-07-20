@@ -112,6 +112,8 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Program>> call, Response<List<Program>> response) {
                 if (response.isSuccessful()) {
+                    swipeRefreshLayout.setRefreshing(false);
+
                     List<Program> programs = response.body();
                     HashMap<String, List<Program>> map = new HashMap();
                     for (Program program : programs) {
@@ -131,7 +133,6 @@ public class ScheduleFragment extends Fragment {
                     List<List<Program>> programSlotList = new ArrayList();
                     for (String key : keys) {
                         programSlotList.add(map.get(key));
-                        swipeRefreshLayout.setRefreshing(false);
                         scenarioView.setAdapter(new ScheduleAdapter(mActivity, programSlotList, roomMap, typeMap));
                     }
                 } else {
