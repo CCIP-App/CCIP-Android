@@ -33,7 +33,7 @@ import retrofit2.Response;
 public class ScheduleFragment extends Fragment {
 
     private Activity mActivity;
-    RecyclerView scenarioView;
+    RecyclerView scheduleView;
     SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
@@ -42,12 +42,12 @@ public class ScheduleFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        scenarioView = (RecyclerView) view.findViewById(R.id.schedule);
+        scheduleView = (RecyclerView) view.findViewById(R.id.schedule);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
 
         mActivity = getActivity();
-        scenarioView.setLayoutManager(new LinearLayoutManager(mActivity));
-        scenarioView.setItemAnimator(new DefaultItemAnimator());
+        scheduleView.setLayoutManager(new LinearLayoutManager(mActivity));
+        scheduleView.setItemAnimator(new DefaultItemAnimator());
 
         swipeRefreshLayout.setEnabled(false);
         swipeRefreshLayout.post(new Runnable() {
@@ -133,7 +133,7 @@ public class ScheduleFragment extends Fragment {
                     List<List<Program>> programSlotList = new ArrayList();
                     for (String key : keys) {
                         programSlotList.add(map.get(key));
-                        scenarioView.setAdapter(new ScheduleAdapter(mActivity, programSlotList, roomMap, typeMap));
+                        scheduleView.setAdapter(new ScheduleAdapter(mActivity, programSlotList, roomMap, typeMap));
                     }
                 } else {
 
