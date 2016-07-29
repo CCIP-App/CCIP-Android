@@ -26,7 +26,11 @@ public class ProgramDetailActivity extends AppCompatActivity {
         final Program program = gson.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Program.class);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(program.getRoom());
+        if (getResources().getConfiguration().locale.getLanguage().startsWith("zh")) {
+            toolbar.setTitle(program.getRoomname());
+        } else {
+            toolbar.setTitle(program.getRoom());
+        }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -42,7 +46,11 @@ public class ProgramDetailActivity extends AppCompatActivity {
         speakername.setText(program.getSpeakername());
         subject.setText(program.getSubject());
         time.setText(program.getEndtime());
-        type.setText(program.getType() + "");
+        if (getResources().getConfiguration().locale.getLanguage().startsWith("zh")) {
+            type.setText(program.getTypenamezh());
+        } else {
+            type.setText(program.getTypenameen());
+        }
         lang.setText(program.getLang());
         speakerInfo.setText(program.getSpeakerintro());
         programAbstract.setText(program.getAbstract());
