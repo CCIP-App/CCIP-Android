@@ -18,12 +18,26 @@
             android:layout_height="wrap_content"
             android:padding="20dp">
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/day1checkin"
-                android:alpha=".70"
-                android:id="@+id/icon" />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/day1checkin"
+                    android:id="@+id/icon"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/tick"
+                    android:id="@+id/tick"
+                    android:visibility="gone"
+                    android:layout_gravity="bottom|right" />
+            </FrameLayout>
 
             <LinearLayout
                 android:orientation="vertical"
