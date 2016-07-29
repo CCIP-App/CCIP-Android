@@ -3,10 +3,7 @@ package org.coscup.ccip.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -44,13 +41,14 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView scenarioIcon;
+        public ImageView scenarioIcon, tickIcon;
         public TextView scenarioName, allowTimeRange;
         public CardView card;
 
         public ViewHolder(View itemView) {
             super(itemView);
             scenarioIcon = (ImageView) itemView.findViewById(R.id.icon);
+            tickIcon = (ImageView) itemView.findViewById(R.id.tick);
             scenarioName = (TextView) itemView.findViewById(R.id.scenario_name);
             allowTimeRange = (TextView) itemView.findViewById(R.id.allow_time_range);
             card = (CardView) itemView.findViewById(R.id.card);
@@ -80,12 +78,6 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.scenarioIcon.setImageDrawable(ContextCompat.getDrawable(mContext, iconResId));
         holder.scenarioName.setText(mContext.getResources().getIdentifier(scenario.getId(), "string", mContext.getPackageName()));
 
-//        if (scenario.getUsed() == null) {
-//            holder.status.setText("Unused");
-//        } else {
-//            holder.status.setText(sdf.format(new Date(scenario.getUsed() * 1000L)));
-//        }
-
         sdf = new SimpleDateFormat("MM/dd HH:mm");
         StringBuffer timeRange = new StringBuffer();
         timeRange.append(sdf.format(new Date(scenario.getAvailableTime() * 1000L)));
@@ -95,7 +87,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         if (scenario.getDisabled() != null) {
             holder.allowTimeRange.setVisibility(View.GONE);
-            setCardUnclickable(holder.card);
+            setCardUsed(holder);
             return;
         }
 
@@ -121,7 +113,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                     }
                 });
             } else {
-                setCardUnclickable(holder.card);
+                setCardUsed(holder);
             }
         }
     }
@@ -156,7 +148,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                     Attendee attendee = response.body();
                     mScenarioList = attendee.getScenarios();
                     notifyDataSetChanged();
-                    setCardUnclickable(holder.card);
+                    setCardUsed(holder);
 
                     if (scenario.getCountdown() > 0) {
                         startCountdownActivity(scenario);
@@ -178,10 +170,10 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         });
     }
 
-    private void setCardUnclickable(CardView card) {
-        card.setClickable(false);
-        card.setOnClickListener(null);
-        card.setCardBackgroundColor(Color.LTGRAY);
+    private void setCardUsed(ViewHolder holder) {
+        holder.card.setClickable(false);
+        holder.card.setOnClickListener(null);
+        holder.tickIcon.setVisibility(View.VISIBLE);
     }
 
     @Override
