@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import org.coscup.ccip.R;
+import org.coscup.ccip.network.webclient.WebChromeViewClient;
 
 public class IRCFragment extends Fragment {
 
@@ -38,13 +39,7 @@ public class IRCFragment extends Fragment {
                 view.loadUrl("file:///android_asset/no_network.html");
             }
         });
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-                setWebProgress(newProgress);
-            }
-        });
+        webView.setWebChromeClient(new WebChromeViewClient(progressBar));
         webView.loadUrl("https://logbot.g0v.tw/channel/coscup/today");
 
         WebSettings settings = webView.getSettings();

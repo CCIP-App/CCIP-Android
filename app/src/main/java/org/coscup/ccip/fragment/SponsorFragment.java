@@ -7,12 +7,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import org.coscup.ccip.R;
+import org.coscup.ccip.network.webclient.WebChromeViewClient;
 import org.coscup.ccip.network.webclient.OfficialWebViewClient;
 
 public class SponsorFragment extends Fragment {
@@ -29,13 +29,7 @@ public class SponsorFragment extends Fragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         webView = (WebView) view.findViewById(R.id.webView);
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-                setWebProgress(newProgress);
-            }
-        });
+        webView.setWebChromeClient(new WebChromeViewClient(progressBar));
         webView.setWebViewClient(new OfficialWebViewClient());
         webView.loadUrl("http://coscup.org/2016/sponsors.html");
 
@@ -47,13 +41,5 @@ public class SponsorFragment extends Fragment {
         }
 
         return view;
-    }
-
-    public void setWebProgress(int progress) {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.setProgress(progress);
-        if (progress == 100) {
-            progressBar.setVisibility(View.GONE);
-        }
     }
 }
