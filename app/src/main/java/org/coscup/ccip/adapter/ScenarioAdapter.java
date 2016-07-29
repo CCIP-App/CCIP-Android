@@ -3,6 +3,7 @@ package org.coscup.ccip.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -174,6 +175,8 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.card.setClickable(false);
         holder.card.setOnClickListener(null);
         holder.tickIcon.setVisibility(View.VISIBLE);
+        holder.scenarioIcon.setAlpha(0.4f);
+        holder.scenarioName.setTextColor(Color.parseColor("#FF9B9B9B"));
     }
 
     @Override
