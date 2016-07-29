@@ -21,4 +21,10 @@
     <string name="confirm_dialog_title">按下去就悲劇囉</string>
     <string name="positive_button">好啦</string>
     <string name="negative_button">嗚嗚 我後悔了</string>
+
+    <string name="lang">語言</string>
+    <string name="time">時間</string>
+    <string name="type">類型</string>
+    <string name="speaker_info">講者簡介</string>
+    <string name="program_abstract">議程簡介</string>
 </resources>
