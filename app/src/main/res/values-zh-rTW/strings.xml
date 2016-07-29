@@ -27,4 +27,6 @@
     <string name="type">類型</string>
     <string name="speaker_info">講者簡介</string>
     <string name="program_abstract">議程簡介</string>
+
+    <string name="min">分鐘</string>
 </resources>

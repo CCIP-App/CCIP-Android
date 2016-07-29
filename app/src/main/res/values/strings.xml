@@ -28,4 +28,6 @@
     <string name="type">Type</string>
     <string name="speaker_info">Speaker Info</string>
     <string name="program_abstract">Abstract</string>
+
+    <string name="min">min</string>
 </resources>

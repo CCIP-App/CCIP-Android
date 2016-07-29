@@ -74,7 +74,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
             Date startDate = ISO8601Utils.parse(program.getStarttime(), new ParsePosition(0));
             Date endDate = ISO8601Utils.parse(program.getEndtime(), new ParsePosition(0));
             holder.endTime.setText("~ " + sdf.format(endDate) + ", " +
-                    ((endDate.getTime() - startDate.getTime()) / 1000 / 60) + "min");
+                    ((endDate.getTime() - startDate.getTime()) / 1000 / 60) + mContext.getResources().getString(R.string.min));
         } catch (ParseException e) {
             e.printStackTrace();
         }

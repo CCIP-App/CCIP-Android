@@ -62,7 +62,7 @@ public class ProgramDetailActivity extends AppCompatActivity {
             Date endDate = ISO8601Utils.parse(program.getEndtime(), new ParsePosition(0));
             timeString.append(sdf.format(endDate));
 
-            timeString.append(", " + ((endDate.getTime() - startDate.getTime()) / 1000 / 60) + "min");
+            timeString.append(", " + ((endDate.getTime() - startDate.getTime()) / 1000 / 60) + getResources().getString(R.string.min));
 
             time.setText(timeString);
         } catch (ParseException e) {
