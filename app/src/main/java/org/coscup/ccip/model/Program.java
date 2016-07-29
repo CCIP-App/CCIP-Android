@@ -14,6 +14,9 @@ public class Program {
     @SerializedName("room")
     @Expose
     private String room;
+    @SerializedName("roomname")
+    @Expose
+    private String roomname;
     @SerializedName("starttime")
     @Expose
     private String starttime;
@@ -32,6 +35,12 @@ public class Program {
     @SerializedName("type")
     @Expose
     private Integer type;
+    @SerializedName("typenameen")
+    @Expose
+    private String typenameen;
+    @SerializedName("typenamezh")
+    @Expose
+    private String typenamezh;
     @SerializedName("lang")
     @Expose
     private String lang;
@@ -82,7 +91,25 @@ public class Program {
     }
 
     /**
-     * 
+     *
+     * @return
+     *     The roomname
+     */
+    public String getRoomname() {
+        return roomname;
+    }
+
+    /**
+     *
+     * @param roomname
+     *     The roomname
+     */
+    public void setRoomname(String roomname) {
+        this.roomname = roomname;
+    }
+
+    /**
+     *
      * @return
      *     The starttime
      */
@@ -187,6 +214,42 @@ public class Program {
      */
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    /**
+     *
+     * @return
+     *     The typenameen
+     */
+    public String getTypenameen() {
+        return typenameen;
+    }
+
+    /**
+     *
+     * @param typenameen
+     *     The typenameen
+     */
+    public void setTypenameen(String typenameen) {
+        this.typenameen = typenameen;
+    }
+
+    /**
+     *
+     * @return
+     *     The typenamezh
+     */
+    public String getTypenamezh() {
+        return typenamezh;
+    }
+
+    /**
+     *
+     * @param typenamezh
+     *     The typenamezh
+     */
+    public void setTypenamezh(String typenamezh) {
+        this.typenamezh = typenamezh;
     }
 
     /**

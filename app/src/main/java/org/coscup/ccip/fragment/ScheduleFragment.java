@@ -118,6 +118,11 @@ public class ScheduleFragment extends Fragment {
                     HashMap<String, List<Program>> map = new HashMap();
                     for (Program program : programs) {
                         if (program.getStarttime() == null) continue;
+
+                        program.setRoomname(roomMap.get(program.getRoom()));
+                        program.setTypenameen(program.getType() == null ? "" : typeMap.get(program.getType()).getNameen());
+                        program.setTypenamezh(program.getType() == null ? "" : typeMap.get(program.getType()).getNamezh());
+
                         if (map.containsKey(program.getStarttime())) {
                             List<Program> tmp = map.get(program.getStarttime());
                             tmp.add(program);
@@ -133,7 +138,7 @@ public class ScheduleFragment extends Fragment {
                     List<List<Program>> programSlotList = new ArrayList();
                     for (String key : keys) {
                         programSlotList.add(map.get(key));
-                        scheduleView.setAdapter(new ScheduleAdapter(mActivity, programSlotList, roomMap, typeMap));
+                        scheduleView.setAdapter(new ScheduleAdapter(mActivity, programSlotList));
                     }
                 } else {
 

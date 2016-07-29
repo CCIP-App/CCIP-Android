@@ -1,6 +1,8 @@
 package org.coscup.ccip.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.drm.ProcessedData;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import org.coscup.ccip.ProgramDetailActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Program;
 import org.coscup.ccip.model.Type;
@@ -22,8 +27,6 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
     private List<Program> mProgramList;
-    private Map<String, String> roomMap;
-    private Map<Integer, Type> typeMap;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -41,11 +44,9 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public ProgramAdapter(Context context, List<Program> programList, Map<String, String> roomMap, Map<Integer, Type> typeMap) {
+    public ProgramAdapter(Context context, List<Program> programList) {
         mContext = context;
         mProgramList = programList;
-        this.roomMap = roomMap;
-        this.typeMap = typeMap;
     }
 
     @Override
@@ -63,7 +64,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         final Program program = mProgramList.get(position);
         holder.room.setText(program.getRoom());
-        holder.type.setText(program.getType() == null ? "" : typeMap.get(program.getType()).getNamezh());
+        holder.type.setText(program.getTypenamezh());
         holder.subject.setText(program.getSubject());
         holder.endTime.setText(program.getEndtime());
 
@@ -75,10 +76,11 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(mContext)
-                        .setTitle(program.getSubject())
-                        .setMessage(program.getAbstract())
-                        .show();
+                Gson gson = new Gson();
+                Intent intent = new Intent();
+                intent.setClass(mContext, ProgramDetailActivity.class);
+                intent.putExtra(ProgramDetailActivity.INTENT_EXTRA_PROGRAM, gson.toJson(program));
+                mContext.startActivity(intent);
             }
         });
     }
