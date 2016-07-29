@@ -8,8 +8,9 @@ import android.webkit.WebViewClient;
 public class OfficialWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
-        view.loadUrl("javascript: document.querySelectorAll('[role=\"page-links\"]')[0].remove()");
-        view.loadUrl("javascript: document.getElementsByTagName('footer')[0].remove()");
+        view.loadUrl("javascript: document.querySelectorAll('[role=\"banner\"]')[0].remove();" +
+                "document.querySelectorAll('[role=\"cover-background-image\"]')[0].remove();" +
+                "document.getElementsByTagName('footer')[0].remove()");
     }
 
     @Override
