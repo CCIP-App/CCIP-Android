@@ -13,13 +13,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import org.coscup.ccip.ProgramDetailActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Program;
 import org.coscup.ccip.model.Type;
 
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -60,13 +64,20 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         final ViewHolder holder = ((ViewHolder) viewHolder);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
         final Program program = mProgramList.get(position);
         holder.room.setText(program.getRoom());
         holder.type.setText(program.getTypenamezh());
         holder.subject.setText(program.getSubject());
-        holder.endTime.setText(program.getEndtime());
+        try {
+            Date startDate = ISO8601Utils.parse(program.getStarttime(), new ParsePosition(0));
+            Date endDate = ISO8601Utils.parse(program.getEndtime(), new ParsePosition(0));
+            holder.endTime.setText("~ " + sdf.format(endDate) + ", " +
+                    ((endDate.getTime() - startDate.getTime()) / 1000 / 60) + "min");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         if (program.getLang() != null && !program.getLang().equals("ZH")) {
             holder.lang.setText(program.getLang());
