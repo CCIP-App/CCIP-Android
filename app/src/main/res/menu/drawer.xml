@@ -4,27 +4,27 @@
         <item
             android:id="@+id/fast_pass"
             android:checked="true"
-            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:icon="@drawable/ic_local_activity_black_48dp"
             android:title="@string/fast_pass"/>
         <item
             android:id="@+id/irc"
             android:checked="true"
-            android:icon="@android:drawable/sym_action_chat"
+            android:icon="@drawable/ic_question_answer_black_48dp"
             android:title="@string/irclog"/>
         <item
             android:id="@+id/schedule"
             android:checked="true"
-            android:icon="@android:drawable/ic_menu_agenda"
+            android:icon="@drawable/ic_event_note_black_48dp"
             android:title="@string/schedule"/>
         <item
             android:id="@+id/sponsors"
             android:checked="true"
-            android:icon="@android:drawable/ic_menu_crop"
+            android:icon="@drawable/ic_redeem_black_48dp"
             android:title="@string/sponsors"/>
         <item
             android:id="@+id/staffs"
             android:checked="true"
-            android:icon="@android:drawable/ic_menu_help"
+            android:icon="@drawable/ic_group_black_48dp"
             android:title="@string/staffs"/>
     </group>
 </menu>
