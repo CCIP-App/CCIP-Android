@@ -13,52 +13,57 @@
         android:foreground="?android:attr/selectableItemBackground">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp">
+            android:padding="20dp">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/day1checkin"
+                    android:id="@+id/icon"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/tick"
+                    android:id="@+id/tick"
+                    android:visibility="gone"
+                    android:layout_gravity="bottom|right" />
+            </FrameLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp">
+                android:layout_marginLeft="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="New Text"
                     android:id="@+id/scenario_name"
-                    android:layout_weight="1" />
+                    android:textColor="#de000000"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#ff9b9b9b"
                     android:text="New Text"
-                    android:id="@+id/status"
-                    android:layout_weight="1"
-                    android:gravity="right" />
+                    android:id="@+id/allow_time_range"
+                    android:paddingTop="5dp" />
+
             </LinearLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Text"
-                    android:id="@+id/allow_time_range" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:visibility="gone"
-                android:id="@+id/disable_reason"
-                android:textColor="@android:color/holo_red_dark" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
