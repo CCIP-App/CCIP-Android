@@ -1,6 +1,5 @@
 package org.coscup.ccip.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,13 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.internal.bind.util.ISO8601Utils;
+
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Program;
-import org.coscup.ccip.model.Type;
 
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -52,13 +54,18 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         final ViewHolder holder = ((ViewHolder) viewHolder);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
 
         holder.programView.setLayoutManager(new LinearLayoutManager(mContext));
         holder.programView.setItemAnimator(new DefaultItemAnimator());
 
         final List<Program> programs = mProgramSlotList.get(position);
-        holder.startTimeText.setText(programs.get(0).getStarttime());
+        try {
+            Date date = ISO8601Utils.parse(programs.get(0).getStarttime(), new ParsePosition(0));
+            holder.startTimeText.setText(sdf.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         holder.programView.setAdapter(new ProgramAdapter(mContext, programs));
     }
 
