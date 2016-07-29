@@ -10,8 +10,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import org.coscup.ccip.model.Program;
+
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ProgramDetailActivity extends AppCompatActivity {
 
@@ -45,7 +51,22 @@ public class ProgramDetailActivity extends AppCompatActivity {
 
         speakername.setText(program.getSpeakername());
         subject.setText(program.getSubject());
-        time.setText(program.getEndtime());
+
+        try {
+            StringBuffer timeString = new StringBuffer();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
+            Date startDate = ISO8601Utils.parse(program.getStarttime(), new ParsePosition(0));
+            timeString.append(sdf.format(startDate));
+            timeString.append(" ~ ");
+            sdf = new SimpleDateFormat("HH:mm");
+            Date endDate = ISO8601Utils.parse(program.getEndtime(), new ParsePosition(0));
+            timeString.append(sdf.format(endDate));
+
+            time.setText(timeString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         if (getResources().getConfiguration().locale.getLanguage().startsWith("zh")) {
             type.setText(program.getTypenamezh());
         } else {
