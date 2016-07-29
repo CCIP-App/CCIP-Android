@@ -41,8 +41,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ProgramDetailActivity"
-            android:label="@string/title_activity_program_detail"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
