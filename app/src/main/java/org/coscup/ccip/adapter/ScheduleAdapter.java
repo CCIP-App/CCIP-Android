@@ -23,8 +23,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
     private List<List<Program>> mProgramSlotList;
-    private Map roomMap, typeMap;
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -38,11 +36,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public ScheduleAdapter(Context context, List<List<Program>> programSlotList, Map<String, String> roomMap, Map<Integer, Type> typeMap) {
+    public ScheduleAdapter(Context context, List<List<Program>> programSlotList) {
         mContext = context;
         mProgramSlotList = programSlotList;
-        this.roomMap = roomMap;
-        this.typeMap = typeMap;
     }
 
     @Override
@@ -63,7 +59,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         final List<Program> programs = mProgramSlotList.get(position);
         holder.startTimeText.setText(programs.get(0).getStarttime());
-        holder.programView.setAdapter(new ProgramAdapter(mContext, programs, roomMap, typeMap));
+        holder.programView.setAdapter(new ProgramAdapter(mContext, programs));
     }
 
     @Override

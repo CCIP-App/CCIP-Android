@@ -27,8 +27,6 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
     private List<Program> mProgramList;
-    private Map<String, String> roomMap;
-    private Map<Integer, Type> typeMap;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -46,11 +44,9 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public ProgramAdapter(Context context, List<Program> programList, Map<String, String> roomMap, Map<Integer, Type> typeMap) {
+    public ProgramAdapter(Context context, List<Program> programList) {
         mContext = context;
         mProgramList = programList;
-        this.roomMap = roomMap;
-        this.typeMap = typeMap;
     }
 
     @Override
@@ -68,7 +64,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         final Program program = mProgramList.get(position);
         holder.room.setText(program.getRoom());
-        holder.type.setText(program.getType() == null ? "" : typeMap.get(program.getType()).getNamezh());
+        holder.type.setText(program.getTypenamezh());
         holder.subject.setText(program.getSubject());
         holder.endTime.setText(program.getEndtime());
 

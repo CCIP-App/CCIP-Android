@@ -138,7 +138,7 @@ public class ScheduleFragment extends Fragment {
                     List<List<Program>> programSlotList = new ArrayList();
                     for (String key : keys) {
                         programSlotList.add(map.get(key));
-                        scheduleView.setAdapter(new ScheduleAdapter(mActivity, programSlotList, roomMap, typeMap));
+                        scheduleView.setAdapter(new ScheduleAdapter(mActivity, programSlotList));
                     }
                 } else {
 
