@@ -21,7 +21,8 @@
     <string name="confirm_dialog_title">You will be G__G</string>
     <string name="positive_button">Okay</string>
     <string name="negative_button">ㄒ_ㄒ...I regret.</string>
-    <string name="title_activity_program_detail">ProgramDetailActivity</string>
+
+    <string name="offline">Offline</string>
 
     <string name="lang">Lang</string>
     <string name="time">Time</string>

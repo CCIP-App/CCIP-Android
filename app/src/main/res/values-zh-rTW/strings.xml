@@ -22,6 +22,8 @@
     <string name="positive_button">好啦</string>
     <string name="negative_button">嗚嗚 我後悔了</string>
 
+    <string name="offline">無網路連線</string>
+
     <string name="lang">語言</string>
     <string name="time">時間</string>
     <string name="type">類型</string>

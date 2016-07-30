@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.coscup.ccip.R;
 import org.coscup.ccip.adapter.ScheduleAdapter;
@@ -18,6 +19,7 @@ import org.coscup.ccip.model.Program;
 import org.coscup.ccip.model.Room;
 import org.coscup.ccip.model.Type;
 import org.coscup.ccip.network.COSCUPClient;
+import org.coscup.ccip.util.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,13 +71,13 @@ public class ScheduleFragment extends Fragment {
                     }
                     getType(roomMap);
                 } else {
-
+                    loadOfflineScedule();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Room>> call, Throwable t) {
-
+                loadOfflineScedule();
             }
         });
 
@@ -115,31 +117,15 @@ public class ScheduleFragment extends Fragment {
                     swipeRefreshLayout.setRefreshing(false);
 
                     List<Program> programs = response.body();
-                    HashMap<String, List<Program>> map = new HashMap();
                     for (Program program : programs) {
-                        if (program.getStarttime() == null) continue;
-
                         program.setRoomname(roomMap.get(program.getRoom()));
                         program.setTypenameen(program.getType() == null ? "" : typeMap.get(program.getType()).getNameen());
                         program.setTypenamezh(program.getType() == null ? "" : typeMap.get(program.getType()).getNamezh());
-
-                        if (map.containsKey(program.getStarttime())) {
-                            List<Program> tmp = map.get(program.getStarttime());
-                            tmp.add(program);
-                            map.put(program.getStarttime(), tmp);
-                        } else {
-                            List<Program> list = new ArrayList();
-                            list.add(program);
-                            map.put(program.getStarttime(), list);
-                        }
                     }
 
-                    SortedSet<String> keys = new TreeSet(map.keySet());
-                    List<List<Program>> programSlotList = new ArrayList();
-                    for (String key : keys) {
-                        programSlotList.add(map.get(key));
-                        scheduleView.setAdapter(new ScheduleAdapter(mActivity, programSlotList));
-                    }
+                    PreferenceUtil.savePrograms(mActivity, programs);
+
+                    setScheduleAdapter(programs);
                 } else {
 
                 }
@@ -150,6 +136,39 @@ public class ScheduleFragment extends Fragment {
 
             }
         });
+    }
+
+    public void loadOfflineScedule() {
+        swipeRefreshLayout.setRefreshing(false);
+        List<Program> programs = PreferenceUtil.loadPrograms(mActivity);
+        if (programs != null) {
+            setScheduleAdapter(programs);
+            Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void setScheduleAdapter(List<Program> programs) {
+        HashMap<String, List<Program>> map = new HashMap();
+        for (Program program : programs) {
+            if (program.getStarttime() == null) continue;
+
+            if (map.containsKey(program.getStarttime())) {
+                List<Program> tmp = map.get(program.getStarttime());
+                tmp.add(program);
+                map.put(program.getStarttime(), tmp);
+            } else {
+                List<Program> list = new ArrayList();
+                list.add(program);
+                map.put(program.getStarttime(), list);
+            }
+        }
+
+        SortedSet<String> keys = new TreeSet(map.keySet());
+        List<List<Program>> programSlotList = new ArrayList();
+        for (String key : keys) {
+            programSlotList.add(map.get(key));
+            scheduleView.setAdapter(new ScheduleAdapter(mActivity, programSlotList));
+        }
     }
 
 }
