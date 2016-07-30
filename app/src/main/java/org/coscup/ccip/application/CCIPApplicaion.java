@@ -1,4 +1,4 @@
-package org.coscup.ccip;
+package org.coscup.ccip.application;
 
 import android.app.Application;
 
