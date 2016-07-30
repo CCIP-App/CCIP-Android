@@ -1,4 +1,4 @@
-package org.coscup.ccip;
+package org.coscup.ccip.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.coscup.ccip.R;
 import org.coscup.ccip.fragment.IRCFragment;
 import org.coscup.ccip.fragment.MainFragment;
 import org.coscup.ccip.fragment.ScheduleFragment;

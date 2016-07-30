@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,10 +37,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CountdownActivity"
+            android:name=".activity.CountdownActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ProgramDetailActivity"
+            android:name=".activity.ProgramDetailActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
     </application>

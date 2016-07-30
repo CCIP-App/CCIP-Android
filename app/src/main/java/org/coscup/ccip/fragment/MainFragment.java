@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.coscup.ccip.MainActivity;
+import org.coscup.ccip.activity.MainActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.adapter.ScenarioAdapter;
 import org.coscup.ccip.model.Attendee;

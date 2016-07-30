@@ -1,4 +1,4 @@
-package org.coscup.ccip;
+package org.coscup.ccip.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
+import org.coscup.ccip.R;
 import org.coscup.ccip.model.Program;
 
 import java.text.ParseException;

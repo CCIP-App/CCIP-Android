@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.coscup.ccip.CountdownActivity;
+import org.coscup.ccip.activity.CountdownActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Attendee;
 import org.coscup.ccip.model.Error;

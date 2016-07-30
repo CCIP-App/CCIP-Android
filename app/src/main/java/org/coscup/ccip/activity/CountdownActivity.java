@@ -1,4 +1,4 @@
-package org.coscup.ccip;
+package org.coscup.ccip.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import org.coscup.ccip.R;
 import org.coscup.ccip.model.Scenario;
 
 import java.text.SimpleDateFormat;

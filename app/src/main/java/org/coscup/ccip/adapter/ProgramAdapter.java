@@ -2,8 +2,6 @@ package org.coscup.ccip.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.drm.ProcessedData;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -15,17 +13,15 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
-import org.coscup.ccip.ProgramDetailActivity;
+import org.coscup.ccip.activity.ProgramDetailActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Program;
-import org.coscup.ccip.model.Type;
 
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
 
