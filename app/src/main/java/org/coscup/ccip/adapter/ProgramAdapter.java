@@ -67,9 +67,17 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
         final Program program = mProgramList.get(position);
+
         holder.room.setText(program.getRoom());
-        holder.type.setText(program.getTypenamezh());
+
+        if (mContext.getResources().getConfiguration().locale.getLanguage().startsWith("zh")) {
+            holder.type.setText(program.getTypenamezh());
+        } else {
+            holder.type.setText(program.getTypenameen());
+        }
+
         holder.subject.setText(program.getSubject());
+
         try {
             Date startDate = ISO8601Utils.parse(program.getStarttime(), new ParsePosition(0));
             Date endDate = ISO8601Utils.parse(program.getEndtime(), new ParsePosition(0));
