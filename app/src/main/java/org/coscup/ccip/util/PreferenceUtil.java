@@ -3,9 +3,11 @@ package org.coscup.ccip.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class TokenUtil {
+public class PreferenceUtil {
     private static final String PREF_AUTH = "auth";
     private static final String PREF_AUTH_TOKEN = "token";
+    private static final String PREF_SCHEDULE = "schedule";
+    private static final String PREF_SCHEDULE_PROGRAMS = "programs";
 
     public static void setToken(Context context, String token) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE);

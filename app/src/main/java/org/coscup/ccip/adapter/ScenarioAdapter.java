@@ -25,7 +25,7 @@ import org.coscup.ccip.model.Error;
 import org.coscup.ccip.model.Scenario;
 import org.coscup.ccip.network.CCIPClient;
 import org.coscup.ccip.network.ErrorUtil;
-import org.coscup.ccip.util.TokenUtil;
+import org.coscup.ccip.util.PreferenceUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -141,7 +141,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public void use(final Scenario scenario, final ViewHolder holder) {
-        Call<Attendee> attendeeCall = CCIPClient.get().use(scenario.getId(), TokenUtil.getToken(mContext));
+        Call<Attendee> attendeeCall = CCIPClient.get().use(scenario.getId(), PreferenceUtil.getToken(mContext));
         attendeeCall.enqueue(new Callback<Attendee>() {
             @Override
             public void onResponse(Call<Attendee> call, Response<Attendee> response) {

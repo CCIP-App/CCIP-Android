@@ -20,7 +20,7 @@ import org.coscup.ccip.R;
 import org.coscup.ccip.adapter.ScenarioAdapter;
 import org.coscup.ccip.model.Attendee;
 import org.coscup.ccip.network.CCIPClient;
-import org.coscup.ccip.util.TokenUtil;
+import org.coscup.ccip.util.PreferenceUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,10 +48,10 @@ public class MainFragment extends Fragment {
         scenarioView.setItemAnimator(new DefaultItemAnimator());
 
         if (mActivity.getIntent().getAction().equals(Intent.ACTION_VIEW)) {
-            TokenUtil.setToken(mActivity, mActivity.getIntent().getData().getQueryParameter("token"));
+            PreferenceUtil.setToken(mActivity, mActivity.getIntent().getData().getQueryParameter("token"));
         }
 
-        if (TokenUtil.getToken(mActivity) == null) {
+        if (PreferenceUtil.getToken(mActivity) == null) {
             msg.setVisibility(View.VISIBLE);
             msg.setText(R.string.open_via_link);
             swipeRefreshLayout.setVisibility(View.GONE);
@@ -80,7 +80,7 @@ public class MainFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
-        Call<Attendee> attendee = CCIPClient.get().status(TokenUtil.getToken(mActivity));
+        Call<Attendee> attendee = CCIPClient.get().status(PreferenceUtil.getToken(mActivity));
         attendee.enqueue(new Callback<Attendee>() {
             @Override
             public void onResponse(Call<Attendee> call, Response<Attendee> response) {
