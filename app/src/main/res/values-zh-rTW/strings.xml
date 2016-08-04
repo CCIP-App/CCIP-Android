@@ -18,9 +18,9 @@
     <string name="day1lunch">Day 1 午餐</string>
     <string name="day2lunch">Day 2 午餐</string>
     <string name="kit">迎賓袋</string>
-    <string name="confirm_dialog_title">按下去就悲劇囉</string>
-    <string name="positive_button">好啦</string>
-    <string name="negative_button">嗚嗚 我後悔了</string>
+    <string name="confirm_dialog_title">是否以聽從工作人員的指示？</string>
+    <string name="positive_button">確認使用</string>
+    <string name="negative_button">取消</string>
 
     <string name="offline">無網路連線</string>
 
