@@ -1,6 +1,5 @@
 package org.coscup.ccip.fragment;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -9,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -20,7 +18,7 @@ import android.widget.ProgressBar;
 import org.coscup.ccip.R;
 import org.coscup.ccip.network.webclient.WebChromeViewClient;
 
-public class IRCFragment extends Fragment {
+public class IRCFragment extends TrackFragment {
 
     private static WebView webView;
     private static ProgressBar progressBar;

@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "981935318625",
+    "project_id": "ccip-9a548"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981935318625:android:14e8ee465d42c186",
+        "android_client_info": {
+          "package_name": "org.coscup.ccip"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_zFcmkJS7gD2uVfhO_NJE2No1eoiIJCY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-79893624-2"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

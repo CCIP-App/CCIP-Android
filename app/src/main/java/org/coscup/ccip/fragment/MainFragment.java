@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.coscup.ccip.activity.MainActivity;
 import org.coscup.ccip.R;
+import org.coscup.ccip.activity.MainActivity;
 import org.coscup.ccip.adapter.ScenarioAdapter;
 import org.coscup.ccip.model.Attendee;
 import org.coscup.ccip.network.CCIPClient;
@@ -26,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends TrackFragment {
 
     private Activity mActivity;
     TextView msg;

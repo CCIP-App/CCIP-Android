@@ -1,6 +1,5 @@
 package org.coscup.ccip.fragment;
 
-import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,10 +11,10 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import org.coscup.ccip.R;
-import org.coscup.ccip.network.webclient.WebChromeViewClient;
 import org.coscup.ccip.network.webclient.OfficialWebViewClient;
+import org.coscup.ccip.network.webclient.WebChromeViewClient;
 
-public class SponsorFragment extends Fragment {
+public class SponsorFragment extends TrackFragment {
 
     private static WebView webView;
     private static ProgressBar progressBar;

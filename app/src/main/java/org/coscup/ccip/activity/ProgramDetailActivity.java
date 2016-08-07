@@ -3,7 +3,6 @@ package org.coscup.ccip.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +19,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ProgramDetailActivity extends AppCompatActivity {
+public class ProgramDetailActivity extends TrackActivity {
 
     public static final String INTENT_EXTRA_PROGRAM = "program";
 
