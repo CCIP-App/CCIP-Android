@@ -16,9 +16,14 @@ android {
                                 onesignal_google_project_number: "981935318625"]
     }
     buildTypes {
+        debug {
+            resValue "string", "ga_tracking_id", "UA-79893624-3"
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "ga_tracking_id", "UA-79893624-2"
         }
     }
 }
@@ -31,6 +36,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-gcm:+'
     compile 'com.google.android.gms:play-services-analytics:+'
     compile "com.google.android.gms:play-services-location:+"
+
+    compile 'com.google.android.gms:play-services-analytics:9.4.0'
 
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'

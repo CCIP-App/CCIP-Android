@@ -1,7 +1,6 @@
 package org.coscup.ccip.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -32,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ScheduleFragment extends Fragment {
+public class ScheduleFragment extends TrackFragment {
 
     private Activity mActivity;
     RecyclerView scheduleView;
