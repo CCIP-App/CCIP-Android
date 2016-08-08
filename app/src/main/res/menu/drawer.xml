@@ -7,15 +7,15 @@
             android:icon="@drawable/ic_local_activity_black_48dp"
             android:title="@string/fast_pass"/>
         <item
-            android:id="@+id/irc"
-            android:checked="true"
-            android:icon="@drawable/ic_question_answer_black_48dp"
-            android:title="@string/irclog"/>
-        <item
             android:id="@+id/schedule"
             android:checked="true"
             android:icon="@drawable/ic_event_note_black_48dp"
             android:title="@string/schedule"/>
+        <item
+            android:id="@+id/irc"
+            android:checked="true"
+            android:icon="@drawable/ic_question_answer_black_48dp"
+            android:title="@string/irclog"/>
         <item
             android:id="@+id/sponsors"
             android:checked="true"
