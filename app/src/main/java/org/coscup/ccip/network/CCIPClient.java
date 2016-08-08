@@ -1,10 +1,12 @@
 
 package org.coscup.ccip.network;
 
+import org.coscup.ccip.model.Announcement;
 import org.coscup.ccip.model.Attendee;
 import org.coscup.ccip.model.Error;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -50,5 +52,8 @@ public class CCIPClient{
             @Path("scenario") String scenario,
             @Query("token") String token
         );
+
+        @GET("/announcement")
+        Call<List<Announcement>> announcement();
     }
 }
