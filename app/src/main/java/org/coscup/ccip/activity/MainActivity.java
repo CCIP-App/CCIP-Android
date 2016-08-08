@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.coscup.ccip.R;
+import org.coscup.ccip.fragment.AnnouncementFragment;
 import org.coscup.ccip.fragment.IRCFragment;
 import org.coscup.ccip.fragment.MainFragment;
 import org.coscup.ccip.fragment.ScheduleFragment;
@@ -73,11 +74,14 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.fast_pass:
                                 fragment = new MainFragment();
                                 break;
-                            case R.id.irc:
-                                fragment = new IRCFragment();
-                                break;
                             case R.id.schedule:
                                 fragment = new ScheduleFragment();
+                                break;
+                            case R.id.announcement:
+                                fragment = new AnnouncementFragment();
+                                break;
+                            case R.id.irc:
+                                fragment = new IRCFragment();
                                 break;
                             case R.id.sponsors:
                                 fragment = new SponsorFragment();

@@ -6,8 +6,9 @@
     <string name="drawer_close">Close navigation drawer</string>
 
     <string name="fast_pass">Fast Pass</string>
-    <string name="irclog">IRC Log</string>
     <string name="schedule">Schedule</string>
+    <string name="announcement">Announcement</string>
+    <string name="irclog">IRC Log</string>
     <string name="sponsors">Sponsors</string>
     <string name="staffs">Staffs</string>
 

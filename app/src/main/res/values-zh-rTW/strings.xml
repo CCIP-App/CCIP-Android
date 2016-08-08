@@ -6,8 +6,9 @@
     <string name="drawer_close">Close navigation drawer</string>
 
     <string name="fast_pass">快速通關</string>
-    <string name="irclog">IRC Log</string>
     <string name="schedule">議程</string>
+    <string name="announcement">大會訊息</string>
+    <string name="irclog">IRC Log</string>
     <string name="sponsors">贊助</string>
     <string name="staffs">工作人員</string>
 
