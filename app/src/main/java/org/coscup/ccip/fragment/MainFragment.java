@@ -15,12 +15,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.onesignal.OneSignal;
+
 import org.coscup.ccip.R;
 import org.coscup.ccip.activity.MainActivity;
 import org.coscup.ccip.adapter.ScenarioAdapter;
 import org.coscup.ccip.model.Attendee;
 import org.coscup.ccip.network.CCIPClient;
 import org.coscup.ccip.util.PreferenceUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +52,16 @@ public class MainFragment extends TrackFragment {
         scenarioView.setItemAnimator(new DefaultItemAnimator());
 
         if (mActivity.getIntent().getAction().equals(Intent.ACTION_VIEW)) {
-            PreferenceUtil.setToken(mActivity, mActivity.getIntent().getData().getQueryParameter("token"));
+            String token = mActivity.getIntent().getData().getQueryParameter("token");
+            PreferenceUtil.setToken(mActivity, token);
+
+            JSONObject tags = new JSONObject();
+            try {
+                tags.put("token", token);
+                OneSignal.sendTags(tags);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         if (PreferenceUtil.getToken(mActivity) == null) {
