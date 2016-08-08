@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.coscup.ccip.R;
 import org.coscup.ccip.adapter.AnnouncementAdapter;
@@ -67,6 +68,7 @@ public class AnnouncementFragment extends TrackFragment {
             @Override
             public void onFailure(Call<List<Announcement>> call, Throwable t) {
                 swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
             }
         });
 

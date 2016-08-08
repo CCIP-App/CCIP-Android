@@ -109,13 +109,15 @@ public class MainFragment extends TrackFragment {
                 }
                 else {
                     Toast.makeText(mActivity, "invalid token", Toast.LENGTH_LONG).show();
+                    msg.setText(getString(R.string.open_via_link));
+                    msg.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<Attendee> call, Throwable t) {
                 swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(mActivity, "get status fail, " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
             }
         });
     }

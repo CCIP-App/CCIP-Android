@@ -139,10 +139,10 @@ public class ScheduleFragment extends TrackFragment {
 
     public void loadOfflineScedule() {
         swipeRefreshLayout.setRefreshing(false);
+        Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
         List<Program> programs = PreferenceUtil.loadPrograms(mActivity);
         if (programs != null) {
             setScheduleAdapter(programs);
-            Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
         }
     }
 
