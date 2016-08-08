@@ -8,22 +8,18 @@
             android:title="@string/fast_pass"/>
         <item
             android:id="@+id/schedule"
-            android:checked="true"
             android:icon="@drawable/ic_event_note_black_48dp"
             android:title="@string/schedule"/>
         <item
             android:id="@+id/irc"
-            android:checked="true"
             android:icon="@drawable/ic_question_answer_black_48dp"
             android:title="@string/irclog"/>
         <item
             android:id="@+id/sponsors"
-            android:checked="true"
             android:icon="@drawable/ic_redeem_black_48dp"
             android:title="@string/sponsors"/>
         <item
             android:id="@+id/staffs"
-            android:checked="true"
             android:icon="@drawable/ic_group_black_48dp"
             android:title="@string/staffs"/>
     </group>
