@@ -1,6 +1,8 @@
 package org.coscup.ccip.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.TypedValue;
@@ -58,7 +60,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         final ViewHolder holder = ((ViewHolder) viewHolder);
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
-        Announcement announcement = announcementList.get(position);
+        final Announcement announcement = announcementList.get(position);
 
         if (mContext.getResources().getConfiguration().locale.getLanguage().startsWith("zh")) {
             holder.msg.setText(announcement.getMsgZh());
@@ -69,7 +71,9 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (announcement.getUri() != null) {
+                    mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(announcement.getUri())));
+                }
             }
         });
     }
