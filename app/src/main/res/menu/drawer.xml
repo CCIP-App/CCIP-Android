@@ -11,6 +11,10 @@
             android:icon="@drawable/ic_event_note_black_48dp"
             android:title="@string/schedule"/>
         <item
+            android:id="@+id/announcement"
+            android:icon="@drawable/ic_announcement_black_48dp"
+            android:title="@string/announcement"/>
+        <item
             android:id="@+id/irc"
             android:icon="@drawable/ic_question_answer_black_48dp"
             android:title="@string/irclog"/>
