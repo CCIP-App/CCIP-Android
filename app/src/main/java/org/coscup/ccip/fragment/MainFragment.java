@@ -93,6 +93,7 @@ public class MainFragment extends TrackFragment {
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
+        msg.setVisibility(View.GONE);
         Call<Attendee> attendee = CCIPClient.get().status(PreferenceUtil.getToken(mActivity));
         attendee.enqueue(new Callback<Attendee>() {
             @Override
@@ -102,7 +103,11 @@ public class MainFragment extends TrackFragment {
                     Attendee attendee = response.body();
                     MainActivity.setUserId(attendee.getUserId());
                     scenarioView.setAdapter(new ScenarioAdapter(mActivity, attendee.getScenarios()));
-                } else {
+                } else if (response.code() == 403) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    msg.setVisibility(View.VISIBLE);
+                }
+                else {
                     Toast.makeText(mActivity, "invalid token", Toast.LENGTH_LONG).show();
                 }
             }
