@@ -158,6 +158,11 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                     if (response.code() == 400) {
                         Error error = ErrorUtil.parseError(response);
                         Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_LONG).show();
+                    } else if (response.code() == 403) {
+                        new AlertDialog.Builder(mContext)
+                                .setTitle(R.string.connect_to_coscup_wifi)
+                                .setPositiveButton(android.R.string.ok, null)
+                                .show();
                     } else {
                         Toast.makeText(mContext, "Unexpected response", Toast.LENGTH_LONG).show();
                     }
