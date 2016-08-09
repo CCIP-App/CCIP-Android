@@ -87,8 +87,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.allowTimeRange.setText(timeRange);
 
         if (scenario.getDisabled() != null) {
-            holder.allowTimeRange.setVisibility(View.GONE);
-            setCardUsed(holder);
+            setCardDisabled(holder, scenario.getDisabled());
             return;
         }
 
@@ -180,6 +179,14 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.card.setClickable(false);
         holder.card.setOnClickListener(null);
         holder.tickIcon.setVisibility(View.VISIBLE);
+        holder.scenarioIcon.setAlpha(0.4f);
+        holder.scenarioName.setTextColor(Color.parseColor("#FF9B9B9B"));
+    }
+
+    private void setCardDisabled(ViewHolder holder, String reason) {
+        holder.allowTimeRange.setText(reason);
+        holder.card.setClickable(false);
+        holder.card.setOnClickListener(null);
         holder.scenarioIcon.setAlpha(0.4f);
         holder.scenarioName.setTextColor(Color.parseColor("#FF9B9B9B"));
     }
