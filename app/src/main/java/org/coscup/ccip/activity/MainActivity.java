@@ -3,6 +3,7 @@ package org.coscup.ccip.activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,6 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import org.coscup.ccip.R;
 import org.coscup.ccip.fragment.AnnouncementFragment;
 import org.coscup.ccip.fragment.IRCFragment;
@@ -21,6 +25,7 @@ import org.coscup.ccip.fragment.MainFragment;
 import org.coscup.ccip.fragment.ScheduleFragment;
 import org.coscup.ccip.fragment.SponsorFragment;
 import org.coscup.ccip.fragment.StaffFragment;
+import org.coscup.ccip.util.PreferenceUtil;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -117,5 +122,15 @@ public class MainActivity extends AppCompatActivity {
 
     public static void setUserId(String userId) {
         userIdTextView.setText(userId);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null && result.getContents() != null) {
+                PreferenceUtil.setToken(this, result.getContents());
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

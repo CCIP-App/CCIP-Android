@@ -1,7 +1,6 @@
 package org.coscup.ccip.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.onesignal.OneSignal;
 
 import org.coscup.ccip.R;
@@ -44,6 +44,18 @@ public class MainFragment extends TrackFragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         msg = (TextView) view.findViewById(R.id.msg);
+        msg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentIntegrator integrator = new IntentIntegrator(mActivity);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                integrator.setPrompt(getString(R.string.scan_kktix_qrcode));
+                integrator.setCameraId(0);
+                integrator.setBeepEnabled(false);
+                integrator.setBarcodeImageEnabled(false);
+                integrator.initiateScan();
+            }
+        });
         scenarioView = (RecyclerView) view.findViewById(R.id.scenarios);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
 
@@ -67,7 +79,6 @@ public class MainFragment extends TrackFragment {
         if (PreferenceUtil.getToken(mActivity) == null) {
             msg.setVisibility(View.VISIBLE);
             msg.setText(R.string.open_via_link);
-            swipeRefreshLayout.setVisibility(View.GONE);
         }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
