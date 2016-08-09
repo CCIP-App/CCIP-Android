@@ -49,7 +49,7 @@ public class MainFragment extends TrackFragment {
             public void onClick(View view) {
                 IntentIntegrator integrator = new IntentIntegrator(mActivity);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                integrator.setPrompt("Scan your KKTIX QR Code");
+                integrator.setPrompt(getString(R.string.scan_kktix_qrcode));
                 integrator.setCameraId(0);
                 integrator.setBeepEnabled(false);
                 integrator.setBarcodeImageEnabled(false);

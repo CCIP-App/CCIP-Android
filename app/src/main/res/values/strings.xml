@@ -12,7 +12,8 @@
     <string name="sponsors">Sponsors</string>
     <string name="staffs">Staffs</string>
 
-    <string name="open_via_link">Please open this app via link</string>
+    <string name="open_via_link">Please open this app via link, or you can click here to scan the QR code in KKTIX ticket via camera</string>
+    <string name="scan_kktix_qrcode">Scan KKTIX ticket QR code</string>
     <string name="connect_to_coscup_wifi">Please connect to the wifi provided by COSCUP</string>
 
     <string name="day1checkin">Day 1 Checkin</string>
