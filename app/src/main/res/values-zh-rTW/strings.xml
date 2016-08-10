@@ -35,4 +35,7 @@
     <string name="program_abstract">議程簡介</string>
 
     <string name="min">分鐘</string>
+
+    <string name="meat">葷食</string>
+    <string name="vegetarian">素食</string>
 </resources>

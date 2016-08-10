@@ -26,6 +26,7 @@ public class CountdownActivity extends TrackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countdown);
 
+        final TextView attrText = (TextView) findViewById(R.id.attr);
         final TextView countdownText = (TextView) findViewById(R.id.countdown);
         final TextView currentTimeText = (TextView) findViewById(R.id.current_time);
         final RelativeLayout countdownLayot = (RelativeLayout) findViewById(R.id.countdown_layout);
@@ -47,9 +48,11 @@ public class CountdownActivity extends TrackActivity {
             String diet = attr.get("diet").getAsString();
             if (diet.equals("meat")) {
                 countdownLayot.setBackgroundColor(getResources().getColor(R.color.colorDietMeat));
+                attrText.setText(R.string.meat);
             }
             else{
                 countdownLayot.setBackgroundColor(getResources().getColor(R.color.colorDietVegetarian));
+                attrText.setText(R.string.vegetarian);
             }
         }
 

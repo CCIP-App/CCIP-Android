@@ -35,4 +35,7 @@
     <string name="program_abstract">Abstract</string>
 
     <string name="min">min</string>
+
+    <string name="meat">Meat</string>
+    <string name="vegetarian">Vegetarian</string>
 </resources>
