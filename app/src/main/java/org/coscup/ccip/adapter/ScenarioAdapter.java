@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.coscup.ccip.activity.CountdownActivity;
 import org.coscup.ccip.R;
+import org.coscup.ccip.activity.CountdownActivity;
 import org.coscup.ccip.model.Attendee;
 import org.coscup.ccip.model.Error;
 import org.coscup.ccip.model.Scenario;
@@ -77,7 +77,9 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         final Scenario scenario = mScenarioList.get(position);
         int iconResId = mContext.getResources().getIdentifier(scenario.getId().indexOf("lunch") > 0 ? "lunch" : scenario.getId(), "drawable", mContext.getPackageName());
         holder.scenarioIcon.setImageDrawable(ContextCompat.getDrawable(mContext, iconResId));
+        holder.scenarioIcon.setAlpha(1f);
         holder.scenarioName.setText(mContext.getResources().getIdentifier(scenario.getId(), "string", mContext.getPackageName()));
+        holder.scenarioName.setTextColor(mContext.getResources().getColor(android.R.color.black));
 
         sdf = new SimpleDateFormat("MM/dd HH:mm");
         StringBuffer timeRange = new StringBuffer();
