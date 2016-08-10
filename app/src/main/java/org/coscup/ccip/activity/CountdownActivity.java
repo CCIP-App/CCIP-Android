@@ -55,6 +55,9 @@ public class CountdownActivity extends TrackActivity {
                 attrText.setText(R.string.vegetarian);
             }
         }
+        if (attr.get("shirt_size") != null) {
+            attrText.setText(attr.get("shirt_size").getAsString());
+        }
 
         long countdown;
 
