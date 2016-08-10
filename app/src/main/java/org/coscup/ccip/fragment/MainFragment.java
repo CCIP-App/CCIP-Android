@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.onesignal.OneSignal;
 
@@ -112,6 +113,10 @@ public class MainFragment extends TrackFragment {
                 swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
                     Attendee attendee = response.body();
+                    JsonObject attr = attendee.getAttr().getAsJsonObject();
+                    if (attr.get("title") != null) {
+                        MainActivity.setUserTitle(attr.get("title").getAsString());
+                    }
                     MainActivity.setUserId(attendee.getUserId());
                     scenarioView.setAdapter(new ScenarioAdapter(mActivity, attendee.getScenarios()));
                 } else if (response.code() == 403) {
