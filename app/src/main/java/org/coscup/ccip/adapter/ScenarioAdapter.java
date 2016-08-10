@@ -97,9 +97,9 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     if (scenario.getCountdown() > 0) {
-                        showConfirmDialog(scenario, holder);
+                        showConfirmDialog(scenario);
                     } else {
-                        use(scenario, holder);
+                        use(scenario);
                     }
                 }
             });
@@ -118,13 +118,13 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public void showConfirmDialog(final Scenario scenario, final ViewHolder holder) {
+    public void showConfirmDialog(final Scenario scenario) {
         new AlertDialog.Builder(mContext)
                 .setTitle(R.string.confirm_dialog_title)
                 .setPositiveButton(R.string.positive_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        use(scenario, holder);
+                        use(scenario);
                     }
                 })
                 .setNegativeButton(R.string.negative_button, null)
@@ -139,7 +139,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         mContext.startActivity(intent);
     }
 
-    public void use(final Scenario scenario, final ViewHolder holder) {
+    public void use(final Scenario scenario) {
         Call<Attendee> attendeeCall = CCIPClient.get().use(scenario.getId(), PreferenceUtil.getToken(mContext));
         attendeeCall.enqueue(new Callback<Attendee>() {
             @Override
@@ -148,7 +148,6 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                     Attendee attendee = response.body();
                     mScenarioList = attendee.getScenarios();
                     notifyDataSetChanged();
-                    setCardUsed(holder);
 
                     if (scenario.getCountdown() > 0) {
                         startCountdownActivity(scenario);
