@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -30,7 +31,7 @@ import org.coscup.ccip.util.PreferenceUtil;
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    private static TextView userIdTextView;
+    private static TextView userTitleTextView, userIdTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        userTitleTextView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_title);
         userIdTextView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_id);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -118,6 +120,11 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    public static void setUserTitle(String userTitle) {
+        userTitleTextView.setVisibility(View.VISIBLE);
+        userTitleTextView.setText(userTitle);
     }
 
     public static void setUserId(String userId) {
