@@ -4,6 +4,8 @@ package org.coscup.ccip.model;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Generated;
+
+import com.google.gson.JsonElement;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -19,6 +21,9 @@ public class Attendee {
     @SerializedName("user_id")
     @Expose
     private String userId;
+    @SerializedName("attr")
+    @Expose
+    private JsonElement attr;
     @SerializedName("scenarios")
     @Expose
     private List<Scenario> scenarios = new ArrayList<Scenario>();
@@ -75,6 +80,24 @@ public class Attendee {
      */
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    /**
+     * 
+     * @return
+     *     The attr
+     */
+    public JsonElement getAttr() {
+        return attr;
+    }
+
+    /**
+     * 
+     * @param attr
+     *     The attr
+     */
+    public void setAttr(JsonElement attr) {
+        this.attr = attr;
     }
 
     /**
