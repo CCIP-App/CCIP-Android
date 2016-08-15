@@ -15,6 +15,7 @@
     <string name="open_via_link">請透過連結開啟此應用程式，你也可以點擊這裡打開相機掃描 KKTIX 提供的 QR Code</string>
     <string name="scan_kktix_qrcode">掃描 KKTIX 票券 QR code</string>
     <string name="connect_to_coscup_wifi">請使用 COSCUP 提供的無線網路</string>
+    <string name="tap_to_retry">點擊重試</string>
 
     <string name="day1checkin">Day 1 報到</string>
     <string name="day2checkin">Day 2 報到</string>

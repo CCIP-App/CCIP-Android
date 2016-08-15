@@ -34,6 +34,7 @@ import retrofit2.Response;
 public class MainFragment extends TrackFragment {
 
     private Activity mActivity;
+    View notCOSCUPWifiView;
     TextView msg;
     RecyclerView scenarioView;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -44,6 +45,7 @@ public class MainFragment extends TrackFragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        notCOSCUPWifiView = view.findViewById(R.id.not_coscup_wifi);
         msg = (TextView) view.findViewById(R.id.msg);
         msg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +123,15 @@ public class MainFragment extends TrackFragment {
                     scenarioView.setAdapter(new ScenarioAdapter(mActivity, attendee.getScenarios()));
                 } else if (response.code() == 403) {
                     swipeRefreshLayout.setRefreshing(false);
-                    msg.setVisibility(View.VISIBLE);
+                    notCOSCUPWifiView.setVisibility(View.VISIBLE);
+                    notCOSCUPWifiView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            swipeRefreshLayout.setRefreshing(true);
+                            notCOSCUPWifiView.setVisibility(View.GONE);
+                            updateStatus();
+                        }
+                    });
                 }
                 else {
                     Toast.makeText(mActivity, "invalid token", Toast.LENGTH_LONG).show();

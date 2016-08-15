@@ -14,8 +14,37 @@
         android:id="@+id/msg"
         android:visibility="gone"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/connect_to_coscup_wifi" />
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:id="@+id/not_coscup_wifi"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:id="@+id/imageView2"
+            android:src="@drawable/fp_empty"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/not_coscup_wifi_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connect_to_coscup_wifi"
+            android:layout_below="@+id/imageView2"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tap_to_retry"
+            android:layout_below="@+id/not_coscup_wifi_msg"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
