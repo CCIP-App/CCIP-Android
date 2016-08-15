@@ -57,12 +57,4 @@ public class IRCFragment extends TrackFragment {
 
         return view;
     }
-
-    public void setWebProgress(int progress) {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.setProgress(progress);
-        if (progress == 100) {
-            progressBar.setVisibility(View.GONE);
-        }
-    }
 }
