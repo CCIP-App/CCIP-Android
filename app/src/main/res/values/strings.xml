@@ -11,6 +11,7 @@
     <string name="irclog">IRC Log</string>
     <string name="sponsors">Sponsors</string>
     <string name="staffs">Staffs</string>
+    <string name="star_on_github">Star on GitHub</string>
 
     <string name="hi">Hi\u0020</string>
     <string name="login_success">, welcome to COSCUP 2016, enjoy this summer festival of fun!</string>

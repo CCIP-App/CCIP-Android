@@ -26,5 +26,9 @@
             android:id="@+id/staffs"
             android:icon="@drawable/ic_group_black_48dp"
             android:title="@string/staffs"/>
+        <item
+            android:id="@+id/star"
+            android:icon="@drawable/github_mark"
+            android:title="@string/star_on_github"/>
     </group>
 </menu>

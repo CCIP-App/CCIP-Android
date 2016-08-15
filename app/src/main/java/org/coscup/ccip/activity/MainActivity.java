@@ -1,10 +1,12 @@
 package org.coscup.ccip.activity;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,11 +34,14 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private static TextView userTitleTextView, userIdTextView;
+    private Activity mActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mActivity = this;
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,35 +80,40 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
 
-                        Fragment fragment = null;
+                        if (menuItem.getItemId() == R.id.star) {
+                            mActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/CPRTeam/CCIP-Android")));
+                        } else {
+                            Fragment fragment = null;
 
-                        switch (menuItem.getItemId()) {
-                            case R.id.fast_pass:
-                                fragment = new MainFragment();
-                                break;
-                            case R.id.schedule:
-                                fragment = new ScheduleFragment();
-                                break;
-                            case R.id.announcement:
-                                fragment = new AnnouncementFragment();
-                                break;
-                            case R.id.irc:
-                                fragment = new IRCFragment();
-                                break;
-                            case R.id.sponsors:
-                                fragment = new SponsorFragment();
-                                break;
-                            case R.id.staffs:
-                                fragment = new StaffFragment();
-                                break;
+                            switch (menuItem.getItemId()) {
+                                case R.id.fast_pass:
+                                    fragment = new MainFragment();
+                                    break;
+                                case R.id.schedule:
+                                    fragment = new ScheduleFragment();
+                                    break;
+                                case R.id.announcement:
+                                    fragment = new AnnouncementFragment();
+                                    break;
+                                case R.id.irc:
+                                    fragment = new IRCFragment();
+                                    break;
+                                case R.id.sponsors:
+                                    fragment = new SponsorFragment();
+                                    break;
+                                case R.id.staffs:
+                                    fragment = new StaffFragment();
+                                    break;
+                            }
+
+                            setTitle(menuItem.getTitle());
+                            FragmentManager fragmentManager = getFragmentManager();
+                            FragmentTransaction ft = fragmentManager.beginTransaction();
+                            ft.replace(R.id.content_frame, fragment);
+                            ft.commit();
                         }
 
                         mDrawerLayout.closeDrawers();
-                        setTitle(menuItem.getTitle());
-                        FragmentManager fragmentManager = getFragmentManager();
-                        FragmentTransaction ft = fragmentManager.beginTransaction();
-                        ft.replace(R.id.content_frame, fragment);
-                        ft.commit();
 
                         return true;
                     }
