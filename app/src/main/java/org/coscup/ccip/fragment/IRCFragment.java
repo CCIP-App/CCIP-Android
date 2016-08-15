@@ -46,7 +46,7 @@ public class IRCFragment extends TrackFragment {
             }
         });
         webView.setWebChromeClient(new WebChromeViewClient(progressBar));
-        webView.loadUrl("https://logbot.g0v.tw/channel/coscup/today");
+        webView.loadUrl("https://ysitd.licson.net/channel/coscup/today");
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
