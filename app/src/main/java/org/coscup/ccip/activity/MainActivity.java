@@ -135,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null && result.getContents() != null) {
-                PreferenceUtil.setToken(this, result.getContents());
+            PreferenceUtil.setIsNewToken(this, true);
+            PreferenceUtil.setToken(this, result.getContents());
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }

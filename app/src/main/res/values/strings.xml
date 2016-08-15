@@ -12,6 +12,8 @@
     <string name="sponsors">Sponsors</string>
     <string name="staffs">Staffs</string>
 
+    <string name="hi">Hi\u0020</string>
+    <string name="login_success">, welcome to COSCUP 2016, enjoy this summer festival of fun!</string>
     <string name="open_via_link">Please open this app via link, or you can click here to scan the QR code in KKTIX ticket via camera</string>
     <string name="scan_kktix_qrcode">Scan KKTIX ticket QR code</string>
     <string name="connect_to_coscup_wifi">Please connect to the wifi provided by COSCUP</string>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,6 +69,7 @@ public class MainFragment extends TrackFragment {
 
         if (mActivity.getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             String token = mActivity.getIntent().getData().getQueryParameter("token");
+            PreferenceUtil.setIsNewToken(mActivity, true);
             PreferenceUtil.setToken(mActivity, token);
 
             JSONObject tags = new JSONObject();
@@ -116,10 +118,22 @@ public class MainFragment extends TrackFragment {
                 if (response.isSuccessful()) {
                     Attendee attendee = response.body();
                     JsonObject attr = attendee.getAttr().getAsJsonObject();
+
+                    if (PreferenceUtil.getIsNewToken(mActivity)) {
+                        PreferenceUtil.setIsNewToken(mActivity, false);
+                        new AlertDialog.Builder(mActivity)
+                                .setTitle(mActivity.getString(R.string.hi)
+                                        + attendee.getUserId()
+                                        + mActivity.getString(R.string.login_success))
+                                .setPositiveButton(android.R.string.ok, null)
+                                .show();
+                    }
+
                     if (attr.get("title") != null) {
                         MainActivity.setUserTitle(attr.get("title").getAsString());
                     }
                     MainActivity.setUserId(attendee.getUserId());
+
                     scenarioView.setAdapter(new ScenarioAdapter(mActivity, attendee.getScenarios()));
                 } else if (response.code() == 403) {
                     swipeRefreshLayout.setRefreshing(false);
