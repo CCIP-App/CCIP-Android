@@ -13,9 +13,23 @@ import java.util.List;
 
 public class PreferenceUtil {
     private static final String PREF_AUTH = "auth";
+    private static final String PREF_IS_NEW_TOKEN = "is_new_token";
     private static final String PREF_AUTH_TOKEN = "token";
     private static final String PREF_SCHEDULE = "schedule";
     private static final String PREF_SCHEDULE_PROGRAMS = "programs";
+
+    public static void setIsNewToken(Context context, boolean isNewToken) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(PREF_IS_NEW_TOKEN, isNewToken);
+        editor.commit();
+    }
+
+    public static boolean getIsNewToken(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(PREF_IS_NEW_TOKEN, false);
+    }
 
     public static void setToken(Context context, String token) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE);
