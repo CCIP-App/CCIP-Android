@@ -122,7 +122,7 @@ public class MainFragment extends TrackFragment {
                     if (PreferenceUtil.getIsNewToken(mActivity)) {
                         PreferenceUtil.setIsNewToken(mActivity, false);
                         new AlertDialog.Builder(mActivity)
-                                .setTitle(mActivity.getString(R.string.hi)
+                                .setMessage(mActivity.getString(R.string.hi)
                                         + attendee.getUserId()
                                         + mActivity.getString(R.string.login_success))
                                 .setPositiveButton(android.R.string.ok, null)
