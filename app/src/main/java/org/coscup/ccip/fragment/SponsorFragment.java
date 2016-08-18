@@ -16,6 +16,7 @@ import org.coscup.ccip.network.webclient.WebChromeViewClient;
 
 public class SponsorFragment extends TrackFragment {
 
+    private static final String URL_SPONSORS = "http://coscup.org/2016/sponsors.html";
     private static WebView webView;
     private static ProgressBar progressBar;
 
@@ -30,7 +31,7 @@ public class SponsorFragment extends TrackFragment {
         webView = (WebView) view.findViewById(R.id.webView);
         webView.setWebChromeClient(new WebChromeViewClient(progressBar));
         webView.setWebViewClient(new OfficialWebViewClient());
-        webView.loadUrl("http://coscup.org/2016/sponsors.html");
+        webView.loadUrl(URL_SPONSORS);
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);

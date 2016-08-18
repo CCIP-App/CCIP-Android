@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.onesignal.OneSignal;
@@ -129,8 +130,9 @@ public class MainFragment extends TrackFragment {
                                 .show();
                     }
 
-                    if (attr.get("title") != null) {
-                        MainActivity.setUserTitle(attr.get("title").getAsString());
+                    JsonElement attrTitle = attr.get("title");
+                    if (attrTitle != null) {
+                        MainActivity.setUserTitle(attrTitle.getAsString());
                     }
                     MainActivity.setUserId(attendee.getUserId());
 

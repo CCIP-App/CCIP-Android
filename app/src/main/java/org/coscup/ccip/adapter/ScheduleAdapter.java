@@ -23,6 +23,8 @@ import java.util.List;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
 
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("MM/dd HH:mm");
+
     private Context mContext;
     private List<List<Program>> mProgramSlotList;
 
@@ -54,7 +56,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         final ViewHolder holder = ((ViewHolder) viewHolder);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
 
         holder.programView.setLayoutManager(new LinearLayoutManager(mContext));
         holder.programView.setItemAnimator(new DefaultItemAnimator());
@@ -62,7 +63,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
         final List<Program> programs = mProgramSlotList.get(position);
         try {
             Date date = ISO8601Utils.parse(programs.get(0).getStarttime(), new ParsePosition(0));
-            holder.startTimeText.setText(sdf.format(date));
+            holder.startTimeText.setText(SDF.format(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
