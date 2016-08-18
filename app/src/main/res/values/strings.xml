@@ -40,6 +40,6 @@
 
     <string name="min">min</string>
 
-    <string name="meat">Meat</string>
-    <string name="vegetarian">Vegetarian</string>
+    <string name="meal">Meal</string>
+    <string name="vegan">Vegan</string>
 </resources>

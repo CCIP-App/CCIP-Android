@@ -49,11 +49,11 @@ public class CountdownActivity extends TrackActivity {
             String diet = elemDiet.getAsString();
             if (diet.equals("meat")) {
                 countdownLayot.setBackgroundColor(getResources().getColor(R.color.colorDietMeat));
-                attrText.setText(R.string.meat);
+                attrText.setText(R.string.meal);
             }
             else{
                 countdownLayot.setBackgroundColor(getResources().getColor(R.color.colorDietVegetarian));
-                attrText.setText(R.string.vegetarian);
+                attrText.setText(R.string.vegan);
             }
         }
         JsonElement elemSize = attr.get("shirt_size");

@@ -40,6 +40,6 @@
 
     <string name="min">分鐘</string>
 
-    <string name="meat">葷食</string>
-    <string name="vegetarian">素食</string>
+    <string name="meal">葷食</string>
+    <string name="vegan">素食</string>
 </resources>
