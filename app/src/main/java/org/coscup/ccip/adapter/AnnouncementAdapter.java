@@ -11,12 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.gson.internal.bind.util.ISO8601Utils;
-
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Announcement;
 
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +31,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            msg = (TextView) itemView.findViewById(R.id.msg);
+            msg = (TextView) itemView.findViewById(R.id.invalid_token_msg);
             time = (TextView) itemView.findViewById(R.id.time);
         }
     }

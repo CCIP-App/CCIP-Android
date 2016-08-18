@@ -36,7 +36,7 @@ public class MainFragment extends TrackFragment {
 
     private Activity mActivity;
     View notCOSCUPWifiView;
-    TextView msg;
+    TextView invalidTokenMsg;
     RecyclerView scenarioView;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -47,8 +47,8 @@ public class MainFragment extends TrackFragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         notCOSCUPWifiView = view.findViewById(R.id.not_coscup_wifi);
-        msg = (TextView) view.findViewById(R.id.msg);
-        msg.setOnClickListener(new View.OnClickListener() {
+        invalidTokenMsg = (TextView) view.findViewById(R.id.invalid_token_msg);
+        invalidTokenMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 IntentIntegrator integrator = new IntentIntegrator(mActivity);
@@ -82,8 +82,7 @@ public class MainFragment extends TrackFragment {
         }
 
         if (PreferenceUtil.getToken(mActivity) == null) {
-            msg.setVisibility(View.VISIBLE);
-            msg.setText(R.string.open_via_link);
+            invalidTokenMsg.setVisibility(View.VISIBLE);
         }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -109,7 +108,7 @@ public class MainFragment extends TrackFragment {
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
-        msg.setVisibility(View.GONE);
+        invalidTokenMsg.setVisibility(View.GONE);
         Call<Attendee> attendee = CCIPClient.get().status(PreferenceUtil.getToken(mActivity));
         attendee.enqueue(new Callback<Attendee>() {
             @Override
@@ -149,8 +148,7 @@ public class MainFragment extends TrackFragment {
                 }
                 else {
                     Toast.makeText(mActivity, "invalid token", Toast.LENGTH_LONG).show();
-                    msg.setText(getString(R.string.open_via_link));
-                    msg.setVisibility(View.VISIBLE);
+                    invalidTokenMsg.setVisibility(View.VISIBLE);
                 }
             }
 
