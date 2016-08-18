@@ -22,8 +22,8 @@ import java.util.Date;
 public class ProgramDetailActivity extends TrackActivity {
 
     public static final String INTENT_EXTRA_PROGRAM = "program";
-    private static final SimpleDateFormat SDF1 = new SimpleDateFormat("MM/dd HH:mm");
-    private static final SimpleDateFormat SDF2 = new SimpleDateFormat("HH:mm");
+    private static final SimpleDateFormat SDF_DATETIME = new SimpleDateFormat("MM/dd HH:mm");
+    private static final SimpleDateFormat SDF_TIME = new SimpleDateFormat("HH:mm");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +56,10 @@ public class ProgramDetailActivity extends TrackActivity {
         try {
             StringBuffer timeString = new StringBuffer();
             Date startDate = ISO8601Utils.parse(program.getStarttime(), new ParsePosition(0));
-            timeString.append(SDF1.format(startDate));
+            timeString.append(SDF_DATETIME.format(startDate));
             timeString.append(" ~ ");
             Date endDate = ISO8601Utils.parse(program.getEndtime(), new ParsePosition(0));
-            timeString.append(SDF2.format(endDate));
+            timeString.append(SDF_TIME.format(endDate));
 
             timeString.append(", " + ((endDate.getTime() - startDate.getTime()) / 1000 / 60) + getResources().getString(R.string.min));
 
