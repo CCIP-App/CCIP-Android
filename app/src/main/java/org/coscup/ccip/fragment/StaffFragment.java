@@ -16,6 +16,7 @@ import org.coscup.ccip.network.webclient.WebChromeViewClient;
 
 public class StaffFragment extends TrackFragment {
 
+    private static final String URL_STAFFS = "http://coscup.org/2016/staffs.html";
     private static WebView webView;
     private static ProgressBar progressBar;
 
@@ -30,7 +31,7 @@ public class StaffFragment extends TrackFragment {
         webView = (WebView) view.findViewById(R.id.webView);
         webView.setWebChromeClient(new WebChromeViewClient(progressBar));
         webView.setWebViewClient(new OfficialWebViewClient());
-        webView.loadUrl("http://coscup.org/2016/staffs.html");
+        webView.loadUrl(URL_STAFFS);
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);

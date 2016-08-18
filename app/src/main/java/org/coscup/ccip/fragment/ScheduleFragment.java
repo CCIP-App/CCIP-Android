@@ -118,8 +118,10 @@ public class ScheduleFragment extends TrackFragment {
                     List<Program> programs = response.body();
                     for (Program program : programs) {
                         program.setRoomname(roomMap.get(program.getRoom()));
-                        program.setTypenameen(program.getType() == null ? "" : typeMap.get(program.getType()).getNameen());
-                        program.setTypenamezh(program.getType() == null ? "" : typeMap.get(program.getType()).getNamezh());
+
+                        Integer type = program.getType();
+                        program.setTypenameen(type == null ? "" : typeMap.get(type).getNameen());
+                        program.setTypenamezh(type == null ? "" : typeMap.get(type).getNamezh());
                     }
 
                     PreferenceUtil.savePrograms(mActivity, programs);

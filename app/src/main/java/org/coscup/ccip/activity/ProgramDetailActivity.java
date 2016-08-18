@@ -8,11 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Program;
+import org.coscup.ccip.util.JsonUtil;
 
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -22,14 +22,15 @@ import java.util.Date;
 public class ProgramDetailActivity extends TrackActivity {
 
     public static final String INTENT_EXTRA_PROGRAM = "program";
+    private static final SimpleDateFormat SDF1 = new SimpleDateFormat("MM/dd HH:mm");
+    private static final SimpleDateFormat SDF2 = new SimpleDateFormat("HH:mm");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_program_detail);
 
-        final Gson gson = new Gson();
-        final Program program = gson.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Program.class);
+        final Program program = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Program.class);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (getResources().getConfiguration().locale.getLanguage().startsWith("zh")) {
@@ -54,13 +55,11 @@ public class ProgramDetailActivity extends TrackActivity {
 
         try {
             StringBuffer timeString = new StringBuffer();
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
             Date startDate = ISO8601Utils.parse(program.getStarttime(), new ParsePosition(0));
-            timeString.append(sdf.format(startDate));
+            timeString.append(SDF1.format(startDate));
             timeString.append(" ~ ");
-            sdf = new SimpleDateFormat("HH:mm");
             Date endDate = ISO8601Utils.parse(program.getEndtime(), new ParsePosition(0));
-            timeString.append(sdf.format(endDate));
+            timeString.append(SDF2.format(endDate));
 
             timeString.append(", " + ((endDate.getTime() - startDate.getTime()) / 1000 / 60) + getResources().getString(R.string.min));
 
