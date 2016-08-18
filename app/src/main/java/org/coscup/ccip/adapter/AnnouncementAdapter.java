@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.gson.internal.bind.util.ISO8601Utils;
-
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Announcement;
 

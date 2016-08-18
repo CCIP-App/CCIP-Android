@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import org.coscup.ccip.activity.ProgramDetailActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Program;
+import org.coscup.ccip.util.JsonUtil;
 
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -91,10 +91,9 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gson gson = new Gson();
                 Intent intent = new Intent();
                 intent.setClass(mContext, ProgramDetailActivity.class);
-                intent.putExtra(ProgramDetailActivity.INTENT_EXTRA_PROGRAM, gson.toJson(program));
+                intent.putExtra(ProgramDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(program));
                 mContext.startActivity(intent);
             }
         });

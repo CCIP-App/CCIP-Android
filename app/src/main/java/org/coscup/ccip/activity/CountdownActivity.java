@@ -8,11 +8,11 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Scenario;
+import org.coscup.ccip.util.JsonUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,9 +32,8 @@ public class CountdownActivity extends TrackActivity {
         final RelativeLayout countdownLayot = (RelativeLayout) findViewById(R.id.countdown_layout);
         final Button button = (Button) findViewById(R.id.button);
 
-        final Gson gson = new Gson();
         final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        final Scenario scenario = gson.fromJson(getIntent().getStringExtra(INTENT_EXTRA_SCENARIO), Scenario.class);
+        final Scenario scenario = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_SCENARIO), Scenario.class);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -8,11 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Program;
+import org.coscup.ccip.util.JsonUtil;
 
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -28,8 +28,7 @@ public class ProgramDetailActivity extends TrackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_program_detail);
 
-        final Gson gson = new Gson();
-        final Program program = gson.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Program.class);
+        final Program program = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Program.class);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (getResources().getConfiguration().locale.getLanguage().startsWith("zh")) {

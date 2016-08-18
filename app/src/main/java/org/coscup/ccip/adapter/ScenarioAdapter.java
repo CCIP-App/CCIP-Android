@@ -16,8 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import org.coscup.ccip.R;
 import org.coscup.ccip.activity.CountdownActivity;
 import org.coscup.ccip.model.Attendee;
@@ -25,6 +23,7 @@ import org.coscup.ccip.model.Error;
 import org.coscup.ccip.model.Scenario;
 import org.coscup.ccip.network.CCIPClient;
 import org.coscup.ccip.network.ErrorUtil;
+import org.coscup.ccip.util.JsonUtil;
 import org.coscup.ccip.util.PreferenceUtil;
 
 import java.text.SimpleDateFormat;
@@ -134,10 +133,9 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public void startCountdownActivity(Scenario scenario) {
-        Gson gson = new Gson();
         Intent intent = new Intent();
         intent.setClass(mContext, CountdownActivity.class);
-        intent.putExtra(CountdownActivity.INTENT_EXTRA_SCENARIO, gson.toJson(scenario));
+        intent.putExtra(CountdownActivity.INTENT_EXTRA_SCENARIO, JsonUtil.toJson(scenario));
         mContext.startActivity(intent);
     }
 
