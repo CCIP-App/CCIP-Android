@@ -2,10 +2,7 @@ package org.coscup.ccip.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import org.coscup.ccip.model.Program;
 
 import java.util.ArrayList;
@@ -48,8 +45,7 @@ public class PreferenceUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        Gson gson = new Gson();
-        editor.putString(PREF_SCHEDULE_PROGRAMS, gson.toJson(programs));
+        editor.putString(PREF_SCHEDULE_PROGRAMS, JsonUtil.toJson(programs));
         editor.commit();
     }
 
@@ -57,7 +53,6 @@ public class PreferenceUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE);
         String programsJson = sharedPreferences.getString(PREF_SCHEDULE_PROGRAMS, null);
 
-        Gson gson = new Gson();
-        return gson.fromJson(programsJson, new TypeToken<ArrayList<Program>>(){}.getType());
+        return JsonUtil.fromJson(programsJson, new TypeToken<ArrayList<Program>>(){}.getType());
     }
 }

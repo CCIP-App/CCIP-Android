@@ -16,8 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import org.coscup.ccip.R;
 import org.coscup.ccip.activity.CountdownActivity;
 import org.coscup.ccip.model.Attendee;
@@ -25,6 +23,7 @@ import org.coscup.ccip.model.Error;
 import org.coscup.ccip.model.Scenario;
 import org.coscup.ccip.network.CCIPClient;
 import org.coscup.ccip.network.ErrorUtil;
+import org.coscup.ccip.util.JsonUtil;
 import org.coscup.ccip.util.PreferenceUtil;
 
 import java.text.SimpleDateFormat;
@@ -36,6 +35,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
+
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("MM/dd HH:mm");
+    private static final String FORMAT_TIMERANGE = "%s ~ %s";
 
     private Context mContext;
     private List<Scenario> mScenarioList;
@@ -72,7 +74,6 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         final ViewHolder holder = ((ViewHolder) viewHolder);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm:ss");
 
         final Scenario scenario = mScenarioList.get(position);
         int iconResId = mContext.getResources().getIdentifier(scenario.getId().indexOf("lunch") > 0 ? "lunch" : scenario.getId(), "drawable", mContext.getPackageName());
@@ -80,13 +81,9 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.scenarioIcon.setAlpha(1f);
         holder.scenarioName.setText(mContext.getResources().getIdentifier(scenario.getId(), "string", mContext.getPackageName()));
         holder.scenarioName.setTextColor(mContext.getResources().getColor(android.R.color.black));
-
-        sdf = new SimpleDateFormat("MM/dd HH:mm");
-        StringBuffer timeRange = new StringBuffer();
-        timeRange.append(sdf.format(new Date(scenario.getAvailableTime() * 1000L)));
-        timeRange.append(" ~ ");
-        timeRange.append(sdf.format(new Date(scenario.getExpireTime() * 1000L)));
-        holder.allowTimeRange.setText(timeRange);
+        holder.allowTimeRange.setText(String.format(FORMAT_TIMERANGE,
+                SDF.format(new Date(scenario.getAvailableTime() * 1000L)),
+                SDF.format(new Date(scenario.getExpireTime() * 1000L))));
 
         if (scenario.getDisabled() != null) {
             setCardDisabled(holder, scenario.getDisabled());
@@ -134,10 +131,9 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public void startCountdownActivity(Scenario scenario) {
-        Gson gson = new Gson();
         Intent intent = new Intent();
         intent.setClass(mContext, CountdownActivity.class);
-        intent.putExtra(CountdownActivity.INTENT_EXTRA_SCENARIO, gson.toJson(scenario));
+        intent.putExtra(CountdownActivity.INTENT_EXTRA_SCENARIO, JsonUtil.toJson(scenario));
         mContext.startActivity(intent);
     }
 

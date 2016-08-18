@@ -8,11 +8,12 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Scenario;
+import org.coscup.ccip.util.JsonUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +21,7 @@ import java.util.Date;
 public class CountdownActivity extends TrackActivity {
 
     public static final String INTENT_EXTRA_SCENARIO = "scenario";
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("HH:mm:ss");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +34,7 @@ public class CountdownActivity extends TrackActivity {
         final RelativeLayout countdownLayot = (RelativeLayout) findViewById(R.id.countdown_layout);
         final Button button = (Button) findViewById(R.id.button);
 
-        final Gson gson = new Gson();
-        final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        final Scenario scenario = gson.fromJson(getIntent().getStringExtra(INTENT_EXTRA_SCENARIO), Scenario.class);
+        final Scenario scenario = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_SCENARIO), Scenario.class);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,8 +44,9 @@ public class CountdownActivity extends TrackActivity {
         });
 
         JsonObject attr = scenario.getAttr().getAsJsonObject();
-        if (attr.get("diet") != null) {
-            String diet = attr.get("diet").getAsString();
+        JsonElement elemDiet = attr.get("diet");
+        if (elemDiet != null) {
+            String diet = elemDiet.getAsString();
             if (diet.equals("meat")) {
                 countdownLayot.setBackgroundColor(getResources().getColor(R.color.colorDietMeat));
                 attrText.setText(R.string.meat);
@@ -55,8 +56,9 @@ public class CountdownActivity extends TrackActivity {
                 attrText.setText(R.string.vegetarian);
             }
         }
-        if (attr.get("shirt_size") != null) {
-            attrText.setText(attr.get("shirt_size").getAsString());
+        JsonElement elemSize = attr.get("shirt_size");
+        if (elemSize != null) {
+            attrText.setText(elemSize.getAsString());
         }
 
         long countdown;
@@ -72,7 +74,7 @@ public class CountdownActivity extends TrackActivity {
             @Override
             public void onTick(long l) {
                 countdownText.setText(l/1000 + "");
-                currentTimeText.setText(sdf.format(new Date().getTime()));
+                currentTimeText.setText(SDF.format(new Date().getTime()));
             }
 
             @Override

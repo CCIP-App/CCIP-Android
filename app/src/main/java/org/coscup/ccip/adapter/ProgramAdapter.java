@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import org.coscup.ccip.activity.ProgramDetailActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Program;
+import org.coscup.ccip.util.JsonUtil;
 
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -24,6 +24,9 @@ import java.util.Date;
 import java.util.List;
 
 public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
+
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("HH:mm");
+    private static final String FORMAT_ENDTIME = "~ %s, %d%s";
 
     private Context mContext;
     private List<Program> mProgramList;
@@ -60,7 +63,6 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         final ViewHolder holder = ((ViewHolder) viewHolder);
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
         final Program program = mProgramList.get(position);
 
@@ -77,8 +79,9 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         try {
             Date startDate = ISO8601Utils.parse(program.getStarttime(), new ParsePosition(0));
             Date endDate = ISO8601Utils.parse(program.getEndtime(), new ParsePosition(0));
-            holder.endTime.setText("~ " + sdf.format(endDate) + ", " +
-                    ((endDate.getTime() - startDate.getTime()) / 1000 / 60) + mContext.getResources().getString(R.string.min));
+            holder.endTime.setText(String.format(FORMAT_ENDTIME, SDF.format(endDate),
+                    ((endDate.getTime() - startDate.getTime()) / 1000 / 60),
+                    mContext.getResources().getString(R.string.min)));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -91,10 +94,9 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gson gson = new Gson();
                 Intent intent = new Intent();
                 intent.setClass(mContext, ProgramDetailActivity.class);
-                intent.putExtra(ProgramDetailActivity.INTENT_EXTRA_PROGRAM, gson.toJson(program));
+                intent.putExtra(ProgramDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(program));
                 mContext.startActivity(intent);
             }
         });

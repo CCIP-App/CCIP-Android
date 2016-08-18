@@ -31,6 +31,8 @@ import org.coscup.ccip.fragment.StaffFragment;
 import org.coscup.ccip.util.PreferenceUtil;
 
 public class MainActivity extends AppCompatActivity {
+    private static final Uri URI_GITHUB = Uri.parse("https://github.com/CPRTeam/CCIP-Android");
+
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private static TextView userTitleTextView, userIdTextView;
@@ -78,46 +80,50 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-
-                        if (menuItem.getItemId() == R.id.star) {
-                            mActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/CPRTeam/CCIP-Android")));
-                        } else {
-                            Fragment fragment = null;
-
-                            switch (menuItem.getItemId()) {
-                                case R.id.fast_pass:
-                                    fragment = new MainFragment();
-                                    break;
-                                case R.id.schedule:
-                                    fragment = new ScheduleFragment();
-                                    break;
-                                case R.id.announcement:
-                                    fragment = new AnnouncementFragment();
-                                    break;
-                                case R.id.irc:
-                                    fragment = new IRCFragment();
-                                    break;
-                                case R.id.sponsors:
-                                    fragment = new SponsorFragment();
-                                    break;
-                                case R.id.staffs:
-                                    fragment = new StaffFragment();
-                                    break;
-                            }
-
-                            setTitle(menuItem.getTitle());
-                            FragmentManager fragmentManager = getFragmentManager();
-                            FragmentTransaction ft = fragmentManager.beginTransaction();
-                            ft.replace(R.id.content_frame, fragment);
-                            ft.commit();
-                        }
-
-                        mDrawerLayout.closeDrawers();
-
-                        return true;
+                        return jumpToFragment(menuItem);
                     }
                 });
+    }
+
+    private boolean jumpToFragment(MenuItem menuItem) {
+        menuItem.setChecked(true);
+
+        if (menuItem.getItemId() == R.id.star) {
+            mActivity.startActivity(new Intent(Intent.ACTION_VIEW, URI_GITHUB));
+        } else {
+            Fragment fragment = null;
+
+            switch (menuItem.getItemId()) {
+                case R.id.fast_pass:
+                    fragment = new MainFragment();
+                    break;
+                case R.id.schedule:
+                    fragment = new ScheduleFragment();
+                    break;
+                case R.id.announcement:
+                    fragment = new AnnouncementFragment();
+                    break;
+                case R.id.irc:
+                    fragment = new IRCFragment();
+                    break;
+                case R.id.sponsors:
+                    fragment = new SponsorFragment();
+                    break;
+                case R.id.staffs:
+                    fragment = new StaffFragment();
+                    break;
+            }
+
+            setTitle(menuItem.getTitle());
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
+        }
+
+        mDrawerLayout.closeDrawers();
+
+        return true;
     }
 
     @Override

@@ -20,6 +20,9 @@ import org.coscup.ccip.network.webclient.WebChromeViewClient;
 
 public class IRCFragment extends TrackFragment {
 
+    private static final String URL_NO_NETWORK = "file:///android_asset/no_network.html";
+    private static final String URL_IRC = "https://ysitd.licson.net/channel/coscup/today";
+
     private static WebView webView;
     private static ProgressBar progressBar;
 
@@ -36,7 +39,7 @@ public class IRCFragment extends TrackFragment {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
-                view.loadUrl("file:///android_asset/no_network.html");
+                view.loadUrl(URL_NO_NETWORK);
             }
 
             @Override
@@ -46,7 +49,7 @@ public class IRCFragment extends TrackFragment {
             }
         });
         webView.setWebChromeClient(new WebChromeViewClient(progressBar));
-        webView.loadUrl("https://ysitd.licson.net/channel/coscup/today");
+        webView.loadUrl(URL_IRC);
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
