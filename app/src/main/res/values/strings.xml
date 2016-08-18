@@ -26,7 +26,7 @@
     <string name="day2lunch">Day 2 Lunch</string>
     <string name="kit">Welcome Kit</string>
     <string name="vipkit">Special Gift</string>
-    <string name="confirm_dialog_title">Ready to use with staff\'s instruction?</string>
+    <string name="confirm_dialog_title">Have you followed the staff\'s instructions?</string>
     <string name="positive_button">CONFIRM</string>
     <string name="negative_button">Cancel</string>
 
