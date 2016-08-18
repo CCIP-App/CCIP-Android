@@ -102,6 +102,11 @@ public class MainFragment extends TrackFragment {
     }
 
     void updateStatus() {
+        if (PreferenceUtil.getToken(mActivity) == null) {
+            invalidTokenMsg.setVisibility(View.VISIBLE);
+            return;
+        }
+
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
