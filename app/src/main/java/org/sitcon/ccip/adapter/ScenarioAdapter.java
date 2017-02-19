@@ -156,7 +156,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                         Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_LONG).show();
                     } else if (response.code() == 403) {
                         new AlertDialog.Builder(mContext)
-                                .setTitle(R.string.connect_to_coscup_wifi)
+                                .setTitle(R.string.connect_to_conference_wifi)
                                 .setPositiveButton(android.R.string.ok, null)
                                 .show();
                     } else {
