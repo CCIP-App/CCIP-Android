@@ -15,7 +15,7 @@ import retrofit2.http.Query;
 
 public class CCIPClient{
 
-    public static final String API_BASE_URL = "https://coscup.cprteam.org";
+    public static final String API_BASE_URL = "https://ccip.sitcon.org";
 
     private static Retrofit retrofit;
     private static CCIPService sCCIPService;
