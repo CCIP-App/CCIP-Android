@@ -24,6 +24,12 @@ public class Attendee {
     @SerializedName("attr")
     @Expose
     private JsonElement attr;
+    @SerializedName("first_use")
+    @Expose
+    private Integer firstUse;
+    @SerializedName("type")
+    @Expose
+    private String type;
     @SerializedName("scenarios")
     @Expose
     private List<Scenario> scenarios = new ArrayList<Scenario>();
@@ -98,6 +104,22 @@ public class Attendee {
      */
     public void setAttr(JsonElement attr) {
         this.attr = attr;
+    }
+
+    public Integer getFirstUse() {
+        return firstUse;
+    }
+
+    public void setFirstUse(Integer firstUse) {
+        this.firstUse = firstUse;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**
