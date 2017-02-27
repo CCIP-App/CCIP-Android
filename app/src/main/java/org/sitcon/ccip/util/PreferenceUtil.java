@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import com.google.gson.reflect.TypeToken;
 
+import org.sitcon.ccip.model.Submission;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,18 +42,18 @@ public class PreferenceUtil {
         return sharedPreferences.getString(PREF_AUTH_TOKEN, null);
     }
 
-    public static void savePrograms(Context context, List<Program> programs) {
+    public static void savePrograms(Context context, List<Submission> submissions) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString(PREF_SCHEDULE_PROGRAMS, JsonUtil.toJson(programs));
+        editor.putString(PREF_SCHEDULE_PROGRAMS, JsonUtil.toJson(submissions));
         editor.commit();
     }
 
-    public static List<Program> loadPrograms(Context context) {
+    public static List<Submission> loadPrograms(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE);
         String programsJson = sharedPreferences.getString(PREF_SCHEDULE_PROGRAMS, null);
 
-        return JsonUtil.fromJson(programsJson, new TypeToken<ArrayList<Program>>(){}.getType());
+        return JsonUtil.fromJson(programsJson, new TypeToken<ArrayList<Submission>>(){}.getType());
     }
 }
