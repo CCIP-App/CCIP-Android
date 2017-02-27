@@ -1,9 +1,7 @@
 
 package org.sitcon.ccip.network;
 
-import org.sitcon.ccip.model.Program;
-import org.sitcon.ccip.model.Room;
-import org.sitcon.ccip.model.Type;
+import org.sitcon.ccip.model.Submission;
 
 import java.util.List;
 
@@ -12,12 +10,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
-public class COSCUPClient {
+public class SITCONClient {
 
-    public static final String API_BASE_URL = "http://coscup.org/2016-assets/json/";
+    public static final String API_BASE_URL = "http://sitcon.org/2017/";
 
     private static Retrofit retrofit;
-    private static COSCUPService sCOSCUPService;
+    private static SITCONService sCOSCUPService;
 
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
@@ -30,22 +28,16 @@ public class COSCUPClient {
         return retrofit;
     }
 
-    public static COSCUPService get() {
+    public static SITCONService get() {
         if (sCOSCUPService == null) {
-            sCOSCUPService = getRetrofit().create(COSCUPService.class);
+            sCOSCUPService = getRetrofit().create(SITCONService.class);
         }
 
         return sCOSCUPService;
     }
 
-    public interface COSCUPService {
-        @GET("program.json")
-        Call<List<Program>> program();
-
-        @GET("room.json")
-        Call<List<Room>> room();
-
-        @GET("type.json")
-        Call<List<Type>> type();
+    public interface SITCONService {
+        @GET("submissions.json")
+        Call<List<Submission>> submission();
     }
 }

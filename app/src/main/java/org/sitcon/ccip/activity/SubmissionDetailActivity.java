@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import org.sitcon.ccip.R;
-import org.sitcon.ccip.model.Program;
+import org.sitcon.ccip.model.Submission;
 import org.sitcon.ccip.util.JsonUtil;
 
 import java.text.ParseException;
@@ -19,7 +19,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ProgramDetailActivity extends TrackActivity {
+public class SubmissionDetailActivity extends TrackActivity {
 
     public static final String INTENT_EXTRA_PROGRAM = "program";
     private static final SimpleDateFormat SDF_DATETIME = new SimpleDateFormat("MM/dd HH:mm");
@@ -30,14 +30,10 @@ public class ProgramDetailActivity extends TrackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_program_detail);
 
-        final Program program = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Program.class);
+        final Submission submission = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Submission.class);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (getResources().getConfiguration().locale.getLanguage().startsWith("zh")) {
-            toolbar.setTitle(program.getRoomname());
-        } else {
-            toolbar.setTitle(program.getRoom());
-        }
+        toolbar.setTitle(submission.getRoom());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -50,15 +46,15 @@ public class ProgramDetailActivity extends TrackActivity {
         speakerInfo = (TextView) findViewById(R.id.speakerinfo);
         programAbstract = (TextView) findViewById(R.id.program_abstract);
 
-        speakername.setText(program.getSpeakername());
-        subject.setText(program.getSubject());
+        speakername.setText(submission.getSpeaker().getName());
+        subject.setText(submission.getSubject());
 
         try {
             StringBuffer timeString = new StringBuffer();
-            Date startDate = ISO8601Utils.parse(program.getStarttime(), new ParsePosition(0));
+            Date startDate = ISO8601Utils.parse(submission.getStart(), new ParsePosition(0));
             timeString.append(SDF_DATETIME.format(startDate));
             timeString.append(" ~ ");
-            Date endDate = ISO8601Utils.parse(program.getEndtime(), new ParsePosition(0));
+            Date endDate = ISO8601Utils.parse(submission.getEnd(), new ParsePosition(0));
             timeString.append(SDF_TIME.format(endDate));
 
             timeString.append(", " + ((endDate.getTime() - startDate.getTime()) / 1000 / 60) + getResources().getString(R.string.min));
@@ -68,14 +64,10 @@ public class ProgramDetailActivity extends TrackActivity {
             e.printStackTrace();
         }
 
-        if (getResources().getConfiguration().locale.getLanguage().startsWith("zh")) {
-            type.setText(program.getTypenamezh());
-        } else {
-            type.setText(program.getTypenameen());
-        }
-        lang.setText(program.getLang());
-        speakerInfo.setText(program.getSpeakerintro());
-        programAbstract.setText(program.getAbstract());
+        type.setText(submission.getType());
+
+        speakerInfo.setText(submission.getSpeaker().getBio());
+        programAbstract.setText(submission.getSummary());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

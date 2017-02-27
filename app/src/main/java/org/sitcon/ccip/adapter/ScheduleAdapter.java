@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import org.sitcon.ccip.R;
-import org.sitcon.ccip.model.Program;
+import org.sitcon.ccip.model.Submission;
 
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -26,23 +26,23 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static final SimpleDateFormat SDF = new SimpleDateFormat("MM/dd HH:mm");
 
     private Context mContext;
-    private List<List<Program>> mProgramSlotList;
+    private List<List<Submission>> mSubmissionSlotList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView startTimeText;
-        private RecyclerView programView;
+        private RecyclerView submissionView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             startTimeText = (TextView) itemView.findViewById(R.id.start_time);
-            programView = (RecyclerView) itemView.findViewById(R.id.programs);
+            submissionView = (RecyclerView) itemView.findViewById(R.id.programs);
         }
     }
 
-    public ScheduleAdapter(Context context, List<List<Program>> programSlotList) {
+    public ScheduleAdapter(Context context, List<List<Submission>> submissionSlotList) {
         mContext = context;
-        mProgramSlotList = programSlotList;
+        mSubmissionSlotList = submissionSlotList;
     }
 
     @Override
@@ -57,21 +57,21 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         final ViewHolder holder = ((ViewHolder) viewHolder);
 
-        holder.programView.setLayoutManager(new LinearLayoutManager(mContext));
-        holder.programView.setItemAnimator(new DefaultItemAnimator());
+        holder.submissionView.setLayoutManager(new LinearLayoutManager(mContext));
+        holder.submissionView.setItemAnimator(new DefaultItemAnimator());
 
-        final List<Program> programs = mProgramSlotList.get(position);
+        final List<Submission> submissions = mSubmissionSlotList.get(position);
         try {
-            Date date = ISO8601Utils.parse(programs.get(0).getStarttime(), new ParsePosition(0));
+            Date date = ISO8601Utils.parse(submissions.get(0).getStart(), new ParsePosition(0));
             holder.startTimeText.setText(SDF.format(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.programView.setAdapter(new ProgramAdapter(mContext, programs));
+        holder.submissionView.setAdapter(new SubmissionAdapter(mContext, submissions));
     }
 
     @Override
     public int getItemCount() {
-        return mProgramSlotList.size();
+        return mSubmissionSlotList.size();
     }
 }

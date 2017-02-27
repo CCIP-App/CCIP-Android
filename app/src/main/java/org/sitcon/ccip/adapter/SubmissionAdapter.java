@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
-import org.sitcon.ccip.activity.ProgramDetailActivity;
+import org.sitcon.ccip.activity.SubmissionDetailActivity;
 import org.sitcon.ccip.R;
-import org.sitcon.ccip.model.Program;
+import org.sitcon.ccip.model.Submission;
 import org.sitcon.ccip.util.JsonUtil;
 
 import java.text.ParseException;
@@ -23,13 +23,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private static final SimpleDateFormat SDF = new SimpleDateFormat("HH:mm");
     private static final String FORMAT_ENDTIME = "~ %s, %d%s";
 
     private Context mContext;
-    private List<Program> mProgramList;
+    private List<Submission> mSubmissionList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -47,9 +47,9 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public ProgramAdapter(Context context, List<Program> programList) {
+    public SubmissionAdapter(Context context, List<Submission> submissionList) {
         mContext = context;
-        mProgramList = programList;
+        mSubmissionList = submissionList;
     }
 
     @Override
@@ -64,21 +64,15 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         final ViewHolder holder = ((ViewHolder) viewHolder);
 
-        final Program program = mProgramList.get(position);
+        final Submission submission = mSubmissionList.get(position);
 
-        holder.room.setText(program.getRoom());
+        holder.room.setText(submission.getRoom());
 
-        if (mContext.getResources().getConfiguration().locale.getLanguage().startsWith("zh")) {
-            holder.type.setText(program.getTypenamezh());
-        } else {
-            holder.type.setText(program.getTypenameen());
-        }
-
-        holder.subject.setText(program.getSubject());
+        holder.subject.setText(submission.getSubject());
 
         try {
-            Date startDate = ISO8601Utils.parse(program.getStarttime(), new ParsePosition(0));
-            Date endDate = ISO8601Utils.parse(program.getEndtime(), new ParsePosition(0));
+            Date startDate = ISO8601Utils.parse(submission.getStart(), new ParsePosition(0));
+            Date endDate = ISO8601Utils.parse(submission.getEnd(), new ParsePosition(0));
             holder.endTime.setText(String.format(FORMAT_ENDTIME, SDF.format(endDate),
                     ((endDate.getTime() - startDate.getTime()) / 1000 / 60),
                     mContext.getResources().getString(R.string.min)));
@@ -86,17 +80,13 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
             e.printStackTrace();
         }
 
-        if (program.getLang() != null && !program.getLang().equals("ZH")) {
-            holder.lang.setText(program.getLang());
-        }
-
         holder.card.setClickable(true);
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(mContext, ProgramDetailActivity.class);
-                intent.putExtra(ProgramDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(program));
+                intent.setClass(mContext, SubmissionDetailActivity.class);
+                intent.putExtra(SubmissionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(submission));
                 mContext.startActivity(intent);
             }
         });
@@ -104,6 +94,6 @@ public class ProgramAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mProgramList.size();
+        return mSubmissionList.size();
     }
 }
