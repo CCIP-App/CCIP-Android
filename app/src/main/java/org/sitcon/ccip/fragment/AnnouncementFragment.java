@@ -15,7 +15,6 @@ import android.widget.Toast;
 import org.sitcon.ccip.R;
 import org.sitcon.ccip.adapter.AnnouncementAdapter;
 import org.sitcon.ccip.model.Announcement;
-import org.sitcon.ccip.model.Program;
 import org.sitcon.ccip.network.CCIPClient;
 
 import java.util.ArrayList;
@@ -70,29 +69,6 @@ public class AnnouncementFragment extends TrackFragment {
         });
 
         return view;
-    }
-
-    public void setScheduleAdapter(List<Program> programs) {
-        HashMap<String, List<Program>> map = new HashMap();
-        for (Program program : programs) {
-            if (program.getStarttime() == null) continue;
-
-            if (map.containsKey(program.getStarttime())) {
-                List<Program> tmp = map.get(program.getStarttime());
-                tmp.add(program);
-                map.put(program.getStarttime(), tmp);
-            } else {
-                List<Program> list = new ArrayList();
-                list.add(program);
-                map.put(program.getStarttime(), list);
-            }
-        }
-
-        SortedSet<String> keys = new TreeSet(map.keySet());
-        List<List<Program>> programSlotList = new ArrayList();
-        for (String key : keys) {
-            programSlotList.add(map.get(key));
-        }
     }
 
 }
