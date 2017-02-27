@@ -20,14 +20,14 @@ import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.onesignal.OneSignal;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.sitcon.ccip.R;
 import org.sitcon.ccip.activity.MainActivity;
 import org.sitcon.ccip.adapter.ScenarioAdapter;
 import org.sitcon.ccip.model.Attendee;
 import org.sitcon.ccip.network.CCIPClient;
 import org.sitcon.ccip.util.PreferenceUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,14 +72,6 @@ public class MainFragment extends TrackFragment {
             String token = mActivity.getIntent().getData().getQueryParameter("token");
             PreferenceUtil.setIsNewToken(mActivity, true);
             PreferenceUtil.setToken(mActivity, token);
-
-            JSONObject tags = new JSONObject();
-            try {
-                tags.put("token", token);
-                OneSignal.sendTags(tags);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
         }
 
         if (PreferenceUtil.getToken(mActivity) == null) {
@@ -126,6 +118,16 @@ public class MainFragment extends TrackFragment {
 
                     if (PreferenceUtil.getIsNewToken(mActivity)) {
                         PreferenceUtil.setIsNewToken(mActivity, false);
+
+                        JSONObject tags = new JSONObject();
+                        try {
+                            tags.put("token", attendee.getToken());
+                            tags.put("type", attendee.getType());
+                            OneSignal.sendTags(tags);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         new AlertDialog.Builder(mActivity)
                                 .setMessage(mActivity.getString(R.string.hi)
                                         + attendee.getUserId()
