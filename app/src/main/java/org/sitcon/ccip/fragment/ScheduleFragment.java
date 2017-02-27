@@ -21,7 +21,6 @@ import org.sitcon.ccip.util.PreferenceUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -107,10 +106,10 @@ public class ScheduleFragment extends TrackFragment {
         }
 
         SortedSet<String> keys = new TreeSet(map.keySet());
-        List<List<Submission>> programSlotList = new ArrayList();
+        List<List<Submission>> submissionSlotList = new ArrayList();
         for (String key : keys) {
-            programSlotList.add(map.get(key));
-            scheduleView.setAdapter(new ScheduleAdapter(mActivity, programSlotList));
+            submissionSlotList.add(map.get(key));
+            scheduleView.setAdapter(new ScheduleAdapter(mActivity, submissionSlotList));
         }
     }
 
