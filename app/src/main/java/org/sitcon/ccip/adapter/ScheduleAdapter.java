@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import org.sitcon.ccip.R;
-import org.sitcon.ccip.model.Program;
 
 import java.text.ParseException;
 import java.text.ParsePosition;

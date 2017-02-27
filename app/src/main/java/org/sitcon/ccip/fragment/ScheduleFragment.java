@@ -14,9 +14,6 @@ import android.widget.Toast;
 
 import org.sitcon.ccip.R;
 import org.sitcon.ccip.adapter.ScheduleAdapter;
-import org.sitcon.ccip.model.Program;
-import org.sitcon.ccip.model.Room;
-import org.sitcon.ccip.model.Type;
 import org.sitcon.ccip.network.COSCUPClient;
 import org.sitcon.ccip.util.PreferenceUtil;
 

@@ -1,10 +1,6 @@
 
 package org.sitcon.ccip.network;
 
-import org.sitcon.ccip.model.Program;
-import org.sitcon.ccip.model.Room;
-import org.sitcon.ccip.model.Type;
-
 import java.util.List;
 
 import retrofit2.Call;

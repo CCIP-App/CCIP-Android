@@ -3,7 +3,6 @@ package org.sitcon.ccip.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.google.gson.reflect.TypeToken;
-import org.sitcon.ccip.model.Program;
 
 import java.util.ArrayList;
 import java.util.List;
