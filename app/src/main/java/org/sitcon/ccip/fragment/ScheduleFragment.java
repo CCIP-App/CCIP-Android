@@ -19,6 +19,9 @@ import org.sitcon.ccip.network.SITCONClient;
 import org.sitcon.ccip.util.PreferenceUtil;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.SortedSet;
@@ -97,6 +100,12 @@ public class ScheduleFragment extends TrackFragment {
             if (map.containsKey(submission.getStart())) {
                 List<Submission> tmp = map.get(submission.getStart());
                 tmp.add(submission);
+                Collections.sort(tmp, new Comparator<Submission>() {
+                    @Override
+                    public int compare(Submission s1, Submission s2) {
+                        return s1.getRoom().compareTo(s2.getRoom());
+                    }
+                });
                 map.put(submission.getStart(), tmp);
             } else {
                 List<Submission> list = new ArrayList();
