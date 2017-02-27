@@ -31,7 +31,7 @@ import org.sitcon.ccip.fragment.StaffFragment;
 import org.sitcon.ccip.util.PreferenceUtil;
 
 public class MainActivity extends AppCompatActivity {
-    private static final Uri URI_GITHUB = Uri.parse("https://github.com/CPRTeam/CCIP-Android");
+    private static final Uri URI_GITHUB = Uri.parse("https://github.com/CCIP-App/CCIP-Android");
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
