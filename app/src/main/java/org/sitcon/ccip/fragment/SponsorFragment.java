@@ -16,7 +16,7 @@ import org.sitcon.ccip.network.webclient.WebChromeViewClient;
 
 public class SponsorFragment extends TrackFragment {
 
-    private static final String URL_SPONSORS = "http://coscup.org/2016/sponsors.html";
+    private static final String URL_SPONSORS = "http://sitcon.org/2017/#sponsor-page";
     private static WebView webView;
     private static ProgressBar progressBar;
 

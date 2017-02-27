@@ -16,7 +16,7 @@ import org.sitcon.ccip.network.webclient.WebChromeViewClient;
 
 public class StaffFragment extends TrackFragment {
 
-    private static final String URL_STAFFS = "http://coscup.org/2016/staffs.html";
+    private static final String URL_STAFFS = "http://sitcon.org/2017/#staff-page";
     private static WebView webView;
     private static ProgressBar progressBar;
 
