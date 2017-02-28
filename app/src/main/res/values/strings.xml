@@ -8,6 +8,7 @@
     <string name="fast_pass">Fast Pass</string>
     <string name="schedule">Schedule</string>
     <string name="announcement">Announcement</string>
+    <string name="my_ticket">Ticket</string>
     <string name="telegram">Telegram</string>
     <string name="irclog">IRC Log</string>
     <string name="sponsors">Sponsors</string>
@@ -30,6 +31,8 @@
     <string name="confirm_dialog_title">Have you followed the staff\'s instructions?</string>
     <string name="positive_button">CONFIRM</string>
     <string name="negative_button">Cancel</string>
+
+    <string name="my_ticket_notice">Keep your ticket carefully, only show for our staff or use in booth event.</string>
 
     <string name="offline">Offline</string>
 
