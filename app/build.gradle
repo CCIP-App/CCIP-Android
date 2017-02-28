@@ -23,7 +23,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "string", "ga_tracking_id", "UA-79893624-2"
+            resValue "string", "ga_tracking_id", "UA-34467841-11"
         }
     }
 }
