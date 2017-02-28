@@ -26,6 +26,7 @@ import org.sitcon.ccip.fragment.AnnouncementFragment;
 import org.sitcon.ccip.fragment.IRCFragment;
 import org.sitcon.ccip.fragment.MainFragment;
 import org.sitcon.ccip.fragment.MyTicketFragment;
+import org.sitcon.ccip.fragment.PuzzleFragment;
 import org.sitcon.ccip.fragment.ScheduleFragment;
 import org.sitcon.ccip.fragment.SponsorFragment;
 import org.sitcon.ccip.fragment.StaffFragment;
@@ -106,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.announcement:
                     fragment = new AnnouncementFragment();
+                    break;
+                case R.id.puzzle:
+                    fragment = new PuzzleFragment();
                     break;
                 case R.id.ticket:
                     fragment = new MyTicketFragment();

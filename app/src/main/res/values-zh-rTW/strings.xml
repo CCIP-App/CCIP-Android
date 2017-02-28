@@ -8,6 +8,7 @@
     <string name="fast_pass">快速通關</string>
     <string name="schedule">議程</string>
     <string name="announcement">大會訊息</string>
+    <string name="puzzle">程式碼拼圖</string>
     <string name="my_ticket">我的票券</string>
     <string name="telegram">Telegram</string>
     <string name="irclog">IRC Log</string>
