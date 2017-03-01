@@ -47,4 +47,7 @@
 
     <string name="meal">葷食</string>
     <string name="vegan">素食</string>
+
+    <string name="panel_discussion">論壇</string>
+
 </resources>
