@@ -28,7 +28,7 @@ public class SubmissionDetailActivity extends TrackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_program_detail);
+        setContentView(R.layout.activity_submission_detail);
 
         final Submission submission = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Submission.class);
 

@@ -55,7 +55,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_program, parent, false);
+                .inflate(R.layout.item_submission, parent, false);
 
         return new ViewHolder(itemView);
     }

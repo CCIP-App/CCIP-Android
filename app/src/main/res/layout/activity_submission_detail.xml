@@ -32,7 +32,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_program_detail" />
+    <include layout="@layout/content_submission_detail" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
