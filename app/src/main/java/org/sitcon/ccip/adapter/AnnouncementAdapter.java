@@ -36,9 +36,9 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public AnnouncementAdapter(Context context, List<Announcement> programSlotList) {
+    public AnnouncementAdapter(Context context, List<Announcement> announcementList) {
         mContext = context;
-        announcementList = programSlotList;
+        this.announcementList = announcementList;
 
         context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
         mBackground = mTypedValue.resourceId;
