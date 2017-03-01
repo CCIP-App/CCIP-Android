@@ -10,55 +10,60 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         card_view:cardUseCompatPadding="true"
+        card_view:cardCornerRadius="4dp"
         android:foreground="?android:attr/selectableItemBackground">
-
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Text"
-                    android:id="@+id/room" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/type"
-                    android:gravity="right" />
-
-            </LinearLayout>
-
+            android:layout_height="wrap_content">
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Submission.Room"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:text="New Text"
-                android:id="@+id/subject" />
-
+                android:id="@+id/room"
+                android:layout_gravity="center_vertical"/>
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="5dp">
 
                 <TextView
+                    style="@style/Submission"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="New Text"
-                    android:id="@+id/end_time" />
+                    android:text="Subject"
+                    android:id="@+id/subject" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/lang"
-                    android:gravity="right" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/Submission"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="End Time"
+                        android:id="@+id/end_time" />
+
+                    <TextView
+                        style="@style/Submission.Type"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/type"
+                        android:text="Type"
+                        android:gravity="right"/>
+
+                    <TextView
+                        style="@style/Submission"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lang"
+                        android:text=""
+                        android:gravity="right" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
