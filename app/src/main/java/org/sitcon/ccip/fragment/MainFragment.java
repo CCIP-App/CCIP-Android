@@ -70,8 +70,11 @@ public class MainFragment extends TrackFragment {
 
         if (mActivity.getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             String token = mActivity.getIntent().getData().getQueryParameter("token");
-            PreferenceUtil.setIsNewToken(mActivity, true);
-            PreferenceUtil.setToken(mActivity, token);
+
+            if (token != null) {
+                PreferenceUtil.setIsNewToken(mActivity, true);
+                PreferenceUtil.setToken(mActivity, token);
+            }
         }
 
         if (PreferenceUtil.getToken(mActivity) == null) {
