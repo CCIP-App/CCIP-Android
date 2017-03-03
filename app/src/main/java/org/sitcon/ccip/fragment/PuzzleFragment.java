@@ -1,12 +1,15 @@
 package org.sitcon.ccip.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceError;
@@ -24,12 +27,12 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import javax.xml.datatype.DatatypeConstants;
-
 public class PuzzleFragment extends TrackFragment {
 
     private static final String URL_NO_NETWORK = "file:///android_asset/no_network.html";
     private static final String URL_PUZZLE = "https://ccip.sitcon.org/puzzle/#/PuzzleList/?token=";
+
+    private Activity mActivity;
 
     private static WebView webView;
     private static ProgressBar progressBar;
@@ -40,6 +43,9 @@ public class PuzzleFragment extends TrackFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_irc, container, false);
 
+        setHasOptionsMenu(true);
+
+        mActivity = getActivity();
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         webView = (WebView) view.findViewById(R.id.webView);
@@ -70,6 +76,27 @@ public class PuzzleFragment extends TrackFragment {
         }
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        mActivity.getMenuInflater().inflate(R.menu.puzzle, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.share:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getText(R.string.puzzle_share_subject));
+                intent.putExtra(Intent.EXTRA_TEXT, webView.getUrl());
+
+                mActivity.startActivity(Intent.createChooser(intent, getResources().getText(R.string.share)));
+                break;
+        }
+
+        return true;
     }
 
     public String toPublicToken(String privateToken) {
