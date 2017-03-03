@@ -54,4 +54,6 @@
     <string name="short_talk">Short Talk</string>
     <string name="talk">Talk</string>
     <string name="unconf">Unconf</string>
+
+    <string name="share">Share</string>
 </resources>
