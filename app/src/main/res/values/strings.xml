@@ -56,4 +56,5 @@
     <string name="unconf">Unconf</string>
 
     <string name="share">Share</string>
+    <string name="puzzle_share_subject">Here\'s my collected puzzles, let us solve this game.</string>
 </resources>

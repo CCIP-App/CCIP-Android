@@ -51,4 +51,5 @@
     <string name="panel_discussion">論壇</string>
 
     <string name="share">分享</string>
+    <string name="puzzle_share_subject">這是我的程式碼拼圖，和我一起解題吧！</string>
 </resources>
