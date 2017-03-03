@@ -2,6 +2,7 @@ package org.sitcon.ccip.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -22,6 +23,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 
 public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -55,7 +57,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_program, parent, false);
+                .inflate(R.layout.item_submission, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -80,6 +82,13 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
             e.printStackTrace();
         }
 
+        try {
+            holder.type.setText(getTypeString(submission.getType()));
+        } catch (Resources.NotFoundException e) {
+            holder.type.setText("");
+            e.printStackTrace();
+        }
+
         holder.card.setClickable(true);
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,5 +104,24 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public int getItemCount() {
         return mSubmissionList.size();
+    }
+
+    private int getTypeString(String symbol) {
+        switch (symbol) {
+            case "K":
+                return R.string.keynote;
+            case "L":
+                return R.string.lightning_talk;
+            case "P":
+                return R.string.panel_discussion;
+            case "S":
+                return R.string.short_talk;
+            case "T":
+                return R.string.talk;
+            case "U":
+                return R.string.unconf;
+            default:
+                throw new Resources.NotFoundException("Unexpected type symbol");
+        }
     }
 }
