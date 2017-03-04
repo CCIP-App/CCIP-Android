@@ -30,7 +30,7 @@ import java.security.NoSuchAlgorithmException;
 public class PuzzleFragment extends TrackFragment {
 
     private static final String URL_NO_NETWORK = "file:///android_asset/no_network.html";
-    private static final String URL_PUZZLE = "https://ccip.sitcon.org/puzzle/#/PuzzleList/?token=";
+    private static final String URL_PUZZLE = "https://ccip.sitcon.org/puzzle/?token=";
 
     private Activity mActivity;
 
