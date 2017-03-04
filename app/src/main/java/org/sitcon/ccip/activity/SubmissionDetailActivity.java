@@ -6,9 +6,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
+import com.squareup.picasso.Picasso;
 
 import org.sitcon.ccip.R;
 import org.sitcon.ccip.model.Submission;
@@ -38,6 +40,7 @@ public class SubmissionDetailActivity extends TrackActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView speakername, subject, time, type, lang, speakerInfo, programAbstract;
+        ImageView appBarImage;
         speakername = (TextView) findViewById(R.id.speakername);
         subject = (TextView) findViewById(R.id.subject);
         time = (TextView) findViewById(R.id.time);
@@ -45,6 +48,9 @@ public class SubmissionDetailActivity extends TrackActivity {
         lang = (TextView) findViewById(R.id.lang);
         speakerInfo = (TextView) findViewById(R.id.speakerinfo);
         programAbstract = (TextView) findViewById(R.id.program_abstract);
+        appBarImage = (ImageView) findViewById(R.id.app_bar_image);
+
+        Picasso.with(this).load("http://sitcon.org/2017/" + submission.getSpeaker().getAvatar()).into(appBarImage);
 
         speakername.setText(submission.getSpeaker().getName());
         subject.setText(submission.getSubject());
