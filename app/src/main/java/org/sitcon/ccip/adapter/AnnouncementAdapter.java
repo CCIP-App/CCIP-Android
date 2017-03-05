@@ -70,7 +70,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (announcement.getUri() != null) {
+                if (!announcement.getUri().isEmpty()) {
                     mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(announcement.getUri())));
                 }
             }
