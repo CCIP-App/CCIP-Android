@@ -13,10 +13,12 @@ import android.widget.TextView;
 
 import org.sitcon.ccip.R;
 import org.sitcon.ccip.model.Announcement;
+import org.sitcon.ccip.util.LocaleUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -59,7 +61,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
         final Announcement announcement = announcementList.get(position);
 
-        if (mContext.getResources().getConfiguration().locale.getLanguage().startsWith("zh")) {
+        if (LocaleUtil.getCurrentLocale(mContext).toString().startsWith(Locale.TAIWAN.toString())) {
             holder.msg.setText(announcement.getMsgZh());
         } else {
             holder.msg.setText(announcement.getMsgEn());
