@@ -24,11 +24,13 @@ import org.sitcon.ccip.model.Scenario;
 import org.sitcon.ccip.network.CCIPClient;
 import org.sitcon.ccip.network.ErrorUtil;
 import org.sitcon.ccip.util.JsonUtil;
+import org.sitcon.ccip.util.LocaleUtil;
 import org.sitcon.ccip.util.PreferenceUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -79,7 +81,13 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         int iconResId = mContext.getResources().getIdentifier(scenario.getId().indexOf("lunch") > 0 ? "lunch" : scenario.getId(), "drawable", mContext.getPackageName());
         holder.scenarioIcon.setImageDrawable(ContextCompat.getDrawable(mContext, iconResId));
         holder.scenarioIcon.setAlpha(1f);
-        holder.scenarioName.setText(mContext.getResources().getIdentifier(scenario.getId(), "string", mContext.getPackageName()));
+
+        if (LocaleUtil.getCurrentLocale(mContext).toString().startsWith(Locale.TAIWAN.toString())) {
+            holder.scenarioName.setText(scenario.getDisplayText().getZhTW());
+        } else {
+            holder.scenarioName.setText(scenario.getDisplayText().getEnUS());
+        }
+
         holder.scenarioName.setTextColor(mContext.getResources().getColor(android.R.color.black));
         holder.allowTimeRange.setText(String.format(FORMAT_TIMERANGE,
                 SDF.format(new Date(scenario.getAvailableTime() * 1000L)),
