@@ -3,6 +3,7 @@ package org.sitcon.ccip.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -78,8 +79,13 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
         final ViewHolder holder = ((ViewHolder) viewHolder);
 
         final Scenario scenario = mScenarioList.get(position);
-        int iconResId = mContext.getResources().getIdentifier(scenario.getId().indexOf("lunch") > 0 ? "lunch" : scenario.getId(), "drawable", mContext.getPackageName());
-        holder.scenarioIcon.setImageDrawable(ContextCompat.getDrawable(mContext, iconResId));
+
+        try {
+            int iconResId = mContext.getResources().getIdentifier(scenario.getId().indexOf("lunch") > 0 ? "lunch" : scenario.getId(), "drawable", mContext.getPackageName());
+            holder.scenarioIcon.setImageDrawable(ContextCompat.getDrawable(mContext, iconResId));
+        } catch (Resources.NotFoundException e) {
+            holder.scenarioIcon.setImageResource(R.drawable.ic_event_black_24dp);
+        }
         holder.scenarioIcon.setAlpha(1f);
 
         if (LocaleUtil.getCurrentLocale(mContext).toString().startsWith(Locale.TAIWAN.toString())) {
