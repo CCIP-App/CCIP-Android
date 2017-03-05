@@ -10,6 +10,9 @@ import com.google.gson.annotations.SerializedName;
 @Generated("org.jsonschema2pojo")
 public class Scenario {
 
+    @SerializedName("display_text")
+    @Expose
+    private DisplayText displayText;
     @SerializedName("order")
     @Expose
     private Integer order;
@@ -34,6 +37,14 @@ public class Scenario {
     @SerializedName("disabled")
     @Expose
     private String disabled;
+
+    public DisplayText getDisplayText() {
+        return displayText;
+    }
+
+    public void setDisplayText(DisplayText displayText) {
+        this.displayText = displayText;
+    }
 
     /**
      * 
