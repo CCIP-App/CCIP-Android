@@ -42,11 +42,13 @@ public class SubmissionDetailActivity extends TrackActivity {
 
         TextView room, subject, time, type, lang, speakerInfo, programAbstract;
         ImageView appBarImage;
+        View spekaerInfoBlock;
         room = (TextView) findViewById(R.id.room);
         subject = (TextView) findViewById(R.id.subject);
         time = (TextView) findViewById(R.id.time);
         type = (TextView) findViewById(R.id.type);
         lang = (TextView) findViewById(R.id.lang);
+        spekaerInfoBlock = findViewById(R.id.speaker_info_block);
         speakerInfo = (TextView) findViewById(R.id.speakerinfo);
         programAbstract = (TextView) findViewById(R.id.program_abstract);
         appBarImage = (ImageView) findViewById(R.id.app_bar_image);
@@ -76,6 +78,8 @@ public class SubmissionDetailActivity extends TrackActivity {
         } catch (Resources.NotFoundException e) {
             type.setText("");
         }
+
+        if (submission.getSpeaker().getName().isEmpty()) spekaerInfoBlock.setVisibility(View.GONE);
 
         speakerInfo.setText(submission.getSpeaker().getBio());
         programAbstract.setText(submission.getSummary());
