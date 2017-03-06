@@ -1,5 +1,6 @@
 package org.sitcon.ccip.activity;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -70,7 +71,11 @@ public class SubmissionDetailActivity extends TrackActivity {
             e.printStackTrace();
         }
 
-        type.setText(submission.getType());
+        try {
+            type.setText(Submission.getTypeString(submission.getType()));
+        } catch (Resources.NotFoundException e) {
+            type.setText("");
+        }
 
         speakerInfo.setText(submission.getSpeaker().getBio());
         programAbstract.setText(submission.getSummary());
