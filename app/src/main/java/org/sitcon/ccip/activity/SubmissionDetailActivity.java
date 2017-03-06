@@ -36,13 +36,13 @@ public class SubmissionDetailActivity extends TrackActivity {
         final Submission submission = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Submission.class);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(submission.getRoom());
+        toolbar.setTitle(submission.getSpeaker().getName());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView speakername, subject, time, type, lang, speakerInfo, programAbstract;
+        TextView room, subject, time, type, lang, speakerInfo, programAbstract;
         ImageView appBarImage;
-        speakername = (TextView) findViewById(R.id.speakername);
+        room = (TextView) findViewById(R.id.room);
         subject = (TextView) findViewById(R.id.subject);
         time = (TextView) findViewById(R.id.time);
         type = (TextView) findViewById(R.id.type);
@@ -53,7 +53,7 @@ public class SubmissionDetailActivity extends TrackActivity {
 
         Picasso.with(this).load("http://sitcon.org/2017/" + submission.getSpeaker().getAvatar()).into(appBarImage);
 
-        speakername.setText(submission.getSpeaker().getName());
+        room.setText(submission.getRoom());
         subject.setText(submission.getSubject());
 
         try {

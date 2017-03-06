@@ -28,7 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Anistar Sung 宋志峰 / Howard Huang 黃元亨"
-                    android:id="@+id/speakername"
+                    android:id="@+id/room"
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold"
                     android:textSize="17sp" />
