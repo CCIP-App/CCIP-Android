@@ -17,6 +17,8 @@ import org.sitcon.ccip.util.JsonUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 public class CountdownActivity extends TrackActivity {
 
@@ -55,10 +57,11 @@ public class CountdownActivity extends TrackActivity {
                 countdownLayot.setBackgroundColor(getResources().getColor(R.color.colorDietVegetarian));
                 attrText.setText(R.string.vegan);
             }
-        }
-        JsonElement elemSize = attr.get("shirt_size");
-        if (elemSize != null) {
-            attrText.setText(elemSize.getAsString());
+        } else {
+            Set<Map.Entry<String, JsonElement>> entries = attr.entrySet();
+            for (Map.Entry<String, JsonElement> entry : entries) {
+                attrText.append(entry.getValue() + "\n");
+            }
         }
 
         long countdown;
