@@ -42,7 +42,12 @@
     <string name="meal">葷食</string>
     <string name="vegan">素食</string>
 
+    <string name="keynote">Keynote</string>
+    <string name="lightning_talk">Lightning Talk</string>
     <string name="panel_discussion">論壇</string>
+    <string name="short_talk">Short Talk</string>
+    <string name="talk">Talk</string>
+    <string name="unconf">Unconf</string>
 
     <string name="share">分享</string>
     <string name="puzzle_share_subject">這是我的程式碼拼圖，和我一起解題吧！</string>
