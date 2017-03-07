@@ -35,7 +35,7 @@
             android:id="@+id/not_coscup_wifi_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/connect_to_coscup_wifi"
+            android:text="@string/connect_to_conference_wifi"
             android:layout_below="@+id/imageView2"
             android:layout_centerHorizontal="true" />
 

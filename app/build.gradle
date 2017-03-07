@@ -2,18 +2,18 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
-        applicationId "org.coscup.ccip"
+        applicationId "org.sitcon.ccip"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 11
-        versionName "1.0.2"
+        versionCode 13
+        versionName "1.1.0"
 
         manifestPlaceholders = [manifestApplicationId: "${applicationId}",
-                                onesignal_app_id: "a429ff30-5c0e-4584-a32f-b866ba88c947",
-                                onesignal_google_project_number: "981935318625"]
+                                onesignal_app_id: "9b74779c-bcd8-471e-a64b-e033acf0ebbd",
+                                onesignal_google_project_number: "982607297926"]
     }
     buildTypes {
         debug {
@@ -23,7 +23,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "string", "ga_tracking_id", "UA-79893624-2"
+            resValue "string", "ga_tracking_id", "UA-34467841-11"
         }
     }
 }
@@ -32,7 +32,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     // OneSignal
-    compile 'com.onesignal:OneSignal:2.+@aar'
+    compile 'com.onesignal:OneSignal:3.+@aar'
     compile 'com.google.android.gms:play-services-gcm:+'
     compile 'com.google.android.gms:play-services-analytics:+'
     compile "com.google.android.gms:play-services-location:+"
@@ -50,6 +50,8 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'javax.annotation:jsr250-api:1.0'
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
     compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
     compile 'com.google.zxing:core:3.2.1'

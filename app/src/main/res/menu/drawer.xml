@@ -15,6 +15,18 @@
             android:icon="@drawable/ic_announcement_black_48dp"
             android:title="@string/announcement"/>
         <item
+            android:id="@+id/puzzle"
+            android:icon="@drawable/ic_extension_black_24dp"
+            android:title="@string/puzzle"/>
+        <item
+            android:id="@+id/ticket"
+            android:icon="@drawable/ic_qrcode"
+            android:title="@string/my_ticket"/>
+        <item
+            android:id="@+id/telegram"
+            android:icon="@drawable/telegram_logo"
+            android:title="@string/telegram"/>
+        <item
             android:id="@+id/irc"
             android:icon="@drawable/ic_question_answer_black_48dp"
             android:title="@string/irclog"/>

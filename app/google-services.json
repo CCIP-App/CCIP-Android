@@ -1,35 +1,52 @@
 {
   "project_info": {
-    "project_number": "981935318625",
-    "project_id": "ccip-9a548"
+    "project_number": "982607297926",
+    "firebase_url": "https://ccip-sitcon.firebaseio.com",
+    "project_id": "ccip-sitcon",
+    "storage_bucket": "ccip-sitcon.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:981935318625:android:14e8ee465d42c186",
+        "mobilesdk_app_id": "1:982607297926:android:f9896f1166e96d87",
         "android_client_info": {
-          "package_name": "org.coscup.ccip"
+          "package_name": "org.sitcon.ccip"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "982607297926-tvigqqbjm6i84prmfjk2i8g7od0kg3g9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.sitcon.ccip",
+            "certificate_hash": "81a64c646edbce923936b3fe5bf50e3215031bac"
+          }
+        },
+        {
+          "client_id": "982607297926-tcg4s91rdbmv1bia9pf8181hernkalgo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyA_zFcmkJS7gD2uVfhO_NJE2No1eoiIJCY"
+          "current_key": "AIzaSyBxP7oAvEhhEPDbOj_I6t9O7zaDcztRlm4"
         }
       ],
       "services": {
         "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": "UA-79893624-2"
-          }
+          "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982607297926-tcg4s91rdbmv1bia9pf8181hernkalgo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
