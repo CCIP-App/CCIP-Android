@@ -22,18 +22,25 @@
 
     <style name="Submission">
         <item name="android:textSize">15sp</item>
-        <item name="android:layout_margin">3dp</item>
     </style>
 
     <style name="Submission.Type" parent="Submission">
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="Submission.Time" parent="Submission">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">16dp</item>
+    </style>
+
     <style name="Submission.Room" parent="Submission">
         <item name="android:textColor">#FFF</item>
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/room_background</item>
-        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_margin">16dp</item>
     </style>
 </resources>
