@@ -1,68 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        card_view:cardUseCompatPadding="true"
-        card_view:cardCornerRadius="4dp"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:foreground="?android:attr/selectableItemBackground"
+        card_view:cardUseCompatPadding="true">
+
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
             <TextView
+                android:id="@+id/room"
                 style="@style/Submission.Room"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:text="New Text"
-                android:id="@+id/room"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:text="New Text" />
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp">
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp">
 
                 <TextView
+                    android:id="@+id/subject"
                     style="@style/Submission"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Subject"
-                    android:id="@+id/subject" />
+                    android:text="Subject" />
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/end_time"
                         style="@style/Submission"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="End Time"
-                        android:id="@+id/end_time" />
+                        android:text="End Time" />
 
                     <TextView
+                        android:id="@+id/type"
                         style="@style/Submission.Type"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/type"
-                        android:text="Type"
-                        android:gravity="right"/>
+                        android:gravity="right"
+                        android:text="Type" />
 
                     <TextView
+                        android:id="@+id/lang"
                         style="@style/Submission"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/lang"
-                        android:text=""
-                        android:gravity="right" />
+                        android:gravity="right"
+                        android:text="" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
