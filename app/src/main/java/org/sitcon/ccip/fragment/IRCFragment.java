@@ -30,7 +30,7 @@ public class IRCFragment extends TrackFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_irc, container, false);
+        View view = inflater.inflate(R.layout.fragment_web, container, false);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
