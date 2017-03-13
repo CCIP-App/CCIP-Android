@@ -66,6 +66,8 @@ public class PuzzleFragment extends TrackFragment {
 
         if (PreferenceUtil.getToken(getActivity()) != null) {
             webView.loadUrl(URL_PUZZLE + toPublicToken(PreferenceUtil.getToken(getActivity())));
+        } else {
+            webView.loadUrl("data:text/html, <div>Please login</div>");
         }
 
         WebSettings settings = webView.getSettings();
