@@ -19,7 +19,6 @@ import org.sitcon.ccip.network.SITCONClient;
 import org.sitcon.ccip.util.PreferenceUtil;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -70,20 +69,20 @@ public class ScheduleFragment extends TrackFragment {
 
                     setScheduleAdapter(submissions);
                 } else {
-                    loadOfflineScedule();
+                    loadOfflineSchedule();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Submission>> call, Throwable t) {
-                loadOfflineScedule();
+                loadOfflineSchedule();
             }
         });
 
         return view;
     }
 
-    public void loadOfflineScedule() {
+    public void loadOfflineSchedule() {
         swipeRefreshLayout.setRefreshing(false);
         Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
         List<Submission> submissions = PreferenceUtil.loadPrograms(mActivity);

@@ -41,7 +41,7 @@ public class PuzzleFragment extends TrackFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_irc, container, false);
+        View view = inflater.inflate(R.layout.fragment_web, container, false);
 
         setHasOptionsMenu(true);
 
@@ -66,6 +66,8 @@ public class PuzzleFragment extends TrackFragment {
 
         if (PreferenceUtil.getToken(getActivity()) != null) {
             webView.loadUrl(URL_PUZZLE + toPublicToken(PreferenceUtil.getToken(getActivity())));
+        } else {
+            webView.loadUrl("data:text/html, <div>Please login</div>");
         }
 
         WebSettings settings = webView.getSettings();
