@@ -8,8 +8,8 @@ android {
         applicationId "org.sitcon.ccip"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 13
-        versionName "1.1.0"
+        versionCode 16
+        versionName "1.1.3"
 
         manifestPlaceholders = [manifestApplicationId: "${applicationId}",
                                 onesignal_app_id: "9b74779c-bcd8-471e-a64b-e033acf0ebbd",
