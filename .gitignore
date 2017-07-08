@@ -35,16 +35,17 @@ captures/
 
 # Android Studio
 *.iml
-.idea/libraries/
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/.name
 .idea/compiler.xml
 .idea/copyright/profiles_settings.xml
 .idea/encodings.xml
+.idea/inspectionProfiles/
+.idea/libraries/
 .idea/misc.xml
 .idea/modules.xml
+.idea/.name
 .idea/scopes/scope_settings.xml
+.idea/tasks.xml
 .idea/vcs.xml
+.idea/workspace.xml
 
 .DS_Store
