@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
+import java.util.List;
 import org.sitcon.ccip.R;
 import org.sitcon.ccip.model.Submission;
 import org.sitcon.ccip.util.JsonUtil;
@@ -21,6 +23,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.sitcon.ccip.util.PreferenceUtil;
 
 public class SubmissionDetailActivity extends TrackActivity {
 
@@ -98,6 +101,7 @@ public class SubmissionDetailActivity extends TrackActivity {
             @Override
             public void onClick(View view) {
                 toggleFab(fab);
+                starSubmission(submission);
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -111,6 +115,20 @@ public class SubmissionDetailActivity extends TrackActivity {
         } else {
             fab.setImageResource(R.drawable.ic_star_border_white_48dp);
         }
+    }
+
+    private void starSubmission(Submission mSubmission) {
+        List<Submission> mStarSubmissions = PreferenceUtil.loadStars(this);
+        if (mStarSubmissions != null) {
+            if (mStarSubmissions.contains(mSubmission)) {
+                mStarSubmissions.remove(mSubmission);
+            } else {
+                mStarSubmissions.add(mSubmission);
+            }
+        } else {
+            mStarSubmissions = Collections.singletonList(mSubmission);
+        }
+        PreferenceUtil.saveStars(this, mStarSubmissions);
     }
 
     @Override
