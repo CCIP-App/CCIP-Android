@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SITCON Pass</string>
+    <string name="app_name">COSCUP Pass</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
@@ -18,10 +18,10 @@
     <string name="star_on_github">Star on GitHub</string>
 
     <string name="hi">Hi\u0020</string>
-    <string name="login_success">, Welcome to SITCON 2017!</string>
+    <string name="login_success">, Welcome to COSCUP 2017!</string>
     <string name="open_via_link">Please open this app via link, or you can click here to scan the QR code in KKTIX ticket via camera</string>
     <string name="scan_kktix_qrcode">Scan KKTIX ticket QR code</string>
-    <string name="connect_to_conference_wifi">Please connect to the wifi provided by SITCON</string>
+    <string name="connect_to_conference_wifi">Please connect to the wifi provided by COSCUP</string>
     <string name="tap_to_retry">Tap to retry</string>
 
     <string name="confirm_dialog_title">Have you followed the staff\'s instructions?</string>
