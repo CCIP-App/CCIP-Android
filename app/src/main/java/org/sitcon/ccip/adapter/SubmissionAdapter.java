@@ -23,6 +23,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import org.sitcon.ccip.util.PreferenceUtil;
 
 
 public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
@@ -32,6 +33,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
     private List<Submission> mSubmissionList;
+    private List<Submission> mStarSubmissionList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -52,6 +54,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
     public SubmissionAdapter(Context context, List<Submission> submissionList) {
         mContext = context;
         mSubmissionList = submissionList;
+        mStarSubmissionList = PreferenceUtil.loadStars(context);
     }
 
     @Override
@@ -67,6 +70,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
         final ViewHolder holder = ((ViewHolder) viewHolder);
 
         final Submission submission = mSubmissionList.get(position);
+        final boolean isStar = mStarSubmissionList != null && mStarSubmissionList.contains(submission);
 
         holder.room.setText(submission.getRoom());
 
@@ -96,6 +100,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
                 Intent intent = new Intent();
                 intent.setClass(mContext, SubmissionDetailActivity.class);
                 intent.putExtra(SubmissionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(submission));
+                intent.putExtra(SubmissionDetailActivity.INTENT_EXTRA_STAR, isStar);
                 mContext.startActivity(intent);
             }
         });
