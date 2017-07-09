@@ -15,7 +15,7 @@ import android.widget.Toast;
 import org.coscup.ccip.R;
 import org.coscup.ccip.adapter.ScheduleAdapter;
 import org.coscup.ccip.model.Submission;
-import org.coscup.ccip.network.SITCONClient;
+import org.coscup.ccip.network.COSCUPClient;
 import org.coscup.ccip.util.PreferenceUtil;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class ScheduleFragment extends TrackFragment {
             }
         });
 
-        Call<List<Submission>> submissionCall = SITCONClient.get().submission();
+        Call<List<Submission>> submissionCall = COSCUPClient.get().submission();
         submissionCall.enqueue(new Callback<List<Submission>>() {
             @Override
             public void onResponse(Call<List<Submission>> call, Response<List<Submission>> response) {

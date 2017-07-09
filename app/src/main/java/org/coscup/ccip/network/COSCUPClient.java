@@ -10,12 +10,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
-public class SITCONClient {
+public class COSCUPClient {
 
     public static final String API_BASE_URL = "http://sitcon.org/2017/";
 
     private static Retrofit retrofit;
-    private static SITCONService sCOSCUPService;
+    private static COSCUPService sCOSCUPService;
 
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
@@ -28,15 +28,15 @@ public class SITCONClient {
         return retrofit;
     }
 
-    public static SITCONService get() {
+    public static COSCUPService get() {
         if (sCOSCUPService == null) {
-            sCOSCUPService = getRetrofit().create(SITCONService.class);
+            sCOSCUPService = getRetrofit().create(COSCUPService.class);
         }
 
         return sCOSCUPService;
     }
 
-    public interface SITCONService {
+    public interface COSCUPService {
         @GET("submissions.json")
         Call<List<Submission>> submission();
     }
