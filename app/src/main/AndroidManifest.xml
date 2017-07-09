@@ -27,10 +27,10 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="ccip.sitcon.org"
+                    android:host="ccip.coscup.org"
                     android:scheme="http" />
                 <data
-                    android:host="ccip.sitcon.org"
+                    android:host="ccip.coscup.org"
                     android:scheme="https" />
                 <data
                     android:host="login"
