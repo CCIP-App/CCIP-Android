@@ -35,7 +35,6 @@ import org.coscup.ccip.util.PreferenceUtil;
 public class MainActivity extends AppCompatActivity {
     private static final Uri URI_GITHUB = Uri.parse("https://github.com/CCIP-App/CCIP-Android");
     private static final Uri URI_TELEGRAM = Uri.parse("https://t.me/COSCUPchat");
-    private static final Uri URI_PD = Uri.parse("http://pd.sitcon.org/");
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -96,8 +95,6 @@ public class MainActivity extends AppCompatActivity {
             mActivity.startActivity(new Intent(Intent.ACTION_VIEW, URI_GITHUB));
         } else if (menuItem.getItemId() == R.id.telegram) {
             mActivity.startActivity(new Intent(Intent.ACTION_VIEW, URI_TELEGRAM));
-        } else if (menuItem.getItemId() == R.id.pd) {
-            mActivity.startActivity(new Intent(Intent.ACTION_VIEW, URI_PD));
         } else {
             Fragment fragment = null;
 
