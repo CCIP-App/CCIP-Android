@@ -12,7 +12,7 @@ import retrofit2.http.GET;
 
 public class COSCUPClient {
 
-    public static final String API_BASE_URL = "http://sitcon.org/2017/";
+    public static final String API_BASE_URL = "https://coscup.org/2017-assets/";
 
     private static Retrofit retrofit;
     private static COSCUPService sCOSCUPService;
@@ -37,7 +37,7 @@ public class COSCUPClient {
     }
 
     public interface COSCUPService {
-        @GET("submissions.json")
+        @GET("json/submissions.json")
         Call<List<Submission>> submission();
     }
 }
