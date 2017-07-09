@@ -106,4 +106,29 @@ public class Submission {
                 throw new Resources.NotFoundException("Unexpected type symbol");
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Submission that = (Submission) o;
+
+        if (!start.equals(that.start)) {
+            return false;
+        }
+        return room.equals(that.room);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = start.hashCode();
+        result = 31 * result + room.hashCode();
+        return result;
+    }
 }
