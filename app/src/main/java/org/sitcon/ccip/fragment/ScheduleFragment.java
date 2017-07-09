@@ -8,6 +8,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -35,12 +38,16 @@ public class ScheduleFragment extends TrackFragment {
     private Activity mActivity;
     RecyclerView scheduleView;
     SwipeRefreshLayout swipeRefreshLayout;
+    private List<Submission> mSubmissions;
+    private boolean starFilter = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
+
+        setHasOptionsMenu(true);
 
         scheduleView = (RecyclerView) view.findViewById(R.id.schedule);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
@@ -64,10 +71,10 @@ public class ScheduleFragment extends TrackFragment {
                 if (response.isSuccessful()) {
                     swipeRefreshLayout.setRefreshing(false);
 
-                    List<Submission> submissions = response.body();
-                    PreferenceUtil.savePrograms(mActivity, submissions);
+                    mSubmissions = response.body();
+                    PreferenceUtil.savePrograms(mActivity, mSubmissions);
 
-                    setScheduleAdapter(submissions);
+                    setScheduleAdapter(mSubmissions);
                 } else {
                     loadOfflineSchedule();
                 }
@@ -80,6 +87,28 @@ public class ScheduleFragment extends TrackFragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.add("star")
+            .setIcon(R.drawable.ic_star_border_white_48dp)
+            .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (starFilter) {
+                        setScheduleAdapter(PreferenceUtil.loadStars(mActivity));
+                        menu.getItem(0).setIcon(R.drawable.ic_star_white_48dp);
+                    } else {
+                        setScheduleAdapter(mSubmissions);
+                        menu.getItem(0).setIcon(R.drawable.ic_star_border_white_48dp);
+                    }
+                    starFilter = !starFilter;
+                    return false;
+                }
+            })
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
     public void loadOfflineSchedule() {
