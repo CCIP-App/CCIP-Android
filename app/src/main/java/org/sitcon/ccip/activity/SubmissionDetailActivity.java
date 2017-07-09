@@ -25,8 +25,11 @@ import java.util.Date;
 public class SubmissionDetailActivity extends TrackActivity {
 
     public static final String INTENT_EXTRA_PROGRAM = "program";
+    public static final String INTENT_EXTRA_STAR = "star";
     private static final SimpleDateFormat SDF_DATETIME = new SimpleDateFormat("MM/dd HH:mm");
     private static final SimpleDateFormat SDF_TIME = new SimpleDateFormat("HH:mm");
+
+    private boolean isStar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class SubmissionDetailActivity extends TrackActivity {
         setContentView(R.layout.activity_submission_detail);
 
         final Submission submission = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Submission.class);
+        isStar = getIntent().getBooleanExtra(INTENT_EXTRA_STAR, false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(submission.getSpeaker().getName());
@@ -84,14 +88,29 @@ public class SubmissionDetailActivity extends TrackActivity {
         speakerInfo.setText(submission.getSpeaker().getBio());
         programAbstract.setText(submission.getSummary());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        if (isStar) {
+            fab.setImageResource(R.drawable.ic_star_white_48dp);
+        } else {
+            fab.setImageResource(R.drawable.ic_star_border_white_48dp);
+        }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                toggleFab(fab);
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void toggleFab(FloatingActionButton fab) {
+        isStar = !isStar;
+        if (isStar) {
+            fab.setImageResource(R.drawable.ic_star_white_48dp);
+        } else {
+            fab.setImageResource(R.drawable.ic_star_border_white_48dp);
+        }
     }
 
     @Override
