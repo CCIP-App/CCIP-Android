@@ -88,22 +88,7 @@ public class Submission {
         this.summary = summary;
     }
 
-    public static int getTypeString(String type) {
-        switch (type) {
-            case "K":
-                return R.string.keynote;
-            case "L":
-                return R.string.lightning_talk;
-            case "P":
-                return R.string.panel_discussion;
-            case "S":
-                return R.string.short_talk;
-            case "T":
-                return R.string.talk;
-            case "U":
-                return R.string.unconf;
-            default:
-                throw new Resources.NotFoundException("Unexpected type symbol");
-        }
+    public static String getTypeString(String type) {
+        return "";
     }
 }
