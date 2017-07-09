@@ -97,6 +97,7 @@ public class ScheduleFragment extends TrackFragment {
             .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
+                    starFilter = !starFilter;
                     if (starFilter) {
                         setScheduleAdapter(PreferenceUtil.loadStars(mActivity));
                         menu.getItem(0).setIcon(R.drawable.ic_star_white_48dp);
@@ -104,7 +105,6 @@ public class ScheduleFragment extends TrackFragment {
                         setScheduleAdapter(mSubmissions);
                         menu.getItem(0).setIcon(R.drawable.ic_star_border_white_48dp);
                     }
-                    starFilter = !starFilter;
                     return false;
                 }
             })
