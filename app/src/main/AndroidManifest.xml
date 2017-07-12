@@ -45,6 +45,11 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
         <receiver android:name=".util.SubmissionAlarmReceiver" />
+        <receiver android:name=".util.RebootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
