@@ -15,6 +15,7 @@ public class PreferenceUtil {
     private static final String PREF_AUTH_TOKEN = "token";
     private static final String PREF_SCHEDULE = "schedule";
     private static final String PREF_SCHEDULE_PROGRAMS = "programs";
+    private static final String PREF_SCHEDULE_STARS = "stars";
 
     public static void setIsNewToken(Context context, boolean isNewToken) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE);
@@ -55,5 +56,20 @@ public class PreferenceUtil {
         String programsJson = sharedPreferences.getString(PREF_SCHEDULE_PROGRAMS, null);
 
         return JsonUtil.fromJson(programsJson, new TypeToken<ArrayList<Submission>>(){}.getType());
+    }
+
+    public static void saveStars(Context context, List<Submission> submissions) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE_STARS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(PREF_SCHEDULE_STARS, JsonUtil.toJson(submissions));
+        editor.apply();
+    }
+
+    public static List<Submission> loadStars(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE_STARS, Context.MODE_PRIVATE);
+        String starsJson = sharedPreferences.getString(PREF_SCHEDULE_STARS, null);
+
+        return JsonUtil.fromJson(starsJson, new TypeToken<List<Submission>>(){}.getType());
     }
 }
