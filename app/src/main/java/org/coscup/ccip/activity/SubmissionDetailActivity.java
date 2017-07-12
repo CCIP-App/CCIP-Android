@@ -41,6 +41,7 @@ public class SubmissionDetailActivity extends TrackActivity {
         setContentView(R.layout.activity_submission_detail);
 
         submission = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Submission.class);
+        isStar = PreferenceUtil.loadStars(this).contains(submission);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(submission.getSpeaker().getName());
