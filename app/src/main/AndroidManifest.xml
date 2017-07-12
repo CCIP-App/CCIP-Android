@@ -44,6 +44,7 @@
             android:name="org.coscup.ccip.activity.SubmissionDetailActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
+        <receiver android:name=".util.SubmissionAlarmReceiver" />
     </application>
 
 </manifest>
