@@ -91,4 +91,32 @@ public class Submission {
     public static String getTypeString(String type) {
         return "";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Submission that = (Submission) o;
+
+        if (!start.equals(that.start) || !end.equals(that.end)) {
+            return false;
+        }
+
+        return room.equals(that.room);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = start.hashCode();
+        result = 31 * result + end.hashCode();
+        result = 31 * result + room.hashCode();
+
+        return result;
+    }
 }
