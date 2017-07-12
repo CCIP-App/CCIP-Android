@@ -8,6 +8,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -35,6 +39,8 @@ public class ScheduleFragment extends TrackFragment {
     private Activity mActivity;
     RecyclerView scheduleView;
     SwipeRefreshLayout swipeRefreshLayout;
+    private boolean starFilter = false;
+    private List<Submission> starSubmissions, mSubmissions;
 
     @Nullable
     @Override
@@ -48,6 +54,8 @@ public class ScheduleFragment extends TrackFragment {
         mActivity = getActivity();
         scheduleView.setLayoutManager(new LinearLayoutManager(mActivity));
         scheduleView.setItemAnimator(new DefaultItemAnimator());
+
+        setHasOptionsMenu(true);
 
         swipeRefreshLayout.setEnabled(false);
         swipeRefreshLayout.post(new Runnable() {
@@ -64,10 +72,10 @@ public class ScheduleFragment extends TrackFragment {
                 if (response.isSuccessful()) {
                     swipeRefreshLayout.setRefreshing(false);
 
-                    List<Submission> submissions = response.body();
-                    PreferenceUtil.savePrograms(mActivity, submissions);
+                    mSubmissions = response.body();
+                    PreferenceUtil.savePrograms(mActivity, mSubmissions);
 
-                    setScheduleAdapter(submissions);
+                    setScheduleAdapter(mSubmissions);
                 } else {
                     loadOfflineSchedule();
                 }
@@ -80,6 +88,33 @@ public class ScheduleFragment extends TrackFragment {
         });
 
         return view;
+    }
+
+    private void loadStarSubmissions() {
+        starSubmissions = PreferenceUtil.loadStars(mActivity);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.add("star")
+            .setIcon(R.drawable.ic_star_border_white_48dp)
+            .setOnMenuItemClickListener(new OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    starFilter = !starFilter;
+                    if (starFilter) {
+                        item.setIcon(R.drawable.ic_star_white_48dp);
+                        loadStarSubmissions();
+                        setScheduleAdapter(starSubmissions);
+                    } else {
+                        item.setIcon(R.drawable.ic_star_border_white_48dp);
+                        setScheduleAdapter(mSubmissions);
+                    }
+                    return false;
+                }
+            })
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
     public void loadOfflineSchedule() {
