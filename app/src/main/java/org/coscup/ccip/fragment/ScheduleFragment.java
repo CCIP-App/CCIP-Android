@@ -34,6 +34,7 @@ public class ScheduleFragment extends TrackFragment {
     RecyclerView scheduleView;
     private List<Submission> mSubmissions;
     private String date;
+    private boolean starFilter = false;
     private static final SimpleDateFormat SDF_DATE = new SimpleDateFormat("MM/dd");
 
     public static Fragment newInstance(String date, List<Submission> submissions) {
@@ -109,8 +110,16 @@ public class ScheduleFragment extends TrackFragment {
     }
 
     public void toggleStarFilter(boolean isStar) {
+        this.starFilter = isStar;
         ((ScheduleAdapter) scheduleView.getAdapter()).update(
             transformSubmissions(isStar ? loadStarSubmissions() : mSubmissions));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (starFilter) {
+            toggleStarFilter(true);
+        }
+    }
 }
