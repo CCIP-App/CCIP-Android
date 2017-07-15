@@ -74,4 +74,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
     public int getItemCount() {
         return mSubmissionSlotList.size();
     }
+
+    public void update(List<List<Submission>> submissionSlotList) {
+        mSubmissionSlotList = submissionSlotList;
+        notifyDataSetChanged();
+    }
 }
