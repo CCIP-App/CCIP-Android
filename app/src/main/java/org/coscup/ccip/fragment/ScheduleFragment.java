@@ -68,6 +68,11 @@ public class ScheduleFragment extends TrackFragment {
             }
         });
 
+        if (mSubmissions != null) {
+            swipeRefreshLayout.setRefreshing(false);
+            scheduleView.setAdapter(new ScheduleAdapter(mActivity, transformSubmissions(mSubmissions)));
+        }
+
         return view;
     }
 
