@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import java.util.List;
 import org.coscup.ccip.R;
+import org.coscup.ccip.adapter.ScheduleTabAdapter;
 import org.coscup.ccip.model.Submission;
 import org.coscup.ccip.network.COSCUPClient;
 import org.coscup.ccip.util.PreferenceUtil;
@@ -27,6 +29,7 @@ public class ScheduleTabFragment extends TrackFragment {
   private Activity mActivity;
   private boolean starFilter = false;
   private List<Submission> mSubmissions;
+  private ScheduleTabAdapter scheduleTabAdapter;
   TabLayout tabLayout;
   ViewPager viewPager;
 
@@ -54,6 +57,7 @@ public class ScheduleTabFragment extends TrackFragment {
         } else {
           loadOfflineSchedule();
         }
+        setupViewPager();
       }
 
       @Override
@@ -63,6 +67,12 @@ public class ScheduleTabFragment extends TrackFragment {
     });
 
     return view;
+  }
+
+  private void setupViewPager() {
+    scheduleTabAdapter = new ScheduleTabAdapter(((AppCompatActivity) mActivity).getSupportFragmentManager());
+    viewPager.setAdapter(scheduleTabAdapter);
+    tabLayout.setupWithViewPager(viewPager);
   }
 
   @Override
