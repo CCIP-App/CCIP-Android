@@ -122,6 +122,7 @@ public class ScheduleTabFragment extends TrackFragment {
             } else {
               item.setIcon(R.drawable.ic_star_border_white_48dp);
             }
+            scheduleTabAdapter.toggleStarFilter(starFilter);
             return false;
           }
         })

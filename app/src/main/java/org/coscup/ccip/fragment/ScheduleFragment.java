@@ -122,4 +122,9 @@ public class ScheduleFragment extends TrackFragment {
         return submissionSlotList;
     }
 
+    public void toggleStarFilter(boolean isStar) {
+        ((ScheduleAdapter) scheduleView.getAdapter()).update(
+            transformSubmissions(isStar ? loadStarSubmissions() : mSubmissions));
+    }
+
 }

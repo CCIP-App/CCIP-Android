@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
+import org.coscup.ccip.fragment.ScheduleFragment;
 
 public class ScheduleTabAdapter extends FragmentPagerAdapter {
   private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -34,4 +35,9 @@ public class ScheduleTabAdapter extends FragmentPagerAdapter {
     mFragmentTitleList.add(title);
   }
 
+  public void toggleStarFilter(boolean isStar) {
+    for (Fragment fragment : mFragmentList) {
+      ((ScheduleFragment) fragment).toggleStarFilter(isStar);
+    }
+  }
 }
