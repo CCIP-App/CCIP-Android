@@ -14,7 +14,14 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import com.google.gson.internal.bind.util.ISO8601Utils;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.coscup.ccip.R;
 import org.coscup.ccip.adapter.ScheduleTabAdapter;
 import org.coscup.ccip.model.Submission;
@@ -30,6 +37,7 @@ public class ScheduleTabFragment extends TrackFragment {
   private boolean starFilter = false;
   private List<Submission> mSubmissions;
   private ScheduleTabAdapter scheduleTabAdapter;
+  private static final SimpleDateFormat SDF_DATE = new SimpleDateFormat("MM/dd");
   TabLayout tabLayout;
   ViewPager viewPager;
 
@@ -71,8 +79,33 @@ public class ScheduleTabFragment extends TrackFragment {
 
   private void setupViewPager() {
     scheduleTabAdapter = new ScheduleTabAdapter(((AppCompatActivity) mActivity).getSupportFragmentManager());
+    addSubmissionFragments(mSubmissions);
     viewPager.setAdapter(scheduleTabAdapter);
     tabLayout.setupWithViewPager(viewPager);
+  }
+
+  private void addSubmissionFragments(List<Submission> submissions) {
+    HashMap<String, List<Submission>> map = new HashMap<>();
+    for (Submission submission : submissions) {
+      try {
+        String dateKey = SDF_DATE.format(ISO8601Utils.parse(submission.getStart(), new ParsePosition(0)));
+        if (map.containsKey(dateKey)) {
+          List<Submission> tmp = map.get(dateKey);
+          tmp.add(submission);
+          map.put(dateKey, tmp);
+        } else {
+          List<Submission> arrayList = new ArrayList<>();
+          arrayList.add(submission);
+          map.put(dateKey, arrayList);
+        }
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+    }
+    for (Map.Entry<String, List<Submission>> entry : map.entrySet()) {
+      scheduleTabAdapter.addFragment(ScheduleFragment.newInstance(entry.getKey(), entry.getValue()), entry.getKey());
+    }
+    scheduleTabAdapter.notifyDataSetChanged();
   }
 
   @Override
@@ -99,7 +132,7 @@ public class ScheduleTabFragment extends TrackFragment {
     Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
     List<Submission> submissions = PreferenceUtil.loadPrograms(mActivity);
     if (submissions != null) {
-
+      mSubmissions = submissions;
     }
   }
 }
