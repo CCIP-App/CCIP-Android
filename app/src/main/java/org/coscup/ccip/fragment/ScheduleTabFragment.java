@@ -12,12 +12,21 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import java.util.List;
 import org.coscup.ccip.R;
+import org.coscup.ccip.model.Submission;
+import org.coscup.ccip.network.COSCUPClient;
+import org.coscup.ccip.util.PreferenceUtil;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ScheduleTabFragment extends TrackFragment {
 
   private Activity mActivity;
   private boolean starFilter = false;
+  private List<Submission> mSubmissions;
   TabLayout tabLayout;
   ViewPager viewPager;
 
@@ -34,6 +43,24 @@ public class ScheduleTabFragment extends TrackFragment {
     mActivity = getActivity();
 
     setHasOptionsMenu(true);
+
+    Call<List<Submission>> submissionCall = COSCUPClient.get().submission();
+    submissionCall.enqueue(new Callback<List<Submission>>() {
+      @Override
+      public void onResponse(Call<List<Submission>> call, Response<List<Submission>> response) {
+        if (response.isSuccessful()) {
+          mSubmissions = response.body();
+          PreferenceUtil.savePrograms(mActivity, mSubmissions);
+        } else {
+          loadOfflineSchedule();
+        }
+      }
+
+      @Override
+      public void onFailure(Call<List<Submission>> call, Throwable t) {
+        loadOfflineSchedule();
+      }
+    });
 
     return view;
   }
@@ -56,5 +83,13 @@ public class ScheduleTabFragment extends TrackFragment {
           }
         })
         .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+  }
+
+  public void loadOfflineSchedule() {
+    Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
+    List<Submission> submissions = PreferenceUtil.loadPrograms(mActivity);
+    if (submissions != null) {
+
+    }
   }
 }
