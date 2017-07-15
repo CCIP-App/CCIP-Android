@@ -84,6 +84,7 @@ public class ScheduleTabFragment extends TrackFragment {
       @Override
       public void onFailure(Call<List<Submission>> call, Throwable t) {
         loadOfflineSchedule();
+        setupViewPager();
       }
     });
 
