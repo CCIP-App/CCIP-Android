@@ -27,7 +27,7 @@ import org.coscup.ccip.fragment.IRCFragment;
 import org.coscup.ccip.fragment.MainFragment;
 import org.coscup.ccip.fragment.MyTicketFragment;
 import org.coscup.ccip.fragment.PuzzleFragment;
-import org.coscup.ccip.fragment.ScheduleFragment;
+import org.coscup.ccip.fragment.ScheduleTabFragment;
 import org.coscup.ccip.fragment.SponsorFragment;
 import org.coscup.ccip.fragment.StaffFragment;
 import org.coscup.ccip.util.PreferenceUtil;
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new MainFragment();
                     break;
                 case R.id.schedule:
-                    fragment = new ScheduleFragment();
+                    fragment = new ScheduleTabFragment();
                     break;
                 case R.id.announcement:
                     fragment = new AnnouncementFragment();
