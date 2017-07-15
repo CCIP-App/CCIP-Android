@@ -19,7 +19,6 @@ import android.widget.Toast;
 import org.coscup.ccip.R;
 import org.coscup.ccip.adapter.ScheduleAdapter;
 import org.coscup.ccip.model.Submission;
-import org.coscup.ccip.network.COSCUPClient;
 import org.coscup.ccip.util.PreferenceUtil;
 
 import java.util.ArrayList;
@@ -29,10 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ScheduleFragment extends TrackFragment {
 
@@ -65,65 +60,7 @@ public class ScheduleFragment extends TrackFragment {
             }
         });
 
-        Call<List<Submission>> submissionCall = COSCUPClient.get().submission();
-        submissionCall.enqueue(new Callback<List<Submission>>() {
-            @Override
-            public void onResponse(Call<List<Submission>> call, Response<List<Submission>> response) {
-                if (response.isSuccessful()) {
-                    swipeRefreshLayout.setRefreshing(false);
-
-                    mSubmissions = response.body();
-                    PreferenceUtil.savePrograms(mActivity, mSubmissions);
-
-                    setScheduleAdapter(mSubmissions);
-                } else {
-                    loadOfflineSchedule();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Submission>> call, Throwable t) {
-                loadOfflineSchedule();
-            }
-        });
-
         return view;
-    }
-
-    private void loadStarSubmissions() {
-        starSubmissions = PreferenceUtil.loadStars(mActivity);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.add("star")
-            .setIcon(R.drawable.ic_star_border_white_48dp)
-            .setOnMenuItemClickListener(new OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    starFilter = !starFilter;
-                    if (starFilter) {
-                        item.setIcon(R.drawable.ic_star_white_48dp);
-                        loadStarSubmissions();
-                        setScheduleAdapter(starSubmissions);
-                    } else {
-                        item.setIcon(R.drawable.ic_star_border_white_48dp);
-                        setScheduleAdapter(mSubmissions);
-                    }
-                    return false;
-                }
-            })
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-    }
-
-    public void loadOfflineSchedule() {
-        swipeRefreshLayout.setRefreshing(false);
-        Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
-        List<Submission> submissions = PreferenceUtil.loadPrograms(mActivity);
-        if (submissions != null) {
-            setScheduleAdapter(submissions);
-        }
     }
 
     public void setScheduleAdapter(List<Submission> submissions) {
