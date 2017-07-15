@@ -12,6 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.internal.bind.util.ISO8601Utils;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import org.coscup.ccip.R;
 import org.coscup.ccip.adapter.ScheduleAdapter;
 import org.coscup.ccip.model.Submission;
@@ -32,6 +36,8 @@ public class ScheduleFragment extends TrackFragment {
     SwipeRefreshLayout swipeRefreshLayout;
     private List<Submission> mSubmissions;
     private String date;
+    private static final SimpleDateFormat SDF_DATE = new SimpleDateFormat("MM/dd");
+
     public static Fragment newInstance(String date, List<Submission> submissions) {
         ScheduleFragment scheduleFragment = new ScheduleFragment();
         scheduleFragment.date = date;
@@ -63,6 +69,22 @@ public class ScheduleFragment extends TrackFragment {
         });
 
         return view;
+    }
+
+    private List<Submission> loadStarSubmissions() {
+        List<Submission> tmp = new ArrayList<>();
+        for (Submission submission : PreferenceUtil.loadStars(mActivity)) {
+            try {
+                String tmpDate = SDF_DATE
+                    .format(ISO8601Utils.parse(submission.getStart(), new ParsePosition(0)));
+                if (tmpDate.equals(date)) {
+                    tmp.add(submission);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return tmp;
     }
 
     public void setScheduleAdapter(List<Submission> submissions) {
