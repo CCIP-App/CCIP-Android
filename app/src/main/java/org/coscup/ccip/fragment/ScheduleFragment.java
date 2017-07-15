@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +32,6 @@ public class ScheduleFragment extends TrackFragment {
 
     private Activity mActivity;
     RecyclerView scheduleView;
-    SwipeRefreshLayout swipeRefreshLayout;
     private List<Submission> mSubmissions;
     private String date;
     private static final SimpleDateFormat SDF_DATE = new SimpleDateFormat("MM/dd");
@@ -52,24 +50,12 @@ public class ScheduleFragment extends TrackFragment {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         scheduleView = (RecyclerView) view.findViewById(R.id.schedule);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
 
         mActivity = getActivity();
         scheduleView.setLayoutManager(new LinearLayoutManager(mActivity));
         scheduleView.setItemAnimator(new DefaultItemAnimator());
-
-        setHasOptionsMenu(true);
-
-        swipeRefreshLayout.setEnabled(false);
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-            }
-        });
-
+        
         if (mSubmissions != null) {
-            swipeRefreshLayout.setRefreshing(false);
             scheduleView.setAdapter(new ScheduleAdapter(mActivity, transformSubmissions(mSubmissions)));
         }
 
