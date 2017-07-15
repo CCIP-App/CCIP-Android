@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,6 +39,7 @@ public class ScheduleTabFragment extends TrackFragment {
   private List<Submission> mSubmissions;
   private ScheduleTabAdapter scheduleTabAdapter;
   private static final SimpleDateFormat SDF_DATE = new SimpleDateFormat("MM/dd");
+  SwipeRefreshLayout swipeRefreshLayout;
   TabLayout tabLayout;
   ViewPager viewPager;
 
@@ -48,6 +50,7 @@ public class ScheduleTabFragment extends TrackFragment {
     super.onCreateView(inflater, container, savedInstanceState);
     View view = inflater.inflate(R.layout.fragment_schedule_tab, container, false);
 
+    swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
     tabLayout = (TabLayout) view.findViewById(R.id.tabs);
     viewPager = (ViewPager) view.findViewById(R.id.pager);
 
@@ -55,11 +58,21 @@ public class ScheduleTabFragment extends TrackFragment {
 
     setHasOptionsMenu(true);
 
+    swipeRefreshLayout.setEnabled(false);
+    swipeRefreshLayout.post(new Runnable() {
+      @Override
+      public void run() {
+        swipeRefreshLayout.setRefreshing(true);
+      }
+    });
+
     Call<List<Submission>> submissionCall = COSCUPClient.get().submission();
     submissionCall.enqueue(new Callback<List<Submission>>() {
       @Override
       public void onResponse(Call<List<Submission>> call, Response<List<Submission>> response) {
         if (response.isSuccessful()) {
+          swipeRefreshLayout.setRefreshing(false);
+
           mSubmissions = response.body();
           PreferenceUtil.savePrograms(mActivity, mSubmissions);
         } else {
@@ -130,6 +143,7 @@ public class ScheduleTabFragment extends TrackFragment {
   }
 
   public void loadOfflineSchedule() {
+    swipeRefreshLayout.setRefreshing(false);
     Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
     List<Submission> submissions = PreferenceUtil.loadPrograms(mActivity);
     if (submissions != null) {
