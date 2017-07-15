@@ -87,7 +87,7 @@ public class ScheduleFragment extends TrackFragment {
         return tmp;
     }
 
-    public void setScheduleAdapter(List<Submission> submissions) {
+    private List<List<Submission>> transformSubmissions(List<Submission> submissions) {
         HashMap<String, List<Submission>> map = new HashMap();
         for (Submission submission : submissions) {
             if (submission.getStart() == null) continue;
@@ -113,8 +113,8 @@ public class ScheduleFragment extends TrackFragment {
         List<List<Submission>> submissionSlotList = new ArrayList();
         for (String key : keys) {
             submissionSlotList.add(map.get(key));
-            scheduleView.setAdapter(new ScheduleAdapter(mActivity, submissionSlotList));
         }
+        return submissionSlotList;
     }
 
 }
