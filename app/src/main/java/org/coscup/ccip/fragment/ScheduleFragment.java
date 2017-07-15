@@ -3,18 +3,14 @@ package org.coscup.ccip.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.coscup.ccip.R;
 import org.coscup.ccip.adapter.ScheduleAdapter;
@@ -34,8 +30,14 @@ public class ScheduleFragment extends TrackFragment {
     private Activity mActivity;
     RecyclerView scheduleView;
     SwipeRefreshLayout swipeRefreshLayout;
-    private boolean starFilter = false;
-    private List<Submission> starSubmissions, mSubmissions;
+    private List<Submission> mSubmissions;
+    private String date;
+    public static Fragment newInstance(String date, List<Submission> submissions) {
+        ScheduleFragment scheduleFragment = new ScheduleFragment();
+        scheduleFragment.date = date;
+        scheduleFragment.mSubmissions = submissions;
+        return scheduleFragment;
+    }
 
     @Nullable
     @Override
