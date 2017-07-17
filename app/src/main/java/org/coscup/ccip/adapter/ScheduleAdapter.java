@@ -23,7 +23,7 @@ import java.util.List;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("MM/dd HH:mm");
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("HH:mm");
 
     private Context mContext;
     private List<List<Submission>> mSubmissionSlotList;
