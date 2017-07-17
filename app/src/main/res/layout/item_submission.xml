@@ -85,7 +85,6 @@
         android:layout_marginRight="8dp"
         android:layout_alignBottom="@id/submission_layout"
         android:layout_alignParentRight="true"
-        android:background="@color/colorPrimaryDark"
         android:src="@drawable/ic_star_border_white_48dp"/>
     </RelativeLayout>
 

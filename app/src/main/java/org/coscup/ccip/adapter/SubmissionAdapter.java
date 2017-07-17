@@ -101,6 +101,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
         } else {
             holder.star.setImageResource(R.drawable.ic_star_border_white_48dp);
         }
+        holder.star.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
         holder.star.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
