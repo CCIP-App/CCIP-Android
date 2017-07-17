@@ -118,8 +118,6 @@ public class ScheduleFragment extends TrackFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (starFilter) {
-            toggleStarFilter(true);
-        }
+        toggleStarFilter(starFilter);
     }
 }
