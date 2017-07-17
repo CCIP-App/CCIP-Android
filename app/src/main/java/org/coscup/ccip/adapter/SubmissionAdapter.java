@@ -15,9 +15,11 @@ import android.widget.TextView;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
+import java.util.Collections;
 import org.coscup.ccip.activity.SubmissionDetailActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Submission;
+import org.coscup.ccip.util.AlarmUtil;
 import org.coscup.ccip.util.JsonUtil;
 
 import java.text.ParseException;
@@ -102,6 +104,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.star.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateStarSubmissions(mContext, submission);
                 if (isSubmissionStar(mContext, submission)) {
                     holder.star.setImageResource(R.drawable.ic_star_white_48dp);
                 } else {
@@ -130,5 +133,21 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
     private boolean isSubmissionStar(Context context, Submission submission) {
         List<Submission> submissions = PreferenceUtil.loadStars(context);
         return submissions != null && submissions.contains(submission);
+    }
+
+    private void updateStarSubmissions(Context context, Submission submission) {
+        List<Submission> submissions = PreferenceUtil.loadStars(context);
+        if (submissions != null) {
+            if (submissions.contains(submission)) {
+                submissions.remove(submission);
+                AlarmUtil.cancelSubmissionAlarm(context, submission);
+            } else {
+                submissions.add(submission);
+                AlarmUtil.setSubmissionAlarm(context, submission);
+            }
+        } else {
+            submissions = Collections.singletonList(submission);
+        }
+        PreferenceUtil.saveStars(context, submissions);
     }
 }
