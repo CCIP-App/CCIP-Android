@@ -1,6 +1,9 @@
 package org.coscup.ccip.fragment;
 
 import android.app.Activity;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -126,15 +129,15 @@ public class ScheduleTabFragment extends TrackFragment {
   public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
     menu.add("star")
-        .setIcon(R.drawable.ic_star_border_white_48dp)
+        .setIcon(R.drawable.ic_bookmark_border_black_24dp)
         .setOnMenuItemClickListener(new OnMenuItemClickListener() {
           @Override
           public boolean onMenuItemClick(MenuItem item) {
             starFilter = !starFilter;
             if (starFilter) {
-              item.setIcon(R.drawable.ic_star_white_48dp);
+              item.setIcon(R.drawable.ic_bookmark_black_24dp);
             } else {
-              item.setIcon(R.drawable.ic_star_border_white_48dp);
+              item.setIcon(R.drawable.ic_bookmark_border_black_24dp);
             }
             scheduleTabAdapter.toggleStarFilter(starFilter);
             return false;
