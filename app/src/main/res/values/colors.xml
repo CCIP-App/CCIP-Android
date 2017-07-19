@@ -5,4 +5,5 @@
     <color name="colorAccent">#50E3C2</color>
     <color name="colorDietMeat">#FFA000</color>
     <color name="colorDietVegetarian">#298A08</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>
