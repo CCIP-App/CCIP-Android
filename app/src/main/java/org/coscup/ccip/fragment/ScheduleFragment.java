@@ -65,15 +65,18 @@ public class ScheduleFragment extends TrackFragment {
 
     private List<Submission> loadStarSubmissions() {
         List<Submission> tmp = new ArrayList<>();
-        for (Submission submission : PreferenceUtil.loadStars(mActivity)) {
-            try {
-                String tmpDate = SDF_DATE
-                    .format(ISO8601Utils.parse(submission.getStart(), new ParsePosition(0)));
-                if (tmpDate.equals(date)) {
-                    tmp.add(submission);
+        List<Submission> starSubmissions = PreferenceUtil.loadStars(mActivity);
+        if (starSubmissions != null) {
+            for (Submission submission : starSubmissions) {
+                try {
+                    String tmpDate = SDF_DATE
+                        .format(ISO8601Utils.parse(submission.getStart(), new ParsePosition(0)));
+                    if (tmpDate.equals(date)) {
+                        tmp.add(submission);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
         }
         return tmp;
