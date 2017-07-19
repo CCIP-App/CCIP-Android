@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -58,6 +60,10 @@ public class ScheduleTabFragment extends TrackFragment {
     viewPager = (ViewPager) view.findViewById(R.id.pager);
 
     mActivity = getActivity();
+
+    if (VERSION.SDK_INT >= 21) {
+      ((AppBarLayout) mActivity.findViewById(R.id.appbar)).setElevation(0);
+    }
 
     setHasOptionsMenu(true);
 
