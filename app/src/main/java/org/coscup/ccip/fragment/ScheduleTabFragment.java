@@ -1,9 +1,7 @@
 package org.coscup.ccip.fragment;
 
 import android.app.Activity;
-import android.graphics.ColorFilter;
 import android.graphics.PorterDuff.Mode;
-import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -145,11 +143,15 @@ public class ScheduleTabFragment extends TrackFragment {
             } else {
               item.setIcon(R.drawable.ic_bookmark_border_black_24dp);
             }
+            item.getIcon().setColorFilter(getResources().getColor(R.color.colorWhite),
+                Mode.SRC_ATOP);
             scheduleTabAdapter.toggleStarFilter(starFilter);
             return false;
           }
         })
         .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    menu.getItem(0).getIcon().setColorFilter(getResources().getColor(R.color.colorWhite),
+        Mode.SRC_ATOP);
   }
 
   public void loadOfflineSchedule() {
