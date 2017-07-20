@@ -47,7 +47,7 @@ public class MainFragment extends TrackFragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        notCOSCUPWifiView = view.findViewById(R.id.not_coscup_wifi);
+        notCOSCUPWifiView = view.findViewById(R.id.not_conf_wifi);
         invalidTokenMsg = (TextView) view.findViewById(R.id.invalid_token_msg);
         invalidTokenMsg.setOnClickListener(new View.OnClickListener() {
             @Override
