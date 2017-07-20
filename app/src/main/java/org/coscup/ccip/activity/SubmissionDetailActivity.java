@@ -1,6 +1,7 @@
 package org.coscup.ccip.activity;
 
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -117,10 +118,11 @@ public class SubmissionDetailActivity extends TrackActivity {
 
     private void checkFabIcon() {
         if (isStar) {
-            fab.setImageResource(R.drawable.ic_star_white_48dp);
+            fab.setImageResource(R.drawable.ic_bookmark_black_24dp);
         } else {
-            fab.setImageResource(R.drawable.ic_star_border_white_48dp);
+            fab.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
         }
+        fab.getDrawable().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
     }
 
     private void toggleFab() {
