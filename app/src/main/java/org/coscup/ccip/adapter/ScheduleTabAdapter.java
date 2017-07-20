@@ -2,12 +2,12 @@ package org.coscup.ccip.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import org.coscup.ccip.fragment.ScheduleFragment;
 
-public class ScheduleTabAdapter extends FragmentPagerAdapter {
+public class ScheduleTabAdapter extends FragmentStatePagerAdapter {
   private final List<Fragment> mFragmentList = new ArrayList<>();
   private final List<String> mFragmentTitleList = new ArrayList<>();
 
