@@ -24,6 +24,7 @@
     <string name="scan_kktix_qrcode">掃描 KKTIX 票券 QR code</string>
     <string name="connect_to_conference_wifi">請使用 COSCUP 提供的無線網路</string>
     <string name="tap_to_retry">點擊重試</string>
+    <string name="announcement_empty">目前無任何公告哦！</string>
 
     <string name="confirm_dialog_title">是否已聽從工作人員的指示？</string>
     <string name="positive_button">確認使用</string>

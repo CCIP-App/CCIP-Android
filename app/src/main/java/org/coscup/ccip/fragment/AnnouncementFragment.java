@@ -33,7 +33,7 @@ public class AnnouncementFragment extends TrackFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_announcement, container, false);
+        final View view = inflater.inflate(R.layout.fragment_announcement, container, false);
 
         announcementView = (RecyclerView) view.findViewById(R.id.announcement);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
@@ -54,6 +54,9 @@ public class AnnouncementFragment extends TrackFragment {
             @Override
             public void onResponse(Call<List<Announcement>> call, Response<List<Announcement>> response) {
                 swipeRefreshLayout.setRefreshing(false);
+                if (response.body().isEmpty()) {
+                    view.findViewById(R.id.announcement_empty).setVisibility(View.VISIBLE);
+                }
                 announcementView.setAdapter(new AnnouncementAdapter(mActivity, response.body()));
             }
 
