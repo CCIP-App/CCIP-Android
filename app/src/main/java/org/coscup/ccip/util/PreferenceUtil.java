@@ -68,7 +68,7 @@ public class PreferenceUtil {
 
     public static List<Submission> loadStars(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE_STARS, Context.MODE_PRIVATE);
-        String starsJson = sharedPreferences.getString(PREF_SCHEDULE_STARS, null);
+        String starsJson = sharedPreferences.getString(PREF_SCHEDULE_STARS, "[]");
 
         return JsonUtil.fromJson(starsJson, new TypeToken<List<Submission>>(){}.getType());
     }
