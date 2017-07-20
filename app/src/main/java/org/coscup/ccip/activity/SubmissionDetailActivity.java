@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
+import java.util.List;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Submission;
 import org.coscup.ccip.util.JsonUtil;
@@ -21,19 +23,25 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.coscup.ccip.util.PreferenceUtil;
 
 public class SubmissionDetailActivity extends TrackActivity {
 
     public static final String INTENT_EXTRA_PROGRAM = "program";
     private static final SimpleDateFormat SDF_DATETIME = new SimpleDateFormat("MM/dd HH:mm");
     private static final SimpleDateFormat SDF_TIME = new SimpleDateFormat("HH:mm");
+    private boolean isStar = false;
+    private Submission submission;
+
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submission_detail);
 
-        final Submission submission = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Submission.class);
+        submission = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Submission.class);
+        isStar = PreferenceUtil.loadStars(this).contains(submission);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(submission.getSpeaker().getName());
@@ -84,10 +92,12 @@ public class SubmissionDetailActivity extends TrackActivity {
         speakerInfo.setText(submission.getSpeaker().getBio());
         programAbstract.setText(submission.getSummary());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        checkFabIcon();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                toggleFab();
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -102,5 +112,33 @@ public class SubmissionDetailActivity extends TrackActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void checkFabIcon() {
+        if (isStar) {
+            fab.setImageResource(R.drawable.ic_star_white_48dp);
+        } else {
+            fab.setImageResource(R.drawable.ic_star_border_white_48dp);
+        }
+    }
+
+    private void toggleFab() {
+        isStar = !isStar;
+        updateStarSubmissions();
+        checkFabIcon();
+    }
+
+    private void updateStarSubmissions() {
+        List<Submission> submissions = PreferenceUtil.loadStars(this);
+        if (submissions != null) {
+            if (submissions.contains(submission)) {
+                submissions.remove(submission);
+            } else {
+                submissions.add(submission);
+            }
+        } else {
+            submissions = Collections.singletonList(submission);
+        }
+        PreferenceUtil.saveStars(this, submissions);
     }
 }
