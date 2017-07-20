@@ -151,4 +151,14 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
         PreferenceUtil.saveStars(context, submissions);
     }
+
+    private void toggleStar(ImageView star, boolean isStar) {
+        if (isStar) {
+            star.setImageResource(R.drawable.ic_bookmark_black_24dp);
+            star.setColorFilter(mContext.getResources().getColor(R.color.colorAccent));
+        } else {
+            star.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
+            star.setColorFilter(mContext.getResources().getColor(R.color.colorGray));
+        }
+    }
 }
