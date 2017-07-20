@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Submission;
+import org.coscup.ccip.util.AlarmUtil;
 import org.coscup.ccip.util.JsonUtil;
 
 import java.text.ParseException;
@@ -133,8 +134,10 @@ public class SubmissionDetailActivity extends TrackActivity {
         if (submissions != null) {
             if (submissions.contains(submission)) {
                 submissions.remove(submission);
+                AlarmUtil.cancelSubmissionAlarm(this, submission);
             } else {
                 submissions.add(submission);
+                AlarmUtil.setSubmissionAlarm(this, submission);
             }
         } else {
             submissions = Collections.singletonList(submission);
