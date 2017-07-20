@@ -27,7 +27,7 @@ public class AlarmUtil {
                     .getBroadcast(context, submission.hashCode(), intent, 0);
 
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - 10 * 60 * 1000, pendingIntent);
         } catch (ParseException e) {
             e.printStackTrace();
         }

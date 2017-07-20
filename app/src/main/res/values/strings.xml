@@ -53,5 +53,5 @@
 
     <string name="share">Share</string>
     <string name="puzzle_share_subject">Here\'s my collected puzzles, let us solve this game.</string>
-    <string name="notification_submission_start">The submission %1$s in %2$s is about to begin.</string>
+    <string name="notification_submission_start">%1$s will start in 10 minutes at %2$s</string>
 </resources>
