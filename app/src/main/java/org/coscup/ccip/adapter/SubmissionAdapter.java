@@ -96,21 +96,13 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
             e.printStackTrace();
         }
 
-        if (isSubmissionStar(mContext, submission)) {
-            holder.star.setImageResource(R.drawable.ic_bookmark_black_24dp);
-        } else {
-            holder.star.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
-        }
-        holder.star.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+        toggleStar(holder.star, isSubmissionStar(mContext, submission));
+
         holder.star.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateStarSubmissions(mContext, submission);
-                if (isSubmissionStar(mContext, submission)) {
-                    holder.star.setImageResource(R.drawable.ic_bookmark_black_24dp);
-                } else {
-                    holder.star.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
-                }
+                toggleStar(holder.star, isSubmissionStar(mContext, submission));
             }
         });
 
