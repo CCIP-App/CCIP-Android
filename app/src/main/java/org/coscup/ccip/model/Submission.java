@@ -25,6 +25,9 @@ public class Submission {
     @SerializedName("room")
     @Expose
     private String room;
+    @SerializedName("community")
+    @Expose
+    private String community;
     @SerializedName("subject")
     @Expose
     private String subject;
@@ -70,6 +73,14 @@ public class Submission {
 
     public void setRoom(String room) {
         this.room = room;
+    }
+
+    public String getCommunity() {
+        return community;
+    }
+
+    public void setCommunity(String community) {
+        this.community = community;
     }
 
     public String getSubject() {
