@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import java.util.Collections;
+
 import org.coscup.ccip.activity.SubmissionDetailActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Submission;
@@ -27,6 +28,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import org.coscup.ccip.util.PreferenceUtil;
 
 
