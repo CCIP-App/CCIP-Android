@@ -9,11 +9,6 @@ import android.webkit.WebViewClient;
 
 public class OfficialWebViewClient extends WebViewClient {
     @Override
-    public void onPageFinished(WebView view, String url) {
-        view.loadUrl("javascript: document.getElementById(\"navbar\").remove()");
-    }
-
-    @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         super.onReceivedError(view, request, error);
         view.loadUrl("file:///android_asset/no_network.html");
