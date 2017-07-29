@@ -8,14 +8,19 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
+import java.util.Collections;
+
 import org.coscup.ccip.activity.SubmissionDetailActivity;
 import org.coscup.ccip.R;
 import org.coscup.ccip.model.Submission;
+import org.coscup.ccip.util.AlarmUtil;
 import org.coscup.ccip.util.JsonUtil;
 
 import java.text.ParseException;
@@ -23,6 +28,8 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import org.coscup.ccip.util.PreferenceUtil;
 
 
 public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
@@ -37,6 +44,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public CardView card;
         public TextView subject, type, room, endTime, lang;
+        public ImageView star;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -46,6 +54,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
             room = (TextView) itemView.findViewById(R.id.room);
             endTime = (TextView) itemView.findViewById(R.id.end_time);
             lang = (TextView) itemView.findViewById(R.id.lang);
+            star = (ImageView) itemView.findViewById(R.id.star);
         }
     }
 
@@ -89,6 +98,16 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
             e.printStackTrace();
         }
 
+        toggleStar(holder.star, isSubmissionStar(mContext, submission));
+
+        holder.star.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStarSubmissions(mContext, submission);
+                toggleStar(holder.star, isSubmissionStar(mContext, submission));
+            }
+        });
+
         holder.card.setClickable(true);
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,4 +125,34 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
         return mSubmissionList.size();
     }
 
+    private boolean isSubmissionStar(Context context, Submission submission) {
+        List<Submission> submissions = PreferenceUtil.loadStars(context);
+        return submissions != null && submissions.contains(submission);
+    }
+
+    private void updateStarSubmissions(Context context, Submission submission) {
+        List<Submission> submissions = PreferenceUtil.loadStars(context);
+        if (submissions != null) {
+            if (submissions.contains(submission)) {
+                submissions.remove(submission);
+                AlarmUtil.cancelSubmissionAlarm(context, submission);
+            } else {
+                submissions.add(submission);
+                AlarmUtil.setSubmissionAlarm(context, submission);
+            }
+        } else {
+            submissions = Collections.singletonList(submission);
+        }
+        PreferenceUtil.saveStars(context, submissions);
+    }
+
+    private void toggleStar(ImageView star, boolean isStar) {
+        if (isStar) {
+            star.setImageResource(R.drawable.ic_bookmark_black_24dp);
+            star.setColorFilter(mContext.getResources().getColor(R.color.colorAccent));
+        } else {
+            star.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
+            star.setColorFilter(mContext.getResources().getColor(R.color.colorGray));
+        }
+    }
 }

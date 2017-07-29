@@ -3,23 +3,21 @@ package org.coscup.ccip.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.google.gson.internal.bind.util.ISO8601Utils;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import org.coscup.ccip.R;
 import org.coscup.ccip.adapter.ScheduleAdapter;
 import org.coscup.ccip.model.Submission;
-import org.coscup.ccip.network.COSCUPClient;
 import org.coscup.ccip.util.PreferenceUtil;
 
 import java.util.ArrayList;
@@ -30,17 +28,21 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class ScheduleFragment extends TrackFragment {
 
     private Activity mActivity;
     RecyclerView scheduleView;
-    SwipeRefreshLayout swipeRefreshLayout;
+    private List<Submission> mSubmissions;
+    private String date;
     private boolean starFilter = false;
-    private List<Submission> starSubmissions, mSubmissions;
+    private static final SimpleDateFormat SDF_DATE = new SimpleDateFormat("MM/dd");
+
+    public static Fragment newInstance(String date, List<Submission> submissions) {
+        ScheduleFragment scheduleFragment = new ScheduleFragment();
+        scheduleFragment.date = date;
+        scheduleFragment.mSubmissions = submissions;
+        return scheduleFragment;
+    }
 
     @Nullable
     @Override
@@ -49,84 +51,38 @@ public class ScheduleFragment extends TrackFragment {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         scheduleView = (RecyclerView) view.findViewById(R.id.schedule);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
 
         mActivity = getActivity();
         scheduleView.setLayoutManager(new LinearLayoutManager(mActivity));
         scheduleView.setItemAnimator(new DefaultItemAnimator());
-
-        setHasOptionsMenu(true);
-
-        swipeRefreshLayout.setEnabled(false);
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-            }
-        });
-
-        Call<List<Submission>> submissionCall = COSCUPClient.get().submission();
-        submissionCall.enqueue(new Callback<List<Submission>>() {
-            @Override
-            public void onResponse(Call<List<Submission>> call, Response<List<Submission>> response) {
-                if (response.isSuccessful()) {
-                    swipeRefreshLayout.setRefreshing(false);
-
-                    mSubmissions = response.body();
-                    PreferenceUtil.savePrograms(mActivity, mSubmissions);
-
-                    setScheduleAdapter(mSubmissions);
-                } else {
-                    loadOfflineSchedule();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Submission>> call, Throwable t) {
-                loadOfflineSchedule();
-            }
-        });
+        
+        if (mSubmissions != null) {
+            scheduleView.setAdapter(new ScheduleAdapter(mActivity, transformSubmissions(mSubmissions)));
+        }
 
         return view;
     }
 
-    private void loadStarSubmissions() {
-        starSubmissions = PreferenceUtil.loadStars(mActivity);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.add("star")
-            .setIcon(R.drawable.ic_star_border_white_48dp)
-            .setOnMenuItemClickListener(new OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    starFilter = !starFilter;
-                    if (starFilter) {
-                        item.setIcon(R.drawable.ic_star_white_48dp);
-                        loadStarSubmissions();
-                        setScheduleAdapter(starSubmissions);
-                    } else {
-                        item.setIcon(R.drawable.ic_star_border_white_48dp);
-                        setScheduleAdapter(mSubmissions);
+    private List<Submission> loadStarSubmissions() {
+        List<Submission> tmp = new ArrayList<>();
+        List<Submission> starSubmissions = PreferenceUtil.loadStars(mActivity);
+        if (starSubmissions != null) {
+            for (Submission submission : starSubmissions) {
+                try {
+                    String tmpDate = SDF_DATE
+                        .format(ISO8601Utils.parse(submission.getStart(), new ParsePosition(0)));
+                    if (tmpDate.equals(date)) {
+                        tmp.add(submission);
                     }
-                    return false;
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-            })
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-    }
-
-    public void loadOfflineSchedule() {
-        swipeRefreshLayout.setRefreshing(false);
-        Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
-        List<Submission> submissions = PreferenceUtil.loadPrograms(mActivity);
-        if (submissions != null) {
-            setScheduleAdapter(submissions);
+            }
         }
+        return tmp;
     }
 
-    public void setScheduleAdapter(List<Submission> submissions) {
+    private List<List<Submission>> transformSubmissions(List<Submission> submissions) {
         HashMap<String, List<Submission>> map = new HashMap();
         for (Submission submission : submissions) {
             if (submission.getStart() == null) continue;
@@ -152,8 +108,19 @@ public class ScheduleFragment extends TrackFragment {
         List<List<Submission>> submissionSlotList = new ArrayList();
         for (String key : keys) {
             submissionSlotList.add(map.get(key));
-            scheduleView.setAdapter(new ScheduleAdapter(mActivity, submissionSlotList));
         }
+        return submissionSlotList;
     }
 
+    public void toggleStarFilter(boolean isStar) {
+        this.starFilter = isStar;
+        ((ScheduleAdapter) scheduleView.getAdapter()).update(
+            transformSubmissions(isStar ? loadStarSubmissions() : mSubmissions));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        toggleStarFilter(starFilter);
+    }
 }
