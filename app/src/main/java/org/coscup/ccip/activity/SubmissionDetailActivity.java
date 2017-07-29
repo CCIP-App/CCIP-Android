@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -50,13 +51,14 @@ public class SubmissionDetailActivity extends TrackActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView room, subject, time, type, lang, speakerInfo, programAbstract;
+        TextView room, subject, time, type, community, lang, speakerInfo, programAbstract;
         ImageView appBarImage;
         View spekaerInfoBlock;
         room = (TextView) findViewById(R.id.room);
         subject = (TextView) findViewById(R.id.subject);
         time = (TextView) findViewById(R.id.time);
         type = (TextView) findViewById(R.id.type);
+        community = (TextView) findViewById(R.id.community);
         lang = (TextView) findViewById(R.id.lang);
         spekaerInfoBlock = findViewById(R.id.speaker_info_block);
         speakerInfo = (TextView) findViewById(R.id.speakerinfo);
@@ -87,6 +89,12 @@ public class SubmissionDetailActivity extends TrackActivity {
             type.setText(Submission.getTypeString(submission.getType()));
         } catch (Resources.NotFoundException e) {
             type.setText("");
+        }
+
+        if (!TextUtils.isEmpty(submission.getCommunity())) {
+            community.setText(submission.getCommunity());
+        } else {
+            findViewById(R.id.community_layout).setVisibility(View.GONE);
         }
 
         if (submission.getSpeaker().getName().isEmpty()) spekaerInfoBlock.setVisibility(View.GONE);
