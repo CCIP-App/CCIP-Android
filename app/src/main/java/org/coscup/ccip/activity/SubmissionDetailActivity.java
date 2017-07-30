@@ -107,9 +107,7 @@ public class SubmissionDetailActivity extends TrackActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toggleFab();
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                toggleFab(view);
             }
         });
     }
@@ -133,21 +131,23 @@ public class SubmissionDetailActivity extends TrackActivity {
         fab.getDrawable().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
     }
 
-    private void toggleFab() {
+    private void toggleFab(View view) {
         isStar = !isStar;
-        updateStarSubmissions();
+        updateStarSubmissions(view);
         checkFabIcon();
     }
 
-    private void updateStarSubmissions() {
+    private void updateStarSubmissions(View view) {
         List<Submission> submissions = PreferenceUtil.loadStars(this);
         if (submissions != null) {
             if (submissions.contains(submission)) {
                 submissions.remove(submission);
                 AlarmUtil.cancelSubmissionAlarm(this, submission);
+                Snackbar.make(view, R.string.remove_bookmark, Snackbar.LENGTH_LONG).show();
             } else {
                 submissions.add(submission);
                 AlarmUtil.setSubmissionAlarm(this, submission);
+                Snackbar.make(view, R.string.add_bookmark, Snackbar.LENGTH_LONG).show();
             }
         } else {
             submissions = Collections.singletonList(submission);

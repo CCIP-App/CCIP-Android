@@ -55,5 +55,8 @@
 
     <string name="share">Share</string>
     <string name="puzzle_share_subject">Here\'s my collected puzzles, let us solve this game.</string>
+
+    <string name="add_bookmark">Added to bookmark, 10 mins before the session start will notify you.</string>
+    <string name="remove_bookmark">Remove from bookmark</string>
     <string name="notification_submission_start">%1$s will start in 10 minutes at %2$s</string>
 </resources>
