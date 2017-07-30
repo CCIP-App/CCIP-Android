@@ -31,6 +31,10 @@
             android:icon="@drawable/ic_question_answer_black_48dp"
             android:title="@string/irclog"/>
         <item
+            android:id="@+id/venue"
+            android:icon="@drawable/ic_map_black_48dp"
+            android:title="@string/venue"/>
+        <item
             android:id="@+id/sponsors"
             android:icon="@drawable/ic_redeem_black_48dp"
             android:title="@string/sponsors"/>

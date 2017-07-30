@@ -30,6 +30,7 @@ import org.coscup.ccip.fragment.PuzzleFragment;
 import org.coscup.ccip.fragment.ScheduleTabFragment;
 import org.coscup.ccip.fragment.SponsorFragment;
 import org.coscup.ccip.fragment.StaffFragment;
+import org.coscup.ccip.fragment.VenueFragment;
 import org.coscup.ccip.util.PreferenceUtil;
 
 public class MainActivity extends AppCompatActivity {
@@ -116,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.irc:
                     fragment = new IRCFragment();
+                    break;
+                case R.id.venue:
+                    fragment = new VenueFragment();
                     break;
                 case R.id.sponsors:
                     fragment = new SponsorFragment();
