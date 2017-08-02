@@ -53,7 +53,7 @@ public class PreferenceUtil {
 
     public static List<Submission> loadPrograms(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE);
-        String programsJson = sharedPreferences.getString(PREF_SCHEDULE_PROGRAMS, null);
+        String programsJson = sharedPreferences.getString(PREF_SCHEDULE_PROGRAMS, "[]");
 
         return JsonUtil.fromJson(programsJson, new TypeToken<ArrayList<Submission>>(){}.getType());
     }

@@ -9,7 +9,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -102,11 +101,19 @@ public class ScheduleTabFragment extends TrackFragment {
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        tabLayout.setupWithViewPager(null);
+        super.onDestroy();
+    }
+
     private void setupViewPager() {
-        scheduleTabAdapter = new ScheduleTabAdapter(((AppCompatActivity) mActivity).getSupportFragmentManager());
-        addSubmissionFragments(mSubmissions);
-        viewPager.setAdapter(scheduleTabAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        if (isAdded()) {
+            scheduleTabAdapter = new ScheduleTabAdapter(getChildFragmentManager());
+            addSubmissionFragments(mSubmissions);
+            viewPager.setAdapter(scheduleTabAdapter);
+            tabLayout.setupWithViewPager(viewPager);
+        }
     }
 
     private void addSubmissionFragments(List<Submission> submissions) {
@@ -159,7 +166,12 @@ public class ScheduleTabFragment extends TrackFragment {
     }
 
     public void loadOfflineSchedule() {
-        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
         List<Submission> submissions = PreferenceUtil.loadPrograms(mActivity);
         if (submissions != null) {
