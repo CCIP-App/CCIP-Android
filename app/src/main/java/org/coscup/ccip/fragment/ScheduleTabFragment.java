@@ -164,7 +164,12 @@ public class ScheduleTabFragment extends TrackFragment {
     }
 
     public void loadOfflineSchedule() {
-        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
         List<Submission> submissions = PreferenceUtil.loadPrograms(mActivity);
         if (submissions != null) {
