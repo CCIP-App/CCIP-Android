@@ -15,10 +15,6 @@
             android:icon="@drawable/ic_announcement_black_48dp"
             android:title="@string/announcement"/>
         <item
-            android:id="@+id/pd"
-            android:icon="@drawable/ic_pages_black_24dp"
-            android:title="@string/pd"/>
-        <item
             android:id="@+id/puzzle"
             android:icon="@drawable/ic_extension_black_24dp"
             android:title="@string/puzzle"/>
@@ -34,6 +30,10 @@
             android:id="@+id/irc"
             android:icon="@drawable/ic_question_answer_black_48dp"
             android:title="@string/irclog"/>
+        <item
+            android:id="@+id/venue"
+            android:icon="@drawable/ic_map_black_48dp"
+            android:title="@string/venue"/>
         <item
             android:id="@+id/sponsors"
             android:icon="@drawable/ic_redeem_black_48dp"

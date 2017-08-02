@@ -1,19 +1,19 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion '25.0.0'
 
     defaultConfig {
-        applicationId "org.sitcon.ccip"
+        applicationId "org.coscup.ccip"
         minSdkVersion 15
-        targetSdkVersion 24
-        versionCode 16
-        versionName "1.1.3"
+        targetSdkVersion 25
+        versionCode 17
+        versionName "1.2.0"
 
         manifestPlaceholders = [manifestApplicationId: "${applicationId}",
-                                onesignal_app_id: "9b74779c-bcd8-471e-a64b-e033acf0ebbd",
-                                onesignal_google_project_number: "982607297926"]
+                                onesignal_app_id: "a429ff30-5c0e-4584-a32f-b866ba88c947",
+                                onesignal_google_project_number: "981935318625"]
     }
     buildTypes {
         debug {
@@ -23,7 +23,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "string", "ga_tracking_id", "UA-34467841-11"
+            resValue "string", "ga_tracking_id", "UA-79893624-2"
         }
     }
 }
@@ -39,11 +39,11 @@ dependencies {
 
     compile 'com.google.android.gms:play-services-analytics:9.4.0'
 
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:design:24.0.0'
-    compile 'com.android.support:recyclerview-v7:24.0.0'
-    compile 'com.android.support:support-v4:24.0.0'
-    compile 'com.android.support:cardview-v7:24.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
+    compile 'com.android.support:support-v4:25.0.0'
+    compile 'com.android.support:cardview-v7:25.0.0'
 
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.okhttp3:okhttp:3.3.1'

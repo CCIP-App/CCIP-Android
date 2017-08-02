@@ -18,45 +18,45 @@
         android:layout_height="wrap_content" />
 
     <RelativeLayout
-        android:id="@+id/not_coscup_wifi"
-        android:visibility="gone"
+        android:id="@+id/not_conf_wifi"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <ImageView
-            android:layout_width="300dp"
-            android:layout_height="300dp"
             android:id="@+id/imageView2"
-            android:src="@drawable/fp_empty"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:src="@drawable/fp_empty" />
 
         <TextView
-            android:id="@+id/not_coscup_wifi_msg"
+            android:id="@+id/not_conf_wifi_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/connect_to_conference_wifi"
             android:layout_below="@+id/imageView2"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="@string/connect_to_conference_wifi" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tap_to_retry"
-            android:layout_below="@+id/not_coscup_wifi_msg"
-            android:layout_centerHorizontal="true" />
+            android:layout_below="@+id/not_conf_wifi_msg"
+            android:layout_centerHorizontal="true"
+            android:text="@string/tap_to_retry" />
     </RelativeLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-                android:id="@+id/scenarios"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            android:id="@+id/scenarios"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

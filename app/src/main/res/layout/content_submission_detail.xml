@@ -72,7 +72,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="70dp"
@@ -83,6 +84,27 @@
 
                         <TextView
                             android:id="@+id/type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="New Text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/community_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/community"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                            android:textColor="@color/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/community"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="New Text" />

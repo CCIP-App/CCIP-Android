@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SITCON 通關</string>
+    <string name="app_name">COSCUP 通關</string>
+    <string name="conf_name">COSCUP</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
@@ -9,20 +10,22 @@
     <string name="schedule">議程</string>
     <string name="announcement">大會訊息</string>
     <string name="pd">論壇發言系統</string>
-    <string name="puzzle">程式碼拼圖</string>
+    <string name="puzzle">開源巔峰挑戰賽</string>
     <string name="my_ticket">我的票券</string>
     <string name="telegram">Telegram</string>
     <string name="irclog">IRC Log</string>
+    <string name="venue">會場地圖</string>
     <string name="sponsors">贊助</string>
     <string name="staffs">工作人員</string>
     <string name="star_on_github">Star on GitHub</string>
 
     <string name="hi">嗨\u0020</string>
-    <string name="login_success">，歡迎您加入 SITCON 2017！</string>
+    <string name="login_success">，歡迎您加入 COSCUP 2017！</string>
     <string name="open_via_link">請透過連結開啟此應用程式，你也可以點擊這裡打開相機掃描 KKTIX 提供的 QR Code</string>
     <string name="scan_kktix_qrcode">掃描 KKTIX 票券 QR code</string>
-    <string name="connect_to_conference_wifi">請使用 SITCON 提供的無線網路</string>
+    <string name="connect_to_conference_wifi">請使用 COSCUP 提供的無線網路</string>
     <string name="tap_to_retry">點擊重試</string>
+    <string name="announcement_empty">目前無任何公告哦！</string>
 
     <string name="confirm_dialog_title">是否已聽從工作人員的指示？</string>
     <string name="positive_button">確認使用</string>
@@ -35,6 +38,7 @@
     <string name="lang">語言</string>
     <string name="time">時間</string>
     <string name="type">類型</string>
+    <string name="community">社群</string>
     <string name="speaker_info">講者簡介</string>
     <string name="program_abstract">議程簡介</string>
 
@@ -52,4 +56,8 @@
 
     <string name="share">分享</string>
     <string name="puzzle_share_subject">這是我的程式碼拼圖，和我一起解題吧！</string>
+
+    <string name="add_bookmark">已經加入書籤，議程開始前十分鐘會通知您</string>
+    <string name="remove_bookmark">已經移除書籤</string>
+    <string name="notification_submission_start">%1$s 於 %2$s 將在十分鐘後開始</string>
 </resources>
