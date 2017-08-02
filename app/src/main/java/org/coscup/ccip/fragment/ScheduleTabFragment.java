@@ -101,6 +101,12 @@ public class ScheduleTabFragment extends TrackFragment {
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        tabLayout.setupWithViewPager(null);
+        super.onDestroy();
+    }
+
     private void setupViewPager() {
         scheduleTabAdapter = new ScheduleTabAdapter(getChildFragmentManager());
         addSubmissionFragments(mSubmissions);
