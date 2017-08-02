@@ -9,7 +9,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -103,7 +102,7 @@ public class ScheduleTabFragment extends TrackFragment {
     }
 
     private void setupViewPager() {
-        scheduleTabAdapter = new ScheduleTabAdapter(((AppCompatActivity) mActivity).getSupportFragmentManager());
+        scheduleTabAdapter = new ScheduleTabAdapter(getChildFragmentManager());
         addSubmissionFragments(mSubmissions);
         viewPager.setAdapter(scheduleTabAdapter);
         tabLayout.setupWithViewPager(viewPager);
