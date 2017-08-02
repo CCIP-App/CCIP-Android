@@ -108,10 +108,12 @@ public class ScheduleTabFragment extends TrackFragment {
     }
 
     private void setupViewPager() {
-        scheduleTabAdapter = new ScheduleTabAdapter(getChildFragmentManager());
-        addSubmissionFragments(mSubmissions);
-        viewPager.setAdapter(scheduleTabAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        if (isAdded()) {
+            scheduleTabAdapter = new ScheduleTabAdapter(getChildFragmentManager());
+            addSubmissionFragments(mSubmissions);
+            viewPager.setAdapter(scheduleTabAdapter);
+            tabLayout.setupWithViewPager(viewPager);
+        }
     }
 
     private void addSubmissionFragments(List<Submission> submissions) {
