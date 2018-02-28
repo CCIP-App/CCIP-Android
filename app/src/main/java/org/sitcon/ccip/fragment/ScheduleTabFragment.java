@@ -138,6 +138,10 @@ public class ScheduleTabFragment extends TrackFragment {
             scheduleTabAdapter.addFragment(ScheduleFragment.newInstance(entry.getKey(), entry.getValue()), entry.getKey());
         }
         scheduleTabAdapter.notifyDataSetChanged();
+
+        if (map.size() == 1) {
+            tabLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
