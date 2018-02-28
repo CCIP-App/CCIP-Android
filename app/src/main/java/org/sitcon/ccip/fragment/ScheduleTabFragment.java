@@ -31,7 +31,7 @@ import java.util.Map;
 import org.sitcon.ccip.R;
 import org.sitcon.ccip.adapter.ScheduleTabAdapter;
 import org.sitcon.ccip.model.Submission;
-import org.sitcon.ccip.network.COSCUPClient;
+import org.sitcon.ccip.network.ConfClient;
 import org.sitcon.ccip.util.PreferenceUtil;
 
 import retrofit2.Call;
@@ -76,7 +76,7 @@ public class ScheduleTabFragment extends TrackFragment {
             }
         });
 
-        Call<List<Submission>> submissionCall = COSCUPClient.get().submission();
+        Call<List<Submission>> submissionCall = ConfClient.get().submission();
         submissionCall.enqueue(new Callback<List<Submission>>() {
             @Override
             public void onResponse(Call<List<Submission>> call, Response<List<Submission>> response) {
