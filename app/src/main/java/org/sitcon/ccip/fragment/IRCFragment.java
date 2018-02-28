@@ -21,7 +21,7 @@ import org.sitcon.ccip.network.webclient.WebChromeViewClient;
 public class IRCFragment extends TrackFragment {
 
     private static final String URL_NO_NETWORK = "file:///android_asset/no_network.html";
-    private static final String URL_IRC = "https://ysitd.licson.net/channel/coscup/today";
+    private static final String URL_IRC = "https://ysitd.licson.net/channel/sitcon/today";
 
     private static WebView webView;
     private static ProgressBar progressBar;
