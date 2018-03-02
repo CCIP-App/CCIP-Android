@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#009A79</color>
-    <color name="colorPrimaryDark">#006851</color>
-    <color name="colorAccent">#50E3C2</color>
+    <color name="colorPrimary">#62757D</color>
+    <color name="colorPrimaryDark">#4F5D60</color>
+    <color name="colorAccent">#009D9B</color>
     <color name="colorDietMeat">#FFA000</color>
     <color name="colorDietVegetarian">#298A08</color>
-    <color name="colorTabIndicator">#FFFF8C</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGray">#9D9D9D</color>
 </resources>
