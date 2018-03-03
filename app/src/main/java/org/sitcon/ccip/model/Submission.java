@@ -37,6 +37,9 @@ public class Submission {
     @SerializedName("summary")
     @Expose
     private String summary;
+    @SerializedName("sli.do")
+    @Expose
+    private String slido;
 
     public String getId() {
         return id;
@@ -108,6 +111,15 @@ public class Submission {
     public void setSummary(String summary) {
         this.summary = summary;
     }
+
+    public String getSlido() {
+        return slido;
+    }
+
+    public void setSlido(String slido) {
+        this.slido = slido;
+    }
+
 
     public static int getTypeString(String type) {
         switch (type) {
