@@ -37,6 +37,9 @@ public class Submission {
     @SerializedName("summary")
     @Expose
     private String summary;
+    @SerializedName("slide")
+    @Expose
+    private String slide;
     @SerializedName("sli.do")
     @Expose
     private String slido;
@@ -110,6 +113,14 @@ public class Submission {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public String getSlide() {
+        return slide;
+    }
+
+    public void setSlide(String slide) {
+        this.slide = slide;
     }
 
     public String getSlido() {

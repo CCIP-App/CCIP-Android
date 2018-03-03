@@ -58,7 +58,7 @@ public class SubmissionDetailActivity extends TrackActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView room, subject, time, type, community, slido, lang, speakerInfo, programAbstract;
+        TextView room, subject, time, type, community, slide, slido, lang, speakerInfo, programAbstract;
         ImageView appBarImage;
         View spekaerInfoBlock;
         room = (TextView) findViewById(R.id.room);
@@ -66,6 +66,7 @@ public class SubmissionDetailActivity extends TrackActivity {
         time = (TextView) findViewById(R.id.time);
         type = (TextView) findViewById(R.id.type);
         community = (TextView) findViewById(R.id.community);
+        slide = (TextView) findViewById(R.id.slide);
         slido = (TextView) findViewById(R.id.slido);
         lang = (TextView) findViewById(R.id.lang);
         spekaerInfoBlock = findViewById(R.id.speaker_info_block);
@@ -103,6 +104,17 @@ public class SubmissionDetailActivity extends TrackActivity {
             community.setText(submission.getCommunity());
         } else {
             findViewById(R.id.community_layout).setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(submission.getSlide())) {
+            findViewById(R.id.slide_layout).setVisibility(View.VISIBLE);
+            slide.setPaintFlags(slide.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            slide.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getSlide())));
+                }
+            });
         }
 
         if (!TextUtils.isEmpty(submission.getSlido())) {

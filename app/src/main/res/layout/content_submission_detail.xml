@@ -127,6 +127,27 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/slide_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/slide"
+                            android:textColor="@color/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/slide"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/link" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/slido_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
