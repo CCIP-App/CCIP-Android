@@ -58,7 +58,6 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:text="@string/time"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/colorPrimary" />
 
                         <TextView
@@ -78,7 +77,6 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:text="@string/type"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/colorPrimary" />
 
                         <TextView
@@ -99,7 +97,6 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:text="@string/community"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/colorPrimary" />
 
                         <TextView
@@ -120,7 +117,6 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:text="@string/lang"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/colorPrimary" />
 
                         <TextView
@@ -142,7 +138,6 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:text="@string/slido"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/colorPrimary" />
 
                         <TextView
