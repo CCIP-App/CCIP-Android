@@ -10,6 +10,9 @@ import org.sitcon.ccip.R;
 
 public class Submission {
 
+    @SerializedName("id")
+    @Expose
+    private String id;
     @SerializedName("speaker")
     @Expose
     private Speaker speaker;
@@ -35,6 +38,13 @@ public class Submission {
     @Expose
     private String summary;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     public Speaker getSpeaker() {
         return speaker;
     }
