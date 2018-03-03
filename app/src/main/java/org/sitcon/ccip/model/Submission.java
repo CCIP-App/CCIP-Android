@@ -140,11 +140,7 @@ public class Submission {
 
         Submission that = (Submission) o;
 
-        if (!start.equals(that.start) || !end.equals(that.end)) {
-            return false;
-        }
-
-        return room.equals(that.room);
+        return this.id.equals(that.id);
     }
 
     @Override
