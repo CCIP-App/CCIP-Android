@@ -10,6 +10,9 @@ import org.sitcon.ccip.R;
 
 public class Submission {
 
+    @SerializedName("id")
+    @Expose
+    private String id;
     @SerializedName("speaker")
     @Expose
     private Speaker speaker;
@@ -34,7 +37,20 @@ public class Submission {
     @SerializedName("summary")
     @Expose
     private String summary;
+    @SerializedName("slide")
+    @Expose
+    private String slide;
+    @SerializedName("sli.do")
+    @Expose
+    private String slido;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     public Speaker getSpeaker() {
         return speaker;
     }
@@ -99,6 +115,23 @@ public class Submission {
         this.summary = summary;
     }
 
+    public String getSlide() {
+        return slide;
+    }
+
+    public void setSlide(String slide) {
+        this.slide = slide;
+    }
+
+    public String getSlido() {
+        return slido;
+    }
+
+    public void setSlido(String slido) {
+        this.slido = slido;
+    }
+
+
     public static int getTypeString(String type) {
         switch (type) {
             case "K":
@@ -130,11 +163,7 @@ public class Submission {
 
         Submission that = (Submission) o;
 
-        if (!start.equals(that.start) || !end.equals(that.end)) {
-            return false;
-        }
-
-        return room.equals(that.room);
+        return this.id.equals(that.id);
     }
 
     @Override

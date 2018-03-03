@@ -1,7 +1,11 @@
 package org.sitcon.ccip.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,33 +19,36 @@ import android.widget.TextView;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.squareup.picasso.Picasso;
 
-import java.util.Collections;
-import java.util.List;
 import org.sitcon.ccip.R;
 import org.sitcon.ccip.model.Submission;
 import org.sitcon.ccip.util.AlarmUtil;
 import org.sitcon.ccip.util.JsonUtil;
+import org.sitcon.ccip.util.PreferenceUtil;
 
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
-import org.sitcon.ccip.util.PreferenceUtil;
+import java.util.List;
 
 public class SubmissionDetailActivity extends TrackActivity {
 
     public static final String INTENT_EXTRA_PROGRAM = "program";
     private static final SimpleDateFormat SDF_DATETIME = new SimpleDateFormat("MM/dd HH:mm");
     private static final SimpleDateFormat SDF_TIME = new SimpleDateFormat("HH:mm");
+
+    private Activity mActivity;
     private boolean isStar = false;
     private Submission submission;
-
     private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submission_detail);
+
+        mActivity = this;
 
         submission = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Submission.class);
         isStar = PreferenceUtil.loadStars(this).contains(submission);
@@ -51,7 +58,7 @@ public class SubmissionDetailActivity extends TrackActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView room, subject, time, type, community, lang, speakerInfo, programAbstract;
+        TextView room, subject, time, type, community, slide, slido, lang, speakerInfo, programAbstract;
         ImageView appBarImage;
         View spekaerInfoBlock;
         room = (TextView) findViewById(R.id.room);
@@ -59,6 +66,8 @@ public class SubmissionDetailActivity extends TrackActivity {
         time = (TextView) findViewById(R.id.time);
         type = (TextView) findViewById(R.id.type);
         community = (TextView) findViewById(R.id.community);
+        slide = (TextView) findViewById(R.id.slide);
+        slido = (TextView) findViewById(R.id.slido);
         lang = (TextView) findViewById(R.id.lang);
         spekaerInfoBlock = findViewById(R.id.speaker_info_block);
         speakerInfo = (TextView) findViewById(R.id.speakerinfo);
@@ -95,6 +104,29 @@ public class SubmissionDetailActivity extends TrackActivity {
             community.setText(submission.getCommunity());
         } else {
             findViewById(R.id.community_layout).setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(submission.getSlide())) {
+            findViewById(R.id.slide_layout).setVisibility(View.VISIBLE);
+            slide.setPaintFlags(slide.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            slide.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getSlide())));
+                }
+            });
+        }
+
+        if (!TextUtils.isEmpty(submission.getSlido())) {
+            findViewById(R.id.slido_layout).setVisibility(View.VISIBLE);
+            slido.setText(submission.getSlido());
+            slido.setPaintFlags(slido.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            slido.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.sli.do/" + submission.getSlido())));
+                }
+            });
         }
 
         if (submission.getSpeaker().getName().isEmpty()) spekaerInfoBlock.setVisibility(View.GONE);

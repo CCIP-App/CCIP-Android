@@ -98,26 +98,29 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
             e.printStackTrace();
         }
 
-        toggleStar(holder.star, isSubmissionStar(mContext, submission));
+        if (!submission.getSummary().isEmpty()) {
+            toggleStar(holder.star, isSubmissionStar(mContext, submission));
 
-        holder.star.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateStarSubmissions(mContext, submission);
-                toggleStar(holder.star, isSubmissionStar(mContext, submission));
-            }
-        });
+            holder.star.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateStarSubmissions(mContext, submission);
+                    toggleStar(holder.star, isSubmissionStar(mContext, submission));
+                }
+            });
 
-        holder.card.setClickable(true);
-        holder.card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(mContext, SubmissionDetailActivity.class);
-                intent.putExtra(SubmissionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(submission));
-                mContext.startActivity(intent);
-            }
-        });
+            holder.card.setClickable(true);
+            holder.card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, SubmissionDetailActivity.class);
+                    intent.putExtra(SubmissionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(submission));
+                    mContext.startActivity(intent);
+                }
+            });
+        }
+
     }
 
     @Override
