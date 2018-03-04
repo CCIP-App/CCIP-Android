@@ -65,7 +65,7 @@ public class PuzzleFragment extends TrackFragment {
         webView.setWebChromeClient(new WebChromeViewClient(progressBar));
 
         if (PreferenceUtil.getToken(getActivity()) != null) {
-            webView.loadUrl(URL_PUZZLE + toPublicToken(PreferenceUtil.getToken(getActivity())));
+            webView.loadUrl(URL_PUZZLE + PreferenceUtil.getToken(getActivity()));
         } else {
             webView.loadUrl("data:text/html, <div>Please login</div>");
         }
