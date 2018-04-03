@@ -36,6 +36,8 @@ captures/
 
 # Android Studio
 *.iml
+.idea/caches/
+.idea/codeStyles/
 .idea/compiler.xml
 .idea/copyright/profiles_settings.xml
 .idea/encodings.xml
