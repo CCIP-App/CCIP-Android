@@ -26,8 +26,8 @@ android {
         versionName "1.3.4"
 
         manifestPlaceholders = [manifestApplicationId: "${applicationId}",
-                                onesignal_app_id: "9b74779c-bcd8-471e-a64b-e033acf0ebbd",
-                                onesignal_google_project_number: "982607297926"]
+                                onesignal_app_id: "9506c2db-f054-46b3-9396-744807736fb8",
+                                onesignal_google_project_number: "282941702201"]
     }
     buildTypes {
         debug {
