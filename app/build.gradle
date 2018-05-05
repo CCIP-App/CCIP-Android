@@ -1,3 +1,17 @@
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/'}
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.8.1'
+    }
+}
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
+repositories {
+    maven { url 'https://maven.google.com' }
+}
+
 apply plugin: 'com.android.application'
 
 android {
@@ -31,13 +45,12 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    // OneSignal
-    compile 'com.onesignal:OneSignal:3.+@aar'
-    compile 'com.google.android.gms:play-services-gcm:+'
-    compile 'com.google.android.gms:play-services-analytics:+'
-    compile "com.google.android.gms:play-services-location:+"
+    compile 'com.google.firebase:firebase-core:15.0.0'
 
-    compile 'com.google.android.gms:play-services-analytics:9.4.0'
+    compile 'com.onesignal:OneSignal:[3.8.3, 3.99.99]'
+
+    compile 'com.google.android.gms:play-services-analytics:15.0.0'
+    compile "com.google.android.gms:play-services-location:15.0.0"
 
     compile 'com.android.support:appcompat-v7:27.1.0'
     compile 'com.android.support:design:27.1.0'
@@ -56,3 +69,5 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
     compile 'com.google.zxing:core:3.2.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
