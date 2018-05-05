@@ -75,7 +75,7 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         programAbstract = (TextView) findViewById(R.id.program_abstract);
         appBarImage = (ImageView) findViewById(R.id.app_bar_image);
 
-        Picasso.with(this).load(submission.getSpeaker().getAvatar()).into(appBarImage);
+        Picasso.get().load(submission.getSpeaker().getAvatar()).into(appBarImage);
 
         room.setText(submission.getRoom());
         subject.setText(submission.getSubject());

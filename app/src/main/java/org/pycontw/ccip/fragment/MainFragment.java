@@ -54,7 +54,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 IntentIntegrator integrator = new IntentIntegrator(mActivity);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                 integrator.setPrompt(getString(R.string.scan_kktix_qrcode));
                 integrator.setCameraId(0);
                 integrator.setBeepEnabled(false);
