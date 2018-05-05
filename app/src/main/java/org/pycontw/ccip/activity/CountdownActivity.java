@@ -3,6 +3,7 @@ package org.pycontw.ccip.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -20,7 +21,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-public class CountdownActivity extends TrackActivity {
+public class CountdownActivity extends AppCompatActivity {
 
     public static final String INTENT_EXTRA_SCENARIO = "scenario";
     private static final SimpleDateFormat SDF = new SimpleDateFormat("HH:mm:ss");

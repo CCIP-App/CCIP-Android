@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class PuzzleFragment extends TrackFragment {
+public class PuzzleFragment extends Fragment {
 
     private static final String URL_NO_NETWORK = "file:///android_asset/no_network.html";
     private static final String URL_PUZZLE = "https://king.sitcon.party/?mode=app&token=";

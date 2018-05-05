@@ -31,13 +31,11 @@ android {
     }
     buildTypes {
         debug {
-            resValue "string", "ga_tracking_id", "UA-79893624-3"
         }
 
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "string", "ga_tracking_id", "UA-34467841-11"
         }
     }
 }
@@ -48,9 +46,6 @@ dependencies {
     compile 'com.google.firebase:firebase-core:15.0.0'
 
     compile 'com.onesignal:OneSignal:[3.8.3, 3.99.99]'
-
-    compile 'com.google.android.gms:play-services-analytics:15.0.0'
-    compile "com.google.android.gms:play-services-location:15.0.0"
 
     compile 'com.android.support:appcompat-v7:27.1.0'
     compile 'com.android.support:design:27.1.0'

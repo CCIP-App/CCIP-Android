@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import android.widget.ProgressBar;
 import org.pycontw.ccip.R;
 import org.pycontw.ccip.network.webclient.WebChromeViewClient;
 
-public class IRCFragment extends TrackFragment {
+public class IRCFragment extends Fragment {
 
     private static final String URL_NO_NETWORK = "file:///android_asset/no_network.html";
     private static final String URL_IRC = "https://ysitd.licson.net/channel/sitcon/today";

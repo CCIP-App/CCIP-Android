@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -32,7 +33,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-public class SubmissionDetailActivity extends TrackActivity {
+public class SubmissionDetailActivity extends AppCompatActivity {
 
     public static final String INTENT_EXTRA_PROGRAM = "program";
     private static final SimpleDateFormat SDF_DATETIME = new SimpleDateFormat("MM/dd HH:mm");

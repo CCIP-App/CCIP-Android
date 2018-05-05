@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import com.google.zxing.common.BitMatrix;
 import org.pycontw.ccip.R;
 import org.pycontw.ccip.util.PreferenceUtil;
 
-public class MyTicketFragment extends TrackFragment {
+public class MyTicketFragment extends Fragment {
     private Activity mActivity;
 
     @Override

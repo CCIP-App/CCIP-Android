@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class ScheduleFragment extends TrackFragment {
+public class ScheduleFragment extends Fragment {
 
     private Activity mActivity;
     RecyclerView scheduleView;
