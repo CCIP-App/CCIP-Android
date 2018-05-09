@@ -50,5 +50,6 @@ captures/
 .idea/tasks.xml
 .idea/vcs.xml
 .idea/workspace.xml
+.idea/assetWizardSettings.xml
 
 .DS_Store
