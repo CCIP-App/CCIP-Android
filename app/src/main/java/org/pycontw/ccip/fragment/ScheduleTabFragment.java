@@ -21,19 +21,20 @@ import android.widget.Toast;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
+import org.pycontw.ccip.R;
+import org.pycontw.ccip.adapter.ScheduleTabAdapter;
+import org.pycontw.ccip.model.Submission;
+import org.pycontw.ccip.network.ConfClient;
+import org.pycontw.ccip.util.PreferenceUtil;
+
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.pycontw.ccip.R;
-import org.pycontw.ccip.adapter.ScheduleTabAdapter;
-import org.pycontw.ccip.model.Submission;
-import org.pycontw.ccip.network.ConfClient;
-import org.pycontw.ccip.util.PreferenceUtil;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -135,8 +136,10 @@ public class ScheduleTabFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        for (Map.Entry<String, List<Submission>> entry : map.entrySet()) {
-            scheduleTabAdapter.addFragment(ScheduleFragment.newInstance(entry.getKey(), entry.getValue()), entry.getKey());
+        SortedSet<String> keys = new TreeSet<>(map.keySet());
+        for (String key : keys) {
+            List<Submission> value = map.get(key);
+            scheduleTabAdapter.addFragment(ScheduleFragment.newInstance(key, value), key);
         }
         scheduleTabAdapter.notifyDataSetChanged();
 
