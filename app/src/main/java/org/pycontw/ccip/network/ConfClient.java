@@ -15,7 +15,7 @@ public class ConfClient {
     public static final String API_BASE_URL = "http://sitcon.org/2018/static/";
 
     private static Retrofit retrofit;
-    private static COSCUPService sCOSCUPService;
+    private static ConfService sConfService;
 
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
@@ -28,15 +28,15 @@ public class ConfClient {
         return retrofit;
     }
 
-    public static COSCUPService get() {
-        if (sCOSCUPService == null) {
-            sCOSCUPService = getRetrofit().create(COSCUPService.class);
+    public static ConfService get() {
+        if (sConfService == null) {
+            sConfService = getRetrofit().create(ConfService.class);
         }
 
-        return sCOSCUPService;
+        return sConfService;
     }
 
-    public interface COSCUPService {
+    public interface ConfService {
         @GET("json/submissions.json")
         Call<List<Submission>> submission();
     }
