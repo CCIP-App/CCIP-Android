@@ -37,7 +37,7 @@ import retrofit2.Response;
 public class MainFragment extends Fragment {
 
     private Activity mActivity;
-    View notCOSCUPWifiView;
+    View notConfWifiView;
     TextView invalidTokenMsg;
     RecyclerView scenarioView;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -48,7 +48,7 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        notCOSCUPWifiView = view.findViewById(R.id.not_conf_wifi);
+        notConfWifiView = view.findViewById(R.id.not_conf_wifi);
         invalidTokenMsg = (TextView) view.findViewById(R.id.invalid_token_msg);
         invalidTokenMsg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,12 +149,12 @@ public class MainFragment extends Fragment {
                     scenarioView.setAdapter(new ScenarioAdapter(mActivity, attendee.getScenarios()));
                 } else if (response.code() == 403) {
                     swipeRefreshLayout.setRefreshing(false);
-                    notCOSCUPWifiView.setVisibility(View.VISIBLE);
-                    notCOSCUPWifiView.setOnClickListener(new View.OnClickListener() {
+                    notConfWifiView.setVisibility(View.VISIBLE);
+                    notConfWifiView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             swipeRefreshLayout.setRefreshing(true);
-                            notCOSCUPWifiView.setVisibility(View.GONE);
+                            notConfWifiView.setVisibility(View.GONE);
                             updateStatus();
                         }
                     });
