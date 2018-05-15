@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private static final Uri URI_TELEGRAM = Uri.parse("https://t.me/SITCONgeneral");
 
     private DrawerLayout mDrawerLayout;
+    private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
     private static TextView userTitleTextView, userIdTextView;
     private Activity mActivity;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         mActivity = this;
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         userTitleTextView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_title);
         userIdTextView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_id);
@@ -156,6 +157,21 @@ public class MainActivity extends AppCompatActivity {
     public static void setUserTitle(String userTitle) {
         userTitleTextView.setVisibility(View.VISIBLE);
         userTitleTextView.setText(userTitle);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (navigationView.getMenu().findItem(R.id.fast_pass).isChecked()) {
+            super.onBackPressed();
+        } else {
+            setTitle(R.string.fast_pass);
+            Fragment fragment = new MainFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
+            navigationView.setCheckedItem(R.id.fast_pass);
+        }
     }
 
     public static void setUserId(String userId) {
