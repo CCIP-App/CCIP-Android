@@ -31,7 +31,7 @@ import java.security.NoSuchAlgorithmException;
 public class PuzzleFragment extends Fragment {
 
     private static final String URL_NO_NETWORK = "file:///android_asset/no_network.html";
-    private static final String URL_PUZZLE = "https://king.sitcon.party/?mode=app&token=";
+    private static final String URL_PUZZLE = "https://game.pycon.tw/?mode=app&token=";
 
     private Activity mActivity;
 
