@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SITCON 通關</string>
-    <string name="conf_name">SITCON</string>
+    <string name="app_name">PyConTW 通關</string>
+    <string name="conf_name">PyConTW</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
@@ -10,7 +10,7 @@
     <string name="schedule">議程</string>
     <string name="announcement">大會訊息</string>
     <string name="pd">論壇發言系統</string>
-    <string name="puzzle">知識王</string>
+    <string name="puzzle">集點抽書</string>
     <string name="my_ticket">我的票券</string>
     <string name="telegram">Telegram</string>
     <string name="irclog">IRC Log</string>
@@ -20,10 +20,10 @@
     <string name="star_on_github">Star on GitHub</string>
 
     <string name="hi">嗨\u0020</string>
-    <string name="login_success">，歡迎您加入 SITCON 2018！</string>
+    <string name="login_success">，歡迎您加入 PyConTW 2018！</string>
     <string name="open_via_link">請透過連結開啟此應用程式，你也可以點擊這裡打開相機掃描 KKTIX 提供的 QR Code</string>
     <string name="scan_kktix_qrcode">掃描 KKTIX 票券 QR code</string>
-    <string name="connect_to_conference_wifi">請使用 SITCON 提供的無線網路</string>
+    <string name="connect_to_conference_wifi">請使用 PyConTW 提供的無線網路</string>
     <string name="tap_to_retry">點擊重試</string>
     <string name="announcement_empty">目前無任何公告哦！</string>
 
