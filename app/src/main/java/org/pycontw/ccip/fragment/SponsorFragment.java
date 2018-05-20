@@ -17,7 +17,7 @@ import org.pycontw.ccip.network.webclient.WebChromeViewClient;
 
 public class SponsorFragment extends Fragment {
 
-    private static final String URL_SPONSORS = "https://sitcon.org/2018/?mode=app#/sponsor";
+    private static final String URL_SPONSORS = "https://tw.pycon.org/2018/ccip/sponsors/";
     private static WebView webView;
     private static ProgressBar progressBar;
 

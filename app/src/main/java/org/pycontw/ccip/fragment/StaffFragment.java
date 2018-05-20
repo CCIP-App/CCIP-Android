@@ -17,7 +17,7 @@ import org.pycontw.ccip.network.webclient.WebChromeViewClient;
 
 public class StaffFragment extends Fragment {
 
-    private static final String URL_STAFFS = "https://sitcon.org/2018/?mode=app#/staff";
+    private static final String URL_STAFFS = "https://tw.pycon.org/2018/ccip/staff/";
     private static WebView webView;
     private static ProgressBar progressBar;
 
