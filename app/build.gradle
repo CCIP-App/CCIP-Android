@@ -23,8 +23,8 @@ android {
         applicationId "org.pycontw.ccip"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 25
-        versionName "1.4.0"
+        versionCode 26
+        versionName "1.4.1"
 
         manifestPlaceholders = [manifestApplicationId: "${applicationId}",
                                 onesignal_app_id: "9506c2db-f054-46b3-9396-744807736fb8",
