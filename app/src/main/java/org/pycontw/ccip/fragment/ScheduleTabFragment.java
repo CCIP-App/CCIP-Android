@@ -50,6 +50,7 @@ public class ScheduleTabFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     TabLayout tabLayout;
     ViewPager viewPager;
+    MenuItem menuItemStar;
 
     @Nullable
     @Override
@@ -115,6 +116,7 @@ public class ScheduleTabFragment extends Fragment {
             addSubmissionFragments(mSubmissions);
             viewPager.setAdapter(scheduleTabAdapter);
             tabLayout.setupWithViewPager(viewPager);
+            menuItemStar.setVisible(true);
         }
     }
 
@@ -168,8 +170,10 @@ public class ScheduleTabFragment extends Fragment {
                         return false;
                     }
                 })
+                .setVisible(false)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        menu.getItem(0).getIcon().setColorFilter(getResources().getColor(R.color.colorWhite),
+        menuItemStar = menu.getItem(0);
+        menuItemStar.getIcon().setColorFilter(getResources().getColor(R.color.colorWhite),
                 Mode.SRC_ATOP);
     }
 
