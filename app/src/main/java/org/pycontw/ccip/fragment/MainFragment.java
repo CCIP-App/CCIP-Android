@@ -1,9 +1,13 @@
 package org.pycontw.ccip.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -13,8 +17,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -24,6 +28,7 @@ import com.onesignal.OneSignal;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.pycontw.ccip.R;
+import org.pycontw.ccip.activity.CaptureActivity;
 import org.pycontw.ccip.activity.MainActivity;
 import org.pycontw.ccip.adapter.ScenarioAdapter;
 import org.pycontw.ccip.model.Attendee;
@@ -37,8 +42,10 @@ import retrofit2.Response;
 public class MainFragment extends Fragment {
 
     private Activity mActivity;
+    View noNetworkView;
     View notConfWifiView;
-    TextView invalidTokenMsg;
+    View loginView;
+    TextView loginTitle;
     RecyclerView scenarioView;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -48,9 +55,63 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        noNetworkView = view.findViewById(R.id.no_network);
         notConfWifiView = view.findViewById(R.id.not_conf_wifi);
-        invalidTokenMsg = (TextView) view.findViewById(R.id.invalid_token_msg);
-        invalidTokenMsg.setOnClickListener(new View.OnClickListener() {
+        loginView = view.findViewById(R.id.login);
+        loginTitle = view.findViewById(R.id.login_title);
+
+        View enterTokenButton = view.findViewById(R.id.enter_token);
+
+        enterTokenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final LayoutInflater inflater = mActivity.getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.dialog_enter_token, null);
+                final TextInputLayout tokenInputLayout = dialogView.findViewById(R.id.token_input_layout);
+                final TextInputEditText tokenInput = dialogView.findViewById(R.id.token_input);
+
+                final AlertDialog dialog = new AlertDialog.Builder(mActivity)
+                        .setView(dialogView)
+                        .setTitle(R.string.enter_your_token)
+                        .setPositiveButton(R.string.positive_button, null)
+                        .setNegativeButton(R.string.negative_button, null)
+                        .create();
+
+                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialogInterface) {
+                        Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                        Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+
+                        positiveButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String token = tokenInput.getText().toString().trim();
+
+                                if (token.equals("")) {
+                                    tokenInputLayout.setError(getString(R.string.token_required));
+                                    return;
+                                }
+                                PreferenceUtil.setIsNewToken(mActivity, true);
+                                PreferenceUtil.setToken(mActivity, token);
+                                dialog.dismiss();
+                                updateStatus();
+                            }
+                        });
+                        negativeButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                });
+
+                dialog.show();
+            }
+        });
+
+        loginTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 IntentIntegrator integrator = new IntentIntegrator(mActivity);
@@ -59,6 +120,7 @@ public class MainFragment extends Fragment {
                 integrator.setCameraId(0);
                 integrator.setBeepEnabled(false);
                 integrator.setBarcodeImageEnabled(false);
+                integrator.setCaptureActivity(CaptureActivity.class);
                 integrator.initiateScan();
             }
         });
@@ -79,7 +141,7 @@ public class MainFragment extends Fragment {
         }
 
         if (PreferenceUtil.getToken(mActivity) == null) {
-            invalidTokenMsg.setVisibility(View.VISIBLE);
+            loginView.setVisibility(View.VISIBLE);
         }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -100,7 +162,7 @@ public class MainFragment extends Fragment {
 
     void updateStatus() {
         if (PreferenceUtil.getToken(mActivity) == null) {
-            invalidTokenMsg.setVisibility(View.VISIBLE);
+            loginView.setVisibility(View.VISIBLE);
             return;
         }
 
@@ -110,7 +172,10 @@ public class MainFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
-        invalidTokenMsg.setVisibility(View.GONE);
+        loginView.setVisibility(View.GONE);
+        noNetworkView.setVisibility(View.GONE);
+        notConfWifiView.setVisibility(View.GONE);
+
         Call<Attendee> attendee = CCIPClient.get().status(PreferenceUtil.getToken(mActivity));
         attendee.enqueue(new Callback<Attendee>() {
             @Override
@@ -160,15 +225,24 @@ public class MainFragment extends Fragment {
                     });
                 }
                 else {
-                    Toast.makeText(mActivity, "invalid token", Toast.LENGTH_LONG).show();
-                    invalidTokenMsg.setVisibility(View.VISIBLE);
+                    Snackbar.make(getView(), getString(R.string.invalid_token), Snackbar.LENGTH_LONG).show();
+                    PreferenceUtil.setToken(mActivity, null);
+                    loginView.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<Attendee> call, Throwable t) {
                 swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show();
+                noNetworkView.setVisibility(View.VISIBLE);
+                noNetworkView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        swipeRefreshLayout.setRefreshing(true);
+                        noNetworkView.setVisibility(View.GONE);
+                        updateStatus();
+                    }
+                });
             }
         });
     }
