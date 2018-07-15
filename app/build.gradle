@@ -20,7 +20,7 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        applicationId "org.pycontw.ccip"
+        applicationId "org.coscup.ccip"
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 26
