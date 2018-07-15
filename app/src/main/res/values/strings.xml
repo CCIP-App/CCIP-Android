@@ -21,7 +21,7 @@
 
     <string name="hi">Hi\u0020</string>
     <string name="login_success">, Welcome to PyConTW 2018!</string>
-    <string name="open_via_link">Please open this app via link, or you can click here to scan the QR code in KKTIX ticket via camera</string>
+    <string name="open_via_link">You can also open this app via link.</string>
     <string name="scan_kktix_qrcode">Scan KKTIX ticket QR code</string>
     <string name="connect_to_conference_wifi">Please connect to the wifi provided by PyConTW</string>
     <string name="tap_to_retry">Tap to retry</string>
@@ -33,7 +33,7 @@
 
     <string name="my_ticket_notice">Keep your ticket carefully, only show for our staff or use in booth event.</string>
 
-    <string name="offline">Offline</string>
+    <string name="offline">No network connection</string>
 
     <string name="lang">Lang</string>
     <string name="time">Time</string>
@@ -63,4 +63,12 @@
     <string name="add_bookmark">Added to bookmark, 10 mins before the session start will notify you.</string>
     <string name="remove_bookmark">Remove from bookmark</string>
     <string name="notification_submission_start">%1$s will start in 10 minutes at %2$s</string>
+    <string name="invalid_token">Invalid QR code, invite link, or token</string>
+    <string name="tap_here_to_scan">Tap here to scan the QR Code on the KKTIX ticket via camera or from a picture</string>
+    <string name="enter_token_button">I have a token</string>
+    <string name="enter_your_token">Enter your token</string>
+    <string name="token_required">Token required</string>
+    <string name="no_qr_code_found">No QR Code found in this picture</string>
+    <string name="select_from_gallery">Select from gallery</string>
+    <string name="select_picture">Select Picture</string>
 </resources>

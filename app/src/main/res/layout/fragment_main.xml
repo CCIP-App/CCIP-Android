@@ -10,13 +10,6 @@
     tools:context=".activity.MainActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/invalid_token_msg"
-        android:visibility="gone"
-        android:text="@string/open_via_link"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <RelativeLayout
         android:id="@+id/not_conf_wifi"
         android:layout_width="match_parent"
@@ -46,6 +39,94 @@
             android:layout_below="@+id/not_conf_wifi_msg"
             android:layout_centerHorizontal="true"
             android:text="@string/tap_to_retry" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/no_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/no_network_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/no_network" />
+
+        <TextView
+            android:id="@+id/no_network_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/no_network_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:text="@string/offline"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/no_network_msg"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/tap_to_retry"
+            android:textAllCaps="true"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+            <ImageView
+                android:id="@+id/login_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/qr_code"
+                android:tint="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/login_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:text="@string/tap_here_to_scan"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/enter_token"
+            android:layout_centerHorizontal="true"
+            android:text="@string/open_via_link"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/enter_token"
+            style="@style/BorderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/enter_token_button" />
+
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
