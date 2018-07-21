@@ -35,7 +35,7 @@ import org.coscup.ccip.util.PreferenceUtil;
 
 public class MainActivity extends AppCompatActivity {
     private static final Uri URI_GITHUB = Uri.parse("https://github.com/CCIP-App/CCIP-Android");
-    private static final Uri URI_TELEGRAM = Uri.parse("http://t.me/pycontw2018");
+    private static final Uri URI_TELEGRAM = Uri.parse("https://t.me/coscupchat");
 
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
