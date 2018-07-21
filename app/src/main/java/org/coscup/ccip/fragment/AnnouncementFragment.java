@@ -55,10 +55,11 @@ public class AnnouncementFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Announcement>> call, Response<List<Announcement>> response) {
                 swipeRefreshLayout.setRefreshing(false);
-                if (response.body().isEmpty()) {
+                if (response.isSuccessful() && !response.body().isEmpty()) {
+                    announcementView.setAdapter(new AnnouncementAdapter(mActivity, response.body()));
+                } else {
                     view.findViewById(R.id.announcement_empty).setVisibility(View.VISIBLE);
                 }
-                announcementView.setAdapter(new AnnouncementAdapter(mActivity, response.body()));
             }
 
             @Override
