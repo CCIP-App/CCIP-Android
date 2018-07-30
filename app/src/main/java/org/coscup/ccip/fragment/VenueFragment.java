@@ -17,7 +17,7 @@ import org.coscup.ccip.network.webclient.WebChromeViewClient;
 
 public class VenueFragment extends Fragment {
 
-    private static final String URL_SPONSORS = "https://tw.pycon.org/2018/static/pycontw-2018/assets/venue-map.svg";
+    private static final String URL_SPONSORS = "https://coscup.org/2018-assets/img/venue.svg";
     private static WebView webView;
     private static ProgressBar progressBar;
 
