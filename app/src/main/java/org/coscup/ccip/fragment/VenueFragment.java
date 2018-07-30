@@ -37,6 +37,8 @@ public class VenueFragment extends Fragment {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(false);
         if (Build.VERSION.SDK_INT >= 21) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         }
