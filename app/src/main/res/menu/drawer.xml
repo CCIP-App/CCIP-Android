@@ -20,7 +20,7 @@
             android:title="@string/puzzle"/>
         <item
             android:id="@+id/ticket"
-            android:icon="@drawable/ic_qrcode"
+            android:icon="@drawable/qr_code"
             android:title="@string/my_ticket"/>
         <item
             android:id="@+id/telegram"

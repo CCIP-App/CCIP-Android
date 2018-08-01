@@ -42,4 +42,7 @@
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/room_background</item>
     </style>
+    <style name="BorderlessButtonStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 </resources>

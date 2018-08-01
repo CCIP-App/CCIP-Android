@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3B097B</color>
-    <color name="colorPrimaryDark">#3B097B</color>
-    <color name="colorAccent">#9D50FF</color>
+    <color name="colorPrimary">#3F7D41</color>
+    <color name="colorPrimaryDark">#425D4F</color>
+    <color name="colorAccent">#E9FF9D</color>
     <color name="colorDietMeat">#FFA000</color>
     <color name="colorDietVegetarian">#298A08</color>
     <color name="colorWhite">#FFFFFF</color>
