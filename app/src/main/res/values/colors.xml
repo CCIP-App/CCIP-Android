@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F7D41</color>
     <color name="colorPrimaryDark">#425D4F</color>
-    <color name="colorAccent">#E9FF9D</color>
+    <color name="colorAccent">#86993E</color>
     <color name="colorDietMeat">#FFA000</color>
     <color name="colorDietVegetarian">#298A08</color>
     <color name="colorWhite">#FFFFFF</color>

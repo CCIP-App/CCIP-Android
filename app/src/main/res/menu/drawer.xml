@@ -29,7 +29,6 @@
         <item
             android:id="@+id/irc"
             android:icon="@drawable/ic_question_answer_black_48dp"
-            android:visible="false"
             android:title="@string/irclog"/>
         <item
             android:id="@+id/venue"
