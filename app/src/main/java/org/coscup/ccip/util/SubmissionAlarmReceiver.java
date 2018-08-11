@@ -1,13 +1,15 @@
 package org.coscup.ccip.util;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationCompat.Builder;
+
 import org.coscup.ccip.R;
 import org.coscup.ccip.activity.SubmissionDetailActivity;
 import org.coscup.ccip.model.Submission;
@@ -28,8 +30,20 @@ public class SubmissionAlarmReceiver extends BroadcastReceiver {
                 .format(context.getString(R.string.notification_submission_start), submission.getSubject(),
                         submission.getRoom());
 
-        NotificationCompat.Builder builder = new Builder(context)
-                .setSmallIcon(R.drawable.conf_logo)
+        NotificationManager manager = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+
+        String CHANNEL_ID = "submission_bookmark";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    context.getString(R.string.bookmark_channel_name),
+                    NotificationManager.IMPORTANCE_HIGH);
+            manager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_bookmark_black_24dp)
                 .setContentTitle(context.getString(R.string.conf_name))
                 .setContentText(notificationContent)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationContent))
@@ -43,8 +57,6 @@ public class SubmissionAlarmReceiver extends BroadcastReceiver {
         Notification notification = builder.build();
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
-        NotificationManager manager = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify((int) System.currentTimeMillis(), notification);
     }
 }
