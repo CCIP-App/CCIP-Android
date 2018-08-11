@@ -62,6 +62,7 @@
 
     <string name="add_bookmark">Added to bookmark, 10 mins before the session start will notify you.</string>
     <string name="remove_bookmark">Remove from bookmark</string>
+    <string name="bookmark_channel_name">Submission bookmark</string>
     <string name="notification_submission_start">%1$s will start in 10 minutes at %2$s</string>
     <string name="invalid_token">Invalid QR code, invite link, or token</string>
     <string name="tap_here_to_scan">Tap here to scan the QR Code on the KKTIX ticket via camera or from a picture</string>

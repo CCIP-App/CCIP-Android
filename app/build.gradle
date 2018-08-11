@@ -23,8 +23,8 @@ android {
         applicationId "org.coscup.ccip"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 28
-        versionName "1.5.1"
+        versionCode 29
+        versionName "1.5.2"
 
         manifestPlaceholders = [manifestApplicationId: "${applicationId}",
                                 onesignal_app_id: "a429ff30-5c0e-4584-a32f-b866ba88c947",
