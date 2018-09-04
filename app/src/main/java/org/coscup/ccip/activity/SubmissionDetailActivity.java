@@ -7,20 +7,22 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
-import com.squareup.picasso.Picasso;
 
 import org.coscup.ccip.R;
+import org.coscup.ccip.adapter.SpeakerImageAdapter;
+import org.coscup.ccip.model.Speaker;
 import org.coscup.ccip.model.Submission;
 import org.coscup.ccip.util.AlarmUtil;
 import org.coscup.ccip.util.JsonUtil;
@@ -29,6 +31,7 @@ import org.coscup.ccip.util.PreferenceUtil;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +46,8 @@ public class SubmissionDetailActivity extends AppCompatActivity {
     private boolean isStar = false;
     private Submission submission;
     private FloatingActionButton fab;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private TextView speakerInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +55,41 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_submission_detail);
 
         mActivity = this;
+        ViewPager speakerViewPager = (ViewPager) findViewById(R.id.viewPager_speaker);
 
         submission = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Submission.class);
         isStar = PreferenceUtil.loadStars(this).contains(submission);
 
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(submission.getSpeakers().get(0).getZh().getName());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView room, subject, time, type, community, slide, slido, lang, speakerInfo, programAbstract;
-        ImageView appBarImage;
+        final List<Speaker> speakers = new ArrayList<Speaker>();
+
+        SpeakerImageAdapter adapter = new SpeakerImageAdapter(this.getSupportFragmentManager(), speakers);
+        speakerViewPager.setAdapter(adapter);
+        speakerViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                speakerInfo.setText(speakers.get(position).getBio());
+                collapsingToolbarLayout.setTitle(speakers.get(position).getName());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+        TextView room, subject, time, type, community, slide, slido, lang, programAbstract;
         View spekaerInfoBlock;
         room = (TextView) findViewById(R.id.room);
         subject = (TextView) findViewById(R.id.subject);
@@ -73,9 +102,6 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         spekaerInfoBlock = findViewById(R.id.speaker_info_block);
         speakerInfo = (TextView) findViewById(R.id.speakerinfo);
         programAbstract = (TextView) findViewById(R.id.program_abstract);
-        appBarImage = (ImageView) findViewById(R.id.app_bar_image);
-
-        Picasso.get().load(submission.getSpeakers().get(0).getAvatar()).into(appBarImage);
 
         room.setText(submission.getRoom());
         subject.setText(submission.getZh().getSubject());
