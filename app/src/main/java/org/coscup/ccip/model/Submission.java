@@ -3,6 +3,7 @@ package org.coscup.ccip.model;
 
 import android.content.res.Resources;
 
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -13,9 +14,9 @@ public class Submission {
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("speaker")
+    @SerializedName("room")
     @Expose
-    private Speaker speaker;
+    private String room;
     @SerializedName("start")
     @Expose
     private String start;
@@ -25,24 +26,15 @@ public class Submission {
     @SerializedName("type")
     @Expose
     private String type;
-    @SerializedName("room")
+    @SerializedName("zh")
     @Expose
-    private String room;
-    @SerializedName("community")
+    private Zh zh;
+    @SerializedName("en")
     @Expose
-    private String community;
-    @SerializedName("subject")
+    private En en;
+    @SerializedName("speakers")
     @Expose
-    private String subject;
-    @SerializedName("summary")
-    @Expose
-    private String summary;
-    @SerializedName("slide")
-    @Expose
-    private String slide;
-    @SerializedName("sli.do")
-    @Expose
-    private String slido;
+    private List<Speaker> speakers = null;
 
     public String getId() {
         return id;
@@ -51,12 +43,13 @@ public class Submission {
     public void setId(String id) {
         this.id = id;
     }
-    public Speaker getSpeaker() {
-        return speaker;
+
+    public String getRoom() {
+        return room;
     }
 
-    public void setSpeaker(Speaker speaker) {
-        this.speaker = speaker;
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     public String getStart() {
@@ -83,54 +76,29 @@ public class Submission {
         this.type = type;
     }
 
-    public String getRoom() {
-        return room;
+    public SubmissionDetail getZh() {
+        return zh;
     }
 
-    public void setRoom(String room) {
-        this.room = room;
+    public void setZh(Zh zh) {
+        this.zh = zh;
     }
 
-    public String getCommunity() {
-        return community;
+    public SubmissionDetail getEn() {
+        return en;
     }
 
-    public void setCommunity(String community) {
-        this.community = community;
+    public void setEn(En en) {
+        this.en = en;
     }
 
-    public String getSubject() {
-        return subject;
+    public List<Speaker> getSpeakers() {
+        return speakers;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setSpeakers(List<Speaker> speakers) {
+        this.speakers = speakers;
     }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getSlide() {
-        return slide;
-    }
-
-    public void setSlide(String slide) {
-        this.slide = slide;
-    }
-
-    public String getSlido() {
-        return slido;
-    }
-
-    public void setSlido(String slido) {
-        this.slido = slido;
-    }
-
 
     public static int getTypeString(String type) {
         switch (type) {

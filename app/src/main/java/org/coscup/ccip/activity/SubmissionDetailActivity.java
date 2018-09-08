@@ -55,7 +55,7 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         isStar = PreferenceUtil.loadStars(this).contains(submission);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(submission.getSpeaker().getName());
+        toolbar.setTitle(submission.getSpeakers().get(0).getZh().getName());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -75,10 +75,10 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         programAbstract = (TextView) findViewById(R.id.program_abstract);
         appBarImage = (ImageView) findViewById(R.id.app_bar_image);
 
-        Picasso.get().load(submission.getSpeaker().getAvatar()).into(appBarImage);
+        Picasso.get().load(submission.getSpeakers().get(0).getAvatar()).into(appBarImage);
 
         room.setText(submission.getRoom());
-        subject.setText(submission.getSubject());
+        subject.setText(submission.getZh().getSubject());
 
         try {
             StringBuffer timeString = new StringBuffer();
@@ -101,39 +101,10 @@ public class SubmissionDetailActivity extends AppCompatActivity {
             type.setText("");
         }
 
-        if (!TextUtils.isEmpty(submission.getCommunity())) {
-            community.setText(submission.getCommunity());
-        } else {
-            findViewById(R.id.community_layout).setVisibility(View.GONE);
-        }
+        if (submission.getSpeakers().get(0).getZh().getName().isEmpty()) spekaerInfoBlock.setVisibility(View.GONE);
 
-        if (!TextUtils.isEmpty(submission.getSlide())) {
-            findViewById(R.id.slide_layout).setVisibility(View.VISIBLE);
-            slide.setPaintFlags(slide.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            slide.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getSlide())));
-                }
-            });
-        }
-
-        if (!TextUtils.isEmpty(submission.getSlido())) {
-            findViewById(R.id.slido_layout).setVisibility(View.VISIBLE);
-            slido.setText(submission.getSlido());
-            slido.setPaintFlags(slido.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            slido.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.sli.do/" + submission.getSlido())));
-                }
-            });
-        }
-
-        if (submission.getSpeaker().getName().isEmpty()) spekaerInfoBlock.setVisibility(View.GONE);
-
-        speakerInfo.setText(submission.getSpeaker().getBio());
-        programAbstract.setText(submission.getSummary());
+        speakerInfo.setText(submission.getSpeakers().get(0).getZh().getBio());
+        programAbstract.setText(submission.getZh().getSummary());
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         checkFabIcon();
