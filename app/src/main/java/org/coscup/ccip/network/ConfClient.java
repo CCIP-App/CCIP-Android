@@ -12,7 +12,7 @@ import retrofit2.http.GET;
 
 public class ConfClient {
 
-    public static final String API_BASE_URL = "https://coscup.org";
+    public static final String API_BASE_URL = "https://summit.g0v.tw";
 
     private static Retrofit retrofit;
     private static ConfService sConfService;
@@ -37,7 +37,7 @@ public class ConfClient {
     }
 
     public interface ConfService {
-        @GET("/2018-assets/json/submissions.json")
+        @GET("/2018/static/ccip.json")
         Call<List<Submission>> submission();
     }
 }
