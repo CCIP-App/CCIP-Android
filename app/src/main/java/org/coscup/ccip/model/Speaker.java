@@ -6,22 +6,25 @@ import com.google.gson.annotations.SerializedName;
 
 public class Speaker {
 
-    @SerializedName("name")
+    @SerializedName("id")
     @Expose
-    private String name;
+    private String id;
     @SerializedName("avatar")
     @Expose
     private String avatar;
-    @SerializedName("bio")
+    @SerializedName("zh")
     @Expose
-    private String bio;
+    private Zh_ zh;
+    @SerializedName("en")
+    @Expose
+    private En_ en;
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAvatar() {
@@ -32,12 +35,20 @@ public class Speaker {
         this.avatar = avatar;
     }
 
-    public String getBio() {
-        return bio;
+    public SpekaerDetail getZh() {
+        return zh;
     }
 
-    public void setBio(String bio) {
-        this.bio = bio;
+    public void setZh(Zh_ zh) {
+        this.zh = zh;
+    }
+
+    public SpekaerDetail getEn() {
+        return en;
+    }
+
+    public void setEn(En_ en) {
+        this.en = en;
     }
 
 }
