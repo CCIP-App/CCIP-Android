@@ -25,6 +25,7 @@ public class AlarmUtil {
             calendar.setTime(date);
 
             Intent intent = new Intent(context, SubmissionAlarmReceiver.class);
+            intent.setAction(submission.hashCode() + "");
             intent.putExtra(SubmissionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(submission));
 
             PendingIntent pendingIntent = PendingIntent
