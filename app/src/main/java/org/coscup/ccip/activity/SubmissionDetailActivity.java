@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
+import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 import org.coscup.ccip.R;
 import org.coscup.ccip.adapter.SpeakerImageAdapter;
@@ -59,6 +60,7 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_submission_detail);
 
         mActivity = this;
+        SpringDotsIndicator springDotsIndicator = (SpringDotsIndicator) findViewById(R.id.spring_dots_indicator);
         ViewPager speakerViewPager = (ViewPager) findViewById(R.id.viewPager_speaker);
 
         submission = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Submission.class);
@@ -89,6 +91,9 @@ public class SubmissionDetailActivity extends AppCompatActivity {
 
             }
         });
+
+        springDotsIndicator.setViewPager(speakerViewPager);
+        if (adapter.getCount() == 1) springDotsIndicator.setVisibility(View.INVISIBLE);
 
 
         TextView room, subject, time, type, community, slide, slido, lang, programAbstract;
