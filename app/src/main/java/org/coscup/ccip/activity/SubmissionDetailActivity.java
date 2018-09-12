@@ -1,6 +1,9 @@
 package org.coscup.ccip.activity;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Paint;
@@ -17,6 +20,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
@@ -66,9 +70,7 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final List<Speaker> speakers = new ArrayList<Speaker>();
-
-        SpeakerImageAdapter adapter = new SpeakerImageAdapter(this.getSupportFragmentManager(), speakers);
+        SpeakerImageAdapter adapter = new SpeakerImageAdapter(this.getSupportFragmentManager(), submission.getSpeakers());
         speakerViewPager.setAdapter(adapter);
         speakerViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -78,8 +80,8 @@ public class SubmissionDetailActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                speakerInfo.setText(speakers.get(position).getBio());
-                collapsingToolbarLayout.setTitle(speakers.get(position).getName());
+                speakerInfo.setText(submission.getSpeakers().get(position).getZh().getBio());
+                collapsingToolbarLayout.setTitle(submission.getSpeakers().get(position).getZh().getName());
             }
 
             @Override
@@ -105,6 +107,12 @@ public class SubmissionDetailActivity extends AppCompatActivity {
 
         room.setText(submission.getRoom());
         subject.setText(submission.getZh().getSubject());
+        subject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                copyToClipboard((TextView) view);
+            }
+        });
 
         try {
             StringBuffer timeString = new StringBuffer();
@@ -130,7 +138,19 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         if (submission.getSpeakers().get(0).getZh().getName().isEmpty()) spekaerInfoBlock.setVisibility(View.GONE);
 
         speakerInfo.setText(submission.getSpeakers().get(0).getZh().getBio());
+        speakerInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                copyToClipboard((TextView) view);
+            }
+        });
         programAbstract.setText(submission.getZh().getSummary());
+        programAbstract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                copyToClipboard((TextView) view);
+            }
+        });
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         checkFabIcon();
@@ -183,5 +203,12 @@ public class SubmissionDetailActivity extends AppCompatActivity {
             submissions = Collections.singletonList(submission);
         }
         PreferenceUtil.saveStars(this, submissions);
+    }
+
+    private void copyToClipboard(TextView textView) {
+        ClipboardManager cManager = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData cData = ClipData.newPlainText("text", textView.getText());
+        cManager.setPrimaryClip(cData);
+        Toast.makeText(mActivity, R.string.copy_to_clipboard, Toast.LENGTH_SHORT).show();
     }
 }
