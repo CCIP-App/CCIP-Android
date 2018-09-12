@@ -1,26 +1,33 @@
 package org.coscup.ccip.activity;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
-import com.squareup.picasso.Picasso;
+import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 import org.coscup.ccip.R;
+import org.coscup.ccip.adapter.SpeakerImageAdapter;
+import org.coscup.ccip.model.Speaker;
 import org.coscup.ccip.model.Submission;
 import org.coscup.ccip.util.AlarmUtil;
 import org.coscup.ccip.util.JsonUtil;
@@ -29,6 +36,7 @@ import org.coscup.ccip.util.PreferenceUtil;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +51,8 @@ public class SubmissionDetailActivity extends AppCompatActivity {
     private boolean isStar = false;
     private Submission submission;
     private FloatingActionButton fab;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private TextView speakerInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +60,43 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_submission_detail);
 
         mActivity = this;
+        SpringDotsIndicator springDotsIndicator = (SpringDotsIndicator) findViewById(R.id.spring_dots_indicator);
+        ViewPager speakerViewPager = (ViewPager) findViewById(R.id.viewPager_speaker);
 
         submission = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Submission.class);
         isStar = PreferenceUtil.loadStars(this).contains(submission);
 
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(submission.getSpeakers().get(0).getZh().getName());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView room, subject, time, type, community, slide, slido, lang, speakerInfo, programAbstract;
-        ImageView appBarImage;
+        SpeakerImageAdapter adapter = new SpeakerImageAdapter(this.getSupportFragmentManager(), submission.getSpeakers());
+        speakerViewPager.setAdapter(adapter);
+        speakerViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                speakerInfo.setText(submission.getSpeakers().get(position).getZh().getBio());
+                collapsingToolbarLayout.setTitle(submission.getSpeakers().get(position).getZh().getName());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        springDotsIndicator.setViewPager(speakerViewPager);
+        if (adapter.getCount() == 1) springDotsIndicator.setVisibility(View.INVISIBLE);
+
+
+        TextView room, subject, time, type, community, slide, slido, lang, programAbstract;
         View spekaerInfoBlock;
         room = (TextView) findViewById(R.id.room);
         subject = (TextView) findViewById(R.id.subject);
@@ -73,12 +109,15 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         spekaerInfoBlock = findViewById(R.id.speaker_info_block);
         speakerInfo = (TextView) findViewById(R.id.speakerinfo);
         programAbstract = (TextView) findViewById(R.id.program_abstract);
-        appBarImage = (ImageView) findViewById(R.id.app_bar_image);
-
-        Picasso.get().load(submission.getSpeakers().get(0).getAvatar()).into(appBarImage);
 
         room.setText(submission.getRoom());
         subject.setText(submission.getZh().getSubject());
+        subject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                copyToClipboard((TextView) view);
+            }
+        });
 
         try {
             StringBuffer timeString = new StringBuffer();
@@ -104,7 +143,19 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         if (submission.getSpeakers().get(0).getZh().getName().isEmpty()) spekaerInfoBlock.setVisibility(View.GONE);
 
         speakerInfo.setText(submission.getSpeakers().get(0).getZh().getBio());
+        speakerInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                copyToClipboard((TextView) view);
+            }
+        });
         programAbstract.setText(submission.getZh().getSummary());
+        programAbstract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                copyToClipboard((TextView) view);
+            }
+        });
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         checkFabIcon();
@@ -157,5 +208,12 @@ public class SubmissionDetailActivity extends AppCompatActivity {
             submissions = Collections.singletonList(submission);
         }
         PreferenceUtil.saveStars(this, submissions);
+    }
+
+    private void copyToClipboard(TextView textView) {
+        ClipboardManager cManager = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData cData = ClipData.newPlainText("text", textView.getText());
+        cManager.setPrimaryClip(cData);
+        Toast.makeText(mActivity, R.string.copy_to_clipboard, Toast.LENGTH_SHORT).show();
     }
 }

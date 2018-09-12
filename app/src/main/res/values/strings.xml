@@ -72,4 +72,6 @@
     <string name="no_qr_code_found">No QR Code found in this picture</string>
     <string name="select_from_gallery">Select from gallery</string>
     <string name="select_picture">Select Picture</string>
+
+    <string name="copy_to_clipboard">Copied to clipboard</string>
 </resources>

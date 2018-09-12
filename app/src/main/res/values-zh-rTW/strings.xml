@@ -72,4 +72,6 @@
     <string name="no_qr_code_found">未在此圖片中找到 QR Code</string>
     <string name="select_from_gallery">從相簿中挑選</string>
     <string name="select_picture">選擇圖片</string>
+
+    <string name="copy_to_clipboard">已複製至剪貼簿</string>
 </resources>
