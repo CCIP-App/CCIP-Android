@@ -15,9 +15,6 @@ import app.opass.ccip.R;
 import app.opass.ccip.network.webclient.OfficialWebViewClient;
 import app.opass.ccip.network.webclient.WebChromeViewClient;
 
-import app.opass.ccip.network.webclient.OfficialWebViewClient;
-import app.opass.ccip.network.webclient.WebChromeViewClient;
-
 public class SponsorFragment extends Fragment {
 
     private static final String URL_SPONSORS = "https://2018.coscup.org/sponsors/?mode=app";

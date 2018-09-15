@@ -11,35 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import app.opass.ccip.R;
-import app.opass.ccip.model.Announcement;
-import app.opass.ccip.util.LocaleUtil;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import app.opass.ccip.R;
 import app.opass.ccip.model.Announcement;
 import app.opass.ccip.util.LocaleUtil;
 
 public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private Context mContext;
     private final TypedValue mTypedValue = new TypedValue();
+    private Context mContext;
     private int mBackground;
     private List<Announcement> announcementList;
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView msg, time;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            msg = (TextView) itemView.findViewById(R.id.invalid_token_msg);
-            time = (TextView) itemView.findViewById(R.id.time);
-        }
-    }
 
     public AnnouncementAdapter(Context context, List<Announcement> announcementList) {
         mContext = context;
@@ -83,5 +69,16 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public int getItemCount() {
         return announcementList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView msg, time;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            msg = (TextView) itemView.findViewById(R.id.invalid_token_msg);
+            time = (TextView) itemView.findViewById(R.id.time);
+        }
     }
 }

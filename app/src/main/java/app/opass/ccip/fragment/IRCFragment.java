@@ -19,8 +19,6 @@ import android.widget.ProgressBar;
 import app.opass.ccip.R;
 import app.opass.ccip.network.webclient.WebChromeViewClient;
 
-import app.opass.ccip.network.webclient.WebChromeViewClient;
-
 public class IRCFragment extends Fragment {
 
     private static final String URL_NO_NETWORK = "file:///android_asset/no_network.html";

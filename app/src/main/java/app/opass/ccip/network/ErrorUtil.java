@@ -1,7 +1,5 @@
 package app.opass.ccip.network;
 
-import app.opass.ccip.model.Error;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 
@@ -14,7 +12,7 @@ public class ErrorUtil {
 
     public static Error parseError(Response<?> response) {
         Converter<ResponseBody, Error> converter =
-            CCIPClient.getRetrofit().responseBodyConverter(Error.class, new Annotation[0]);
+                CCIPClient.getRetrofit().responseBodyConverter(Error.class, new Annotation[0]);
 
         Error error;
 

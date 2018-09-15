@@ -2,12 +2,13 @@ package app.opass.ccip.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import com.google.gson.reflect.TypeToken;
 
-import app.opass.ccip.model.Submission;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import app.opass.ccip.model.Submission;
 
 public class PreferenceUtil {
     private static final String PREF_AUTH = "auth";
@@ -55,7 +56,8 @@ public class PreferenceUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE);
         String programsJson = sharedPreferences.getString(PREF_SCHEDULE_PROGRAMS, "[]");
 
-        return JsonUtil.fromJson(programsJson, new TypeToken<ArrayList<Submission>>(){}.getType());
+        return JsonUtil.fromJson(programsJson, new TypeToken<ArrayList<Submission>>() {
+        }.getType());
     }
 
     public static void saveStars(Context context, List<Submission> submissions) {
@@ -70,6 +72,7 @@ public class PreferenceUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE_STARS, Context.MODE_PRIVATE);
         String starsJson = sharedPreferences.getString(PREF_SCHEDULE_STARS, "[]");
 
-        return JsonUtil.fromJson(starsJson, new TypeToken<List<Submission>>(){}.getType());
+        return JsonUtil.fromJson(starsJson, new TypeToken<List<Submission>>() {
+        }.getType());
     }
 }

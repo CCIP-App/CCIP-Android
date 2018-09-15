@@ -18,29 +18,8 @@ import com.google.zxing.common.BitMatrix;
 import app.opass.ccip.R;
 import app.opass.ccip.util.PreferenceUtil;
 
-import app.opass.ccip.util.PreferenceUtil;
-
 public class MyTicketFragment extends Fragment {
     private Activity mActivity;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_my_ticket, container, false);
-
-        mActivity = getActivity();
-
-        ImageView qrcodeImageView = (ImageView) view.findViewById(R.id.qrcodeImage);
-
-        if (PreferenceUtil.getToken(mActivity) != null) {
-            int widthPixels = Resources.getSystem().getDisplayMetrics().widthPixels / 4;
-
-            Bitmap bm = encodeAsBitmap(PreferenceUtil.getToken(mActivity), BarcodeFormat.QR_CODE, widthPixels, widthPixels);
-            qrcodeImageView.setImageBitmap(bm);
-        }
-
-        return view;
-    }
 
     static Bitmap encodeAsBitmap(String contents, BarcodeFormat format, int desiredWidth, int desiredHeight) {
         final int WHITE = 0xFFFFFFFF;
@@ -68,5 +47,24 @@ public class MyTicketFragment extends Fragment {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
         return bitmap;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_my_ticket, container, false);
+
+        mActivity = getActivity();
+
+        ImageView qrcodeImageView = (ImageView) view.findViewById(R.id.qrcodeImage);
+
+        if (PreferenceUtil.getToken(mActivity) != null) {
+            int widthPixels = Resources.getSystem().getDisplayMetrics().widthPixels / 4;
+
+            Bitmap bm = encodeAsBitmap(PreferenceUtil.getToken(mActivity), BarcodeFormat.QR_CODE, widthPixels, widthPixels);
+            qrcodeImageView.setImageBitmap(bm);
+        }
+
+        return view;
     }
 }

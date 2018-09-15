@@ -1,8 +1,4 @@
-
 package app.opass.ccip.network;
-
-import app.opass.ccip.model.Announcement;
-import app.opass.ccip.model.Attendee;
 
 import java.util.List;
 
@@ -15,7 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public class CCIPClient{
+public class CCIPClient {
 
     public static final String API_BASE_URL = "https://ccip.coscup.org";
 
@@ -44,13 +40,13 @@ public class CCIPClient{
     public interface CCIPService {
         @GET("/status")
         Call<Attendee> status(
-            @Query("token") String token
+                @Query("token") String token
         );
 
         @GET("/use/{scenario}")
         Call<Attendee> use(
-            @Path("scenario") String scenario,
-            @Query("token") String token
+                @Path("scenario") String scenario,
+                @Query("token") String token
         );
 
         @GET("/announcement")

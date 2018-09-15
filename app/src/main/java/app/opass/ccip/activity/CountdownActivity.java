@@ -12,15 +12,12 @@ import android.widget.TextView;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import app.opass.ccip.R;
-import app.opass.ccip.model.Scenario;
-import app.opass.ccip.util.JsonUtil;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
+import app.opass.ccip.R;
 import app.opass.ccip.model.Scenario;
 import app.opass.ccip.util.JsonUtil;
 
@@ -56,8 +53,7 @@ public class CountdownActivity extends AppCompatActivity {
             if (diet.equals("meat")) {
                 countdownLayot.setBackgroundColor(getResources().getColor(R.color.colorDietMeat));
                 attrText.setText(R.string.meal);
-            }
-            else{
+            } else {
                 countdownLayot.setBackgroundColor(getResources().getColor(R.color.colorDietVegetarian));
                 attrText.setText(R.string.vegan);
             }
@@ -80,7 +76,7 @@ public class CountdownActivity extends AppCompatActivity {
 
             @Override
             public void onTick(long l) {
-                countdownText.setText(l/1000 + "");
+                countdownText.setText(l / 1000 + "");
                 currentTimeText.setText(SDF.format(new Date().getTime()));
             }
 

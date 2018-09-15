@@ -20,14 +20,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import app.opass.ccip.R;
-import app.opass.ccip.network.webclient.WebChromeViewClient;
-import app.opass.ccip.util.PreferenceUtil;
-
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import app.opass.ccip.R;
 import app.opass.ccip.network.webclient.WebChromeViewClient;
 import app.opass.ccip.util.PreferenceUtil;
 
@@ -35,11 +32,9 @@ public class PuzzleFragment extends Fragment {
 
     private static final String URL_NO_NETWORK = "file:///android_asset/no_network.html";
     private static final String URL_PUZZLE = "https://play.coscup.org/?mode=app&token=";
-
-    private Activity mActivity;
-
     private static WebView webView;
     private static ProgressBar progressBar;
+    private Activity mActivity;
 
     @Nullable
     @Override

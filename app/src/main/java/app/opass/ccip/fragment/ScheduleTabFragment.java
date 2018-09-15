@@ -21,12 +21,6 @@ import android.widget.Toast;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
-import app.opass.ccip.R;
-import app.opass.ccip.adapter.ScheduleTabAdapter;
-import app.opass.ccip.model.Submission;
-import app.opass.ccip.network.ConfClient;
-import app.opass.ccip.util.PreferenceUtil;
-
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -36,6 +30,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import app.opass.ccip.R;
 import app.opass.ccip.adapter.ScheduleTabAdapter;
 import app.opass.ccip.model.Submission;
 import app.opass.ccip.network.ConfClient;
@@ -46,15 +41,15 @@ import retrofit2.Response;
 
 public class ScheduleTabFragment extends Fragment {
 
-    private Activity mActivity;
-    private boolean starFilter = false;
-    private List<Submission> mSubmissions;
-    private ScheduleTabAdapter scheduleTabAdapter;
     private static final SimpleDateFormat SDF_DATE = new SimpleDateFormat("MM/dd");
     SwipeRefreshLayout swipeRefreshLayout;
     TabLayout tabLayout;
     ViewPager viewPager;
     MenuItem menuItemStar;
+    private Activity mActivity;
+    private boolean starFilter = false;
+    private List<Submission> mSubmissions;
+    private ScheduleTabAdapter scheduleTabAdapter;
 
     @Nullable
     @Override

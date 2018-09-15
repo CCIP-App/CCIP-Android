@@ -12,15 +12,13 @@ import android.widget.TextView;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
-import app.opass.ccip.R;
-import app.opass.ccip.model.Submission;
-
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import app.opass.ccip.R;
 import app.opass.ccip.model.Submission;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
@@ -29,18 +27,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
     private List<List<Submission>> mSubmissionSlotList;
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView startTimeText;
-        private RecyclerView submissionView;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            startTimeText = (TextView) itemView.findViewById(R.id.start_time);
-            submissionView = (RecyclerView) itemView.findViewById(R.id.programs);
-        }
-    }
 
     public ScheduleAdapter(Context context, List<List<Submission>> submissionSlotList) {
         mContext = context;
@@ -80,5 +66,17 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void update(List<List<Submission>> submissionSlotList) {
         mSubmissionSlotList = submissionSlotList;
         notifyDataSetChanged();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView startTimeText;
+        private RecyclerView submissionView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            startTimeText = (TextView) itemView.findViewById(R.id.start_time);
+            submissionView = (RecyclerView) itemView.findViewById(R.id.programs);
+        }
     }
 }

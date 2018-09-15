@@ -17,6 +17,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import app.opass.ccip.R;
 import app.opass.ccip.activity.CountdownActivity;
 import app.opass.ccip.model.Attendee;
@@ -24,18 +29,6 @@ import app.opass.ccip.model.Error;
 import app.opass.ccip.model.Scenario;
 import app.opass.ccip.network.CCIPClient;
 import app.opass.ccip.network.ErrorUtil;
-import app.opass.ccip.util.JsonUtil;
-import app.opass.ccip.util.LocaleUtil;
-import app.opass.ccip.util.PreferenceUtil;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import app.opass.ccip.model.Attendee;
-import app.opass.ccip.model.Error;
-import app.opass.ccip.model.Scenario;
 import app.opass.ccip.util.JsonUtil;
 import app.opass.ccip.util.LocaleUtil;
 import app.opass.ccip.util.PreferenceUtil;
@@ -50,22 +43,6 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
     private List<Scenario> mScenarioList;
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        public ImageView scenarioIcon, tickIcon;
-        public TextView scenarioName, allowTimeRange;
-        public CardView card;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            scenarioIcon = (ImageView) itemView.findViewById(R.id.icon);
-            tickIcon = (ImageView) itemView.findViewById(R.id.tick);
-            scenarioName = (TextView) itemView.findViewById(R.id.scenario_name);
-            allowTimeRange = (TextView) itemView.findViewById(R.id.allow_time_range);
-            card = (CardView) itemView.findViewById(R.id.card);
-        }
-    }
 
     public ScenarioAdapter(Context context, List<Scenario> scenarioList) {
         mContext = context;
@@ -211,5 +188,21 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public int getItemCount() {
         return mScenarioList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        public ImageView scenarioIcon, tickIcon;
+        public TextView scenarioName, allowTimeRange;
+        public CardView card;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            scenarioIcon = (ImageView) itemView.findViewById(R.id.icon);
+            tickIcon = (ImageView) itemView.findViewById(R.id.tick);
+            scenarioName = (TextView) itemView.findViewById(R.id.scenario_name);
+            allowTimeRange = (TextView) itemView.findViewById(R.id.allow_time_range);
+            card = (CardView) itemView.findViewById(R.id.card);
+        }
     }
 }

@@ -12,14 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
+
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import app.opass.ccip.R;
-import app.opass.ccip.adapter.ScheduleAdapter;
-import app.opass.ccip.model.Submission;
-import app.opass.ccip.util.PreferenceUtil;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,18 +24,19 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import app.opass.ccip.R;
 import app.opass.ccip.adapter.ScheduleAdapter;
 import app.opass.ccip.model.Submission;
 import app.opass.ccip.util.PreferenceUtil;
 
 public class ScheduleFragment extends Fragment {
 
-    private Activity mActivity;
+    private static final SimpleDateFormat SDF_DATE = new SimpleDateFormat("MM/dd");
     RecyclerView scheduleView;
+    private Activity mActivity;
     private List<Submission> mSubmissions;
     private String date;
     private boolean starFilter = false;
-    private static final SimpleDateFormat SDF_DATE = new SimpleDateFormat("MM/dd");
 
     public static Fragment newInstance(String date, List<Submission> submissions) {
         ScheduleFragment scheduleFragment = new ScheduleFragment();
@@ -59,7 +56,7 @@ public class ScheduleFragment extends Fragment {
         mActivity = getActivity();
         scheduleView.setLayoutManager(new LinearLayoutManager(mActivity));
         scheduleView.setItemAnimator(new DefaultItemAnimator());
-        
+
         if (mSubmissions != null) {
             scheduleView.setAdapter(new ScheduleAdapter(mActivity, transformSubmissions(mSubmissions)));
         }
@@ -74,7 +71,7 @@ public class ScheduleFragment extends Fragment {
             for (Submission submission : starSubmissions) {
                 try {
                     String tmpDate = SDF_DATE
-                        .format(ISO8601Utils.parse(submission.getStart(), new ParsePosition(0)));
+                            .format(ISO8601Utils.parse(submission.getStart(), new ParsePosition(0)));
                     if (tmpDate.equals(date)) {
                         tmp.add(submission);
                     }
@@ -119,7 +116,7 @@ public class ScheduleFragment extends Fragment {
     public void toggleStarFilter(boolean isStar) {
         this.starFilter = isStar;
         ((ScheduleAdapter) scheduleView.getAdapter()).update(
-            transformSubmissions(isStar ? loadStarSubmissions() : mSubmissions));
+                transformSubmissions(isStar ? loadStarSubmissions() : mSubmissions));
     }
 
     @Override

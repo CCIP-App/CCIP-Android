@@ -33,17 +33,23 @@ import app.opass.ccip.fragment.StaffFragment;
 import app.opass.ccip.fragment.VenueFragment;
 import app.opass.ccip.util.PreferenceUtil;
 
-import app.opass.ccip.util.PreferenceUtil;
-
 public class MainActivity extends AppCompatActivity {
     private static final Uri URI_GITHUB = Uri.parse("https://github.com/CCIP-App/CCIP-Android");
     private static final Uri URI_TELEGRAM = Uri.parse("https://t.me/coscupchat");
-
+    private static TextView userTitleTextView, userIdTextView;
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
-    private static TextView userTitleTextView, userIdTextView;
     private Activity mActivity;
+
+    public static void setUserTitle(String userTitle) {
+        userTitleTextView.setVisibility(View.VISIBLE);
+        userTitleTextView.setText(userTitle);
+    }
+
+    public static void setUserId(String userId) {
+        userIdTextView.setText(userId);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,11 +162,6 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public static void setUserTitle(String userTitle) {
-        userTitleTextView.setVisibility(View.VISIBLE);
-        userTitleTextView.setText(userTitle);
-    }
-
     @Override
     public void onBackPressed() {
         if (navigationView.getMenu().findItem(R.id.fast_pass).isChecked()) {
@@ -176,14 +177,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static void setUserId(String userId) {
-        userIdTextView.setText(userId);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null && result.getContents() != null) {
+        if (result != null && result.getContents() != null) {
             PreferenceUtil.setIsNewToken(this, true);
             PreferenceUtil.setToken(this, result.getContents());
         } else {

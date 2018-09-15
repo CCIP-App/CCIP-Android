@@ -3,10 +3,10 @@ package app.opass.ccip.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 
 import com.google.zxing.BinaryBitmap;
@@ -22,9 +22,9 @@ import com.google.zxing.common.HybridBinarizer;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
-import app.opass.ccip.R;
-
 import java.io.IOException;
+
+import app.opass.ccip.R;
 
 public class CaptureActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;

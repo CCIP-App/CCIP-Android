@@ -14,8 +14,6 @@ import com.squareup.picasso.Picasso;
 import app.opass.ccip.R;
 import app.opass.ccip.model.Speaker;
 
-import app.opass.ccip.model.Speaker;
-
 public class SpeakerFragment extends Fragment {
     private Speaker speaker;
     private ImageView speakerImageView;

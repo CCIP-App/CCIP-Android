@@ -15,22 +15,15 @@ import android.widget.TextView;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
-import java.util.Collections;
-
-import app.opass.ccip.activity.SubmissionDetailActivity;
-import app.opass.ccip.R;
-import app.opass.ccip.model.Submission;
-import app.opass.ccip.util.AlarmUtil;
-import app.opass.ccip.util.JsonUtil;
-
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import app.opass.ccip.util.PreferenceUtil;
-
+import app.opass.ccip.R;
+import app.opass.ccip.activity.SubmissionDetailActivity;
 import app.opass.ccip.model.Submission;
 import app.opass.ccip.util.AlarmUtil;
 import app.opass.ccip.util.JsonUtil;
@@ -44,24 +37,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
     private List<Submission> mSubmissionList;
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        public CardView card;
-        public TextView subject, type, room, endTime, lang;
-        public ImageView star;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            card = (CardView) itemView.findViewById(R.id.card);
-            subject = (TextView) itemView.findViewById(R.id.subject);
-            type = (TextView) itemView.findViewById(R.id.type);
-            room = (TextView) itemView.findViewById(R.id.room);
-            endTime = (TextView) itemView.findViewById(R.id.end_time);
-            lang = (TextView) itemView.findViewById(R.id.lang);
-            star = (ImageView) itemView.findViewById(R.id.star);
-        }
-    }
 
     public SubmissionAdapter(Context context, List<Submission> submissionList) {
         mContext = context;
@@ -161,6 +136,24 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
         } else {
             star.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
             star.setColorFilter(mContext.getResources().getColor(R.color.colorGray));
+        }
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        public CardView card;
+        public TextView subject, type, room, endTime, lang;
+        public ImageView star;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            card = (CardView) itemView.findViewById(R.id.card);
+            subject = (TextView) itemView.findViewById(R.id.subject);
+            type = (TextView) itemView.findViewById(R.id.type);
+            room = (TextView) itemView.findViewById(R.id.room);
+            endTime = (TextView) itemView.findViewById(R.id.end_time);
+            lang = (TextView) itemView.findViewById(R.id.lang);
+            star = (ImageView) itemView.findViewById(R.id.star);
         }
     }
 }

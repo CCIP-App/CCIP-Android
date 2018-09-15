@@ -21,13 +21,6 @@ import android.widget.Toast;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
-import app.opass.ccip.R;
-import app.opass.ccip.adapter.SpeakerImageAdapter;
-import app.opass.ccip.model.Submission;
-import app.opass.ccip.util.AlarmUtil;
-import app.opass.ccip.util.JsonUtil;
-import app.opass.ccip.util.PreferenceUtil;
-
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -35,6 +28,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import app.opass.ccip.R;
 import app.opass.ccip.adapter.SpeakerImageAdapter;
 import app.opass.ccip.model.Submission;
 import app.opass.ccip.util.AlarmUtil;
@@ -140,7 +134,8 @@ public class SubmissionDetailActivity extends AppCompatActivity {
             type.setText("");
         }
 
-        if (submission.getSpeakers().get(0).getZh().getName().isEmpty()) spekaerInfoBlock.setVisibility(View.GONE);
+        if (submission.getSpeakers().get(0).getZh().getName().isEmpty())
+            spekaerInfoBlock.setVisibility(View.GONE);
 
         speakerInfo.setText(submission.getSpeakers().get(0).getZh().getBio());
         speakerInfo.setOnClickListener(new View.OnClickListener() {

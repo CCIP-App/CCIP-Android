@@ -27,14 +27,8 @@ import com.onesignal.OneSignal;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import app.opass.ccip.R;
-import app.opass.ccip.activity.CaptureActivity;
-import app.opass.ccip.activity.MainActivity;
-import app.opass.ccip.adapter.ScenarioAdapter;
-import app.opass.ccip.model.Attendee;
-import app.opass.ccip.network.CCIPClient;
-import app.opass.ccip.util.PreferenceUtil;
 
+import app.opass.ccip.R;
 import app.opass.ccip.activity.CaptureActivity;
 import app.opass.ccip.activity.MainActivity;
 import app.opass.ccip.adapter.ScenarioAdapter;
@@ -47,13 +41,13 @@ import retrofit2.Response;
 
 public class MainFragment extends Fragment {
 
-    private Activity mActivity;
     View noNetworkView;
     View notConfWifiView;
     View loginView;
     TextView loginTitle;
     RecyclerView scenarioView;
     SwipeRefreshLayout swipeRefreshLayout;
+    private Activity mActivity;
 
     @Nullable
     @Override
@@ -230,8 +224,7 @@ public class MainFragment extends Fragment {
                             updateStatus();
                         }
                     });
-                }
-                else {
+                } else {
                     Snackbar.make(getView(), getString(R.string.invalid_token), Snackbar.LENGTH_LONG).show();
                     PreferenceUtil.setToken(mActivity, null);
                     loginView.setVisibility(View.VISIBLE);

@@ -1,7 +1,4 @@
-
 package app.opass.ccip.network;
-
-import app.opass.ccip.model.Submission;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.onesignal.OneSignal;
 
-public class CCIPApplicaion extends Application{
+public class CCIPApplicaion extends Application {
 
     @Override
     public void onCreate() {

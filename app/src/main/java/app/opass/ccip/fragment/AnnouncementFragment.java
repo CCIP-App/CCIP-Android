@@ -13,13 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import app.opass.ccip.R;
-import app.opass.ccip.adapter.AnnouncementAdapter;
-import app.opass.ccip.model.Announcement;
-import app.opass.ccip.network.CCIPClient;
-
 import java.util.List;
 
+import app.opass.ccip.R;
 import app.opass.ccip.adapter.AnnouncementAdapter;
 import app.opass.ccip.model.Announcement;
 import app.opass.ccip.network.CCIPClient;
@@ -29,9 +25,9 @@ import retrofit2.Response;
 
 public class AnnouncementFragment extends Fragment {
 
-    private Activity mActivity;
     RecyclerView announcementView;
     SwipeRefreshLayout swipeRefreshLayout;
+    private Activity mActivity;
 
     @Nullable
     @Override

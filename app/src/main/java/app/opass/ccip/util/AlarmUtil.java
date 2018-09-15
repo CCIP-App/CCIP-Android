@@ -8,13 +8,13 @@ import android.os.Build;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
-import app.opass.ccip.activity.SubmissionDetailActivity;
-import app.opass.ccip.model.Submission;
-
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Calendar;
 import java.util.Date;
+
+import app.opass.ccip.activity.SubmissionDetailActivity;
+import app.opass.ccip.model.Submission;
 
 public class AlarmUtil {
 
