@@ -28,10 +28,10 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="ccip.coscup.org"
+                    android:host="ccip.opass.app"
                     android:scheme="http" />
                 <data
-                    android:host="ccip.coscup.org"
+                    android:host="ccip.opass.app"
                     android:scheme="https" />
                 <data
                     android:host="login"
