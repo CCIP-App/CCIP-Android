@@ -20,7 +20,7 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        applicationId "org.coscup.ccip"
+        applicationId "app.opass.ccip"
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 29

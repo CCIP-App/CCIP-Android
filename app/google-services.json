@@ -1,51 +1,32 @@
 {
   "project_info": {
-    "project_number": "981935318625",
-    "firebase_url": "https://ccip-9a548.firebaseio.com",
-    "project_id": "ccip-9a548",
-    "storage_bucket": "ccip-9a548.appspot.com"
+    "project_number": "1003222886889",
+    "firebase_url": "https://opass-8b7db.firebaseio.com",
+    "project_id": "opass-8b7db",
+    "storage_bucket": "opass-8b7db.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:981935318625:android:14e8ee465d42c186",
+        "mobilesdk_app_id": "1:1003222886889:android:d5979168865b5f60",
         "android_client_info": {
-          "package_name": "org.coscup.ccip"
+          "package_name": "app.opass.ccip"
         }
       },
       "oauth_client": [
         {
-          "client_id": "981935318625-2u0k7s400asi9656hi8ucddvdsi5krgi.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "org.coscup.ccip",
-            "certificate_hash": "81a64c646edbce923936b3fe5bf50e3215031bac"
-          }
-        },
-        {
-          "client_id": "981935318625-mkm7726kungcbqtksvsqiekalhg41va8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "org.coscup.ccip",
-            "certificate_hash": "1e9f2c89aa2e9bd1d187b4f23d054de634dea64a"
-          }
-        },
-        {
-          "client_id": "981935318625-6kd0oab9ocgl88j76d7fopvnqdl0pef7.apps.googleusercontent.com",
+          "client_id": "1003222886889-hpc1u6schefhpdckeu9ameemefa5hdtm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA_zFcmkJS7gD2uVfhO_NJE2No1eoiIJCY"
+          "current_key": "AIzaSyA4iYw8oeHuDgYlr1UVkvNR2VjYiciXt5U"
         }
       ],
       "services": {
         "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": "UA-79893624-2"
-          }
+          "status": 1
         },
         "appinvite_service": {
           "status": 1,
