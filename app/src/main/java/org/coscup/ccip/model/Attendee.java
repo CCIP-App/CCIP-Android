@@ -15,6 +15,9 @@ public class Attendee {
     @SerializedName("_id")
     @Expose
     private Id id;
+    @SerializedName("event_id")
+    @Expose
+    private String eventId;
     @SerializedName("token")
     @Expose
     private String token;
@@ -50,6 +53,24 @@ public class Attendee {
      */
     public void setId(Id id) {
         this.id = id;
+    }
+
+    /**
+     *
+     * @return
+     *     The event_id
+     */
+    public String getEventId() {
+        return eventId;
+    }
+
+    /**
+     *
+     * @param eventId
+     *     The event_id
+     */
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 
     /**
