@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 
 public class CCIPClient {
 
-    public static final String API_BASE_URL = "https://ccip.coscup.org";
+    public static final String API_BASE_URL = "https://ccip.opass.app";
 
     private static Retrofit retrofit;
     private static CCIPService sCCIPService;
