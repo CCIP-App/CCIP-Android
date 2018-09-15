@@ -1,13 +1,17 @@
 
 package app.opass.ccip.model;
 
+import android.content.Context;
 import android.content.res.Resources;
 
 import java.util.List;
+import java.util.Locale;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import app.opass.ccip.R;
+import app.opass.ccip.util.LocaleUtil;
 
 public class Submission {
 
@@ -74,6 +78,14 @@ public class Submission {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public SubmissionDetail getSubmissionDetail(Context context) {
+        if (LocaleUtil.getCurrentLocale(context).getLanguage().equals(new Locale("zh").getLanguage())) {
+            return getZh();
+        } else {
+            return getEn();
+        }
     }
 
     public SubmissionDetail getZh() {

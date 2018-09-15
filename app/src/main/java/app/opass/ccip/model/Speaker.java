@@ -1,8 +1,14 @@
 
 package app.opass.ccip.model;
 
+import android.content.Context;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Locale;
+
+import app.opass.ccip.util.LocaleUtil;
 
 public class Speaker {
 
@@ -33,6 +39,14 @@ public class Speaker {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public SpekaerDetail getSpeakerDetail(Context context) {
+        if (LocaleUtil.getCurrentLocale(context).getLanguage().equals(new Locale("zh").getLanguage())) {
+            return getZh();
+        } else {
+            return getEn();
+        }
     }
 
     public SpekaerDetail getZh() {
