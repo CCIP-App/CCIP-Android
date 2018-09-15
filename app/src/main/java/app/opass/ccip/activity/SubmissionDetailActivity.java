@@ -62,7 +62,7 @@ public class SubmissionDetailActivity extends AppCompatActivity {
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(submission.getSpeakers().get(0).getZh().getName());
+        toolbar.setTitle(submission.getSpeakers().get(0).getSpeakerDetail(mActivity).getName());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -76,8 +76,8 @@ public class SubmissionDetailActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                speakerInfo.setText(submission.getSpeakers().get(position).getZh().getBio());
-                collapsingToolbarLayout.setTitle(submission.getSpeakers().get(position).getZh().getName());
+                speakerInfo.setText(submission.getSpeakers().get(position).getSpeakerDetail(mActivity).getBio());
+                collapsingToolbarLayout.setTitle(submission.getSpeakers().get(position).getSpeakerDetail(mActivity).getName());
             }
 
             @Override
@@ -105,7 +105,7 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         programAbstract = (TextView) findViewById(R.id.program_abstract);
 
         room.setText(submission.getRoom());
-        subject.setText(submission.getZh().getSubject());
+        subject.setText(submission.getSubmissionDetail(mActivity).getSubject());
         subject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,17 +134,17 @@ public class SubmissionDetailActivity extends AppCompatActivity {
             type.setText("");
         }
 
-        if (submission.getSpeakers().get(0).getZh().getName().isEmpty())
+        if (submission.getSpeakers().get(0).getSpeakerDetail(mActivity).getName().isEmpty())
             spekaerInfoBlock.setVisibility(View.GONE);
 
-        speakerInfo.setText(submission.getSpeakers().get(0).getZh().getBio());
+        speakerInfo.setText(submission.getSpeakers().get(0).getSpeakerDetail(mActivity).getBio());
         speakerInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 copyToClipboard((TextView) view);
             }
         });
-        programAbstract.setText(submission.getZh().getSummary());
+        programAbstract.setText(submission.getSubmissionDetail(mActivity).getSummary());
         programAbstract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

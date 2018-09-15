@@ -59,7 +59,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         holder.room.setText(submission.getRoom());
 
-        holder.subject.setText(submission.getZh().getSubject());
+        holder.subject.setText(submission.getSubmissionDetail(mContext).getSubject());
 
         try {
             Date startDate = ISO8601Utils.parse(submission.getStart(), new ParsePosition(0));
@@ -78,7 +78,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
             e.printStackTrace();
         }
 
-        if (!submission.getZh().getSummary().isEmpty()) {
+        if (!submission.getSubmissionDetail(mContext).getSummary().isEmpty()) {
             toggleStar(holder.star, isSubmissionStar(mContext, submission));
 
             holder.star.setOnClickListener(new OnClickListener() {

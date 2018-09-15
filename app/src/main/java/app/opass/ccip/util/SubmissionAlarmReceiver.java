@@ -27,7 +27,7 @@ public class SubmissionAlarmReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         String notificationContent = String
-                .format(context.getString(R.string.notification_submission_start), submission.getZh().getSubject(),
+                .format(context.getString(R.string.notification_submission_start), submission.getSubmissionDetail(context).getSubject(),
                         submission.getRoom());
 
         NotificationManager manager = (NotificationManager) context
