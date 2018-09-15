@@ -190,6 +190,7 @@ public class MainFragment extends Fragment {
 
                         JSONObject tags = new JSONObject();
                         try {
+                            tags.put("event_id", attendee.getEventId());
                             tags.put("token", attendee.getToken());
                             tags.put("type", attendee.getType());
                             OneSignal.sendTags(tags);
