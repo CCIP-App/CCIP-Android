@@ -100,7 +100,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                 }
             });
         } else {
-            if (new Date().getTime() / 1000 - scenario.getUsed() < scenario.getCountdown()) {
+            if (scenario.getCountdown() > 0) {
                 holder.card.setClickable(true);
                 holder.card.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -109,6 +109,11 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                     }
                 });
             } else {
+                holder.card.setClickable(false);
+                holder.card.setOnClickListener(null);
+            }
+
+            if (new Date().getTime() / 1000 > scenario.getUsed() + scenario.getCountdown()) {
                 setCardUsed(holder);
             }
         }
@@ -170,8 +175,6 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     private void setCardUsed(ViewHolder holder) {
-        holder.card.setClickable(false);
-        holder.card.setOnClickListener(null);
         holder.tickIcon.setVisibility(View.VISIBLE);
         holder.scenarioIcon.setAlpha(0.4f);
         holder.scenarioName.setTextColor(Color.parseColor("#FF9B9B9B"));
