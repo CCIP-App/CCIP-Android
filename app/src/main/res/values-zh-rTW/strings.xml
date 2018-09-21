@@ -19,10 +19,10 @@
     <string name="star_on_github">Star on GitHub</string>
 
     <string name="hi">嗨\u0020</string>
-    <string name="login_success">，歡迎您加入 COSCUP 2018！</string>
+    <string name="login_success">，歡迎您加入 g0v Summit 2018！</string>
     <string name="open_via_link">你也可以透過連結開啟此應用程式。</string>
     <string name="scan_kktix_qrcode">掃描 KKTIX 票券 QR code</string>
-    <string name="connect_to_conference_wifi">請使用 COSCUP 提供的無線網路</string>
+    <string name="connect_to_conference_wifi">請使用 g0v Summit 提供的無線網路</string>
     <string name="tap_to_retry">點擊重試</string>
     <string name="announcement_empty">目前無任何公告哦！</string>
 

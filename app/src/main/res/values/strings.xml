@@ -19,10 +19,10 @@
     <string name="star_on_github">Star on GitHub</string>
 
     <string name="hi">Hi\u0020</string>
-    <string name="login_success">, Welcome to COSCUP 2018!</string>
+    <string name="login_success">, Welcome to g0v Summit 2018!</string>
     <string name="open_via_link">You can also open this app via link.</string>
     <string name="scan_kktix_qrcode">Scan KKTIX ticket QR code</string>
-    <string name="connect_to_conference_wifi">Please connect to the wifi provided by COSCUP</string>
+    <string name="connect_to_conference_wifi">Please connect to the wifi provided by g0v Summit</string>
     <string name="tap_to_retry">Tap to retry</string>
     <string name="announcement_empty">There\'s no any announcement</string>
 
