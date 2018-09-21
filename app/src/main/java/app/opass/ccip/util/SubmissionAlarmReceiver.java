@@ -44,7 +44,7 @@ public class SubmissionAlarmReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_bookmark_black_24dp)
-                .setContentTitle(context.getString(R.string.conf_name))
+                .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(notificationContent)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationContent))
                 .setAutoCancel(true)
