@@ -17,7 +17,7 @@ import app.opass.ccip.network.webclient.WebChromeViewClient;
 
 public class StaffFragment extends Fragment {
 
-    private static final String URL_STAFFS = "https://2018.coscup.org/staffs/?mode=app";
+    private static final String URL_STAFFS = "https://summit.g0v.tw/2018/staff/?mode=app";
     private static WebView webView;
     private static ProgressBar progressBar;
 

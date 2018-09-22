@@ -17,7 +17,7 @@ import app.opass.ccip.network.webclient.WebChromeViewClient;
 
 public class VenueFragment extends Fragment {
 
-    private static final String URL_SPONSORS = "https://coscup.org/2018-assets/img/venue.svg";
+    private static final String URL_SPONSORS = "https://summit.g0v.tw/2018/agenda/?mode=app#maps";
     private static WebView webView;
     private static ProgressBar progressBar;
 
