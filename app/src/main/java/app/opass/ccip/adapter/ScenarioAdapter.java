@@ -67,7 +67,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
             int iconResId = mContext.getResources().getIdentifier(scenario.getId().indexOf("lunch") > 0 ? "lunch" : scenario.getId(), "drawable", mContext.getPackageName());
             holder.scenarioIcon.setImageDrawable(ContextCompat.getDrawable(mContext, iconResId));
         } catch (Resources.NotFoundException e) {
-            holder.scenarioIcon.setImageResource(R.drawable.ic_event_black_24dp);
+            holder.scenarioIcon.setImageResource(R.drawable.doc);
         }
         holder.scenarioIcon.setAlpha(1f);
 
