@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">COSCUP Pass</string>
-    <string name="conf_name">COSCUP</string>
+    <string name="app_name">OPass</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
@@ -15,15 +14,15 @@
     <string name="telegram">Telegram</string>
     <string name="irclog">IRC Log</string>
     <string name="venue">Venue</string>
-    <string name="sponsors">Sponsors</string>
+    <string name="sponsors">Partners</string>
     <string name="staffs">Staffs</string>
     <string name="star_on_github">Star on GitHub</string>
 
     <string name="hi">Hi\u0020</string>
-    <string name="login_success">, Welcome to COSCUP 2018!</string>
+    <string name="login_success">, Welcome to g0v Summit 2018!</string>
     <string name="open_via_link">You can also open this app via link.</string>
     <string name="scan_kktix_qrcode">Scan KKTIX ticket QR code</string>
-    <string name="connect_to_conference_wifi">Please connect to the wifi provided by COSCUP</string>
+    <string name="connect_to_conference_wifi">Please connect to the wifi provided by g0v Summit</string>
     <string name="tap_to_retry">Tap to retry</string>
     <string name="announcement_empty">There\'s no any announcement</string>
 
@@ -72,4 +71,6 @@
     <string name="no_qr_code_found">No QR Code found in this picture</string>
     <string name="select_from_gallery">Select from gallery</string>
     <string name="select_picture">Select Picture</string>
+
+    <string name="copy_to_clipboard">Copied to clipboard</string>
 </resources>

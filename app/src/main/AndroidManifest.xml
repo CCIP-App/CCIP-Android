@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.coscup.ccip">
+    package="app.opass.ccip">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".application.CCIPApplicaion"
+        android:name="app.opass.ccip.application.CCIPApplicaion"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name="app.opass.ccip.activity.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -28,10 +28,10 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="ccip.coscup.org"
+                    android:host="ccip.opass.app"
                     android:scheme="http" />
                 <data
-                    android:host="ccip.coscup.org"
+                    android:host="ccip.opass.app"
                     android:scheme="https" />
                 <data
                     android:host="login"
@@ -39,21 +39,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.CountdownActivity"
+            android:name="app.opass.ccip.activity.CountdownActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SubmissionDetailActivity"
+            android:name="app.opass.ccip.activity.SubmissionDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
-        <receiver android:name=".util.SubmissionAlarmReceiver" />
-        <receiver android:name=".util.RebootReceiver">
+        <receiver android:name="app.opass.ccip.util.SubmissionAlarmReceiver" />
+        <receiver android:name="app.opass.ccip.util.RebootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.CaptureActivity"/>
+        <activity android:name="app.opass.ccip.activity.CaptureActivity"/>
     </application>
 
 </manifest>
