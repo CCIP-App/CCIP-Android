@@ -8,7 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import app.opass.ccip.R;
 import app.opass.ccip.activity.SubmissionDetailActivity;
 import app.opass.ccip.model.Submission;

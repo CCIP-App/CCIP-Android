@@ -2,14 +2,14 @@ package app.opass.ccip.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import app.opass.ccip.R;
 import app.opass.ccip.network.webclient.OfficialWebViewClient;
 import app.opass.ccip.network.webclient.WebChromeViewClient;

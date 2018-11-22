@@ -8,13 +8,13 @@
     android:paddingTop="24dp"
     android:paddingEnd="24dp">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/token_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:errorEnabled="true">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/token_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,5 +22,5 @@
             android:fontFamily="monospace"
             android:hint="Token"
             android:inputType="textVisiblePassword" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

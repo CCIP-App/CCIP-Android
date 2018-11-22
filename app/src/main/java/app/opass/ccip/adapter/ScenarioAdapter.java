@@ -5,17 +5,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import app.opass.ccip.R;
 import app.opass.ccip.activity.CountdownActivity;
 import app.opass.ccip.model.Attendee;
@@ -35,7 +34,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class ScenarioAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final SimpleDateFormat SDF = new SimpleDateFormat("MM/dd HH:mm");
     private static final String FORMAT_TIMERANGE = "%s ~ %s";

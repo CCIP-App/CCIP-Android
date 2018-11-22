@@ -3,13 +3,12 @@ package app.opass.ccip.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.recyclerview.widget.RecyclerView;
 import app.opass.ccip.R;
 import app.opass.ccip.model.Announcement;
 import app.opass.ccip.util.LocaleUtil;
@@ -19,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class AnnouncementAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final TypedValue mTypedValue = new TypedValue();
     private Context mContext;

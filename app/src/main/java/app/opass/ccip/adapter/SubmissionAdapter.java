@@ -3,15 +3,14 @@ package app.opass.ccip.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import app.opass.ccip.R;
 import app.opass.ccip.activity.SubmissionDetailActivity;
 import app.opass.ccip.model.Submission;
@@ -28,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final SimpleDateFormat SDF = new SimpleDateFormat("HH:mm");
     private static final String FORMAT_ENDTIME = "~ %s, %d%s";
@@ -88,7 +87,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
             });
 
             holder.card.setClickable(true);
-            holder.card.setOnClickListener(new View.OnClickListener() {
+            holder.card.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent();
