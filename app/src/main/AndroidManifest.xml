@@ -53,7 +53,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="app.opass.ccip.activity.CaptureActivity"/>
+        <activity android:name="app.opass.ccip.activity.CaptureActivity" />
     </application>
 
 </manifest>

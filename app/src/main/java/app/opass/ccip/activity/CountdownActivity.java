@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import app.opass.ccip.R;
+import app.opass.ccip.model.Scenario;
+import app.opass.ccip.util.JsonUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -16,10 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
-
-import app.opass.ccip.R;
-import app.opass.ccip.model.Scenario;
-import app.opass.ccip.util.JsonUtil;
 
 public class CountdownActivity extends AppCompatActivity {
 
@@ -31,11 +29,11 @@ public class CountdownActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countdown);
 
-        final TextView attrText = (TextView) findViewById(R.id.attr);
-        final TextView countdownText = (TextView) findViewById(R.id.countdown);
-        final TextView currentTimeText = (TextView) findViewById(R.id.current_time);
-        final RelativeLayout countdownLayot = (RelativeLayout) findViewById(R.id.countdown_layout);
-        final Button button = (Button) findViewById(R.id.button);
+        final TextView attrText = findViewById(R.id.attr);
+        final TextView countdownText = findViewById(R.id.countdown);
+        final TextView currentTimeText = findViewById(R.id.current_time);
+        final RelativeLayout countdownLayot = findViewById(R.id.countdown_layout);
+        final Button button = findViewById(R.id.button);
 
         final Scenario scenario = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_SCENARIO), Scenario.class);
 

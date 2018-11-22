@@ -9,14 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
+import app.opass.ccip.R;
+import app.opass.ccip.util.PreferenceUtil;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-
-import app.opass.ccip.R;
-import app.opass.ccip.util.PreferenceUtil;
 
 public class MyTicketFragment extends Fragment {
     private Activity mActivity;
@@ -56,7 +54,7 @@ public class MyTicketFragment extends Fragment {
 
         mActivity = getActivity();
 
-        ImageView qrcodeImageView = (ImageView) view.findViewById(R.id.qrcodeImage);
+        ImageView qrcodeImageView = view.findViewById(R.id.qrcodeImage);
 
         if (PreferenceUtil.getToken(mActivity) != null) {
             int widthPixels = Resources.getSystem().getDisplayMetrics().widthPixels / 4;

@@ -8,23 +8,14 @@ import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.ChecksumException;
-import com.google.zxing.FormatException;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.NotFoundException;
-import com.google.zxing.RGBLuminanceSource;
-import com.google.zxing.Reader;
-import com.google.zxing.Result;
+import app.opass.ccip.R;
+import com.google.zxing.*;
 import com.google.zxing.client.android.Intents;
 import com.google.zxing.common.HybridBinarizer;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.io.IOException;
-
-import app.opass.ccip.R;
 
 public class CaptureActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;

@@ -16,12 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import app.opass.ccip.R;
 import app.opass.ccip.activity.CountdownActivity;
 import app.opass.ccip.model.Attendee;
@@ -35,6 +29,11 @@ import app.opass.ccip.util.PreferenceUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -52,7 +51,7 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_scenario, parent, false);
+            .inflate(R.layout.item_scenario, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -79,8 +78,8 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         holder.scenarioName.setTextColor(mContext.getResources().getColor(android.R.color.black));
         holder.allowTimeRange.setText(String.format(FORMAT_TIMERANGE,
-                SDF.format(new Date(scenario.getAvailableTime() * 1000L)),
-                SDF.format(new Date(scenario.getExpireTime() * 1000L))));
+            SDF.format(new Date(scenario.getAvailableTime() * 1000L)),
+            SDF.format(new Date(scenario.getExpireTime() * 1000L))));
 
         if (scenario.getDisabled() != null) {
             setCardDisabled(holder, scenario.getDisabled());
@@ -121,15 +120,15 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void showConfirmDialog(final Scenario scenario) {
         new AlertDialog.Builder(mContext)
-                .setTitle(R.string.confirm_dialog_title)
-                .setPositiveButton(R.string.positive_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        use(scenario);
-                    }
-                })
-                .setNegativeButton(R.string.negative_button, null)
-                .show();
+            .setTitle(R.string.confirm_dialog_title)
+            .setPositiveButton(R.string.positive_button, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    use(scenario);
+                }
+            })
+            .setNegativeButton(R.string.negative_button, null)
+            .show();
     }
 
     public void startCountdownActivity(Scenario scenario) {
@@ -158,9 +157,9 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
                         Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_LONG).show();
                     } else if (response.code() == 403) {
                         new AlertDialog.Builder(mContext)
-                                .setTitle(R.string.connect_to_conference_wifi)
-                                .setPositiveButton(android.R.string.ok, null)
-                                .show();
+                            .setTitle(R.string.connect_to_conference_wifi)
+                            .setPositiveButton(android.R.string.ok, null)
+                            .show();
                     } else {
                         Toast.makeText(mContext, "Unexpected response", Toast.LENGTH_LONG).show();
                     }
@@ -201,11 +200,11 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            scenarioIcon = (ImageView) itemView.findViewById(R.id.icon);
-            tickIcon = (ImageView) itemView.findViewById(R.id.tick);
-            scenarioName = (TextView) itemView.findViewById(R.id.scenario_name);
-            allowTimeRange = (TextView) itemView.findViewById(R.id.allow_time_range);
-            card = (CardView) itemView.findViewById(R.id.card);
+            scenarioIcon = itemView.findViewById(R.id.icon);
+            tickIcon = itemView.findViewById(R.id.tick);
+            scenarioName = itemView.findViewById(R.id.scenario_name);
+            allowTimeRange = itemView.findViewById(R.id.allow_time_range);
+            card = itemView.findViewById(R.id.card);
         }
     }
 }

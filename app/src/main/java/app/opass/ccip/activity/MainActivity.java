@@ -17,21 +17,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
+import app.opass.ccip.R;
+import app.opass.ccip.fragment.*;
+import app.opass.ccip.util.PreferenceUtil;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
-import app.opass.ccip.R;
-import app.opass.ccip.fragment.AnnouncementFragment;
-import app.opass.ccip.fragment.IRCFragment;
-import app.opass.ccip.fragment.MainFragment;
-import app.opass.ccip.fragment.MyTicketFragment;
-import app.opass.ccip.fragment.PuzzleFragment;
-import app.opass.ccip.fragment.ScheduleTabFragment;
-import app.opass.ccip.fragment.SponsorFragment;
-import app.opass.ccip.fragment.StaffFragment;
-import app.opass.ccip.fragment.VenueFragment;
-import app.opass.ccip.util.PreferenceUtil;
 
 public class MainActivity extends AppCompatActivity {
     private static final Uri URI_GITHUB = Uri.parse("https://github.com/CCIP-App/CCIP-Android");
@@ -58,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
         mActivity = this;
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        userTitleTextView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_title);
-        userIdTextView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_id);
+        navigationView = findViewById(R.id.nav_view);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        userTitleTextView = navigationView.getHeaderView(0).findViewById(R.id.user_title);
+        userIdTextView = navigationView.getHeaderView(0).findViewById(R.id.user_id);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
 
         setSupportActionBar(toolbar);
         setupDrawerContent(navigationView);
@@ -90,12 +80,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        return jumpToFragment(menuItem);
-                    }
-                });
+            new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    return jumpToFragment(menuItem);
+                }
+            });
     }
 
     private boolean jumpToFragment(MenuItem menuItem) {

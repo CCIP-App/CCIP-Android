@@ -1,11 +1,10 @@
-
 package app.opass.ccip.model;
-
-import javax.annotation.Generated;
 
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class Scenario {
@@ -47,144 +46,112 @@ public class Scenario {
     }
 
     /**
-     * 
-     * @return
-     *     The order
+     * @return The order
      */
     public Integer getOrder() {
         return order;
     }
 
     /**
-     * 
-     * @param order
-     *     The order
+     * @param order The order
      */
     public void setOrder(Integer order) {
         this.order = order;
     }
 
     /**
-     * 
-     * @return
-     *     The id
+     * @return The id
      */
     public String getId() {
         return id;
     }
 
     /**
-     * 
-     * @param id
-     *     The id
+     * @param id The id
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * 
-     * @return
-     *     The availableTime
+     * @return The availableTime
      */
     public Integer getAvailableTime() {
         return availableTime;
     }
 
     /**
-     * 
-     * @param availableTime
-     *     The available_time
+     * @param availableTime The available_time
      */
     public void setAvailableTime(Integer availableTime) {
         this.availableTime = availableTime;
     }
 
     /**
-     * 
-     * @return
-     *     The attr
+     * @return The attr
      */
     public JsonElement getAttr() {
         return attr;
     }
 
     /**
-     * 
-     * @param attr
-     *     The attr
+     * @param attr The attr
      */
     public void setAttr(JsonElement attr) {
         this.attr = attr;
     }
 
     /**
-     * 
-     * @return
-     *     The expireTime
+     * @return The expireTime
      */
     public Integer getExpireTime() {
         return expireTime;
     }
 
     /**
-     * 
-     * @param expireTime
-     *     The expire_time
+     * @param expireTime The expire_time
      */
     public void setExpireTime(Integer expireTime) {
         this.expireTime = expireTime;
     }
 
     /**
-     *
-     * @return
-     *     The countdown
+     * @return The countdown
      */
     public Integer getCountdown() {
         return countdown;
     }
 
     /**
-     *
-     * @param countdown
-     *     The countdown
+     * @param countdown The countdown
      */
     public void setCountdown(Integer countdown) {
         this.countdown = countdown;
     }
 
     /**
-     * 
-     * @return
-     *     The used
+     * @return The used
      */
     public Integer getUsed() {
         return used;
     }
 
     /**
-     * 
-     * @param used
-     *     The used
+     * @param used The used
      */
     public void setUsed(Integer used) {
         this.used = used;
     }
 
     /**
-     *
-     * @return
-     *     The disabled
+     * @return The disabled
      */
     public String getDisabled() {
         return disabled;
     }
 
     /**
-     *
-     * @param disabled
-     *     The used
+     * @param disabled The used
      */
     public void setDisabled(String disabled) {
         this.disabled = disabled;

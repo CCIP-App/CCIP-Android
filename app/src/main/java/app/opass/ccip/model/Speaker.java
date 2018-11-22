@@ -1,14 +1,11 @@
-
 package app.opass.ccip.model;
 
 import android.content.Context;
-
+import app.opass.ccip.util.LocaleUtil;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Locale;
-
-import app.opass.ccip.util.LocaleUtil;
 
 public class Speaker {
 

@@ -1,9 +1,9 @@
-
 package app.opass.ccip.model;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class Id {
@@ -13,18 +13,14 @@ public class Id {
     private String $oid;
 
     /**
-     * 
-     * @return
-     *     The $oid
+     * @return The $oid
      */
     public String get$oid() {
         return $oid;
     }
 
     /**
-     * 
-     * @param $oid
-     *     The $oid
+     * @param $oid The $oid
      */
     public void set$oid(String $oid) {
         this.$oid = $oid;

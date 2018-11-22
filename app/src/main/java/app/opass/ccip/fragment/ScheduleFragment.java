@@ -10,24 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import app.opass.ccip.R;
+import app.opass.ccip.adapter.ScheduleAdapter;
+import app.opass.ccip.model.Submission;
+import app.opass.ccip.util.PreferenceUtil;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import app.opass.ccip.R;
-import app.opass.ccip.adapter.ScheduleAdapter;
-import app.opass.ccip.model.Submission;
-import app.opass.ccip.util.PreferenceUtil;
+import java.util.*;
 
 public class ScheduleFragment extends Fragment {
 
@@ -51,7 +43,7 @@ public class ScheduleFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        scheduleView = (RecyclerView) view.findViewById(R.id.schedule);
+        scheduleView = view.findViewById(R.id.schedule);
 
         mActivity = getActivity();
         scheduleView.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -71,7 +63,7 @@ public class ScheduleFragment extends Fragment {
             for (Submission submission : starSubmissions) {
                 try {
                     String tmpDate = SDF_DATE
-                            .format(ISO8601Utils.parse(submission.getStart(), new ParsePosition(0)));
+                        .format(ISO8601Utils.parse(submission.getStart(), new ParsePosition(0)));
                     if (tmpDate.equals(date)) {
                         tmp.add(submission);
                     }
@@ -116,7 +108,7 @@ public class ScheduleFragment extends Fragment {
     public void toggleStarFilter(boolean isStar) {
         this.starFilter = isStar;
         ((ScheduleAdapter) scheduleView.getAdapter()).update(
-                transformSubmissions(isStar ? loadStarSubmissions() : mSubmissions));
+            transformSubmissions(isStar ? loadStarSubmissions() : mSubmissions));
     }
 
     @Override

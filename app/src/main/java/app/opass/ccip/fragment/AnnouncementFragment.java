@@ -12,9 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import java.util.List;
-
 import app.opass.ccip.R;
 import app.opass.ccip.adapter.AnnouncementAdapter;
 import app.opass.ccip.model.Announcement;
@@ -22,6 +19,8 @@ import app.opass.ccip.network.CCIPClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.List;
 
 public class AnnouncementFragment extends Fragment {
 
@@ -35,8 +34,8 @@ public class AnnouncementFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         final View view = inflater.inflate(R.layout.fragment_announcement, container, false);
 
-        announcementView = (RecyclerView) view.findViewById(R.id.announcement);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        announcementView = view.findViewById(R.id.announcement);
+        swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
 
         mActivity = getActivity();
         announcementView.setLayoutManager(new LinearLayoutManager(mActivity));

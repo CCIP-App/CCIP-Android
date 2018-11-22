@@ -64,7 +64,8 @@
     <string name="bookmark_channel_name">Submission bookmark</string>
     <string name="notification_submission_start">%1$s will start in 10 minutes at %2$s</string>
     <string name="invalid_token">Invalid QR code, invite link, or token</string>
-    <string name="tap_here_to_scan">Tap here to scan the QR Code on the KKTIX ticket via camera or from a picture</string>
+    <string name="tap_here_to_scan">Tap here to scan the QR Code on the KKTIX ticket via camera or from a picture
+    </string>
     <string name="enter_token_button">I have a token</string>
     <string name="enter_your_token">Enter your token</string>
     <string name="token_required">Token required</string>

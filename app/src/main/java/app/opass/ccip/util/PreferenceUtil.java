@@ -2,13 +2,11 @@ package app.opass.ccip.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
+import app.opass.ccip.model.Submission;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import app.opass.ccip.model.Submission;
 
 public class PreferenceUtil {
     private static final String PREF_AUTH = "auth";

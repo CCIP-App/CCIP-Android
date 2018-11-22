@@ -17,7 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import app.opass.ccip.R;
+import app.opass.ccip.adapter.SpeakerImageAdapter;
+import app.opass.ccip.model.Submission;
+import app.opass.ccip.util.AlarmUtil;
+import app.opass.ccip.util.JsonUtil;
+import app.opass.ccip.util.PreferenceUtil;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
@@ -27,13 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-import app.opass.ccip.R;
-import app.opass.ccip.adapter.SpeakerImageAdapter;
-import app.opass.ccip.model.Submission;
-import app.opass.ccip.util.AlarmUtil;
-import app.opass.ccip.util.JsonUtil;
-import app.opass.ccip.util.PreferenceUtil;
 
 public class SubmissionDetailActivity extends AppCompatActivity {
 
@@ -54,14 +52,14 @@ public class SubmissionDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_submission_detail);
 
         mActivity = this;
-        SpringDotsIndicator springDotsIndicator = (SpringDotsIndicator) findViewById(R.id.spring_dots_indicator);
-        ViewPager speakerViewPager = (ViewPager) findViewById(R.id.viewPager_speaker);
+        SpringDotsIndicator springDotsIndicator = findViewById(R.id.spring_dots_indicator);
+        ViewPager speakerViewPager = findViewById(R.id.viewPager_speaker);
 
         submission = JsonUtil.fromJson(getIntent().getStringExtra(INTENT_EXTRA_PROGRAM), Submission.class);
         isStar = PreferenceUtil.loadStars(this).contains(submission);
 
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(submission.getSpeakers().get(0).getSpeakerDetail(mActivity).getName());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -92,17 +90,17 @@ public class SubmissionDetailActivity extends AppCompatActivity {
 
         TextView room, subject, time, type, community, slide, slido, lang, programAbstract;
         View spekaerInfoBlock;
-        room = (TextView) findViewById(R.id.room);
-        subject = (TextView) findViewById(R.id.subject);
-        time = (TextView) findViewById(R.id.time);
-        type = (TextView) findViewById(R.id.type);
-        community = (TextView) findViewById(R.id.community);
-        slide = (TextView) findViewById(R.id.slide);
-        slido = (TextView) findViewById(R.id.slido);
-        lang = (TextView) findViewById(R.id.lang);
+        room = findViewById(R.id.room);
+        subject = findViewById(R.id.subject);
+        time = findViewById(R.id.time);
+        type = findViewById(R.id.type);
+        community = findViewById(R.id.community);
+        slide = findViewById(R.id.slide);
+        slido = findViewById(R.id.slido);
+        lang = findViewById(R.id.lang);
         spekaerInfoBlock = findViewById(R.id.speaker_info_block);
-        speakerInfo = (TextView) findViewById(R.id.speakerinfo);
-        programAbstract = (TextView) findViewById(R.id.program_abstract);
+        speakerInfo = findViewById(R.id.speakerinfo);
+        programAbstract = findViewById(R.id.program_abstract);
 
         room.setText(submission.getRoom());
         subject.setText(submission.getSubmissionDetail(mActivity).getSubject());
@@ -152,7 +150,7 @@ public class SubmissionDetailActivity extends AppCompatActivity {
             }
         });
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         checkFabIcon();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,15 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import app.opass.ccip.R;
+import app.opass.ccip.model.Announcement;
+import app.opass.ccip.util.LocaleUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import app.opass.ccip.R;
-import app.opass.ccip.model.Announcement;
-import app.opass.ccip.util.LocaleUtil;
 
 public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -38,7 +37,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_announcement, parent, false);
+            .inflate(R.layout.item_announcement, parent, false);
 
         itemView.setBackgroundResource(mBackground);
         return new ViewHolder(itemView);
@@ -77,8 +76,8 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            msg = (TextView) itemView.findViewById(R.id.invalid_token_msg);
-            time = (TextView) itemView.findViewById(R.id.time);
+            msg = itemView.findViewById(R.id.invalid_token_msg);
+            time = itemView.findViewById(R.id.time);
         }
     }
 }

@@ -3,11 +3,10 @@ package app.opass.ccip.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import app.opass.ccip.fragment.ScheduleFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import app.opass.ccip.fragment.ScheduleFragment;
 
 public class ScheduleTabAdapter extends FragmentStatePagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();

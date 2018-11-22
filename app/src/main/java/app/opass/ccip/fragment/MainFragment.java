@@ -19,15 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.onesignal.OneSignal;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import app.opass.ccip.R;
 import app.opass.ccip.activity.CaptureActivity;
 import app.opass.ccip.activity.MainActivity;
@@ -35,6 +26,12 @@ import app.opass.ccip.adapter.ScenarioAdapter;
 import app.opass.ccip.model.Attendee;
 import app.opass.ccip.network.CCIPClient;
 import app.opass.ccip.util.PreferenceUtil;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.onesignal.OneSignal;
+import org.json.JSONException;
+import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -71,11 +68,11 @@ public class MainFragment extends Fragment {
                 final TextInputEditText tokenInput = dialogView.findViewById(R.id.token_input);
 
                 final AlertDialog dialog = new AlertDialog.Builder(mActivity)
-                        .setView(dialogView)
-                        .setTitle(R.string.enter_your_token)
-                        .setPositiveButton(R.string.positive_button, null)
-                        .setNegativeButton(R.string.negative_button, null)
-                        .create();
+                    .setView(dialogView)
+                    .setTitle(R.string.enter_your_token)
+                    .setPositiveButton(R.string.positive_button, null)
+                    .setNegativeButton(R.string.negative_button, null)
+                    .create();
 
                 dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
@@ -124,8 +121,8 @@ public class MainFragment extends Fragment {
                 integrator.initiateScan();
             }
         });
-        scenarioView = (RecyclerView) view.findViewById(R.id.scenarios);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        scenarioView = view.findViewById(R.id.scenarios);
+        swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
 
         mActivity = getActivity();
         scenarioView.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -199,11 +196,11 @@ public class MainFragment extends Fragment {
                         }
 
                         new AlertDialog.Builder(mActivity)
-                                .setMessage(mActivity.getString(R.string.hi)
-                                        + attendee.getUserId()
-                                        + mActivity.getString(R.string.login_success))
-                                .setPositiveButton(android.R.string.ok, null)
-                                .show();
+                            .setMessage(mActivity.getString(R.string.hi)
+                                + attendee.getUserId()
+                                + mActivity.getString(R.string.login_success))
+                            .setPositiveButton(android.R.string.ok, null)
+                            .show();
                     }
 
                     JsonElement attrTitle = attr.get("title");

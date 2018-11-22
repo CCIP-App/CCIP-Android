@@ -9,7 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import app.opass.ccip.R;
+import app.opass.ccip.model.Submission;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import java.text.ParseException;
@@ -17,9 +18,6 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import app.opass.ccip.R;
-import app.opass.ccip.model.Submission;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -36,7 +34,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_schedule, parent, false);
+            .inflate(R.layout.item_schedule, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -75,8 +73,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            startTimeText = (TextView) itemView.findViewById(R.id.start_time);
-            submissionView = (RecyclerView) itemView.findViewById(R.id.programs);
+            startTimeText = itemView.findViewById(R.id.start_time);
+            submissionView = itemView.findViewById(R.id.programs);
         }
     }
 }

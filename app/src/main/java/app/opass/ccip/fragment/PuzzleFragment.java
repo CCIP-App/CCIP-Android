@@ -7,26 +7,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.view.*;
+import android.webkit.*;
 import android.widget.ProgressBar;
-
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import app.opass.ccip.R;
 import app.opass.ccip.network.webclient.WebChromeViewClient;
 import app.opass.ccip.util.PreferenceUtil;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class PuzzleFragment extends Fragment {
 
@@ -45,9 +35,9 @@ public class PuzzleFragment extends Fragment {
         setHasOptionsMenu(true);
 
         mActivity = getActivity();
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar = view.findViewById(R.id.progressBar);
 
-        webView = (WebView) view.findViewById(R.id.webView);
+        webView = view.findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
@@ -103,7 +93,7 @@ public class PuzzleFragment extends Fragment {
     public String toPublicToken(String privateToken) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
-            messageDigest.update(privateToken.getBytes("ASCII"));
+            messageDigest.update(privateToken.getBytes(StandardCharsets.US_ASCII));
             byte[] data = messageDigest.digest();
             StringBuilder buffer = new StringBuilder();
 
@@ -113,8 +103,6 @@ public class PuzzleFragment extends Fragment {
 
             return buffer.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 

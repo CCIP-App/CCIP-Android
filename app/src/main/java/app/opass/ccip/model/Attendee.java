@@ -1,13 +1,12 @@
-
 package app.opass.ccip.model;
-
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Generated;
 
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
+import java.util.ArrayList;
+import java.util.List;
 
 @Generated("org.jsonschema2pojo")
 public class Attendee {
@@ -38,90 +37,70 @@ public class Attendee {
     private List<Scenario> scenarios = new ArrayList<Scenario>();
 
     /**
-     * 
-     * @return
-     *     The id
+     * @return The id
      */
     public Id getId() {
         return id;
     }
 
     /**
-     * 
-     * @param id
-     *     The _id
+     * @param id The _id
      */
     public void setId(Id id) {
         this.id = id;
     }
 
     /**
-     *
-     * @return
-     *     The event_id
+     * @return The event_id
      */
     public String getEventId() {
         return eventId;
     }
 
     /**
-     *
-     * @param eventId
-     *     The event_id
+     * @param eventId The event_id
      */
     public void setEventId(String eventId) {
         this.eventId = eventId;
     }
 
     /**
-     * 
-     * @return
-     *     The token
+     * @return The token
      */
     public String getToken() {
         return token;
     }
 
     /**
-     * 
-     * @param token
-     *     The token
+     * @param token The token
      */
     public void setToken(String token) {
         this.token = token;
     }
 
     /**
-     * 
-     * @return
-     *     The userId
+     * @return The userId
      */
     public String getUserId() {
         return userId;
     }
 
     /**
-     * 
-     * @param userId
-     *     The user_id
+     * @param userId The user_id
      */
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
     /**
-     * 
-     * @return
-     *     The attr
+     * @return The attr
      */
     public JsonElement getAttr() {
         return attr;
     }
 
     /**
-     * 
-     * @param attr
-     *     The attr
+     * @param attr The attr
      */
     public void setAttr(JsonElement attr) {
         this.attr = attr;
@@ -144,18 +123,14 @@ public class Attendee {
     }
 
     /**
-     * 
-     * @return
-     *     The scenarios
+     * @return The scenarios
      */
     public List<Scenario> getScenarios() {
         return scenarios;
     }
 
     /**
-     * 
-     * @param scenarios
-     *     The scenarios
+     * @param scenarios The scenarios
      */
     public void setScenarios(List<Scenario> scenarios) {
         this.scenarios = scenarios;

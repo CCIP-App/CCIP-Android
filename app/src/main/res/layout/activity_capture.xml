@@ -5,16 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.CaptureActivity">
+
     <com.journeyapps.barcodescanner.DecoratedBarcodeView
         android:id="@+id/barcode_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:zxing_scanner_layout="@layout/barcode_view" />
+
     <Button
         android:id="@+id/select_from_gallery"
-        android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="@string/select_from_gallery"
-        android:onClick="selectFromGallery" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:onClick="selectFromGallery"
+        android:text="@string/select_from_gallery" />
 </RelativeLayout>

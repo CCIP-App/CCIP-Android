@@ -5,39 +5,27 @@ import android.graphics.PorterDuff.Mode;
 import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.*;
 import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
-
-import com.google.gson.internal.bind.util.ISO8601Utils;
-
-import java.text.ParseException;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import app.opass.ccip.R;
 import app.opass.ccip.adapter.ScheduleTabAdapter;
 import app.opass.ccip.model.Submission;
 import app.opass.ccip.network.ConfClient;
 import app.opass.ccip.util.PreferenceUtil;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ScheduleTabFragment extends Fragment {
 
@@ -58,14 +46,14 @@ public class ScheduleTabFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_schedule_tab, container, false);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
-        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
-        viewPager = (ViewPager) view.findViewById(R.id.pager);
+        swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
+        tabLayout = view.findViewById(R.id.tabs);
+        viewPager = view.findViewById(R.id.pager);
 
         mActivity = getActivity();
 
         if (VERSION.SDK_INT >= 21) {
-            ((AppBarLayout) mActivity.findViewById(R.id.appbar)).setElevation(0);
+            mActivity.findViewById(R.id.appbar).setElevation(0);
         }
 
         setHasOptionsMenu(true);
@@ -153,27 +141,27 @@ public class ScheduleTabFragment extends Fragment {
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.add("star")
-                .setIcon(R.drawable.ic_bookmark_border_black_24dp)
-                .setOnMenuItemClickListener(new OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        starFilter = !starFilter;
-                        if (starFilter) {
-                            item.setIcon(R.drawable.ic_bookmark_black_24dp);
-                        } else {
-                            item.setIcon(R.drawable.ic_bookmark_border_black_24dp);
-                        }
-                        item.getIcon().setColorFilter(getResources().getColor(R.color.colorWhite),
-                                Mode.SRC_ATOP);
-                        scheduleTabAdapter.toggleStarFilter(starFilter);
-                        return false;
+            .setIcon(R.drawable.ic_bookmark_border_black_24dp)
+            .setOnMenuItemClickListener(new OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    starFilter = !starFilter;
+                    if (starFilter) {
+                        item.setIcon(R.drawable.ic_bookmark_black_24dp);
+                    } else {
+                        item.setIcon(R.drawable.ic_bookmark_border_black_24dp);
                     }
-                })
-                .setVisible(false)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                    item.getIcon().setColorFilter(getResources().getColor(R.color.colorWhite),
+                        Mode.SRC_ATOP);
+                    scheduleTabAdapter.toggleStarFilter(starFilter);
+                    return false;
+                }
+            })
+            .setVisible(false)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         menuItemStar = menu.getItem(0);
         menuItemStar.getIcon().setColorFilter(getResources().getColor(R.color.colorWhite),
-                Mode.SRC_ATOP);
+            Mode.SRC_ATOP);
     }
 
     public void loadOfflineSchedule() {

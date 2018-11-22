@@ -12,7 +12,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import app.opass.ccip.R;
+import app.opass.ccip.activity.SubmissionDetailActivity;
+import app.opass.ccip.model.Submission;
+import app.opass.ccip.util.AlarmUtil;
+import app.opass.ccip.util.JsonUtil;
+import app.opass.ccip.util.PreferenceUtil;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import java.text.ParseException;
@@ -21,13 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-import app.opass.ccip.R;
-import app.opass.ccip.activity.SubmissionDetailActivity;
-import app.opass.ccip.model.Submission;
-import app.opass.ccip.util.AlarmUtil;
-import app.opass.ccip.util.JsonUtil;
-import app.opass.ccip.util.PreferenceUtil;
 
 
 public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
@@ -46,7 +44,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_submission, parent, false);
+            .inflate(R.layout.item_submission, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -65,8 +63,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
             Date startDate = ISO8601Utils.parse(submission.getStart(), new ParsePosition(0));
             Date endDate = ISO8601Utils.parse(submission.getEnd(), new ParsePosition(0));
             holder.endTime.setText(String.format(FORMAT_ENDTIME, SDF.format(endDate),
-                    ((endDate.getTime() - startDate.getTime()) / 1000 / 60),
-                    mContext.getResources().getString(R.string.min)));
+                ((endDate.getTime() - startDate.getTime()) / 1000 / 60),
+                mContext.getResources().getString(R.string.min)));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -147,13 +145,13 @@ public class SubmissionAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            card = (CardView) itemView.findViewById(R.id.card);
-            subject = (TextView) itemView.findViewById(R.id.subject);
-            type = (TextView) itemView.findViewById(R.id.type);
-            room = (TextView) itemView.findViewById(R.id.room);
-            endTime = (TextView) itemView.findViewById(R.id.end_time);
-            lang = (TextView) itemView.findViewById(R.id.lang);
-            star = (ImageView) itemView.findViewById(R.id.star);
+            card = itemView.findViewById(R.id.card);
+            subject = itemView.findViewById(R.id.subject);
+            type = itemView.findViewById(R.id.type);
+            room = itemView.findViewById(R.id.room);
+            endTime = itemView.findViewById(R.id.end_time);
+            lang = itemView.findViewById(R.id.lang);
+            star = itemView.findViewById(R.id.star);
         }
     }
 }

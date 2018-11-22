@@ -1,12 +1,12 @@
 package app.opass.ccip.network;
 
-import java.util.List;
-
 import app.opass.ccip.model.Submission;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+
+import java.util.List;
 
 public class ConfClient {
 
@@ -18,9 +18,9 @@ public class ConfClient {
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+                .baseUrl(API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         }
 
         return retrofit;

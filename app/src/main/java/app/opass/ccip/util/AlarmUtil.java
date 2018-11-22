@@ -5,16 +5,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-
+import app.opass.ccip.activity.SubmissionDetailActivity;
+import app.opass.ccip.model.Submission;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Calendar;
 import java.util.Date;
-
-import app.opass.ccip.activity.SubmissionDetailActivity;
-import app.opass.ccip.model.Submission;
 
 public class AlarmUtil {
 
@@ -29,7 +27,7 @@ public class AlarmUtil {
             intent.putExtra(SubmissionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(submission));
 
             PendingIntent pendingIntent = PendingIntent
-                    .getBroadcast(context, submission.hashCode(), intent, 0);
+                .getBroadcast(context, submission.hashCode(), intent, 0);
 
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
@@ -47,7 +45,7 @@ public class AlarmUtil {
         intent.putExtra(SubmissionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(submission));
 
         PendingIntent pendingIntent = PendingIntent
-                .getBroadcast(context, submission.hashCode(), intent, 0);
+            .getBroadcast(context, submission.hashCode(), intent, 0);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);

@@ -1,17 +1,14 @@
-
 package app.opass.ccip.model;
 
 import android.content.Context;
 import android.content.res.Resources;
-
-import java.util.List;
-import java.util.Locale;
-
+import app.opass.ccip.R;
+import app.opass.ccip.util.LocaleUtil;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import app.opass.ccip.R;
-import app.opass.ccip.util.LocaleUtil;
+import java.util.List;
+import java.util.Locale;
 
 public class Submission {
 
@@ -39,6 +36,25 @@ public class Submission {
     @SerializedName("speakers")
     @Expose
     private List<Speaker> speakers = null;
+
+    public static int getTypeString(String type) {
+        switch (type) {
+            case "K":
+                return R.string.keynote;
+            case "L":
+                return R.string.lightning_talk;
+            case "P":
+                return R.string.panel_discussion;
+            case "S":
+                return R.string.short_talk;
+            case "T":
+                return R.string.talk;
+            case "U":
+                return R.string.unconf;
+            default:
+                throw new Resources.NotFoundException("Unexpected type symbol");
+        }
+    }
 
     public String getId() {
         return id;
@@ -110,25 +126,6 @@ public class Submission {
 
     public void setSpeakers(List<Speaker> speakers) {
         this.speakers = speakers;
-    }
-
-    public static int getTypeString(String type) {
-        switch (type) {
-            case "K":
-                return R.string.keynote;
-            case "L":
-                return R.string.lightning_talk;
-            case "P":
-                return R.string.panel_discussion;
-            case "S":
-                return R.string.short_talk;
-            case "T":
-                return R.string.talk;
-            case "U":
-                return R.string.unconf;
-            default:
-                throw new Resources.NotFoundException("Unexpected type symbol");
-        }
     }
 
     @Override
