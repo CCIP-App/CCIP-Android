@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.transaction
 import app.opass.ccip.R
 import app.opass.ccip.fragment.*
 import app.opass.ccip.util.PreferenceUtil
@@ -61,11 +62,9 @@ class MainActivity : AppCompatActivity() {
         drawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close)
 
         setTitle(R.string.fast_pass)
-        val fragment = MainFragment()
-        val fragmentManager = supportFragmentManager
-        val ft = fragmentManager.beginTransaction()
-        ft.replace(R.id.content_frame, fragment)
-        ft.commit()
+        supportFragmentManager.transaction {
+            replace(R.id.content_frame, MainFragment())
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -105,10 +104,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             title = menuItem.title
-            val fragmentManager = supportFragmentManager
-            val ft = fragmentManager.beginTransaction()
-            ft.replace(R.id.content_frame, fragment!!)
-            ft.commit()
+            supportFragmentManager.transaction {
+                fragment?.let { replace(R.id.content_frame, it) }
+            }
         }
 
         mDrawerLayout.closeDrawers()
@@ -131,11 +129,9 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
         } else {
             setTitle(R.string.fast_pass)
-            val fragment = MainFragment()
-            val fragmentManager = supportFragmentManager
-            val ft = fragmentManager.beginTransaction()
-            ft.replace(R.id.content_frame, fragment)
-            ft.commit()
+            supportFragmentManager.transaction {
+                replace(R.id.content_frame, MainFragment())
+            }
             navigationView.setCheckedItem(R.id.fast_pass)
         }
     }

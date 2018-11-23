@@ -1,6 +1,7 @@
 package app.opass.ccip.util
 
 import android.content.Context
+import androidx.core.content.edit
 import app.opass.ccip.model.Submission
 import com.google.gson.reflect.TypeToken
 import java.util.*
@@ -15,11 +16,8 @@ class PreferenceUtil {
         private const val PREF_SCHEDULE_STARS = "stars"
 
         fun setIsNewToken(context: Context, isNewToken: Boolean) {
-            val sharedPreferences = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-
-            editor.putBoolean(PREF_IS_NEW_TOKEN, isNewToken)
-            editor.commit()
+            context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
+                .edit(true) { putBoolean(PREF_IS_NEW_TOKEN, isNewToken) }
         }
 
         fun getIsNewToken(context: Context): Boolean {
@@ -28,11 +26,8 @@ class PreferenceUtil {
         }
 
         fun setToken(context: Context, token: String?) {
-            val sharedPreferences = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-
-            editor.putString(PREF_AUTH_TOKEN, token)
-            editor.commit()
+            context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
+                .edit(true) { putString(PREF_AUTH_TOKEN, token) }
         }
 
         fun getToken(context: Context): String? {
@@ -41,28 +36,23 @@ class PreferenceUtil {
         }
 
         fun savePrograms(context: Context, submissions: List<Submission>) {
-            val sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-
-            editor.putString(PREF_SCHEDULE_PROGRAMS, JsonUtil.toJson(submissions))
-            editor.commit()
+            context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE)
+                .edit(true) { putString(PREF_SCHEDULE_PROGRAMS, JsonUtil.toJson(submissions)) }
         }
 
         fun loadPrograms(context: Context): List<Submission>? {
             val sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE)
             val programsJson = sharedPreferences.getString(PREF_SCHEDULE_PROGRAMS, "[]")!!
 
-            return JsonUtil.fromJson<List<Submission>>(programsJson, object : TypeToken<ArrayList<Submission>>() {
-
-            }.type)
+            return JsonUtil.fromJson<List<Submission>>(
+                programsJson,
+                object : TypeToken<ArrayList<Submission>>() {}.type
+            )
         }
 
         fun saveStars(context: Context, submissions: List<Submission>) {
-            val sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE_STARS, Context.MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-
-            editor.putString(PREF_SCHEDULE_STARS, JsonUtil.toJson(submissions))
-            editor.apply()
+            context.getSharedPreferences(PREF_SCHEDULE_STARS, Context.MODE_PRIVATE)
+                .edit { putString(PREF_SCHEDULE_STARS, JsonUtil.toJson(submissions)) }
         }
 
         fun loadStars(context: Context): MutableList<Submission> {
