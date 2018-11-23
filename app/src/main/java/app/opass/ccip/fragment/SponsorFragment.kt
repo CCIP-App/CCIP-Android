@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_web.*
 
 class SponsorFragment : Fragment() {
     companion object {
-        private val URL_SPONSORS = "https://summit.g0v.tw/2018/sponsors/?mode=app"
+        private const val URL_SPONSORS = "https://summit.g0v.tw/2018/sponsors/?mode=app"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

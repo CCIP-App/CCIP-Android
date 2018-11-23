@@ -4,19 +4,16 @@ import app.opass.ccip.model.Error
 import retrofit2.Response
 import java.io.IOException
 
-object ErrorUtil {
+class ErrorUtil {
+    companion object {
+        fun parseError(response: Response<*>): Error {
+            val converter = CCIPClient.retrofit.responseBodyConverter<Error>(Error::class.java, arrayOfNulls(0))
 
-    fun parseError(response: Response<*>): Error {
-        val converter = CCIPClient.getRetrofit().responseBodyConverter<Error>(Error::class.java, arrayOfNulls(0))
-
-        val error: Error
-
-        try {
-            error = converter.convert(response.errorBody())
-        } catch (e: IOException) {
-            return Error()
+            return try {
+                converter.convert(response.errorBody())
+            } catch (e: IOException) {
+                Error()
+            }
         }
-
-        return error
     }
 }

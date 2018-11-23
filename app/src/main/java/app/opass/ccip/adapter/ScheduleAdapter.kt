@@ -21,12 +21,9 @@ class ScheduleAdapter(private val mContext: Context, private var mSubmissionSlot
         private val SDF = SimpleDateFormat("HH:mm")
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_schedule, parent, false)
-
-        return ViewHolder(itemView)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = LayoutInflater.from(parent.context)
+        .inflate(R.layout.item_schedule, parent, false)
+        .let(::ViewHolder)
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val holder = viewHolder as ViewHolder

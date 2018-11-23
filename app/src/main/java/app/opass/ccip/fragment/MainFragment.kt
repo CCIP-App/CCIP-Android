@@ -33,12 +33,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainFragment : Fragment() {
-    internal lateinit var noNetworkView: View
-    internal lateinit var notConfWifiView: View
-    internal lateinit var loginView: View
-    internal lateinit var loginTitle: TextView
-    internal lateinit var scenarioView: RecyclerView
-    internal lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var noNetworkView: View
+    private lateinit var notConfWifiView: View
+    private lateinit var loginView: View
+    private lateinit var loginTitle: TextView
+    private lateinit var scenarioView: RecyclerView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mActivity: Activity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

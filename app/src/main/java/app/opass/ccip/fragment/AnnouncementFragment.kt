@@ -22,7 +22,7 @@ import retrofit2.Response
 class AnnouncementFragment : Fragment() {
     private lateinit var announcementView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private var mActivity: Activity? = null
+    private lateinit var mActivity: Activity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -31,7 +31,7 @@ class AnnouncementFragment : Fragment() {
         announcementView = view.findViewById(R.id.announcement)
         swipeRefreshLayout = view.findViewById(R.id.swipeContainer)
 
-        mActivity = activity
+        mActivity = requireActivity()
         announcementView.layoutManager = LinearLayoutManager(mActivity)
         announcementView.itemAnimator = DefaultItemAnimator()
 
@@ -42,7 +42,7 @@ class AnnouncementFragment : Fragment() {
             override fun onResponse(call: Call<List<Announcement>>, response: Response<List<Announcement>>) {
                 swipeRefreshLayout.isRefreshing = false
                 if (response.isSuccessful && response.body()?.isEmpty() == false) {
-                    announcementView.adapter = AnnouncementAdapter(mActivity!!, response.body()!!)
+                    announcementView.adapter = AnnouncementAdapter(mActivity, response.body()!!)
                 } else {
                     view.findViewById<View>(R.id.announcement_empty).visibility = View.VISIBLE
                 }
@@ -56,5 +56,4 @@ class AnnouncementFragment : Fragment() {
 
         return view
     }
-
 }

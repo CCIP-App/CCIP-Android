@@ -44,12 +44,9 @@ class ScenarioAdapter(private val mContext: Context, private var mScenarioList: 
         var card: CardView = itemView.findViewById(R.id.card)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_scenario, parent, false)
-
-        return ViewHolder(itemView)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = LayoutInflater.from(parent.context)
+        .inflate(R.layout.item_scenario, parent, false)
+        .let(::ViewHolder)
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val holder = viewHolder as ViewHolder

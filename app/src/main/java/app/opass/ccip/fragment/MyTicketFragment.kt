@@ -17,30 +17,8 @@ import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 
 class MyTicketFragment : Fragment() {
-    private var mActivity: Activity? = null
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        val view = inflater.inflate(R.layout.fragment_my_ticket, container, false)
-
-        mActivity = activity
-
-        val qrcodeImageView = view.findViewById<ImageView>(R.id.qrcodeImage)
-
-        if (PreferenceUtil.getToken(mActivity!!) != null) {
-            val widthPixels = Resources.getSystem().displayMetrics.widthPixels / 4
-
-            val bm =
-                encodeAsBitmap(PreferenceUtil.getToken(mActivity!!), BarcodeFormat.QR_CODE, widthPixels, widthPixels)
-            qrcodeImageView.setImageBitmap(bm)
-        }
-
-        return view
-    }
-
     companion object {
-
-        internal fun encodeAsBitmap(
+        fun encodeAsBitmap(
             contents: String?,
             format: BarcodeFormat,
             desiredWidth: Int,
@@ -73,5 +51,25 @@ class MyTicketFragment : Fragment() {
             bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
             return bitmap
         }
+    }
+
+    private lateinit var mActivity: Activity
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        val view = inflater.inflate(R.layout.fragment_my_ticket, container, false)
+
+        mActivity = requireActivity()
+
+        val qrcodeImageView = view.findViewById<ImageView>(R.id.qrcodeImage)
+
+        if (PreferenceUtil.getToken(mActivity) != null) {
+            val widthPixels = Resources.getSystem().displayMetrics.widthPixels / 4
+
+            val bm = encodeAsBitmap(PreferenceUtil.getToken(mActivity), BarcodeFormat.QR_CODE, widthPixels, widthPixels)
+            qrcodeImageView.setImageBitmap(bm)
+        }
+
+        return view
     }
 }

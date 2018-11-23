@@ -29,12 +29,9 @@ class SubmissionAdapter(private val mContext: Context, private val mSubmissionLi
         private const val FORMAT_ENDTIME = "~ %s, %d%s"
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_submission, parent, false)
-
-        return ViewHolder(itemView)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = LayoutInflater.from(parent.context)
+        .inflate(R.layout.item_submission, parent, false)
+        .let(::ViewHolder)
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val holder = viewHolder as ViewHolder

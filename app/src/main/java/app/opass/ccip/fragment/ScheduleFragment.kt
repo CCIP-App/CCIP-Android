@@ -23,6 +23,17 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class ScheduleFragment : Fragment() {
+    companion object {
+        private val SDF_DATE = SimpleDateFormat("MM/dd")
+
+        fun newInstance(date: String, submissions: List<Submission>): Fragment {
+            val scheduleFragment = ScheduleFragment()
+            scheduleFragment.date = date
+            scheduleFragment.mSubmissions = submissions
+            return scheduleFragment
+        }
+    }
+
     private lateinit var scheduleView: RecyclerView
     private lateinit var mActivity: Activity
     private var mSubmissions: List<Submission>? = null
@@ -101,17 +112,5 @@ class ScheduleFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         toggleStarFilter(starFilter)
-    }
-
-    companion object {
-
-        private val SDF_DATE = SimpleDateFormat("MM/dd")
-
-        fun newInstance(date: String, submissions: List<Submission>): Fragment {
-            val scheduleFragment = ScheduleFragment()
-            scheduleFragment.date = date
-            scheduleFragment.mSubmissions = submissions
-            return scheduleFragment
-        }
     }
 }

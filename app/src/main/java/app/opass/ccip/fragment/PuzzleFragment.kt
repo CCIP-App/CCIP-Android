@@ -18,7 +18,12 @@ import java.security.NoSuchAlgorithmException
 import kotlin.experimental.and
 
 class PuzzleFragment : Fragment() {
-    private var mActivity: Activity? = null
+    companion object {
+        private val URL_NO_NETWORK = "file:///android_asset/no_network.html"
+        private val URL_PUZZLE = "https://play.coscup.org/?mode=app&token="
+    }
+
+    private lateinit var mActivity: Activity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -26,7 +31,7 @@ class PuzzleFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        mActivity = activity
+        mActivity = requireActivity()
 
         webView.webViewClient = object : WebViewClient() {
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
@@ -58,7 +63,7 @@ class PuzzleFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        mActivity!!.menuInflater.inflate(R.menu.puzzle, menu)
+        mActivity.menuInflater.inflate(R.menu.puzzle, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -69,7 +74,7 @@ class PuzzleFragment : Fragment() {
                 intent.putExtra(Intent.EXTRA_SUBJECT, resources.getText(R.string.puzzle_share_subject))
                 intent.putExtra(Intent.EXTRA_TEXT, webView.url)
 
-                mActivity!!.startActivity(Intent.createChooser(intent, resources.getText(R.string.share)))
+                mActivity.startActivity(Intent.createChooser(intent, resources.getText(R.string.share)))
             }
         }
 
@@ -93,10 +98,5 @@ class PuzzleFragment : Fragment() {
         }
 
         return null
-    }
-
-    companion object {
-        private val URL_NO_NETWORK = "file:///android_asset/no_network.html"
-        private val URL_PUZZLE = "https://play.coscup.org/?mode=app&token="
     }
 }

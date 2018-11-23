@@ -9,44 +9,36 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-object CCIPClient {
-    private const val API_BASE_URL = "https://ccip.opass.app"
+class CCIPClient {
+    companion object {
+        private const val API_BASE_URL = "https://ccip.opass.app"
 
-    private lateinit var retrofit: Retrofit
-    private lateinit var sCCIPService: CCIPService
-
-    fun getRetrofit(): Retrofit {
-        if (!this::retrofit.isInitialized) {
-            retrofit = Retrofit.Builder()
+        val retrofit: Retrofit by lazy {
+            Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
-
-        return retrofit
-    }
-
-    fun get(): CCIPService {
-        if (!this::sCCIPService.isInitialized) {
-            sCCIPService = getRetrofit().create(CCIPService::class.java)
+        val sCCIPService: CCIPService by lazy {
+            retrofit.create(CCIPService::class.java)
         }
 
-        return sCCIPService
-    }
+        fun get(): CCIPService = sCCIPService
 
-    interface CCIPService {
-        @GET("/status")
-        fun status(
-            @Query("token") token: String?
-        ): Call<Attendee>
+        interface CCIPService {
+            @GET("/status")
+            fun status(
+                @Query("token") token: String?
+            ): Call<Attendee>
 
-        @GET("/use/{scenario}")
-        fun use(
-            @Path("scenario") scenario: String,
-            @Query("token") token: String?
-        ): Call<Attendee>
+            @GET("/use/{scenario}")
+            fun use(
+                @Path("scenario") scenario: String,
+                @Query("token") token: String?
+            ): Call<Attendee>
 
-        @GET("/announcement")
-        fun announcement(): Call<List<Announcement>>
+            @GET("/announcement")
+            fun announcement(): Call<List<Announcement>>
+        }
     }
 }
