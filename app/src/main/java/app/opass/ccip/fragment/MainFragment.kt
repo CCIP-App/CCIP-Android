@@ -26,7 +26,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.zxing.integration.android.IntentIntegrator
 import com.onesignal.OneSignal
-import kotlinx.android.synthetic.main.fragment_main.*
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
@@ -52,7 +51,7 @@ class MainFragment : Fragment() {
         loginView = view.findViewById(R.id.login)
         loginTitle = view.findViewById(R.id.login_title)
 
-        val enterTokenButton = enter_token
+        val enterTokenButton: View = view.findViewById(R.id.enter_token)
 
         enterTokenButton.setOnClickListener(View.OnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_enter_token, null)

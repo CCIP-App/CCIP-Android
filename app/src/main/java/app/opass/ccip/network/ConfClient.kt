@@ -10,27 +10,17 @@ class ConfClient {
     companion object {
         private const val API_BASE_URL = "https://summit.g0v.tw"
 
-        private lateinit var retrofit: Retrofit
-        private lateinit var sConfService: ConfService
-
-        fun getRetrofit(): Retrofit {
-            if (!this::retrofit.isInitialized) {
-                retrofit = Retrofit.Builder()
-                    .baseUrl(API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-            }
-
-            return retrofit
+        val retrofit: Retrofit by lazy {
+            Retrofit.Builder()
+                .baseUrl(API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        }
+        val sConfService: ConfService by lazy {
+            retrofit.create(ConfService::class.java)
         }
 
-        fun get(): ConfService {
-            if (!this::sConfService.isInitialized) {
-                sConfService = getRetrofit().create(ConfService::class.java)
-            }
-
-            return sConfService
-        }
+        fun get() = sConfService
 
         interface ConfService {
             @GET("/2018/static/ccip.json")
