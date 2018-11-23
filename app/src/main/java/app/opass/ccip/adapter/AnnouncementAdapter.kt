@@ -17,19 +17,15 @@ import java.util.*
 
 class AnnouncementAdapter(private val mContext: Context, private val announcementList: List<Announcement>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
     private val mTypedValue = TypedValue()
-    private val mBackground: Int
+    private val mBackground = mTypedValue.resourceId
 
     init {
-
         mContext.theme.resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true)
-        mBackground = mTypedValue.resourceId
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_announcement, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_announcement, parent, false)
 
         itemView.setBackgroundResource(mBackground)
         return ViewHolder(itemView)
@@ -38,7 +34,7 @@ class AnnouncementAdapter(private val mContext: Context, private val announcemen
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val holder = viewHolder as ViewHolder
         val sdf = SimpleDateFormat("MM/dd HH:mm")
-        val (_, datetime, msgEn, msgZh, uri) = announcementList[position]
+        val (datetime, msgEn, msgZh, uri) = announcementList[position]
 
         if (LocaleUtil.getCurrentLocale(mContext).toString().startsWith(Locale.TAIWAN.toString())) {
             holder.msg.text = msgZh
