@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.transaction
 import app.opass.ccip.R
 import app.opass.ccip.fragment.*
@@ -25,23 +24,14 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private val URI_GITHUB = Uri.parse("https://github.com/CCIP-App/CCIP-Android")
         private val URI_TELEGRAM = Uri.parse("https://t.me/coscupchat")
-        private var userTitleTextView: TextView? = null
-        private var userIdTextView: TextView? = null
-
-        fun setUserTitle(userTitle: String) {
-            userTitleTextView!!.visibility = View.VISIBLE
-            userTitleTextView!!.text = userTitle
-        }
-
-        fun setUserId(userId: String) {
-            userIdTextView!!.text = userId
-        }
     }
 
     private lateinit var mDrawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var mActivity: Activity
+    private lateinit var userTitleTextView: TextView
+    private lateinit var userIdTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,43 +67,6 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setupDrawerContent(navigationView: NavigationView) {
-        navigationView.setNavigationItemSelectedListener { menuItem -> jumpToFragment(menuItem) }
-    }
-
-    private fun jumpToFragment(menuItem: MenuItem): Boolean {
-        menuItem.isChecked = true
-
-        if (menuItem.itemId == R.id.star) {
-            mActivity.startActivity(Intent(Intent.ACTION_VIEW, URI_GITHUB))
-        } else if (menuItem.itemId == R.id.telegram) {
-            mActivity.startActivity(Intent(Intent.ACTION_VIEW, URI_TELEGRAM))
-        } else {
-            var fragment: Fragment? = null
-
-            when (menuItem.itemId) {
-                R.id.fast_pass -> fragment = MainFragment()
-                R.id.schedule -> fragment = ScheduleTabFragment()
-                R.id.announcement -> fragment = AnnouncementFragment()
-                R.id.puzzle -> fragment = PuzzleFragment()
-                R.id.ticket -> fragment = MyTicketFragment()
-                R.id.irc -> fragment = IRCFragment()
-                R.id.venue -> fragment = VenueFragment()
-                R.id.sponsors -> fragment = SponsorFragment()
-                R.id.staffs -> fragment = StaffFragment()
-            }
-
-            title = menuItem.title
-            supportFragmentManager.transaction {
-                fragment?.let { replace(R.id.content_frame, it) }
-            }
-        }
-
-        mDrawerLayout.closeDrawers()
-
-        return true
-    }
-
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         drawerToggle.syncState()
@@ -136,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null && result.contents != null) {
             PreferenceUtil.setIsNewToken(this, true)
@@ -144,5 +97,51 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    fun setUserTitle(userTitle: String) {
+        userTitleTextView.visibility = View.VISIBLE
+        userTitleTextView.text = userTitle
+    }
+
+    fun setUserId(userId: String) {
+        userIdTextView.text = userId
+    }
+
+    private fun setupDrawerContent(navigationView: NavigationView) {
+        navigationView.setNavigationItemSelectedListener { menuItem -> jumpToFragment(menuItem) }
+    }
+
+    private fun jumpToFragment(menuItem: MenuItem): Boolean {
+        menuItem.isChecked = true
+
+        when {
+            menuItem.itemId == R.id.star -> mActivity.startActivity(Intent(Intent.ACTION_VIEW, URI_GITHUB))
+            menuItem.itemId == R.id.telegram -> mActivity.startActivity(Intent(Intent.ACTION_VIEW, URI_TELEGRAM))
+            else -> {
+                val fragment = when (menuItem.itemId) {
+                    R.id.fast_pass -> MainFragment()
+                    R.id.schedule -> ScheduleTabFragment()
+                    R.id.announcement -> AnnouncementFragment()
+                    R.id.puzzle -> PuzzleFragment()
+                    R.id.ticket -> MyTicketFragment()
+                    R.id.irc -> IRCFragment()
+                    R.id.venue -> VenueFragment()
+                    R.id.sponsors -> SponsorFragment()
+                    R.id.staffs -> StaffFragment()
+                    else -> null
+                }
+
+                title = menuItem.title
+
+                fragment?.let {
+                    supportFragmentManager.transaction { replace(R.id.content_frame, it) }
+                }
+            }
+        }
+
+        mDrawerLayout.closeDrawers()
+
+        return true
     }
 }

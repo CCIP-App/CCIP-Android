@@ -1,6 +1,5 @@
 package app.opass.ccip.fragment
 
-import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -39,13 +38,13 @@ class MainFragment : Fragment() {
     private lateinit var loginTitle: TextView
     private lateinit var scenarioView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var mActivity: Activity
+    private lateinit var mActivity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
         val view = inflater.inflate(R.layout.fragment_main, container, false)
 
-        mActivity = requireActivity()
+        mActivity = requireActivity() as MainActivity
         noNetworkView = view.findViewById(R.id.no_network)
         notConfWifiView = view.findViewById(R.id.not_conf_wifi)
         loginView = view.findViewById(R.id.login)
@@ -171,9 +170,9 @@ class MainFragment : Fragment() {
 
                         val attrTitle = attr.get("title")
                         if (attrTitle != null) {
-                            MainActivity.setUserTitle(attrTitle.asString)
+                            mActivity.setUserTitle(attrTitle.asString)
                         }
-                        MainActivity.setUserId(attendee.userId)
+                        mActivity.setUserId(attendee.userId)
 
                         scenarioView.adapter = ScenarioAdapter(mActivity, attendee.scenarios)
                     }
