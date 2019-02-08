@@ -34,7 +34,7 @@ class ScheduleFragment : Fragment() {
         }
     }
 
-    private lateinit var scheduleView: RecyclerView
+    private var scheduleView: RecyclerView? = null
     private lateinit var mActivity: Activity
     private var mSubmissions: List<Submission>? = null
     private var date: String? = null
@@ -47,11 +47,11 @@ class ScheduleFragment : Fragment() {
         scheduleView = view.findViewById(R.id.schedule)
 
         mActivity = requireActivity()
-        scheduleView.layoutManager = LinearLayoutManager(mActivity)
-        scheduleView.itemAnimator = DefaultItemAnimator()
+        scheduleView?.layoutManager = LinearLayoutManager(mActivity)
+        scheduleView?.itemAnimator = DefaultItemAnimator()
 
         if (mSubmissions != null) {
-            scheduleView.adapter = ScheduleAdapter(mActivity, transformSubmissions(mSubmissions!!))
+            scheduleView?.adapter = ScheduleAdapter(mActivity, transformSubmissions(mSubmissions))
         }
 
         return view
@@ -60,18 +60,15 @@ class ScheduleFragment : Fragment() {
     private fun loadStarSubmissions(): List<Submission> {
         val tmp = ArrayList<Submission>()
         val starSubmissions = PreferenceUtil.loadStars(mActivity)
-        if (starSubmissions != null) {
-            for (submission in starSubmissions) {
-                try {
-                    val tmpDate = SDF_DATE
-                        .format(ISO8601Utils.parse(submission.start, ParsePosition(0)))
-                    if (tmpDate == date) {
-                        tmp.add(submission)
-                    }
-                } catch (e: ParseException) {
-                    e.printStackTrace()
+        for (submission in starSubmissions) {
+            try {
+                val tmpDate = SDF_DATE
+                    .format(ISO8601Utils.parse(submission.start, ParsePosition(0)))
+                if (tmpDate == date) {
+                    tmp.add(submission)
                 }
-
+            } catch (e: ParseException) {
+                e.printStackTrace()
             }
         }
         return tmp
@@ -104,7 +101,7 @@ class ScheduleFragment : Fragment() {
 
     fun toggleStarFilter(isStar: Boolean) {
         this.starFilter = isStar
-        (scheduleView.adapter as ScheduleAdapter).update(
+        (scheduleView?.adapter as? ScheduleAdapter)?.update(
             transformSubmissions(if (isStar) loadStarSubmissions() else mSubmissions)
         )
     }

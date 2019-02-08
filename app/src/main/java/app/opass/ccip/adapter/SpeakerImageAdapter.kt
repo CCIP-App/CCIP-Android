@@ -16,11 +16,7 @@ class SpeakerImageAdapter(fm: FragmentManager, speakers: List<Speaker>) : Fragme
         }
     }
 
-    override fun getCount(): Int {
-        return this.mFragmentList.size
-    }
+    override fun getCount() = this.mFragmentList.size
 
-    override fun getItem(position: Int): Fragment {
-        return mFragmentList[position]
-    }
+    override fun getItem(position: Int) = mFragmentList[position]
 }

@@ -8,7 +8,6 @@ import java.text.ParseException
 import java.text.ParsePosition
 
 class RebootReceiver : BroadcastReceiver() {
-
     override fun onReceive(context: Context, intent: Intent) {
         val submissions = PreferenceUtil.loadStars(context)
         for (submission in submissions) {

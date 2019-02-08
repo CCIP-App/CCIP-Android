@@ -19,7 +19,7 @@ class CCIPClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
-        val sCCIPService: CCIPService by lazy {
+        private val sCCIPService: CCIPService by lazy {
             retrofit.create(CCIPService::class.java)
         }
 

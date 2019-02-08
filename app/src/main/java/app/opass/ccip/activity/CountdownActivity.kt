@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import app.opass.ccip.R
 import app.opass.ccip.model.Scenario
 import app.opass.ccip.util.JsonUtil
@@ -37,10 +38,10 @@ class CountdownActivity : AppCompatActivity() {
         if (elemDiet != null) {
             val diet = elemDiet.asString
             if (diet == "meat") {
-                countdown_layout.setBackgroundColor(resources.getColor(R.color.colorDietMeat))
+                countdown_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorDietMeat))
                 attrText.setText(R.string.meal)
             } else {
-                countdown_layout.setBackgroundColor(resources.getColor(R.color.colorDietVegetarian))
+                countdown_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorDietVegetarian))
                 attrText.setText(R.string.vegan)
             }
         } else {

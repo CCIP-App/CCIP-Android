@@ -50,7 +50,6 @@ class ScenarioAdapter(private val mContext: Context, private var mScenarioList: 
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val holder = viewHolder as ViewHolder
-
         val scenario = mScenarioList[position]
 
         try {
@@ -72,7 +71,7 @@ class ScenarioAdapter(private val mContext: Context, private var mScenarioList: 
             holder.scenarioName.text = scenario.displayText.enUS
         }
 
-        holder.scenarioName.setTextColor(mContext.resources.getColor(android.R.color.black))
+        holder.scenarioName.setTextColor(ContextCompat.getColor(mContext, android.R.color.black))
         holder.allowTimeRange.text = String.format(
             FORMAT_TIMERANGE,
             SDF.format(Date(scenario.availableTime * 1000L)),
@@ -112,7 +111,7 @@ class ScenarioAdapter(private val mContext: Context, private var mScenarioList: 
         return mScenarioList.size
     }
 
-    fun showConfirmDialog(scenario: Scenario) {
+    private fun showConfirmDialog(scenario: Scenario) {
         AlertDialog.Builder(mContext)
             .setTitle(R.string.confirm_dialog_title)
             .setPositiveButton(R.string.positive_button) { dialogInterface, i -> use(scenario) }
@@ -127,30 +126,31 @@ class ScenarioAdapter(private val mContext: Context, private var mScenarioList: 
         mContext.startActivity(intent)
     }
 
-    fun use(scenario: Scenario) {
+    private fun use(scenario: Scenario) {
         val attendeeCall = CCIPClient.get().use(scenario.id, PreferenceUtil.getToken(mContext))
         attendeeCall.enqueue(object : Callback<Attendee> {
             override fun onResponse(call: Call<Attendee>, response: Response<Attendee>) {
-                if (response.isSuccessful) {
-                    val attendee = response.body()
-                    mScenarioList = attendee!!.scenarios
-                    notifyDataSetChanged()
+                when {
+                    response.isSuccessful -> {
+                        val attendee = response.body()
+                        mScenarioList = attendee!!.scenarios
+                        notifyDataSetChanged()
 
-                    if (scenario.countdown > 0) {
-                        startCountdownActivity(scenario)
+                        if (scenario.countdown > 0) {
+                            startCountdownActivity(scenario)
+                        }
                     }
-                } else {
-                    if (response.code() == 400) {
+                    response.code() == 400 -> {
                         val (message) = ErrorUtil.parseError(response)
                         Toast.makeText(mContext, message, Toast.LENGTH_LONG).show()
-                    } else if (response.code() == 403) {
+                    }
+                    response.code() == 403 -> {
                         AlertDialog.Builder(mContext)
                             .setTitle(R.string.connect_to_conference_wifi)
                             .setPositiveButton(android.R.string.ok, null)
                             .show()
-                    } else {
-                        Toast.makeText(mContext, "Unexpected response", Toast.LENGTH_LONG).show()
                     }
+                    else -> Toast.makeText(mContext, "Unexpected response", Toast.LENGTH_LONG).show()
                 }
             }
 

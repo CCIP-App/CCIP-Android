@@ -6,6 +6,7 @@ import android.os.Build.VERSION
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
@@ -25,6 +26,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ScheduleTabFragment : Fragment() {
+    companion object {
+        private val SDF_DATE = SimpleDateFormat("MM/dd")
+    }
+
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager
@@ -34,10 +39,7 @@ class ScheduleTabFragment : Fragment() {
     private var mSubmissions: List<Submission>? = null
     private var scheduleTabAdapter: ScheduleTabAdapter? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.fragment_schedule_tab, container, false)
 
@@ -125,9 +127,9 @@ class ScheduleTabFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu!!.add("star")
+        menu.add("star")
             .setIcon(R.drawable.ic_bookmark_border_black_24dp)
             .setOnMenuItemClickListener { item ->
                 starFilter = !starFilter
@@ -137,7 +139,7 @@ class ScheduleTabFragment : Fragment() {
                     item.setIcon(R.drawable.ic_bookmark_border_black_24dp)
                 }
                 item.icon.setColorFilter(
-                    resources.getColor(R.color.colorWhite),
+                    ContextCompat.getColor(requireContext(), R.color.colorWhite),
                     Mode.SRC_ATOP
                 )
                 scheduleTabAdapter!!.toggleStarFilter(starFilter)
@@ -147,7 +149,7 @@ class ScheduleTabFragment : Fragment() {
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menuItemStar = menu.getItem(0)
         menuItemStar.icon.setColorFilter(
-            resources.getColor(R.color.colorWhite),
+            ContextCompat.getColor(requireContext(), R.color.colorWhite),
             Mode.SRC_ATOP
         )
     }
@@ -159,10 +161,5 @@ class ScheduleTabFragment : Fragment() {
         if (submissions != null) {
             mSubmissions = submissions
         }
-    }
-
-    companion object {
-
-        private val SDF_DATE = SimpleDateFormat("MM/dd")
     }
 }

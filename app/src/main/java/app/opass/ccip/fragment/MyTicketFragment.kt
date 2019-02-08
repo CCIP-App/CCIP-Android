@@ -18,15 +18,15 @@ import com.google.zxing.common.BitMatrix
 
 class MyTicketFragment : Fragment() {
     companion object {
+        private const val WHITE = -0x1
+        private const val BLACK = -0x1000000
+
         fun encodeAsBitmap(
             contents: String?,
             format: BarcodeFormat,
             desiredWidth: Int,
             desiredHeight: Int
         ): Bitmap {
-            val WHITE = -0x1
-            val BLACK = -0x1000000
-
             val writer = MultiFormatWriter()
 
             var result: BitMatrix? = null

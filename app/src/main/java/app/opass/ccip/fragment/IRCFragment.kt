@@ -1,5 +1,6 @@
 package app.opass.ccip.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -25,6 +26,7 @@ class IRCFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_web, container, false)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

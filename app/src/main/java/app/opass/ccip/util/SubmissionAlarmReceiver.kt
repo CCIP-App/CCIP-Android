@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -14,6 +15,9 @@ import app.opass.ccip.activity.SubmissionDetailActivity
 import app.opass.ccip.model.Submission
 
 class SubmissionAlarmReceiver : BroadcastReceiver() {
+    companion object {
+        private const val CHANNEL_ID = "submission_bookmark"
+    }
 
     override fun onReceive(context: Context, intent: Intent) {
         val submission = JsonUtil
@@ -33,10 +37,7 @@ class SubmissionAlarmReceiver : BroadcastReceiver() {
                 submission.room
             )
 
-        val manager = context
-            .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        val CHANNEL_ID = "submission_bookmark"
+        val manager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -53,9 +54,9 @@ class SubmissionAlarmReceiver : BroadcastReceiver() {
             .setContentText(notificationContent)
             .setStyle(NotificationCompat.BigTextStyle().bigText(notificationContent))
             .setAutoCancel(true)
-            .setDefaults(Notification.DEFAULT_ALL)
-            .setPriority(Notification.PRIORITY_HIGH)
-            .setCategory(Notification.CATEGORY_ALARM)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setWhen(System.currentTimeMillis())
             .setContentIntent(pendingIntent)
 

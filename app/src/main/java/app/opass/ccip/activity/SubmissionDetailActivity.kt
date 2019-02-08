@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import app.opass.ccip.R
 import app.opass.ccip.adapter.SpeakerImageAdapter
@@ -30,6 +31,12 @@ import java.text.ParsePosition
 import java.text.SimpleDateFormat
 
 class SubmissionDetailActivity : AppCompatActivity() {
+    companion object {
+        const val INTENT_EXTRA_PROGRAM = "program"
+        private val SDF_DATETIME = SimpleDateFormat("MM/dd HH:mm")
+        private val SDF_TIME = SimpleDateFormat("HH:mm")
+    }
+
     private lateinit var mActivity: Activity
     private lateinit var submission: Submission
     private lateinit var fab: FloatingActionButton
@@ -53,26 +60,21 @@ class SubmissionDetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        val adapter = SpeakerImageAdapter(this.supportFragmentManager, submission.speakers)
+        val adapter = SpeakerImageAdapter(supportFragmentManager, submission.speakers)
         speakerViewPager.adapter = adapter
         speakerViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-            }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
 
             override fun onPageSelected(position: Int) {
                 speakerInfo.text = submission.speakers[position].getSpeakerDetail(mActivity).bio
                 collapsingToolbarLayout.title = submission.speakers[position].getSpeakerDetail(mActivity).name
             }
 
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
+            override fun onPageScrollStateChanged(state: Int) = Unit
         })
 
         spring_dots_indicator.setViewPager(speakerViewPager)
         if (adapter.count == 1) spring_dots_indicator.visibility = View.INVISIBLE
-
 
         val room: TextView = findViewById(R.id.room)
         val subject: TextView = findViewById(R.id.subject)
@@ -125,11 +127,9 @@ class SubmissionDetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
         }
         return super.onOptionsItemSelected(item)
     }
@@ -140,7 +140,7 @@ class SubmissionDetailActivity : AppCompatActivity() {
         } else {
             fab.setImageResource(R.drawable.ic_bookmark_border_black_24dp)
         }
-        fab.drawable.setColorFilter(resources.getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP)
+        fab.drawable.setColorFilter(ContextCompat.getColor(this, R.color.colorWhite), PorterDuff.Mode.SRC_ATOP)
     }
 
     private fun toggleFab(view: View) {
@@ -172,12 +172,5 @@ class SubmissionDetailActivity : AppCompatActivity() {
         val cData = ClipData.newPlainText("text", textView.text)
         cManager.primaryClip = cData
         Toast.makeText(mActivity, R.string.copy_to_clipboard, Toast.LENGTH_SHORT).show()
-    }
-
-    companion object {
-
-        val INTENT_EXTRA_PROGRAM = "program"
-        private val SDF_DATETIME = SimpleDateFormat("MM/dd HH:mm")
-        private val SDF_TIME = SimpleDateFormat("HH:mm")
     }
 }

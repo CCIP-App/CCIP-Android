@@ -10,13 +10,13 @@ class ConfClient {
     companion object {
         private const val API_BASE_URL = "https://summit.g0v.tw"
 
-        val retrofit: Retrofit by lazy {
+        private val retrofit: Retrofit by lazy {
             Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
-        val sConfService: ConfService by lazy {
+        private val sConfService: ConfService by lazy {
             retrofit.create(ConfService::class.java)
         }
 

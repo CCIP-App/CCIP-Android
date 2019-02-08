@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
 import app.opass.ccip.activity.SubmissionDetailActivity
@@ -79,9 +80,7 @@ class SubmissionAdapter(private val mContext: Context, private val mSubmissionLi
 
     }
 
-    override fun getItemCount(): Int {
-        return mSubmissionList.size
-    }
+    override fun getItemCount() = mSubmissionList.size
 
     private fun isSubmissionStar(context: Context, submission: Submission): Boolean {
         val submissions = PreferenceUtil.loadStars(context)
@@ -89,17 +88,13 @@ class SubmissionAdapter(private val mContext: Context, private val mSubmissionLi
     }
 
     private fun updateStarSubmissions(context: Context, submission: Submission) {
-        var submissions: MutableList<Submission>? = PreferenceUtil.loadStars(context)
-        if (submissions != null) {
-            if (submissions.contains(submission)) {
-                submissions.remove(submission)
-                AlarmUtil.cancelSubmissionAlarm(context, submission)
-            } else {
-                submissions.add(submission)
-                AlarmUtil.setSubmissionAlarm(context, submission)
-            }
+        val submissions = PreferenceUtil.loadStars(context)
+        if (submissions.contains(submission)) {
+            submissions.remove(submission)
+            AlarmUtil.cancelSubmissionAlarm(context, submission)
         } else {
-            submissions = mutableListOf(submission)
+            submissions.add(submission)
+            AlarmUtil.setSubmissionAlarm(context, submission)
         }
         PreferenceUtil.saveStars(context, submissions)
     }
@@ -107,10 +102,10 @@ class SubmissionAdapter(private val mContext: Context, private val mSubmissionLi
     private fun toggleStar(star: ImageView, isStar: Boolean) {
         if (isStar) {
             star.setImageResource(R.drawable.ic_bookmark_black_24dp)
-            star.setColorFilter(mContext.resources.getColor(R.color.colorAccent))
+            star.setColorFilter(ContextCompat.getColor(mContext, R.color.colorAccent))
         } else {
             star.setImageResource(R.drawable.ic_bookmark_border_black_24dp)
-            star.setColorFilter(mContext.resources.getColor(R.color.colorGray))
+            star.setColorFilter(ContextCompat.getColor(mContext, R.color.colorGray))
         }
     }
 

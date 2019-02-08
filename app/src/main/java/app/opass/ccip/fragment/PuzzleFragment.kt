@@ -1,5 +1,6 @@
 package app.opass.ccip.fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -19,12 +20,13 @@ import kotlin.experimental.and
 
 class PuzzleFragment : Fragment() {
     companion object {
-        private val URL_NO_NETWORK = "file:///android_asset/no_network.html"
-        private val URL_PUZZLE = "https://play.coscup.org/?mode=app&token="
+        private const val URL_NO_NETWORK = "file:///android_asset/no_network.html"
+        private const val URL_PUZZLE = "https://play.coscup.org/?mode=app&token="
     }
 
     private lateinit var mActivity: Activity
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.fragment_web, container, false)
@@ -62,12 +64,12 @@ class PuzzleFragment : Fragment() {
         return view
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         mActivity.menuInflater.inflate(R.menu.puzzle, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.share -> {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"
@@ -81,7 +83,7 @@ class PuzzleFragment : Fragment() {
         return true
     }
 
-    fun toPublicToken(privateToken: String?): String? {
+    private fun toPublicToken(privateToken: String?): String? {
         try {
             val messageDigest = MessageDigest.getInstance("SHA-1")
             messageDigest.update(privateToken!!.toByteArray(StandardCharsets.US_ASCII))

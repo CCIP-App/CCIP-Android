@@ -1,5 +1,6 @@
 package app.opass.ccip.fragment
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ class StaffFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_web, container, false)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
