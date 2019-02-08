@@ -2,6 +2,7 @@ package app.opass.ccip.network
 
 import app.opass.ccip.model.Announcement
 import app.opass.ccip.model.Attendee
+import app.opass.ccip.util.JsonUtil
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,7 +17,7 @@ class CCIPClient {
         val retrofit: Retrofit by lazy {
             Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(JsonUtil.GSON))
                 .build()
         }
         private val sCCIPService: CCIPService by lazy {

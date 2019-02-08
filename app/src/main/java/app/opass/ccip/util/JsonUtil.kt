@@ -1,12 +1,13 @@
 package app.opass.ccip.util
 
 import com.google.gson.FieldNamingPolicy
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.lang.reflect.Type
 
 class JsonUtil {
     companion object {
-        private val GSON = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
+        val GSON: Gson = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
 
         fun <T> fromJson(json: String, clazz: Class<T>): T {
             return GSON.fromJson(json, clazz)
