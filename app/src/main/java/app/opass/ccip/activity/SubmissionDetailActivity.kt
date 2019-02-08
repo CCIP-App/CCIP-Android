@@ -85,7 +85,7 @@ class SubmissionDetailActivity : AppCompatActivity() {
         val slido: TextView = findViewById(R.id.slido)
         val lang: TextView = findViewById(R.id.lang)
         val programAbstract: TextView = findViewById(R.id.program_abstract)
-        val spekaerInfoBlock: View = findViewById(R.id.speaker_info_block)
+        val speakerInfoBlock: View = findViewById(R.id.speaker_info_block)
         speakerInfo = findViewById(R.id.speakerinfo)
 
         room.text = submission.room
@@ -114,7 +114,7 @@ class SubmissionDetailActivity : AppCompatActivity() {
         }
 
         if (submission.speakers[0].getSpeakerDetail(mActivity).name.isEmpty())
-            spekaerInfoBlock.visibility = View.GONE
+            speakerInfoBlock.visibility = View.GONE
 
         speakerInfo.text = submission.speakers[0].getSpeakerDetail(mActivity).bio
         speakerInfo.setOnClickListener { view -> copyToClipboard(view as TextView) }

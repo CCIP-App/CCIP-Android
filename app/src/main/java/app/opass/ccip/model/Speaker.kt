@@ -10,7 +10,7 @@ data class Speaker(
     val zh: Zh_,
     val en: En_
 ) {
-    fun getSpeakerDetail(context: Context): SpekaerDetail {
+    fun getSpeakerDetail(context: Context): SpeakerDetail {
         return if (LocaleUtil.getCurrentLocale(context).language == Locale("zh").language) {
             zh
         } else {

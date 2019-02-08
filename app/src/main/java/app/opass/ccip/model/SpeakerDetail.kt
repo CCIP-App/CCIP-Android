@@ -1,6 +1,6 @@
 package app.opass.ccip.model
 
-interface SpekaerDetail {
+interface SpeakerDetail {
     val name: String
     val bio: String
 }
