@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".activity.MainActivity"
-    android:orientation="vertical">
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".activity.MainActivity">
 
     <RelativeLayout
         android:id="@+id/not_conf_wifi"
@@ -82,11 +82,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible">
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true">
+
             <ImageView
                 android:id="@+id/login_image"
                 android:layout_width="150dp"
@@ -102,8 +104,8 @@
                 android:layout_below="@+id/login_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginRight="8dp"
                 android:gravity="center"
                 android:text="@string/tap_here_to_scan"
                 android:textSize="18sp" />
@@ -129,16 +131,16 @@
 
     </RelativeLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/scenarios"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>
