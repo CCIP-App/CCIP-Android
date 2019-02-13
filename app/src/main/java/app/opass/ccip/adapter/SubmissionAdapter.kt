@@ -22,7 +22,6 @@ import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 
-
 class SubmissionAdapter(private val mContext: Context, private val mSubmissionList: List<Submission>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
