@@ -39,7 +39,7 @@ class SessionAdapter(private val mContext: Context, private val mSessionList: Li
 
         holder.room.text = session.room
 
-        holder.subject.text = session.getSessionDetail(mContext).title
+        holder.title.text = session.getSessionDetail(mContext).title
 
         try {
             val startDate = ISO8601Utils.parse(session.start, ParsePosition(0))
@@ -110,7 +110,7 @@ class SessionAdapter(private val mContext: Context, private val mSessionList: Li
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var card: CardView = itemView.findViewById(R.id.card)
-        var subject: TextView = itemView.findViewById(R.id.subject)
+        var title: TextView = itemView.findViewById(R.id.title)
         var type: TextView = itemView.findViewById(R.id.type)
         var room: TextView = itemView.findViewById(R.id.room)
         var endTime: TextView = itemView.findViewById(R.id.end_time)

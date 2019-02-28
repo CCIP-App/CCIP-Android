@@ -46,13 +46,13 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/subject"
+                            android:id="@+id/title"
                             style="@style/Session"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_toLeftOf="@+id/star"
-                            android:text="Subject" />
+                            android:text="Title" />
 
                         <ImageView
                             android:id="@+id/star"

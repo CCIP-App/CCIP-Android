@@ -77,7 +77,7 @@ class SessionDetailActivity : AppCompatActivity() {
         if (adapter.count == 1) spring_dots_indicator.visibility = View.INVISIBLE
 
         val room: TextView = findViewById(R.id.room)
-        val subject: TextView = findViewById(R.id.subject)
+        val title: TextView = findViewById(R.id.title)
         val time: TextView = findViewById(R.id.time)
         val type: TextView = findViewById(R.id.type)
         val community: TextView = findViewById(R.id.community)
@@ -89,8 +89,8 @@ class SessionDetailActivity : AppCompatActivity() {
         speakerInfo = findViewById(R.id.speakerinfo)
 
         room.text = session.room
-        subject.text = session.getSessionDetail(mActivity).title
-        subject.setOnClickListener { view -> copyToClipboard(view as TextView) }
+        title.text = session.getSessionDetail(mActivity).title
+        title.setOnClickListener { view -> copyToClipboard(view as TextView) }
 
         try {
             val timeString = StringBuffer()
