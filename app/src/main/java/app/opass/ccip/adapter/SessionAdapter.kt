@@ -54,7 +54,7 @@ class SessionAdapter(private val mContext: Context, private val mSessionList: Li
         }
 
         try {
-            holder.type.setText(Session.getTypeString(session.type))
+            holder.type.setText(session.type)
         } catch (e: Resources.NotFoundException) {
             holder.type.text = ""
             e.printStackTrace()

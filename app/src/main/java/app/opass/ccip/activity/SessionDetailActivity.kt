@@ -108,7 +108,7 @@ class SessionDetailActivity : AppCompatActivity() {
         }
 
         try {
-            type.setText(Session.getTypeString(session.type))
+            type.setText(session.type)
         } catch (e: Resources.NotFoundException) {
             type.text = ""
         }
