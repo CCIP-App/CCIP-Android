@@ -25,6 +25,7 @@ data class Submission(
                 "S" -> R.string.short_talk
                 "T" -> R.string.talk
                 "U" -> R.string.unconf
+                "E" -> R.string.event
                 else -> throw Resources.NotFoundException("Unexpected type symbol")
             }
         }

@@ -55,6 +55,7 @@
     <string name="short_talk">Short Talk</string>
     <string name="talk">Talk</string>
     <string name="unconf">Unconf</string>
+    <string name="event">活動</string>
 
     <string name="share">分享</string>
     <string name="puzzle_share_subject">這是我的程式碼拼圖，和我一起解題吧！</string>
