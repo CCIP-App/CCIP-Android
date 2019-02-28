@@ -89,7 +89,7 @@ class SubmissionDetailActivity : AppCompatActivity() {
         speakerInfo = findViewById(R.id.speakerinfo)
 
         room.text = submission.room
-        subject.text = submission.getSubmissionDetail(mActivity).subject
+        subject.text = submission.getSubmissionDetail(mActivity).title
         subject.setOnClickListener { view -> copyToClipboard(view as TextView) }
 
         try {
@@ -118,7 +118,7 @@ class SubmissionDetailActivity : AppCompatActivity() {
 
         speakerInfo.text = submission.speakers[0].getSpeakerDetail(mActivity).bio
         speakerInfo.setOnClickListener { view -> copyToClipboard(view as TextView) }
-        programAbstract.text = submission.getSubmissionDetail(mActivity).summary
+        programAbstract.text = submission.getSubmissionDetail(mActivity).description
         programAbstract.setOnClickListener { view -> copyToClipboard(view as TextView) }
 
         fab = findViewById(R.id.fab)

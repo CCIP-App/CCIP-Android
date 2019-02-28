@@ -39,7 +39,7 @@ class SubmissionAdapter(private val mContext: Context, private val mSubmissionLi
 
         holder.room.text = submission.room
 
-        holder.subject.text = submission.getSubmissionDetail(mContext).subject
+        holder.subject.text = submission.getSubmissionDetail(mContext).title
 
         try {
             val startDate = ISO8601Utils.parse(submission.start, ParsePosition(0))
@@ -60,7 +60,7 @@ class SubmissionAdapter(private val mContext: Context, private val mSubmissionLi
             e.printStackTrace()
         }
 
-        if (!submission.getSubmissionDetail(mContext).summary.isEmpty()) {
+        if (!submission.getSubmissionDetail(mContext).description.isEmpty()) {
             toggleStar(holder.star, isSubmissionStar(mContext, submission))
 
             holder.star.setOnClickListener {

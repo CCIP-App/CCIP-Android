@@ -33,7 +33,7 @@ class SubmissionAlarmReceiver : BroadcastReceiver() {
         val notificationContent = String
             .format(
                 context.getString(R.string.notification_submission_start),
-                submission.getSubmissionDetail(context).subject,
+                submission.getSubmissionDetail(context).title,
                 submission.room
             )
 

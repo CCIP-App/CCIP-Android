@@ -1,6 +1,6 @@
 package app.opass.ccip.model
 
 data class En(
-    override val subject: String,
-    override val summary: String
+    override val title: String,
+    override val description: String
 ) : SubmissionDetail
