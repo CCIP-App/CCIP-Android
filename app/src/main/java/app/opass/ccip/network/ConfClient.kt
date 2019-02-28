@@ -1,6 +1,6 @@
 package app.opass.ccip.network
 
-import app.opass.ccip.model.Submission
+import app.opass.ccip.model.Session
 import app.opass.ccip.util.JsonUtil
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -25,7 +25,7 @@ class ConfClient {
 
         interface ConfService {
             @GET("/2018/static/ccip.json")
-            fun submission(): Call<List<Submission>>
+            fun session(): Call<List<Session>>
         }
     }
 }

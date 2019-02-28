@@ -12,8 +12,8 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
-import app.opass.ccip.activity.SubmissionDetailActivity
-import app.opass.ccip.model.Submission
+import app.opass.ccip.activity.SessionDetailActivity
+import app.opass.ccip.model.Session
 import app.opass.ccip.util.AlarmUtil
 import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
@@ -22,7 +22,7 @@ import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 
-class SubmissionAdapter(private val mContext: Context, private val mSubmissionList: List<Submission>) :
+class SessionAdapter(private val mContext: Context, private val mSessionList: List<Session>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         private val SDF = SimpleDateFormat("HH:mm")
@@ -30,20 +30,20 @@ class SubmissionAdapter(private val mContext: Context, private val mSubmissionLi
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = LayoutInflater.from(parent.context)
-        .inflate(R.layout.item_submission, parent, false)
+        .inflate(R.layout.item_session, parent, false)
         .let(::ViewHolder)
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val holder = viewHolder as ViewHolder
-        val submission = mSubmissionList[position]
+        val session = mSessionList[position]
 
-        holder.room.text = submission.room
+        holder.room.text = session.room
 
-        holder.subject.text = submission.getSubmissionDetail(mContext).title
+        holder.subject.text = session.getSessionDetail(mContext).title
 
         try {
-            val startDate = ISO8601Utils.parse(submission.start, ParsePosition(0))
-            val endDate = ISO8601Utils.parse(submission.end, ParsePosition(0))
+            val startDate = ISO8601Utils.parse(session.start, ParsePosition(0))
+            val endDate = ISO8601Utils.parse(session.end, ParsePosition(0))
             holder.endTime.text = String.format(
                 FORMAT_ENDTIME, SDF.format(endDate),
                 (endDate.time - startDate.time) / 1000 / 60,
@@ -54,48 +54,48 @@ class SubmissionAdapter(private val mContext: Context, private val mSubmissionLi
         }
 
         try {
-            holder.type.setText(Submission.getTypeString(submission.type))
+            holder.type.setText(Session.getTypeString(session.type))
         } catch (e: Resources.NotFoundException) {
             holder.type.text = ""
             e.printStackTrace()
         }
 
-        if (!submission.getSubmissionDetail(mContext).description.isEmpty()) {
-            toggleStar(holder.star, isSubmissionStar(mContext, submission))
+        if (!session.getSessionDetail(mContext).description.isEmpty()) {
+            toggleStar(holder.star, isSessionStar(mContext, session))
 
             holder.star.setOnClickListener {
-                updateStarSubmissions(mContext, submission)
-                toggleStar(holder.star, isSubmissionStar(mContext, submission))
+                updateStarSessions(mContext, session)
+                toggleStar(holder.star, isSessionStar(mContext, session))
             }
 
             holder.card.isClickable = true
             holder.card.setOnClickListener {
                 val intent = Intent()
-                intent.setClass(mContext, SubmissionDetailActivity::class.java)
-                intent.putExtra(SubmissionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(submission))
+                intent.setClass(mContext, SessionDetailActivity::class.java)
+                intent.putExtra(SessionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(session))
                 mContext.startActivity(intent)
             }
         }
 
     }
 
-    override fun getItemCount() = mSubmissionList.size
+    override fun getItemCount() = mSessionList.size
 
-    private fun isSubmissionStar(context: Context, submission: Submission): Boolean {
-        val submissions = PreferenceUtil.loadStars(context)
-        return submissions != null && submissions.contains(submission)
+    private fun isSessionStar(context: Context, session: Session): Boolean {
+        val sessions = PreferenceUtil.loadStars(context)
+        return sessions != null && sessions.contains(session)
     }
 
-    private fun updateStarSubmissions(context: Context, submission: Submission) {
-        val submissions = PreferenceUtil.loadStars(context)
-        if (submissions.contains(submission)) {
-            submissions.remove(submission)
-            AlarmUtil.cancelSubmissionAlarm(context, submission)
+    private fun updateStarSessions(context: Context, session: Session) {
+        val sessions = PreferenceUtil.loadStars(context)
+        if (sessions.contains(session)) {
+            sessions.remove(session)
+            AlarmUtil.cancelSessionAlarm(context, session)
         } else {
-            submissions.add(submission)
-            AlarmUtil.setSubmissionAlarm(context, submission)
+            sessions.add(session)
+            AlarmUtil.setSessionAlarm(context, session)
         }
-        PreferenceUtil.saveStars(context, submissions)
+        PreferenceUtil.saveStars(context, sessions)
     }
 
     private fun toggleStar(star: ImageView, isStar: Boolean) {

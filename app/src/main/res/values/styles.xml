@@ -20,15 +20,15 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="Submission">
+    <style name="Session">
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="Submission.Type" parent="Submission">
+    <style name="Session.Type" parent="Session">
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="Submission.Time" parent="Submission">
+    <style name="Session.Time" parent="Session">
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
@@ -36,7 +36,7 @@
         <item name="android:paddingLeft">16dp</item>
     </style>
 
-    <style name="Submission.Room" parent="Submission">
+    <style name="Session.Room" parent="Session">
         <item name="android:textColor">#FFF</item>
         <item name="android:textSize">20sp</item>
         <item name="android:gravity">center</item>

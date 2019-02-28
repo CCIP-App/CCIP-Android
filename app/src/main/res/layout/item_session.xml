@@ -17,7 +17,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/submission_layout"
+                android:id="@+id/session_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -25,7 +25,7 @@
 
                 <TextView
                     android:id="@+id/room"
-                    style="@style/Submission.Room"
+                    style="@style/Session.Room"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
@@ -47,7 +47,7 @@
 
                         <TextView
                             android:id="@+id/subject"
-                            style="@style/Submission"
+                            style="@style/Session"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
@@ -71,14 +71,14 @@
 
                         <TextView
                             android:id="@+id/end_time"
-                            style="@style/Submission"
+                            style="@style/Session"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="End Time" />
 
                         <TextView
                             android:id="@+id/type"
-                            style="@style/Submission.Type"
+                            style="@style/Session.Type"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
@@ -86,7 +86,7 @@
 
                         <TextView
                             android:id="@+id/lang"
-                            style="@style/Submission"
+                            style="@style/Session"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"

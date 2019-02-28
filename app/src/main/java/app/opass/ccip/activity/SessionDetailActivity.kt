@@ -17,7 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import app.opass.ccip.R
 import app.opass.ccip.adapter.SpeakerImageAdapter
-import app.opass.ccip.model.Submission
+import app.opass.ccip.model.Session
 import app.opass.ccip.util.AlarmUtil
 import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
@@ -25,12 +25,12 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.internal.bind.util.ISO8601Utils
-import kotlinx.android.synthetic.main.activity_submission_detail.*
+import kotlinx.android.synthetic.main.activity_session_detail.*
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 
-class SubmissionDetailActivity : AppCompatActivity() {
+class SessionDetailActivity : AppCompatActivity() {
     companion object {
         const val INTENT_EXTRA_PROGRAM = "program"
         private val SDF_DATETIME = SimpleDateFormat("MM/dd HH:mm")
@@ -38,7 +38,7 @@ class SubmissionDetailActivity : AppCompatActivity() {
     }
 
     private lateinit var mActivity: Activity
-    private lateinit var submission: Submission
+    private lateinit var session: Session
     private lateinit var fab: FloatingActionButton
     private lateinit var collapsingToolbarLayout: CollapsingToolbarLayout
     private lateinit var speakerInfo: TextView
@@ -46,28 +46,28 @@ class SubmissionDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_submission_detail)
+        setContentView(R.layout.activity_session_detail)
 
         mActivity = this
         val speakerViewPager: ViewPager = findViewById(R.id.viewPager_speaker)
 
-        submission = JsonUtil.fromJson(intent.getStringExtra(INTENT_EXTRA_PROGRAM), Submission::class.java)
-        isStar = PreferenceUtil.loadStars(this).contains(submission)
+        session = JsonUtil.fromJson(intent.getStringExtra(INTENT_EXTRA_PROGRAM), Session::class.java)
+        isStar = PreferenceUtil.loadStars(this).contains(session)
 
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        toolbar.title = submission.speakers[0].getSpeakerDetail(mActivity).name
+        toolbar.title = session.speakers[0].getSpeakerDetail(mActivity).name
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        val adapter = SpeakerImageAdapter(supportFragmentManager, submission.speakers)
+        val adapter = SpeakerImageAdapter(supportFragmentManager, session.speakers)
         speakerViewPager.adapter = adapter
         speakerViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
 
             override fun onPageSelected(position: Int) {
-                speakerInfo.text = submission.speakers[position].getSpeakerDetail(mActivity).bio
-                collapsingToolbarLayout.title = submission.speakers[position].getSpeakerDetail(mActivity).name
+                speakerInfo.text = session.speakers[position].getSpeakerDetail(mActivity).bio
+                collapsingToolbarLayout.title = session.speakers[position].getSpeakerDetail(mActivity).name
             }
 
             override fun onPageScrollStateChanged(state: Int) = Unit
@@ -88,16 +88,16 @@ class SubmissionDetailActivity : AppCompatActivity() {
         val speakerInfoBlock: View = findViewById(R.id.speaker_info_block)
         speakerInfo = findViewById(R.id.speakerinfo)
 
-        room.text = submission.room
-        subject.text = submission.getSubmissionDetail(mActivity).title
+        room.text = session.room
+        subject.text = session.getSessionDetail(mActivity).title
         subject.setOnClickListener { view -> copyToClipboard(view as TextView) }
 
         try {
             val timeString = StringBuffer()
-            val startDate = ISO8601Utils.parse(submission.start, ParsePosition(0))
+            val startDate = ISO8601Utils.parse(session.start, ParsePosition(0))
             timeString.append(SDF_DATETIME.format(startDate))
             timeString.append(" ~ ")
-            val endDate = ISO8601Utils.parse(submission.end, ParsePosition(0))
+            val endDate = ISO8601Utils.parse(session.end, ParsePosition(0))
             timeString.append(SDF_TIME.format(endDate))
 
             timeString.append(", " + (endDate.time - startDate.time) / 1000 / 60 + resources.getString(R.string.min))
@@ -108,17 +108,17 @@ class SubmissionDetailActivity : AppCompatActivity() {
         }
 
         try {
-            type.setText(Submission.getTypeString(submission.type))
+            type.setText(Session.getTypeString(session.type))
         } catch (e: Resources.NotFoundException) {
             type.text = ""
         }
 
-        if (submission.speakers[0].getSpeakerDetail(mActivity).name.isEmpty())
+        if (session.speakers[0].getSpeakerDetail(mActivity).name.isEmpty())
             speakerInfoBlock.visibility = View.GONE
 
-        speakerInfo.text = submission.speakers[0].getSpeakerDetail(mActivity).bio
+        speakerInfo.text = session.speakers[0].getSpeakerDetail(mActivity).bio
         speakerInfo.setOnClickListener { view -> copyToClipboard(view as TextView) }
-        programAbstract.text = submission.getSubmissionDetail(mActivity).description
+        programAbstract.text = session.getSessionDetail(mActivity).description
         programAbstract.setOnClickListener { view -> copyToClipboard(view as TextView) }
 
         fab = findViewById(R.id.fab)
@@ -145,26 +145,26 @@ class SubmissionDetailActivity : AppCompatActivity() {
 
     private fun toggleFab(view: View) {
         isStar = !isStar
-        updateStarSubmissions(view)
+        updateStarSessions(view)
         checkFabIcon()
     }
 
-    private fun updateStarSubmissions(view: View) {
-        var submissions: MutableList<Submission>? = PreferenceUtil.loadStars(this)
-        if (submissions != null) {
-            if (submissions.contains(submission)) {
-                submissions.remove(submission)
-                AlarmUtil.cancelSubmissionAlarm(this, submission)
+    private fun updateStarSessions(view: View) {
+        var sessions: MutableList<Session>? = PreferenceUtil.loadStars(this)
+        if (sessions != null) {
+            if (sessions.contains(session)) {
+                sessions.remove(session)
+                AlarmUtil.cancelSessionAlarm(this, session)
                 Snackbar.make(view, R.string.remove_bookmark, Snackbar.LENGTH_LONG).show()
             } else {
-                submissions.add(submission)
-                AlarmUtil.setSubmissionAlarm(this, submission)
+                sessions.add(session)
+                AlarmUtil.setSessionAlarm(this, session)
                 Snackbar.make(view, R.string.add_bookmark, Snackbar.LENGTH_LONG).show()
             }
         } else {
-            submissions = mutableListOf(submission)
+            sessions = mutableListOf(session)
         }
-        PreferenceUtil.saveStars(this, submissions)
+        PreferenceUtil.saveStars(this, sessions)
     }
 
     private fun copyToClipboard(textView: TextView) {

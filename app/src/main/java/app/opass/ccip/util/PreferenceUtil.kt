@@ -2,7 +2,7 @@ package app.opass.ccip.util
 
 import android.content.Context
 import androidx.core.content.edit
-import app.opass.ccip.model.Submission
+import app.opass.ccip.model.Session
 import com.google.gson.reflect.TypeToken
 import java.util.*
 
@@ -34,30 +34,30 @@ object PreferenceUtil {
         return sharedPreferences.getString(PREF_AUTH_TOKEN, null)
     }
 
-    fun savePrograms(context: Context, submissions: List<Submission>) {
+    fun savePrograms(context: Context, sessions: List<Session>) {
         context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE)
-            .edit(true) { putString(PREF_SCHEDULE_PROGRAMS, JsonUtil.toJson(submissions)) }
+            .edit(true) { putString(PREF_SCHEDULE_PROGRAMS, JsonUtil.toJson(sessions)) }
     }
 
-    fun loadPrograms(context: Context): List<Submission>? {
+    fun loadPrograms(context: Context): List<Session>? {
         val sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE)
         val programsJson = sharedPreferences.getString(PREF_SCHEDULE_PROGRAMS, "[]")!!
 
-        return JsonUtil.fromJson<List<Submission>>(
+        return JsonUtil.fromJson<List<Session>>(
             programsJson,
-            object : TypeToken<ArrayList<Submission>>() {}.type
+            object : TypeToken<ArrayList<Session>>() {}.type
         )
     }
 
-    fun saveStars(context: Context, submissions: List<Submission>) {
+    fun saveStars(context: Context, sessions: List<Session>) {
         context.getSharedPreferences(PREF_SCHEDULE_STARS, Context.MODE_PRIVATE)
-            .edit { putString(PREF_SCHEDULE_STARS, JsonUtil.toJson(submissions)) }
+            .edit { putString(PREF_SCHEDULE_STARS, JsonUtil.toJson(sessions)) }
     }
 
-    fun loadStars(context: Context): MutableList<Submission> {
+    fun loadStars(context: Context): MutableList<Session> {
         val sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE_STARS, Context.MODE_PRIVATE)
         val starsJson = sharedPreferences.getString(PREF_SCHEDULE_STARS, "[]")!!
 
-        return JsonUtil.fromJson(starsJson, object : TypeToken<MutableList<Submission>>() {}.type)
+        return JsonUtil.fromJson(starsJson, object : TypeToken<MutableList<Session>>() {}.type)
     }
 }

@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
-import app.opass.ccip.model.Submission
+import app.opass.ccip.model.Session
 import com.google.gson.internal.bind.util.ISO8601Utils
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 
-class ScheduleAdapter(private val mContext: Context, private var mSubmissionSlotList: List<List<Submission>>) :
+class ScheduleAdapter(private val mContext: Context, private var mSessionSlotList: List<List<Session>>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         private val SDF = SimpleDateFormat("HH:mm")
@@ -28,29 +28,29 @@ class ScheduleAdapter(private val mContext: Context, private var mSubmissionSlot
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val holder = viewHolder as ViewHolder
 
-        holder.submissionView.layoutManager = LinearLayoutManager(mContext)
-        holder.submissionView.itemAnimator = DefaultItemAnimator()
+        holder.sessionView.layoutManager = LinearLayoutManager(mContext)
+        holder.sessionView.itemAnimator = DefaultItemAnimator()
 
-        val submissions = mSubmissionSlotList[position]
+        val sessions = mSessionSlotList[position]
         try {
-            val date = ISO8601Utils.parse(submissions[0].start, ParsePosition(0))
+            val date = ISO8601Utils.parse(sessions[0].start, ParsePosition(0))
             holder.startTimeText.text = SDF.format(date)
         } catch (e: ParseException) {
             e.printStackTrace()
         }
 
-        holder.submissionView.adapter = SubmissionAdapter(mContext, submissions)
+        holder.sessionView.adapter = SessionAdapter(mContext, sessions)
     }
 
-    override fun getItemCount() = mSubmissionSlotList.size
+    override fun getItemCount() = mSessionSlotList.size
 
-    fun update(submissionSlotList: List<List<Submission>>) {
-        mSubmissionSlotList = submissionSlotList
+    fun update(sessionSlotList: List<List<Session>>) {
+        mSessionSlotList = sessionSlotList
         notifyDataSetChanged()
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val startTimeText: TextView = itemView.findViewById(R.id.start_time)
-        val submissionView: RecyclerView = itemView.findViewById(R.id.programs)
+        val sessionView: RecyclerView = itemView.findViewById(R.id.programs)
     }
 }

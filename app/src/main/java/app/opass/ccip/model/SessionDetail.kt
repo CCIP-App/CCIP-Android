@@ -1,6 +1,6 @@
 package app.opass.ccip.model
 
-interface SubmissionDetail {
+interface SessionDetail {
     val title: String
     val description: String
 }

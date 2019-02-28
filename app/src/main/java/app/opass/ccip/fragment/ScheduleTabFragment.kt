@@ -12,7 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import app.opass.ccip.R
 import app.opass.ccip.adapter.ScheduleTabAdapter
-import app.opass.ccip.model.Submission
+import app.opass.ccip.model.Session
 import app.opass.ccip.network.ConfClient
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.tabs.TabLayout
@@ -36,7 +36,7 @@ class ScheduleTabFragment : Fragment() {
     private lateinit var menuItemStar: MenuItem
     private lateinit var mActivity: Activity
     private var starFilter = false
-    private var mSubmissions: List<Submission>? = null
+    private var mSessions: List<Session>? = null
     private var scheduleTabAdapter: ScheduleTabAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,21 +58,21 @@ class ScheduleTabFragment : Fragment() {
         swipeRefreshLayout.isEnabled = false
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
 
-        val submissionCall = ConfClient.get().submission()
-        submissionCall.enqueue(object : Callback<List<Submission>> {
-            override fun onResponse(call: Call<List<Submission>>, response: Response<List<Submission>>) {
+        val sessionCall = ConfClient.get().session()
+        sessionCall.enqueue(object : Callback<List<Session>> {
+            override fun onResponse(call: Call<List<Session>>, response: Response<List<Session>>) {
                 if (response.isSuccessful) {
                     swipeRefreshLayout.isRefreshing = false
 
-                    mSubmissions = response.body()
-                    PreferenceUtil.savePrograms(mActivity, mSubmissions!!)
+                    mSessions = response.body()
+                    PreferenceUtil.savePrograms(mActivity, mSessions!!)
                 } else {
                     loadOfflineSchedule()
                 }
                 setupViewPager()
             }
 
-            override fun onFailure(call: Call<List<Submission>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Session>>, t: Throwable) {
                 loadOfflineSchedule()
                 setupViewPager()
             }
@@ -89,25 +89,25 @@ class ScheduleTabFragment : Fragment() {
     private fun setupViewPager() {
         if (isAdded) {
             scheduleTabAdapter = ScheduleTabAdapter(childFragmentManager)
-            addSubmissionFragments(mSubmissions!!)
+            addSessionFragments(mSessions!!)
             viewPager.adapter = scheduleTabAdapter
             tabLayout.setupWithViewPager(viewPager)
             menuItemStar.isVisible = true
         }
     }
 
-    private fun addSubmissionFragments(submissions: List<Submission>) {
-        val map = HashMap<String, MutableList<Submission>>()
-        for (submission in submissions) {
+    private fun addSessionFragments(sessions: List<Session>) {
+        val map = HashMap<String, MutableList<Session>>()
+        for (session in sessions) {
             try {
-                val dateKey = SDF_DATE.format(ISO8601Utils.parse(submission.start, ParsePosition(0)))
+                val dateKey = SDF_DATE.format(ISO8601Utils.parse(session.start, ParsePosition(0)))
                 if (map.containsKey(dateKey)) {
                     val tmp = map[dateKey]
-                    tmp!!.add(submission)
+                    tmp!!.add(session)
                     map[dateKey] = tmp
                 } else {
-                    val arrayList = ArrayList<Submission>()
-                    arrayList.add(submission)
+                    val arrayList = ArrayList<Session>()
+                    arrayList.add(session)
                     map[dateKey] = arrayList
                 }
             } catch (e: ParseException) {
@@ -157,9 +157,9 @@ class ScheduleTabFragment : Fragment() {
     fun loadOfflineSchedule() {
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = false }
         Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show()
-        val submissions = PreferenceUtil.loadPrograms(mActivity)
-        if (submissions != null) {
-            mSubmissions = submissions
+        val sessions = PreferenceUtil.loadPrograms(mActivity)
+        if (sessions != null) {
+            mSessions = sessions
         }
     }
 }

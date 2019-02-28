@@ -5,26 +5,26 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import app.opass.ccip.activity.SubmissionDetailActivity
-import app.opass.ccip.model.Submission
+import app.opass.ccip.activity.SessionDetailActivity
+import app.opass.ccip.model.Session
 import com.google.gson.internal.bind.util.ISO8601Utils
 import java.text.ParseException
 import java.text.ParsePosition
 import java.util.*
 
 object AlarmUtil {
-    fun setSubmissionAlarm(context: Context, submission: Submission) {
+    fun setSessionAlarm(context: Context, session: Session) {
         try {
-            val date = ISO8601Utils.parse(submission.start, ParsePosition(0))
+            val date = ISO8601Utils.parse(session.start, ParsePosition(0))
             val calendar = Calendar.getInstance()
             calendar.time = date
 
-            val intent = Intent(context, SubmissionAlarmReceiver::class.java)
-            intent.action = submission.hashCode().toString()
-            intent.putExtra(SubmissionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(submission))
+            val intent = Intent(context, SessionAlarmReceiver::class.java)
+            intent.action = session.hashCode().toString()
+            intent.putExtra(SessionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(session))
 
             val pendingIntent = PendingIntent
-                .getBroadcast(context, submission.hashCode(), intent, 0)
+                .getBroadcast(context, session.hashCode(), intent, 0)
 
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -45,14 +45,14 @@ object AlarmUtil {
         }
     }
 
-    fun cancelSubmissionAlarm(context: Context, submission: Submission) {
-        val intent = Intent(context, SubmissionDetailActivity::class.java)
-        intent.putExtra(SubmissionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(submission))
+    fun cancelSessionAlarm(context: Context, session: Session) {
+        val intent = Intent(context, SessionDetailActivity::class.java)
+        intent.putExtra(SessionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(session))
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(
             PendingIntent
-                .getBroadcast(context, submission.hashCode(), intent, 0)
+                .getBroadcast(context, session.hashCode(), intent, 0)
         )
     }
 }

@@ -12,7 +12,7 @@
 
         <TextView
             android:id="@+id/start_time"
-            style="@style/Submission.Time"
+            style="@style/Session.Time"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:text="New Text" />

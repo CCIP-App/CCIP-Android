@@ -11,30 +11,30 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import app.opass.ccip.R
-import app.opass.ccip.activity.SubmissionDetailActivity
-import app.opass.ccip.model.Submission
+import app.opass.ccip.activity.SessionDetailActivity
+import app.opass.ccip.model.Session
 
-class SubmissionAlarmReceiver : BroadcastReceiver() {
+class SessionAlarmReceiver : BroadcastReceiver() {
     companion object {
-        private const val CHANNEL_ID = "submission_bookmark"
+        private const val CHANNEL_ID = "session_bookmark"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        val submission = JsonUtil
+        val session = JsonUtil
             .fromJson(
-                intent.getStringExtra(SubmissionDetailActivity.INTENT_EXTRA_PROGRAM),
-                Submission::class.java
+                intent.getStringExtra(SessionDetailActivity.INTENT_EXTRA_PROGRAM),
+                Session::class.java
             )
 
-        intent.setClass(context, SubmissionDetailActivity::class.java)
-        intent.putExtra(SubmissionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(submission))
+        intent.setClass(context, SessionDetailActivity::class.java)
+        intent.putExtra(SessionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(session))
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
         val notificationContent = String
             .format(
-                context.getString(R.string.notification_submission_start),
-                submission.getSubmissionDetail(context).title,
-                submission.room
+                context.getString(R.string.notification_session_start),
+                session.getSessionDetail(context).title,
+                session.room
             )
 
         val manager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager

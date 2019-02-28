@@ -6,7 +6,7 @@ import app.opass.ccip.R
 import app.opass.ccip.util.LocaleUtil
 import java.util.*
 
-data class Submission(
+data class Session(
     val id: String,
     val room: String,
     val start: String?,
@@ -31,7 +31,7 @@ data class Submission(
         }
     }
 
-    fun getSubmissionDetail(context: Context): SubmissionDetail {
+    fun getSessionDetail(context: Context): SessionDetail {
         return if (LocaleUtil.getCurrentLocale(context).language == Locale("zh").language) {
             zh
         } else {
@@ -44,7 +44,7 @@ data class Submission(
             return true
         }
 
-        if (other == null || other !is Submission) {
+        if (other == null || other !is Session) {
             return false
         }
 

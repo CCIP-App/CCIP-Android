@@ -42,11 +42,11 @@
             android:name="app.opass.ccip.activity.CountdownActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="app.opass.ccip.activity.SubmissionDetailActivity"
+            android:name="app.opass.ccip.activity.SessionDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
-        <receiver android:name="app.opass.ccip.util.SubmissionAlarmReceiver" />
+        <receiver android:name="app.opass.ccip.util.SessionAlarmReceiver" />
         <receiver android:name="app.opass.ccip.util.RebootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
