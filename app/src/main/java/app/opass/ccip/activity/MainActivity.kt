@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navigationView: NavigationView
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var mActivity: Activity
+    private lateinit var confLogoImageView: ImageView
     private lateinit var userTitleTextView: TextView
     private lateinit var userIdTextView: TextView
 
@@ -40,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         mDrawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
+        confLogoImageView = navigationView.getHeaderView(0).findViewById(R.id.conf_logo)
         userTitleTextView = navigationView.getHeaderView(0).findViewById(R.id.user_title)
         userIdTextView = navigationView.getHeaderView(0).findViewById(R.id.user_id)
 

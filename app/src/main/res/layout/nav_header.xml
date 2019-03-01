@@ -23,7 +23,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/conf_logo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp"
