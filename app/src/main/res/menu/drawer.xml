@@ -17,8 +17,7 @@
         <item
             android:id="@+id/puzzle"
             android:icon="@drawable/ic_extension_black_24dp"
-            android:title="@string/puzzle"
-            android:visible="false" />
+            android:title="@string/puzzle" />
         <item
             android:id="@+id/ticket"
             android:icon="@drawable/qr_code"
@@ -26,8 +25,7 @@
         <item
             android:id="@+id/telegram"
             android:icon="@drawable/telegram_logo"
-            android:title="@string/telegram"
-            android:visible="false" />
+			android:title="@string/telegram" />
         <item
             android:id="@+id/irc"
             android:icon="@drawable/ic_question_answer_black_48dp"
