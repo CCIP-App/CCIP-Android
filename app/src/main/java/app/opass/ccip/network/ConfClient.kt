@@ -6,10 +6,11 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Url
 
 class ConfClient {
     companion object {
-        private const val API_BASE_URL = "https://summit.g0v.tw"
+        private const val API_BASE_URL = "https://opass.app"
 
         private val retrofit: Retrofit by lazy {
             Retrofit.Builder()
@@ -24,8 +25,8 @@ class ConfClient {
         fun get() = sConfService
 
         interface ConfService {
-            @GET("/2018/static/ccip.json")
-            fun session(): Call<List<Session>>
+            @GET
+            fun session(@Url url: String): Call<List<Session>>
         }
     }
 }
