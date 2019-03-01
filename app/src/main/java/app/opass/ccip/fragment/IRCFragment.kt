@@ -11,17 +11,20 @@ import android.view.ViewGroup
 import android.webkit.*
 import androidx.fragment.app.Fragment
 import app.opass.ccip.R
+import app.opass.ccip.activity.MainActivity
 import app.opass.ccip.network.webclient.WebChromeViewClient
+import app.opass.ccip.util.PreferenceUtil
 import kotlinx.android.synthetic.main.fragment_web.*
 
 class IRCFragment : Fragment() {
     companion object {
         private const val URL_NO_NETWORK = "file:///android_asset/no_network.html"
-        private const val URL_IRC = "https://ysitd.licson.net/channel/g0v.tw/today"
+        private lateinit var mActivity: MainActivity
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+        mActivity = requireActivity() as MainActivity
 
         return inflater.inflate(R.layout.fragment_web, container, false)
     }
@@ -42,7 +45,7 @@ class IRCFragment : Fragment() {
             }
         }
         webView.webChromeClient = WebChromeViewClient(progressBar)
-        webView.loadUrl(URL_IRC)
+        webView.loadUrl(PreferenceUtil.getCurrentEvent(mActivity).features.irc)
 
         val settings = webView.settings
         settings.javaScriptEnabled = true

@@ -58,7 +58,7 @@ class ScheduleTabFragment : Fragment() {
         swipeRefreshLayout.isEnabled = false
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
 
-        val sessionCall = ConfClient.get().session()
+        val sessionCall = ConfClient.get().session(PreferenceUtil.getCurrentEvent(mActivity).scheduleUrl)
         sessionCall.enqueue(object : Callback<List<Session>> {
             override fun onResponse(call: Call<List<Session>>, response: Response<List<Session>>) {
                 if (response.isSuccessful) {

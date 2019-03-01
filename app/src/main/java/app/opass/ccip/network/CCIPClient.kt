@@ -14,17 +14,24 @@ class CCIPClient {
     companion object {
         private const val API_BASE_URL = "https://ccip.opass.app"
 
-        val retrofit: Retrofit by lazy {
+        var retrofit: Retrofit =
             Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(JsonUtil.GSON))
                 .build()
-        }
+
         private val sCCIPService: CCIPService by lazy {
             retrofit.create(CCIPService::class.java)
         }
 
         fun get(): CCIPService = sCCIPService
+
+        fun setBaseUrl(baseUrl: String) {
+            retrofit = Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create(JsonUtil.GSON))
+                .build()
+        }
 
         interface CCIPService {
             @GET("/status")

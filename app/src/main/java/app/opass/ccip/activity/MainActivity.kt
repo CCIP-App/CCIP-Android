@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -16,20 +17,27 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.transaction
 import app.opass.ccip.R
 import app.opass.ccip.fragment.*
+import app.opass.ccip.model.EventConfig
+import app.opass.ccip.network.CCIPClient
+import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.navigation.NavigationView
 import com.google.zxing.integration.android.IntentIntegrator
+import com.squareup.picasso.Picasso
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     companion object {
         private val URI_GITHUB = Uri.parse("https://github.com/CCIP-App/CCIP-Android")
-        private val URI_TELEGRAM = Uri.parse("https://t.me/coscupchat")
     }
 
     private lateinit var mDrawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var mActivity: Activity
+    private lateinit var confLogoImageView: ImageView
     private lateinit var userTitleTextView: TextView
     private lateinit var userIdTextView: TextView
 
@@ -41,6 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         mDrawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
+        confLogoImageView = navigationView.getHeaderView(0).findViewById(R.id.conf_logo)
         userTitleTextView = navigationView.getHeaderView(0).findViewById(R.id.user_title)
         userIdTextView = navigationView.getHeaderView(0).findViewById(R.id.user_id)
 
@@ -55,6 +64,24 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.transaction {
             replace(R.id.content_frame, MainFragment())
         }
+
+        val eventConfig = PortalClient.get().getEventConfig("SITCON_2019")
+        eventConfig.enqueue(object : Callback<EventConfig> {
+            override fun onResponse(call: Call<EventConfig>, response: Response<EventConfig>) {
+                when {
+                    response.isSuccessful -> {
+                        val eventConfig = response.body()
+                        PreferenceUtil.setCurrentEvent(mActivity, eventConfig!!)
+                        Picasso.get().load(PreferenceUtil.getCurrentEvent(mActivity).logoUrl).into(confLogoImageView)
+                        CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mActivity).serverBaseUrl)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<EventConfig>, t: Throwable) {
+                Picasso.get().load(PreferenceUtil.getCurrentEvent(mActivity).logoUrl).into(confLogoImageView)
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -117,7 +144,12 @@ class MainActivity : AppCompatActivity() {
 
         when {
             menuItem.itemId == R.id.star -> mActivity.startActivity(Intent(Intent.ACTION_VIEW, URI_GITHUB))
-            menuItem.itemId == R.id.telegram -> mActivity.startActivity(Intent(Intent.ACTION_VIEW, URI_TELEGRAM))
+            menuItem.itemId == R.id.telegram -> mActivity.startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(PreferenceUtil.getCurrentEvent(mActivity).features.telegram)
+                )
+            )
             else -> {
                 val fragment = when (menuItem.itemId) {
                     R.id.fast_pass -> MainFragment()
