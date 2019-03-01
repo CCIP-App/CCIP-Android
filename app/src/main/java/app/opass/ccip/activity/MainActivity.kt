@@ -23,7 +23,6 @@ import com.google.zxing.integration.android.IntentIntegrator
 class MainActivity : AppCompatActivity() {
     companion object {
         private val URI_GITHUB = Uri.parse("https://github.com/CCIP-App/CCIP-Android")
-        private val URI_TELEGRAM = Uri.parse("https://t.me/coscupchat")
     }
 
     private lateinit var mDrawerLayout: DrawerLayout
@@ -117,7 +116,12 @@ class MainActivity : AppCompatActivity() {
 
         when {
             menuItem.itemId == R.id.star -> mActivity.startActivity(Intent(Intent.ACTION_VIEW, URI_GITHUB))
-            menuItem.itemId == R.id.telegram -> mActivity.startActivity(Intent(Intent.ACTION_VIEW, URI_TELEGRAM))
+            menuItem.itemId == R.id.telegram -> mActivity.startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(PreferenceUtil.getCurrentEvent(mActivity).features.telegram)
+                )
+            )
             else -> {
                 val fragment = when (menuItem.itemId) {
                     R.id.fast_pass -> MainFragment()
