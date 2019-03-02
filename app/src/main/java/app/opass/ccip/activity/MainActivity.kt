@@ -17,16 +17,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.transaction
 import app.opass.ccip.R
 import app.opass.ccip.fragment.*
-import app.opass.ccip.model.EventConfig
-import app.opass.ccip.network.CCIPClient
-import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.navigation.NavigationView
 import com.google.zxing.integration.android.IntentIntegrator
 import com.squareup.picasso.Picasso
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -65,23 +59,14 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.content_frame, MainFragment())
         }
 
-        val eventConfig = PortalClient.get().getEventConfig("SITCON_2019")
-        eventConfig.enqueue(object : Callback<EventConfig> {
-            override fun onResponse(call: Call<EventConfig>, response: Response<EventConfig>) {
-                when {
-                    response.isSuccessful -> {
-                        val eventConfig = response.body()
-                        PreferenceUtil.setCurrentEvent(mActivity, eventConfig!!)
-                        Picasso.get().load(PreferenceUtil.getCurrentEvent(mActivity).logoUrl).into(confLogoImageView)
-                        CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mActivity).serverBaseUrl)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<EventConfig>, t: Throwable) {
-                Picasso.get().load(PreferenceUtil.getCurrentEvent(mActivity).logoUrl).into(confLogoImageView)
-            }
-        })
+        if (PreferenceUtil.getCurrentEvent(applicationContext).displayName == null) {
+            val intent = Intent()
+            intent.setClass(mActivity, EventActivity::class.java)
+            mActivity.startActivity(intent)
+            mActivity.finish()
+        } else {
+            Picasso.get().load(PreferenceUtil.getCurrentEvent(mActivity).logoUrl).into(confLogoImageView)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">OPass</string>
 
+    <string name="select_event">選擇活動</string>
+
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
