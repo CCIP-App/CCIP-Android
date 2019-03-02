@@ -45,7 +45,9 @@
             android:name="app.opass.ccip.activity.SessionDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
+        <activity
+            android:name="app.opass.ccip.activity.EventActivity"
+            android:screenOrientation="portrait" />
         <receiver android:name="app.opass.ccip.util.SessionAlarmReceiver" />
         <receiver android:name="app.opass.ccip.util.RebootReceiver">
             <intent-filter>
