@@ -162,7 +162,10 @@ class MainFragment : Fragment() {
                                 .setMessage(
                                     mActivity.getString(R.string.hi)
                                         + attendee.userId
-                                        + mActivity.getString(R.string.login_success)
+                                        + mActivity.getString(
+                                        R.string.login_success,
+                                        PreferenceUtil.getCurrentEvent(mActivity).displayName.getDisplayName(mActivity)
+                                    )
                                 )
                                 .setPositiveButton(android.R.string.ok, null)
                                 .show()
