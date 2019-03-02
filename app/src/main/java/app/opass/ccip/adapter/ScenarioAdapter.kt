@@ -103,6 +103,7 @@ class ScenarioAdapter(private val mContext: Context, private var mScenarioList: 
 
             if (Date().time / 1000 > scenario.used + scenario.countdown) {
                 setCardUsed(holder)
+                holder.card.setOnClickListener(null)
             }
         }
     }
