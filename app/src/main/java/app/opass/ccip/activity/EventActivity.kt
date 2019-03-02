@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,15 +37,25 @@ class EventActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         setTitle(R.string.select_event)
 
+        noNetworkView = findViewById(R.id.no_network)
+        noNetworkView.setOnClickListener {
+            swipeRefreshLayout.isRefreshing = true
+            swipeRefreshLayout.isEnabled = true
+            getEvents()
+        }
+
         getEvents()
     }
 
     internal fun getEvents() {
         swipeRefreshLayout = findViewById(R.id.swipeContainer)
         recyclerView = findViewById(R.id.events)
-        noNetworkView = findViewById(R.id.no_network)
         viewManager = LinearLayoutManager(mActivity)
+
         swipeRefreshLayout.isRefreshing = true
+        swipeRefreshLayout.isEnabled = true
+        noNetworkView.visibility = View.GONE
+        recyclerView.visibility = View.GONE
 
         val events = PortalClient.get().getEvents()
         events.enqueue(object : Callback<List<Event>> {
@@ -97,14 +105,9 @@ class EventActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<List<Event>>, t: Throwable) {
                 swipeRefreshLayout.isRefreshing = false
-                recyclerView.visibility = GONE
-                noNetworkView.visibility = VISIBLE
-                noNetworkView.setOnClickListener {
-                    swipeRefreshLayout.isRefreshing = true
-                    noNetworkView.visibility = View.GONE
-                    recyclerView.visibility = View.GONE
-                    getEvents()
-                }
+                swipeRefreshLayout.isEnabled = false
+                recyclerView.visibility = View.GONE
+                noNetworkView.visibility = View.VISIBLE
             }
         })
     }
