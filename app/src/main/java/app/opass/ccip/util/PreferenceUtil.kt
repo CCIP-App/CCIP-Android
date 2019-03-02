@@ -32,7 +32,7 @@ object PreferenceUtil {
     }
 
     fun setIsNewToken(context: Context, isNewToken: Boolean) {
-        context.getSharedPreferences(getCurrentEvent(context).eventId + PREF_AUTH, Context.MODE_PRIVATE)
+        context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
             .edit(true) { putBoolean(getCurrentEvent(context).eventId + PREF_IS_NEW_TOKEN, isNewToken) }
     }
 
