@@ -59,7 +59,7 @@ class EventActivity : AppCompatActivity() {
                         noNetworkView.visibility = View.GONE
                         recyclerView.visibility = View.VISIBLE
 
-                        if(response.body()?.size == 1){
+                        if (response.body()?.size == 1) {
                             val event = (response.body() as List<Event>)[0]
                             val eventConfig = PortalClient.get().getEventConfig(event.eventId)
                             eventConfig.enqueue(object : Callback<EventConfig> {
@@ -77,6 +77,7 @@ class EventActivity : AppCompatActivity() {
                                         }
                                     }
                                 }
+
                                 override fun onFailure(call: Call<EventConfig>, t: Throwable) {
 
                                 }
