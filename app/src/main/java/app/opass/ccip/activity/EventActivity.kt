@@ -1,6 +1,7 @@
 package app.opass.ccip.activity
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
@@ -13,7 +14,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.opass.ccip.R
 import app.opass.ccip.adapter.EventAdapter
 import app.opass.ccip.model.Event
+import app.opass.ccip.model.EventConfig
+import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.PortalClient
+import app.opass.ccip.util.PreferenceUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,6 +58,30 @@ class EventActivity : AppCompatActivity() {
                         swipeRefreshLayout.isEnabled = false
                         noNetworkView.visibility = View.GONE
                         recyclerView.visibility = View.VISIBLE
+
+                        if(response.body()?.size == 1){
+                            val event = (response.body() as List<Event>)[0]
+                            val eventConfig = PortalClient.get().getEventConfig(event.eventId)
+                            eventConfig.enqueue(object : Callback<EventConfig> {
+                                override fun onResponse(call: Call<EventConfig>, response: Response<EventConfig>) {
+                                    when {
+                                        response.isSuccessful -> {
+                                            val eventConfig = response.body()
+                                            PreferenceUtil.setCurrentEvent(mActivity, eventConfig!!)
+                                            CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mActivity).serverBaseUrl)
+
+                                            val intent = Intent()
+                                            intent.setClass(mActivity, MainActivity::class.java)
+                                            mActivity.startActivity(intent)
+                                            mActivity.finish()
+                                        }
+                                    }
+                                }
+                                override fun onFailure(call: Call<EventConfig>, t: Throwable) {
+
+                                }
+                            })
+                        }
 
                         viewAdapter = EventAdapter(mActivity, response.body())
 
