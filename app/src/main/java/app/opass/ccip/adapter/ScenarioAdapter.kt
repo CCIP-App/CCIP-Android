@@ -29,7 +29,7 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ScenarioAdapter(private val mContext: Context, private var mScenarioList: List<Scenario>) :
+class ScenarioAdapter(private val mContext: Context, private val mScenarioList: MutableList<Scenario>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         private val SDF = SimpleDateFormat("MM/dd HH:mm")
@@ -134,7 +134,9 @@ class ScenarioAdapter(private val mContext: Context, private var mScenarioList: 
                 when {
                     response.isSuccessful -> {
                         val attendee = response.body()
-                        mScenarioList = attendee!!.scenarios
+
+                        mScenarioList.clear()
+                        mScenarioList.addAll(attendee!!.scenarios)
                         notifyDataSetChanged()
 
                         if (scenario.countdown > 0) {
