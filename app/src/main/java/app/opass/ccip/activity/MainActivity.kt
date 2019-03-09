@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -70,13 +71,12 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Android M Permission check
             if (this.checkSelfPermission(ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                AlertDialog.Builder(this)
-//                    .setTitle("This app needs location access") //TODO
-//                    .setMessage("Please grant location access so this app can detect beacons in the background.")
-//                    .setPositiveButton(android.R.string.ok, null)
-//                    .setOnDismissListener { requestPermissions(arrayOf(ACCESS_COARSE_LOCATION), 1) }
-//                    .show()
-                requestPermissions(arrayOf(ACCESS_COARSE_LOCATION), 1)
+                AlertDialog.Builder(this)
+                    .setTitle("This app needs location access") //TODO
+                    .setMessage("Please grant location access so this app can detect beacons in the background.")
+                    .setPositiveButton(android.R.string.ok, null)
+                    .setOnDismissListener { requestPermissions(arrayOf(ACCESS_COARSE_LOCATION), 1) }
+                    .show()
             }
         }
     }
