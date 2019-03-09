@@ -59,12 +59,7 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.content_frame, MainFragment())
         }
 
-        if (PreferenceUtil.getCurrentEvent(applicationContext).displayName == null) {
-            val intent = Intent()
-            intent.setClass(mActivity, EventActivity::class.java)
-            mActivity.startActivity(intent)
-            mActivity.finish()
-        } else {
+        if (PreferenceUtil.getCurrentEvent(applicationContext).displayName != null) {
             Picasso.get().load(PreferenceUtil.getCurrentEvent(mActivity).logoUrl).into(confLogoImageView)
         }
     }

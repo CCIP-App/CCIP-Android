@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -15,10 +16,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.opass.ccip.R
 import app.opass.ccip.activity.CaptureActivity
+import app.opass.ccip.activity.EventActivity
 import app.opass.ccip.activity.MainActivity
 import app.opass.ccip.adapter.ScenarioAdapter
 import app.opass.ccip.model.Attendee
+import app.opass.ccip.model.EventConfig
 import app.opass.ccip.network.CCIPClient
+import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -103,16 +107,41 @@ class MainFragment : Fragment() {
         scenarioView.itemAnimator = DefaultItemAnimator()
 
         if (mActivity.intent.action == Intent.ACTION_VIEW) {
+            val eventId = mActivity.intent.data!!.getQueryParameter("event_id")
             val token = mActivity.intent.data!!.getQueryParameter("token")
 
-            if (token != null) {
-                PreferenceUtil.setIsNewToken(mActivity, true)
-                PreferenceUtil.setToken(mActivity, token)
-            }
-        }
+            if (eventId != null && token != null) {
+                val eventConfig = PortalClient.get().getEventConfig(eventId)
+                eventConfig.enqueue(object : Callback<EventConfig> {
+                    override fun onResponse(call: Call<EventConfig>, response: Response<EventConfig>) {
+                        when {
+                            response.isSuccessful -> {
+                                val eventConfig = response.body()
+                                PreferenceUtil.setCurrentEvent(mActivity, eventConfig!!)
+                                PreferenceUtil.setIsNewToken(mActivity, true)
+                                PreferenceUtil.setToken(mActivity, token)
+                                CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mActivity).serverBaseUrl)
+                                updateStatus()
+                            }
+                        }
+                    }
 
-        if (PreferenceUtil.getToken(mActivity) == null) {
-            loginView.visibility = View.VISIBLE
+                    override fun onFailure(call: Call<EventConfig>, t: Throwable) {
+                        Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show()
+                    }
+                })
+            }
+        } else {
+            if (PreferenceUtil.getCurrentEvent(mActivity).displayName == null) {
+                val intent = Intent()
+                intent.setClass(mActivity, EventActivity::class.java)
+                mActivity.startActivity(intent)
+                mActivity.finish()
+            }
+
+            if (PreferenceUtil.getToken(mActivity) == null) {
+                loginView.visibility = View.VISIBLE
+            }
         }
 
         swipeRefreshLayout.setOnRefreshListener { updateStatus() }
