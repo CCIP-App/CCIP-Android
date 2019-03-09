@@ -7,7 +7,7 @@ data class EventConfig(
     @SerializedName("custom_features")
     val customFeatures: List<Any>,
     @SerializedName("display_name")
-    val displayName: DisplayName,
+    val displayName: DisplayName?,
     @SerializedName("event_id")
     val eventId: String,
     @SerializedName("features")
