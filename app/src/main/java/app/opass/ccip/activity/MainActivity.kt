@@ -68,14 +68,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Beacon need location access
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (!PreferenceUtil.isBeaconPermissionRequested(mActivity) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Android M Permission check
             if (this.checkSelfPermission(ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 AlertDialog.Builder(this)
                     .setTitle(R.string.beacon_request_permission_title)
                     .setMessage(R.string.beacon_request_permission_message)
                     .setPositiveButton(android.R.string.ok, null)
-                    .setOnDismissListener { requestPermissions(arrayOf(ACCESS_COARSE_LOCATION), 1) }
+                    .setOnDismissListener {
+                        requestPermissions(arrayOf(ACCESS_COARSE_LOCATION), 1)
+                        PreferenceUtil.setBeaconPermissionRequested(mActivity)
+                    }
                     .show()
             }
         }
