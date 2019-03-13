@@ -79,7 +79,7 @@ class BeaconReceiver(private val context: Context) : MonitorNotifier {
                     if (response.body()!!.scenarios.any { it.used != null }) return
 
                     // Build and send notify
-                    val content = context.getString(beacon_notify_need_checkout)
+                    val content = context.getString(beacon_notify_need_checkin)
 
                     NotificationCompat.Builder(context, CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_announcement_black_48dp)
