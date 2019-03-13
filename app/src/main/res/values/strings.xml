@@ -77,6 +77,9 @@
     <string name="select_picture">Select Picture</string>
 
     <string name="copy_to_clipboard">Copied to clipboard</string>
+
+    <string name="beacon_request_permission_title">Request access approximate location</string>
+    <string name="beacon_request_permission_message">(Experimental) When Bluetooth is ON, we will use beacons to notify you that you can check-in</string>
     <string name="beacon_channel_name">Welcome to event</string>
     <string name="beacon_notify_need_login">Welcome to event\nPlease remember to login OPass</string>
     <string name="beacon_notify_need_checkin">Welcome to event\nPlease remember to check-in</string>

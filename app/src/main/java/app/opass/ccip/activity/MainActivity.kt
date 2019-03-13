@@ -72,8 +72,8 @@ class MainActivity : AppCompatActivity() {
             // Android M Permission check
             if (this.checkSelfPermission(ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 AlertDialog.Builder(this)
-                    .setTitle("This app needs location access") //TODO
-                    .setMessage("Please grant location access so this app can detect beacons in the background.")
+                    .setTitle(R.string.beacon_request_permission_title)
+                    .setMessage(R.string.beacon_request_permission_message)
                     .setPositiveButton(android.R.string.ok, null)
                     .setOnDismissListener { requestPermissions(arrayOf(ACCESS_COARSE_LOCATION), 1) }
                     .show()
