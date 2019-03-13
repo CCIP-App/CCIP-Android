@@ -77,4 +77,7 @@
     <string name="select_picture">Select Picture</string>
 
     <string name="copy_to_clipboard">Copied to clipboard</string>
+    <string name="beacon_channel_name">Welcome to event</string>
+    <string name="beacon_notify_need_login">Welcome to event\nPlease remember to login OPass</string>
+    <string name="beacon_notify_need_checkout">Welcome to event\nPlease remember to checkin</string>
 </resources>

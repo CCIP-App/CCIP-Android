@@ -1,15 +1,19 @@
 package app.opass.ccip.activity
 
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -61,6 +65,19 @@ class MainActivity : AppCompatActivity() {
 
         if (PreferenceUtil.getCurrentEvent(applicationContext).displayName != null) {
             Picasso.get().load(PreferenceUtil.getCurrentEvent(mActivity).logoUrl).into(confLogoImageView)
+        }
+
+        // Beacon need location access
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Android M Permission check
+            if (this.checkSelfPermission(ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                AlertDialog.Builder(this)
+                    .setTitle("This app needs location access") //TODO
+                    .setMessage("Please grant location access so this app can detect beacons in the background.")
+                    .setPositiveButton(android.R.string.ok, null)
+                    .setOnDismissListener { requestPermissions(arrayOf(ACCESS_COARSE_LOCATION), 1) }
+                    .show()
+            }
         }
     }
 

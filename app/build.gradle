@@ -70,6 +70,8 @@ dependencies {
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:2.1.2'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    implementation 'org.altbeacon:android-beacon-library:2.16.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
