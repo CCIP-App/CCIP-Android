@@ -14,7 +14,6 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="app.opass.ccip.activity.MainActivity"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
