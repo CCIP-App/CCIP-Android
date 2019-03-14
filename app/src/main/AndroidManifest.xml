@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="app.opass.ccip.application.CCIPApplicaion"
+        android:name="app.opass.ccip.application.CCIPApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -28,10 +28,10 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="ccip.opass.app"
+                    android:host="opass.app"
                     android:scheme="http" />
                 <data
-                    android:host="ccip.opass.app"
+                    android:host="opass.app"
                     android:scheme="https" />
                 <data
                     android:host="login"
@@ -42,18 +42,20 @@
             android:name="app.opass.ccip.activity.CountdownActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="app.opass.ccip.activity.SubmissionDetailActivity"
+            android:name="app.opass.ccip.activity.SessionDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
-        <receiver android:name="app.opass.ccip.util.SubmissionAlarmReceiver" />
+        <activity
+            android:name="app.opass.ccip.activity.EventActivity"
+            android:screenOrientation="portrait" />
+        <receiver android:name="app.opass.ccip.util.SessionAlarmReceiver" />
         <receiver android:name="app.opass.ccip.util.RebootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <activity android:name="app.opass.ccip.activity.CaptureActivity"/>
+        <activity android:name="app.opass.ccip.activity.CaptureActivity" />
     </application>
 
 </manifest>

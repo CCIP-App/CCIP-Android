@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        card_view:cardUseCompatPadding="true"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:foreground="?android:attr/selectableItemBackground"
+        card_view:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:padding="20dp">
 
             <FrameLayout
@@ -23,49 +23,49 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/icon"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/day1checkin"
-                    android:id="@+id/icon"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true" />
+                    android:layout_alignParentTop="true"
+                    android:src="@drawable/day1checkin" />
 
                 <ImageView
+                    android:id="@+id/tick"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_gravity="bottom|right"
                     android:src="@drawable/tick"
-                    android:id="@+id/tick"
-                    android:visibility="gone"
-                    android:layout_gravity="bottom|right" />
+                    android:visibility="gone" />
             </FrameLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp">
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/scenario_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="New Text"
-                    android:id="@+id/scenario_name"
                     android:textColor="#de000000"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/allow_time_range"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ff9b9b9b"
+                    android:paddingTop="5dp"
                     android:text="New Text"
-                    android:id="@+id/allow_time_range"
-                    android:paddingTop="5dp" />
+                    android:textColor="#ff9b9b9b" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>
