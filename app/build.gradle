@@ -24,8 +24,8 @@ android {
         applicationId "app.opass.ccip"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 30
-        versionName "1.6.0"
+        versionCode 31
+        versionName "2.0.0"
 
         manifestPlaceholders = [manifestApplicationId          : "${applicationId}",
                                 onesignal_app_id               : "b6213f49-e356-4b48-aa9d-7cf10ce1904d",
