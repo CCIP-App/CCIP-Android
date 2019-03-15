@@ -122,6 +122,7 @@ class MainFragment : Fragment() {
                                 PreferenceUtil.setToken(mActivity, token)
                                 CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mActivity).serverBaseUrl)
                                 updateStatus()
+                                mActivity.updateConfLogo()
                             }
                         }
                     }
