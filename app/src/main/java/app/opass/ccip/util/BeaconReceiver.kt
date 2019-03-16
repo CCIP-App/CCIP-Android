@@ -32,6 +32,8 @@ class BeaconReceiver(private val context: Context) : MonitorNotifier {
     override fun didEnterRegion(region: Region) {
         Log.d("BeaconNotify", "enter: $region")
 
+        if (PreferenceUtil.isBeaconNotified(context)) return
+
         val manager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         // Register notification channel
@@ -42,7 +44,6 @@ class BeaconReceiver(private val context: Context) : MonitorNotifier {
                 NotificationManager.IMPORTANCE_HIGH
             ).let(manager::createNotificationChannel)
         }
-
         // Check login and check in status
         val token = PreferenceUtil.getToken(context)
 
@@ -104,6 +105,7 @@ class BeaconReceiver(private val context: Context) : MonitorNotifier {
                 }
             })
         }
+        PreferenceUtil.setBeaconNotified(context)
     }
 
     override fun didExitRegion(region: Region) {
