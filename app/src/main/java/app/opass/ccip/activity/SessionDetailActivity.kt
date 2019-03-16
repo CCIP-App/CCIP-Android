@@ -4,8 +4,11 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Paint
 import android.graphics.PorterDuff
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -74,6 +77,7 @@ class SessionDetailActivity : AppCompatActivity() {
         })
 
         spring_dots_indicator.setViewPager(speakerViewPager)
+
         if (adapter.count == 1) spring_dots_indicator.visibility = View.INVISIBLE
 
         val room: TextView = findViewById(R.id.room)
@@ -81,7 +85,9 @@ class SessionDetailActivity : AppCompatActivity() {
         val time: TextView = findViewById(R.id.time)
         val type: TextView = findViewById(R.id.type)
         val community: TextView = findViewById(R.id.community)
+        val slideLayout: View = findViewById(R.id.slide_layout)
         val slide: TextView = findViewById(R.id.slide)
+        val qaLayout: View = findViewById(R.id.qa_layout)
         val qa: TextView = findViewById(R.id.qa)
         val lang: TextView = findViewById(R.id.lang)
         val programAbstract: TextView = findViewById(R.id.program_abstract)
@@ -112,6 +118,9 @@ class SessionDetailActivity : AppCompatActivity() {
         } catch (e: Resources.NotFoundException) {
             type.text = ""
         }
+
+        setClickableUri(session.slide, slideLayout, slide)
+        setClickableUri(session.qa, qaLayout, qa)
 
         if (session.speakers[0].getSpeakerDetail(mActivity).name.isEmpty())
             speakerInfoBlock.visibility = View.GONE
@@ -172,5 +181,21 @@ class SessionDetailActivity : AppCompatActivity() {
         val cData = ClipData.newPlainText("text", textView.text)
         cManager.primaryClip = cData
         Toast.makeText(mActivity, R.string.copy_to_clipboard, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setClickableUri(uri: String?, layout: View, textView: TextView) {
+        if (uri != null) {
+            layout.visibility = View.VISIBLE
+            textView.setText(session.qa)
+            textView.paintFlags = textView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+            textView.setOnClickListener {
+                mActivity.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(uri)
+                    )
+                )
+            }
+        }
     }
 }
