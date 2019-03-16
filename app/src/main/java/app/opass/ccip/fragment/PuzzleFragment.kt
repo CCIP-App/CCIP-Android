@@ -13,10 +13,8 @@ import app.opass.ccip.activity.MainActivity
 import app.opass.ccip.network.webclient.WebChromeViewClient
 import app.opass.ccip.util.PreferenceUtil
 import kotlinx.android.synthetic.main.fragment_web.*
-import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import kotlin.experimental.and
 
 class PuzzleFragment : Fragment() {
     companion object {
@@ -90,12 +88,11 @@ class PuzzleFragment : Fragment() {
     private fun toPublicToken(privateToken: String?): String? {
         try {
             val messageDigest = MessageDigest.getInstance("SHA-1")
-            messageDigest.update(privateToken!!.toByteArray(StandardCharsets.US_ASCII))
-            val data = messageDigest.digest()
+            val data = messageDigest.digest(privateToken!!.toByteArray())
             val buffer = StringBuilder()
 
             for (b in data) {
-                buffer.append(Integer.toString((b and 0xff.toByte()) + 0x100, 16).substring(1))
+                buffer.append("%02x".format(b))
             }
 
             return buffer.toString()

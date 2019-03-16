@@ -14,7 +14,9 @@ data class Session(
     val type: String,
     val zh: Zh,
     val en: En,
-    val speakers: ArrayList<Speaker>
+    val speakers: ArrayList<Speaker>,
+    val qa: String?,
+    val slide: String?
 ) {
     companion object {
         fun getTypeString(type: String): Int {
