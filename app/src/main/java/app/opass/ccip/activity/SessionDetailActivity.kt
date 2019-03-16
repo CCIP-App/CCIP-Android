@@ -82,7 +82,7 @@ class SessionDetailActivity : AppCompatActivity() {
         val type: TextView = findViewById(R.id.type)
         val community: TextView = findViewById(R.id.community)
         val slide: TextView = findViewById(R.id.slide)
-        val slido: TextView = findViewById(R.id.slido)
+        val qa: TextView = findViewById(R.id.qa)
         val lang: TextView = findViewById(R.id.lang)
         val programAbstract: TextView = findViewById(R.id.program_abstract)
         val speakerInfoBlock: View = findViewById(R.id.speaker_info_block)
