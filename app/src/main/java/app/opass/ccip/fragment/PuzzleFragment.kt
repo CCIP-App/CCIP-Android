@@ -2,14 +2,14 @@ package app.opass.ccip.fragment
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.webkit.*
+import android.webkit.WebSettings
 import androidx.fragment.app.Fragment
 import app.opass.ccip.R
 import app.opass.ccip.activity.MainActivity
+import app.opass.ccip.network.webclient.OfficialWebViewClient
 import app.opass.ccip.network.webclient.WebChromeViewClient
 import app.opass.ccip.util.PreferenceUtil
 import kotlinx.android.synthetic.main.fragment_web.*
@@ -34,26 +34,13 @@ class PuzzleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        webView.webViewClient = object : WebViewClient() {
-            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
-                super.onReceivedError(view, request, error)
-                view.loadUrl(URL_NO_NETWORK)
-            }
-
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-                return true
-            }
-        }
+        webView.webViewClient = OfficialWebViewClient()
         webView.webChromeClient = WebChromeViewClient(progressBar)
 
         if (PreferenceUtil.getToken(activity!!) != null) {
             webView.loadUrl(
-                PreferenceUtil.getCurrentEvent(mActivity).features.puzzle + toPublicToken(
-                    PreferenceUtil.getToken(
-                        activity!!
-                    )
-                )!!
+                PreferenceUtil.getCurrentEvent(mActivity).features.puzzle +
+                    toPublicToken(PreferenceUtil.getToken(activity!!))
             )
         } else {
             webView.loadUrl("data:text/html, <div>Please login</div>")

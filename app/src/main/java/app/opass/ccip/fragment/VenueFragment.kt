@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebSettings
+import android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
 import androidx.fragment.app.Fragment
 import app.opass.ccip.R
 import app.opass.ccip.activity.MainActivity
@@ -31,15 +31,13 @@ class VenueFragment : Fragment() {
 
         webView.webChromeClient = WebChromeViewClient(progressBar)
         webView.webViewClient = OfficialWebViewClient()
-        webView.loadUrl(PreferenceUtil.getCurrentEvent(mActivity).features.venue)
-
-        val settings = webView.settings
-        settings.javaScriptEnabled = true
-        settings.domStorageEnabled = true
-        settings.builtInZoomControls = true
-        settings.displayZoomControls = false
-        if (Build.VERSION.SDK_INT >= 21) {
-            settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+        webView.settings.apply {
+            javaScriptEnabled = true
+            domStorageEnabled = true
+            builtInZoomControls = true
+            displayZoomControls = false
+            if (Build.VERSION.SDK_INT >= 21) mixedContentMode = MIXED_CONTENT_COMPATIBILITY_MODE
         }
+        webView.loadUrl(PreferenceUtil.getCurrentEvent(mActivity).features.venue)
     }
 }

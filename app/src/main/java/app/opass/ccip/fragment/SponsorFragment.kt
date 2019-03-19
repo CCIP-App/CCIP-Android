@@ -31,13 +31,11 @@ class SponsorFragment : Fragment() {
 
         webView.webChromeClient = WebChromeViewClient(progressBar)
         webView.webViewClient = OfficialWebViewClient()
-        webView.loadUrl(PreferenceUtil.getCurrentEvent(mActivity).features.sponsors)
-
-        val settings = webView.settings
-        settings.javaScriptEnabled = true
-        settings.domStorageEnabled = true
-        if (Build.VERSION.SDK_INT >= 21) {
-            settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+        webView.settings.apply {
+            javaScriptEnabled = true
+            domStorageEnabled = true
+            if (Build.VERSION.SDK_INT >= 21) mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
         }
+        webView.loadUrl(PreferenceUtil.getCurrentEvent(mActivity).features.sponsors)
     }
 }
