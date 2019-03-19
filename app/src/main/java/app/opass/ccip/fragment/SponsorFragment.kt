@@ -16,9 +16,7 @@ import app.opass.ccip.util.PreferenceUtil
 import kotlinx.android.synthetic.main.fragment_web.*
 
 class SponsorFragment : Fragment() {
-    companion object {
-        private lateinit var mActivity: MainActivity
-    }
+    private lateinit var mActivity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -33,13 +31,11 @@ class SponsorFragment : Fragment() {
 
         webView.webChromeClient = WebChromeViewClient(progressBar)
         webView.webViewClient = OfficialWebViewClient()
-        webView.loadUrl(PreferenceUtil.getCurrentEvent(mActivity).features.sponsors)
-
-        val settings = webView.settings
-        settings.javaScriptEnabled = true
-        settings.domStorageEnabled = true
-        if (Build.VERSION.SDK_INT >= 21) {
-            settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+        webView.settings.apply {
+            javaScriptEnabled = true
+            domStorageEnabled = true
+            if (Build.VERSION.SDK_INT >= 21) mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
         }
+        webView.loadUrl(PreferenceUtil.getCurrentEvent(mActivity).features.sponsors)
     }
 }
