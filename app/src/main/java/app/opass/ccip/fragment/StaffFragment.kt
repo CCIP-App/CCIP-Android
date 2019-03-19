@@ -16,9 +16,7 @@ import app.opass.ccip.util.PreferenceUtil
 import kotlinx.android.synthetic.main.fragment_web.*
 
 class StaffFragment : Fragment() {
-    companion object {
-        private lateinit var mActivity: MainActivity
-    }
+    private lateinit var mActivity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)

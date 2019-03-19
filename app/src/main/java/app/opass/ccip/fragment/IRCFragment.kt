@@ -19,8 +19,9 @@ import kotlinx.android.synthetic.main.fragment_web.*
 class IRCFragment : Fragment() {
     companion object {
         private const val URL_NO_NETWORK = "file:///android_asset/no_network.html"
-        private lateinit var mActivity: MainActivity
     }
+
+    private lateinit var mActivity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
