@@ -186,7 +186,7 @@ class SessionDetailActivity : AppCompatActivity() {
     private fun setClickableUri(uri: String?, layout: View, textView: TextView) {
         if (uri != null) {
             layout.visibility = View.VISIBLE
-            textView.setText(session.qa)
+            textView.setText(uri)
             textView.paintFlags = textView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             textView.setOnClickListener {
                 mActivity.startActivity(
