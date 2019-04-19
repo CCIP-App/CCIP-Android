@@ -12,20 +12,21 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import app.opass.ccip.R
 import app.opass.ccip.adapter.ScheduleTabAdapter
+import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.model.Session
 import app.opass.ccip.network.ConfClient
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.internal.bind.util.ISO8601Utils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ScheduleTabFragment : Fragment() {
+class ScheduleTabFragment : Fragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
     companion object {
         private val SDF_DATE = SimpleDateFormat("MM/dd")
     }
@@ -58,25 +59,24 @@ class ScheduleTabFragment : Fragment() {
         swipeRefreshLayout.isEnabled = false
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
 
-        val sessionCall = ConfClient.get().session(PreferenceUtil.getCurrentEvent(mActivity).scheduleUrl)
-        sessionCall.enqueue(object : Callback<List<Session>> {
-            override fun onResponse(call: Call<List<Session>>, response: Response<List<Session>>) {
-                if (response.isSuccessful) {
-                    swipeRefreshLayout.isRefreshing = false
+        launch {
+            try {
+                ConfClient.get().session(PreferenceUtil.getCurrentEvent(mActivity).scheduleUrl).asyncExecute().run {
+                    if (isSuccessful) {
+                        swipeRefreshLayout.isRefreshing = false
 
-                    mSessions = response.body()
-                    PreferenceUtil.savePrograms(mActivity, mSessions!!)
-                } else {
-                    loadOfflineSchedule()
+                        mSessions = body()
+                        PreferenceUtil.savePrograms(mActivity, mSessions!!)
+                    } else {
+                        loadOfflineSchedule()
+                    }
+                    setupViewPager()
                 }
-                setupViewPager()
-            }
-
-            override fun onFailure(call: Call<List<Session>>, t: Throwable) {
+            } catch (t: Throwable) {
                 loadOfflineSchedule()
                 setupViewPager()
             }
-        })
+        }
 
         return view
     }

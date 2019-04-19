@@ -12,15 +12,15 @@ import androidx.core.app.NotificationCompat
 import app.opass.ccip.R
 import app.opass.ccip.R.string.*
 import app.opass.ccip.activity.MainActivity
-import app.opass.ccip.model.Attendee
+import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.network.CCIPClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
 import org.altbeacon.beacon.MonitorNotifier
 import org.altbeacon.beacon.Region
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class BeaconReceiver(private val context: Context) : MonitorNotifier {
+class BeaconReceiver(private val context: Context) : MonitorNotifier, CoroutineScope by CoroutineScope(Main) {
     companion object {
         private const val CHANNEL_ID = "beacon_notify"
     }
@@ -72,38 +72,34 @@ class BeaconReceiver(private val context: Context) : MonitorNotifier {
                 .build()
                 .let { manager.notify(System.currentTimeMillis().toInt(), it) }
         } else {
-            CCIPClient.get().status(token).enqueue(object : Callback<Attendee> {
-                override fun onFailure(call: Call<Attendee>, t: Throwable) {} // Ignore
+            launch {
+                // check has been checked in
+                if (CCIPClient.get().status(token).asyncExecute().body()?.scenarios?.any { it.used != null } != false) return@launch
 
-                override fun onResponse(call: Call<Attendee>, response: Response<Attendee>) {
-                    // check has been checked in
-                    if (response.body()!!.scenarios.any { it.used != null }) return
+                // Build and send notify
+                val content = context.getString(beacon_notify_need_checkin)
 
-                    // Build and send notify
-                    val content = context.getString(beacon_notify_need_checkin)
-
-                    NotificationCompat.Builder(context, CHANNEL_ID)
-                        .setSmallIcon(R.drawable.ic_announcement_black_48dp)
-                        .setContentTitle(context.getString(app_name))
-                        .setContentText(content)
-                        .setStyle(NotificationCompat.BigTextStyle().bigText(content))
-                        .setAutoCancel(true)
-                        .setDefaults(NotificationCompat.DEFAULT_ALL)
-                        .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setCategory(NotificationCompat.CATEGORY_ALARM)
-                        .setWhen(System.currentTimeMillis())
-                        .setContentIntent(
-                            PendingIntent.getActivity(
-                                context,
-                                0,
-                                Intent().setClass(context, MainActivity::class.java),
-                                0
-                            )
+                NotificationCompat.Builder(context, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_announcement_black_48dp)
+                    .setContentTitle(context.getString(app_name))
+                    .setContentText(content)
+                    .setStyle(NotificationCompat.BigTextStyle().bigText(content))
+                    .setAutoCancel(true)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setCategory(NotificationCompat.CATEGORY_ALARM)
+                    .setWhen(System.currentTimeMillis())
+                    .setContentIntent(
+                        PendingIntent.getActivity(
+                            context,
+                            0,
+                            Intent().setClass(context, MainActivity::class.java),
+                            0
                         )
-                        .build()
-                        .let { manager.notify(System.currentTimeMillis().toInt(), it) }
-                }
-            })
+                    )
+                    .build()
+                    .let { manager.notify(System.currentTimeMillis().toInt(), it) }
+            }
         }
         PreferenceUtil.setBeaconNotified(context)
     }

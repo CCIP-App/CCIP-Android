@@ -19,8 +19,7 @@ import app.opass.ccip.activity.CaptureActivity
 import app.opass.ccip.activity.EventActivity
 import app.opass.ccip.activity.MainActivity
 import app.opass.ccip.adapter.ScenarioAdapter
-import app.opass.ccip.model.Attendee
-import app.opass.ccip.model.EventConfig
+import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.PreferenceUtil
@@ -29,13 +28,13 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.zxing.integration.android.IntentIntegrator
 import com.onesignal.OneSignal
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
     private lateinit var noNetworkView: View
     private lateinit var notConfWifiView: View
     private lateinit var loginView: View
@@ -111,26 +110,22 @@ class MainFragment : Fragment() {
             val token = mActivity.intent.data!!.getQueryParameter("token")
 
             if (eventId != null && token != null) {
-                val eventConfig = PortalClient.get().getEventConfig(eventId)
-                eventConfig.enqueue(object : Callback<EventConfig> {
-                    override fun onResponse(call: Call<EventConfig>, response: Response<EventConfig>) {
-                        when {
-                            response.isSuccessful -> {
-                                val eventConfig = response.body()
-                                PreferenceUtil.setCurrentEvent(mActivity, eventConfig!!)
-                                PreferenceUtil.setIsNewToken(mActivity, true)
-                                PreferenceUtil.setToken(mActivity, token)
-                                CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mActivity).serverBaseUrl)
-                                updateStatus()
-                                mActivity.updateConfLogo()
-                            }
+                launch {
+                    try {
+                        val response = PortalClient.get().getEventConfig(eventId).asyncExecute()
+                        if (response.isSuccessful) {
+                            val eventConfig = response.body()
+                            PreferenceUtil.setCurrentEvent(mActivity, eventConfig!!)
+                            PreferenceUtil.setIsNewToken(mActivity, true)
+                            PreferenceUtil.setToken(mActivity, token)
+                            CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mActivity).serverBaseUrl)
+                            updateStatus()
+                            mActivity.updateConfLogo()
                         }
-                    }
-
-                    override fun onFailure(call: Call<EventConfig>, t: Throwable) {
+                    } catch (e: Exception) {
                         Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show()
                     }
-                })
+                }
             }
         } else {
             if (PreferenceUtil.getCurrentEvent(mActivity).displayName == null) {
@@ -155,21 +150,22 @@ class MainFragment : Fragment() {
         updateStatus()
     }
 
-    internal fun updateStatus() {
-        if (PreferenceUtil.getToken(mActivity) == null) {
-            loginView.visibility = View.VISIBLE
-            return
-        }
+    private fun updateStatus() {
+        launch {
+            if (PreferenceUtil.getToken(mActivity) == null) {
+                loginView.visibility = View.VISIBLE
+                return@launch
+            }
 
-        swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
-        loginView.visibility = View.GONE
-        noNetworkView.visibility = View.GONE
-        notConfWifiView.visibility = View.GONE
+            swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
+            loginView.visibility = View.GONE
+            noNetworkView.visibility = View.GONE
+            notConfWifiView.visibility = View.GONE
 
-        val attendee = CCIPClient.get().status(PreferenceUtil.getToken(mActivity))
-        attendee.enqueue(object : Callback<Attendee> {
-            override fun onResponse(call: Call<Attendee>, response: Response<Attendee>) {
+            try {
+                val response = CCIPClient.get().status(PreferenceUtil.getToken(mActivity)).asyncExecute()
                 swipeRefreshLayout.isRefreshing = false
+
                 when {
                     response.isSuccessful -> {
                         val attendee = response.body()
@@ -224,9 +220,7 @@ class MainFragment : Fragment() {
                         loginView.visibility = View.VISIBLE
                     }
                 }
-            }
-
-            override fun onFailure(call: Call<Attendee>, t: Throwable) {
+            } catch (e: Exception) {
                 swipeRefreshLayout.isRefreshing = false
                 noNetworkView.visibility = View.VISIBLE
                 noNetworkView.setOnClickListener {
@@ -235,6 +229,6 @@ class MainFragment : Fragment() {
                     updateStatus()
                 }
             }
-        })
+        }
     }
 }

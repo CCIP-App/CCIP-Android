@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.opass.ccip.R
 import app.opass.ccip.adapter.AnnouncementAdapter
-import app.opass.ccip.model.Announcement
+import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.network.CCIPClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class AnnouncementFragment : Fragment() {
+class AnnouncementFragment : Fragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
     private lateinit var announcementView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mActivity: Activity
@@ -38,21 +38,22 @@ class AnnouncementFragment : Fragment() {
         swipeRefreshLayout.isEnabled = false
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
 
-        CCIPClient.get().announcement().enqueue(object : Callback<List<Announcement>> {
-            override fun onResponse(call: Call<List<Announcement>>, response: Response<List<Announcement>>) {
-                swipeRefreshLayout.isRefreshing = false
-                if (response.isSuccessful && response.body()?.isEmpty() == false) {
-                    announcementView.adapter = AnnouncementAdapter(mActivity, response.body()!!)
-                } else {
-                    view.findViewById<View>(R.id.announcement_empty).visibility = View.VISIBLE
-                }
-            }
+        launch {
+            try {
+                val response = CCIPClient.get().announcement().asyncExecute().run {
+                    swipeRefreshLayout.isRefreshing = false
 
-            override fun onFailure(call: Call<List<Announcement>>, t: Throwable) {
+                    if (isSuccessful && !body().isNullOrEmpty()) {
+                        announcementView.adapter = AnnouncementAdapter(mActivity, body()!!)
+                    } else {
+                        view.findViewById<View>(R.id.announcement_empty).visibility = View.VISIBLE
+                    }
+                }
+            } catch (t: Throwable) {
                 swipeRefreshLayout.isRefreshing = false
                 Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show()
             }
-        })
+        }
 
         return view
     }

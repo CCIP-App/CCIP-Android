@@ -16,21 +16,22 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
 import app.opass.ccip.activity.CountdownActivity
-import app.opass.ccip.model.Attendee
+import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.model.Scenario
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.ErrorUtil
 import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.LocaleUtil
 import app.opass.ccip.util.PreferenceUtil
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ScenarioAdapter(private val mContext: Context, private val mScenarioList: MutableList<Scenario>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    CoroutineScope by CoroutineScope(Dispatchers.Main) {
     companion object {
         private val SDF = SimpleDateFormat("MM/dd HH:mm")
         private const val FORMAT_TIMERANGE = "%s ~ %s"
@@ -127,40 +128,36 @@ class ScenarioAdapter(private val mContext: Context, private val mScenarioList: 
         mContext.startActivity(intent)
     }
 
-    private fun use(scenario: Scenario) {
-        val attendeeCall = CCIPClient.get().use(scenario.id, PreferenceUtil.getToken(mContext))
-        attendeeCall.enqueue(object : Callback<Attendee> {
-            override fun onResponse(call: Call<Attendee>, response: Response<Attendee>) {
-                when {
-                    response.isSuccessful -> {
-                        val attendee = response.body()
+    private fun use(scenario: Scenario) = launch {
+        try {
+            val response = CCIPClient.get().use(scenario.id, PreferenceUtil.getToken(mContext)).asyncExecute()
+            when {
+                response.isSuccessful -> {
+                    val attendee = response.body()
 
-                        mScenarioList.clear()
-                        mScenarioList.addAll(attendee!!.scenarios)
-                        notifyDataSetChanged()
+                    mScenarioList.clear()
+                    mScenarioList.addAll(attendee!!.scenarios)
+                    notifyDataSetChanged()
 
-                        if (scenario.countdown > 0) {
-                            startCountdownActivity(scenario)
-                        }
+                    if (scenario.countdown > 0) {
+                        startCountdownActivity(scenario)
                     }
-                    response.code() == 400 -> {
-                        val (message) = ErrorUtil.parseError(response)
-                        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show()
-                    }
-                    response.code() == 403 -> {
-                        AlertDialog.Builder(mContext)
-                            .setTitle(R.string.connect_to_conference_wifi)
-                            .setPositiveButton(android.R.string.ok, null)
-                            .show()
-                    }
-                    else -> Toast.makeText(mContext, "Unexpected response", Toast.LENGTH_LONG).show()
                 }
+                response.code() == 400 -> {
+                    val (message) = ErrorUtil.parseError(response)
+                    Toast.makeText(mContext, message, Toast.LENGTH_LONG).show()
+                }
+                response.code() == 403 -> {
+                    AlertDialog.Builder(mContext)
+                        .setTitle(R.string.connect_to_conference_wifi)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show()
+                }
+                else -> Toast.makeText(mContext, "Unexpected response", Toast.LENGTH_LONG).show()
             }
-
-            override fun onFailure(call: Call<Attendee>, t: Throwable) {
-                Toast.makeText(mContext, "Use req fail, " + t.message, Toast.LENGTH_LONG).show()
-            }
-        })
+        } catch (t: Throwable) {
+            Toast.makeText(mContext, "Use req fail, " + t.message, Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun setCardUsed(holder: ViewHolder) {
