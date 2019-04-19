@@ -20,13 +20,15 @@ import com.google.android.material.tabs.TabLayout
 import com.google.gson.internal.bind.util.ISO8601Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.coroutines.CoroutineContext
 
-class ScheduleTabFragment : Fragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
+class ScheduleTabFragment : Fragment(), CoroutineScope {
     companion object {
         private val SDF_DATE = SimpleDateFormat("MM/dd")
     }
@@ -39,6 +41,9 @@ class ScheduleTabFragment : Fragment(), CoroutineScope by CoroutineScope(Dispatc
     private var starFilter = false
     private var mSessions: List<Session>? = null
     private var scheduleTabAdapter: ScheduleTabAdapter? = null
+    private lateinit var mJob: Job
+    override val coroutineContext: CoroutineContext
+        get() = mJob + Dispatchers.Main
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -49,6 +54,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope by CoroutineScope(Dispatc
         viewPager = view.findViewById(R.id.pager)
 
         mActivity = requireActivity()
+        mJob = Job()
 
         if (VERSION.SDK_INT >= 21) {
             mActivity.findViewById<View>(R.id.appbar).elevation = 0f
@@ -84,6 +90,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope by CoroutineScope(Dispatc
     override fun onDestroy() {
         tabLayout.setupWithViewPager(null)
         super.onDestroy()
+        mJob.cancel()
     }
 
     private fun setupViewPager() {
