@@ -18,21 +18,27 @@ import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.PreferenceUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class EventActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
+class EventActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var mActivity: Activity
     private lateinit var noNetworkView: RelativeLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var mJob: Job
+    override val coroutineContext: CoroutineContext
+        get() = mJob + Dispatchers.Main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event)
 
         mActivity = this
+        mJob = Job()
         setSupportActionBar(findViewById(R.id.toolbar))
         setTitle(R.string.select_event)
 
@@ -44,6 +50,11 @@ class EventActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Disp
         }
 
         getEvents()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mJob.cancel()
     }
 
     private fun getEvents() {
