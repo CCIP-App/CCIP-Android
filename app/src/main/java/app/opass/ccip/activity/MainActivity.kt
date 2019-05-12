@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun jumpToFragment(menuItem: MenuItem): Boolean {
-        menuItem.isChecked = true
+        if (menuItem.isCheckable) menuItem.isChecked = true
 
         when {
             menuItem.itemId == R.id.star -> mActivity.startActivity(Intent(Intent.ACTION_VIEW, URI_GITHUB))
