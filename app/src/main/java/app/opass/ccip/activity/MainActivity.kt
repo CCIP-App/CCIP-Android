@@ -112,14 +112,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (navigationView.menu.findItem(R.id.fast_pass).isChecked) {
-            super.onBackPressed()
-        } else {
-            setTitle(R.string.fast_pass)
-            supportFragmentManager.transaction {
-                replace(R.id.content_frame, MainFragment())
+        when {
+            mDrawerLayout.isDrawerOpen(GravityCompat.START) -> mDrawerLayout.closeDrawers()
+            navigationView.menu.findItem(R.id.fast_pass).isChecked -> super.onBackPressed()
+            else -> {
+                setTitle(R.string.fast_pass)
+                supportFragmentManager.transaction {
+                    replace(R.id.content_frame, MainFragment())
+                }
+                navigationView.setCheckedItem(R.id.fast_pass)
             }
-            navigationView.setCheckedItem(R.id.fast_pass)
         }
     }
 
