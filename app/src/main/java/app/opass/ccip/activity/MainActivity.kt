@@ -26,6 +26,8 @@ import com.google.android.material.navigation.NavigationView
 import com.google.zxing.integration.android.IntentIntegrator
 import com.squareup.picasso.Picasso
 
+private const val STATE_SELECTED_MENU_ITEM_ID = "selectedMenuItemId"
+
 class MainActivity : AppCompatActivity() {
     companion object {
         private val URI_GITHUB = Uri.parse("https://github.com/CCIP-App/CCIP-Android")
@@ -58,9 +60,11 @@ class MainActivity : AppCompatActivity() {
 
         drawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close)
 
-        setTitle(R.string.fast_pass)
-        supportFragmentManager.transaction {
-            replace(R.id.content_frame, MainFragment())
+        val item = savedInstanceState?.getInt(STATE_SELECTED_MENU_ITEM_ID)?.let(navigationView.menu::findItem)
+        if (item != null) {
+            jumpToFragment(item)
+        } else {
+            jumpToFragment(navigationView.menu.findItem(R.id.fast_pass))
         }
 
         updateConfLogo()
@@ -100,6 +104,11 @@ class MainActivity : AppCompatActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         drawerToggle.onConfigurationChanged(newConfig)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        navigationView.checkedItem?.let { item -> outState.putInt(STATE_SELECTED_MENU_ITEM_ID, item.itemId) }
     }
 
     override fun onBackPressed() {
