@@ -20,7 +20,7 @@ import java.util.*
 class ScenarioAdapter(
     private val mContext: Context,
     private val mScenarioList: MutableList<Scenario>,
-    private val onItemClick: Function1<Scenario, Unit>
+    private val onItemClick: (Scenario) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         private val SDF = SimpleDateFormat("MM/dd HH:mm")
