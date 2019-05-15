@@ -74,7 +74,11 @@ class BeaconReceiver(private val context: Context) : MonitorNotifier, CoroutineS
         } else {
             launch {
                 // check has been checked in
-                if (CCIPClient.get().status(token).asyncExecute().body()?.scenarios?.any { it.used != null } != false) return@launch
+                try {
+                    if (CCIPClient.get().status(token).asyncExecute().body()?.scenarios?.any { it.used != null } != false) return@launch
+                } catch (e: RuntimeException) {
+                    return@launch
+                }
 
                 // Build and send notify
                 val content = context.getString(beacon_notify_need_checkin)

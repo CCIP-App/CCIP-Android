@@ -38,16 +38,19 @@ class EventAdapter(private val mContext: Context, private val eventList: List<Ev
         Picasso.get().load(event.logoUrl).into(viewHolder.logo)
         holder.itemView.setOnClickListener {
             launch {
-                PortalClient.get().getEventConfig(event.eventId).asyncExecute().run {
-                    if (!isSuccessful) return@run
+                try {
+                    PortalClient.get().getEventConfig(event.eventId).asyncExecute().run {
+                        if (!isSuccessful) return@run
 
-                    PreferenceUtil.setCurrentEvent(mContext, body()!!)
-                    CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mContext).serverBaseUrl)
+                        PreferenceUtil.setCurrentEvent(mContext, body()!!)
+                        CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mContext).serverBaseUrl)
 
-                    val intent = Intent()
-                    intent.setClass(mContext, MainActivity::class.java)
-                    mContext.startActivity(intent)
-                    (mContext as Activity).finish()
+                        val intent = Intent()
+                        intent.setClass(mContext, MainActivity::class.java)
+                        mContext.startActivity(intent)
+                        (mContext as Activity).finish()
+                    }
+                } catch (e: RuntimeException) {
                 }
             }
         }
