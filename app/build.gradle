@@ -49,16 +49,16 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
-    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-core:16.0.9'
 
     implementation 'com.onesignal:OneSignal:3.10.6'
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'com.google.android.material:material:1.1.0-alpha05'
+    implementation 'com.google.android.material:material:1.1.0-alpha06'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.core:core-ktx:1.0.1'
+    implementation 'androidx.core:core-ktx:1.0.2'
     implementation 'androidx.fragment:fragment-ktx:1.0.0'
 
     implementation 'com.google.code.gson:gson:2.8.5'
@@ -74,8 +74,8 @@ dependencies {
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:2.1.2'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0'
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1"
 
     implementation 'org.altbeacon:android-beacon-library:2.16.1'
 }
