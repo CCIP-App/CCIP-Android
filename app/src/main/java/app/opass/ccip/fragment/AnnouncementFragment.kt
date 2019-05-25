@@ -13,47 +13,56 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.opass.ccip.R
 import app.opass.ccip.adapter.AnnouncementAdapter
-import app.opass.ccip.model.Announcement
+import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.network.CCIPClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class AnnouncementFragment : Fragment() {
+class AnnouncementFragment : Fragment(), CoroutineScope {
     private lateinit var announcementView: RecyclerView
+    private lateinit var announcementEmptyView: View
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mActivity: Activity
+    private lateinit var mJob: Job
+    override val coroutineContext: CoroutineContext
+        get() = mJob + Dispatchers.Main
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.fragment_announcement, container, false)
 
         announcementView = view.findViewById(R.id.announcement)
+        announcementEmptyView = view.findViewById(R.id.announcement_empty)
         swipeRefreshLayout = view.findViewById(R.id.swipeContainer)
 
         mActivity = requireActivity()
+        mJob = Job()
         announcementView.layoutManager = LinearLayoutManager(mActivity)
         announcementView.itemAnimator = DefaultItemAnimator()
 
         swipeRefreshLayout.isEnabled = false
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
-
-        CCIPClient.get().announcement().enqueue(object : Callback<List<Announcement>> {
-            override fun onResponse(call: Call<List<Announcement>>, response: Response<List<Announcement>>) {
-                swipeRefreshLayout.isRefreshing = false
-                if (response.isSuccessful && response.body()?.isEmpty() == false) {
-                    announcementView.adapter = AnnouncementAdapter(mActivity, response.body()!!)
-                } else {
-                    view.findViewById<View>(R.id.announcement_empty).visibility = View.VISIBLE
+        launch {
+            try {
+                CCIPClient.get().announcement().asyncExecute().run {
+                    if (isSuccessful && !body().isNullOrEmpty()) {
+                        announcementView.adapter = AnnouncementAdapter(mActivity, body()!!)
+                    } else {
+                        announcementEmptyView.visibility = View.VISIBLE
+                    }
                 }
-            }
-
-            override fun onFailure(call: Call<List<Announcement>>, t: Throwable) {
-                swipeRefreshLayout.isRefreshing = false
+            } catch (t: Throwable) {
                 Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show()
+            } finally {
+                swipeRefreshLayout.isRefreshing = false
             }
-        })
+        }
 
         return view
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mJob.cancel()
     }
 }

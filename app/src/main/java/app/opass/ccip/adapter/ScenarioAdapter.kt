@@ -1,7 +1,6 @@
 package app.opass.ccip.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -9,28 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
-import app.opass.ccip.activity.CountdownActivity
-import app.opass.ccip.model.Attendee
 import app.opass.ccip.model.Scenario
-import app.opass.ccip.network.CCIPClient
-import app.opass.ccip.network.ErrorUtil
-import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.LocaleUtil
-import app.opass.ccip.util.PreferenceUtil
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ScenarioAdapter(private val mContext: Context, private val mScenarioList: MutableList<Scenario>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ScenarioAdapter(
+    private val mContext: Context,
+    private val mScenarioList: MutableList<Scenario>,
+    private val onItemClick: (Scenario) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         private val SDF = SimpleDateFormat("MM/dd HH:mm")
         private const val FORMAT_TIMERANGE = "%s ~ %s"
@@ -83,19 +74,13 @@ class ScenarioAdapter(private val mContext: Context, private val mScenarioList: 
             return
         }
 
+        holder.card.setOnClickListener { onItemClick(scenario) }
+
         if (scenario.used == null) {
             holder.card.isClickable = true
-            holder.card.setOnClickListener {
-                if (scenario.countdown > 0) {
-                    showConfirmDialog(scenario)
-                } else {
-                    use(scenario)
-                }
-            }
         } else {
             if (scenario.countdown > 0) {
                 holder.card.isClickable = true
-                holder.card.setOnClickListener { startCountdownActivity(scenario) }
             } else {
                 holder.card.isClickable = false
                 holder.card.setOnClickListener(null)
@@ -112,57 +97,6 @@ class ScenarioAdapter(private val mContext: Context, private val mScenarioList: 
         return mScenarioList.size
     }
 
-    private fun showConfirmDialog(scenario: Scenario) {
-        AlertDialog.Builder(mContext)
-            .setTitle(R.string.confirm_dialog_title)
-            .setPositiveButton(R.string.positive_button) { dialogInterface, i -> use(scenario) }
-            .setNegativeButton(R.string.negative_button, null)
-            .show()
-    }
-
-    fun startCountdownActivity(scenario: Scenario) {
-        val intent = Intent()
-        intent.setClass(mContext, CountdownActivity::class.java)
-        intent.putExtra(CountdownActivity.INTENT_EXTRA_SCENARIO, JsonUtil.toJson(scenario))
-        mContext.startActivity(intent)
-    }
-
-    private fun use(scenario: Scenario) {
-        val attendeeCall = CCIPClient.get().use(scenario.id, PreferenceUtil.getToken(mContext))
-        attendeeCall.enqueue(object : Callback<Attendee> {
-            override fun onResponse(call: Call<Attendee>, response: Response<Attendee>) {
-                when {
-                    response.isSuccessful -> {
-                        val attendee = response.body()
-
-                        mScenarioList.clear()
-                        mScenarioList.addAll(attendee!!.scenarios)
-                        notifyDataSetChanged()
-
-                        if (scenario.countdown > 0) {
-                            startCountdownActivity(scenario)
-                        }
-                    }
-                    response.code() == 400 -> {
-                        val (message) = ErrorUtil.parseError(response)
-                        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show()
-                    }
-                    response.code() == 403 -> {
-                        AlertDialog.Builder(mContext)
-                            .setTitle(R.string.connect_to_conference_wifi)
-                            .setPositiveButton(android.R.string.ok, null)
-                            .show()
-                    }
-                    else -> Toast.makeText(mContext, "Unexpected response", Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onFailure(call: Call<Attendee>, t: Throwable) {
-                Toast.makeText(mContext, "Use req fail, " + t.message, Toast.LENGTH_LONG).show()
-            }
-        })
-    }
-
     private fun setCardUsed(holder: ViewHolder) {
         holder.tickIcon.visibility = View.VISIBLE
         holder.scenarioIcon.alpha = 0.4f
@@ -175,5 +109,11 @@ class ScenarioAdapter(private val mContext: Context, private val mScenarioList: 
         holder.card.setOnClickListener(null)
         holder.scenarioIcon.alpha = 0.4f
         holder.scenarioName.setTextColor(Color.parseColor("#FF9B9B9B"))
+    }
+
+    fun setItems(scenarioList: List<Scenario>) {
+        mScenarioList.clear()
+        mScenarioList.addAll(scenarioList)
+        notifyDataSetChanged()
     }
 }

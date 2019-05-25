@@ -12,20 +12,23 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import app.opass.ccip.R
 import app.opass.ccip.adapter.ScheduleTabAdapter
+import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.model.Session
 import app.opass.ccip.network.ConfClient
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.internal.bind.util.ISO8601Utils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.coroutines.CoroutineContext
 
-class ScheduleTabFragment : Fragment() {
+class ScheduleTabFragment : Fragment(), CoroutineScope {
     companion object {
         private val SDF_DATE = SimpleDateFormat("MM/dd")
     }
@@ -38,6 +41,9 @@ class ScheduleTabFragment : Fragment() {
     private var starFilter = false
     private var mSessions: List<Session>? = null
     private var scheduleTabAdapter: ScheduleTabAdapter? = null
+    private lateinit var mJob: Job
+    override val coroutineContext: CoroutineContext
+        get() = mJob + Dispatchers.Main
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -48,6 +54,7 @@ class ScheduleTabFragment : Fragment() {
         viewPager = view.findViewById(R.id.pager)
 
         mActivity = requireActivity()
+        mJob = Job()
 
         if (VERSION.SDK_INT >= 21) {
             mActivity.findViewById<View>(R.id.appbar).elevation = 0f
@@ -58,25 +65,24 @@ class ScheduleTabFragment : Fragment() {
         swipeRefreshLayout.isEnabled = false
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
 
-        val sessionCall = ConfClient.get().session(PreferenceUtil.getCurrentEvent(mActivity).scheduleUrl)
-        sessionCall.enqueue(object : Callback<List<Session>> {
-            override fun onResponse(call: Call<List<Session>>, response: Response<List<Session>>) {
-                if (response.isSuccessful) {
-                    swipeRefreshLayout.isRefreshing = false
+        launch {
+            try {
+                ConfClient.get().session(PreferenceUtil.getCurrentEvent(mActivity).scheduleUrl).asyncExecute().run {
+                    if (isSuccessful) {
+                        swipeRefreshLayout.isRefreshing = false
 
-                    mSessions = response.body()
-                    PreferenceUtil.savePrograms(mActivity, mSessions!!)
-                } else {
-                    loadOfflineSchedule()
+                        mSessions = body()
+                        PreferenceUtil.savePrograms(mActivity, mSessions!!)
+                    } else {
+                        loadOfflineSchedule()
+                    }
+                    setupViewPager()
                 }
-                setupViewPager()
-            }
-
-            override fun onFailure(call: Call<List<Session>>, t: Throwable) {
+            } catch (t: Throwable) {
                 loadOfflineSchedule()
                 setupViewPager()
             }
-        })
+        }
 
         return view
     }
@@ -84,6 +90,7 @@ class ScheduleTabFragment : Fragment() {
     override fun onDestroy() {
         tabLayout.setupWithViewPager(null)
         super.onDestroy()
+        mJob.cancel()
     }
 
     private fun setupViewPager() {
