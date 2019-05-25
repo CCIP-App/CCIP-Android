@@ -50,7 +50,7 @@ class EventAdapter(private val mContext: Context, private val eventList: List<Ev
                         mContext.startActivity(intent)
                         (mContext as Activity).finish()
                     }
-                } catch (e: RuntimeException) {
+                } catch (e: Exception) {
                 }
             }
         }

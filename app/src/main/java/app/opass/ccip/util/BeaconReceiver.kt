@@ -76,7 +76,7 @@ class BeaconReceiver(private val context: Context) : MonitorNotifier, CoroutineS
                 // check has been checked in
                 try {
                     if (CCIPClient.get().status(token).asyncExecute().body()?.scenarios?.any { it.used != null } != false) return@launch
-                } catch (e: RuntimeException) {
+                } catch (e: Exception) {
                     return@launch
                 }
 
