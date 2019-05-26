@@ -137,6 +137,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (intent != null && intent.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false)) {
+            jumpToFragment(navigationView.menu.findItem(R.id.announcement))
+        }
+    }
+
     fun setUserTitle(userTitle: String) {
         userTitleTextView.visibility = View.VISIBLE
         userTitleTextView.text = userTitle
