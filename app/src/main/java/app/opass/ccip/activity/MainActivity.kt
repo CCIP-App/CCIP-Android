@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if (intent != null && intent.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false)) {
+        if (intent?.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false) == true) {
             jumpToFragment(navigationView.menu.findItem(R.id.announcement))
         }
     }
