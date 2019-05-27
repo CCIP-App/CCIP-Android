@@ -30,6 +30,7 @@ private const val STATE_SELECTED_MENU_ITEM_ID = "selectedMenuItemId"
 
 class MainActivity : AppCompatActivity() {
     companion object {
+        const val ARG_IS_FROM_NOTIFICATION = "isFromNotification"
         private val URI_GITHUB = Uri.parse("https://github.com/CCIP-App/CCIP-Android")
     }
 
@@ -60,12 +61,13 @@ class MainActivity : AppCompatActivity() {
 
         drawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close)
 
-        val item = savedInstanceState?.getInt(STATE_SELECTED_MENU_ITEM_ID)?.let(navigationView.menu::findItem)
-        if (item != null) {
-            jumpToFragment(item)
-        } else {
-            jumpToFragment(navigationView.menu.findItem(R.id.fast_pass))
+        val savedItem = savedInstanceState?.getInt(STATE_SELECTED_MENU_ITEM_ID)?.let(navigationView.menu::findItem)
+        val item = when {
+            savedItem != null -> savedItem
+            intent.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false) -> navigationView.menu.findItem(R.id.announcement)
+            else -> navigationView.menu.findItem(R.id.fast_pass)
         }
+        jumpToFragment(item)
 
         updateConfLogo()
 
@@ -132,6 +134,13 @@ class MainActivity : AppCompatActivity() {
             PreferenceUtil.setToken(this, result.contents)
         } else {
             super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (intent?.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false) == true) {
+            jumpToFragment(navigationView.menu.findItem(R.id.announcement))
         }
     }
 
