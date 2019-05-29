@@ -62,9 +62,11 @@ class MainActivity : AppCompatActivity() {
         drawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close)
 
         val savedItem = savedInstanceState?.getInt(STATE_SELECTED_MENU_ITEM_ID)?.let(navigationView.menu::findItem)
+        val isFromNotification = intent.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false)
+        val isLaunchedFromHistory = intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY == Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
         val item = when {
             savedItem != null -> savedItem
-            intent.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false) -> navigationView.menu.findItem(R.id.announcement)
+            isFromNotification and !isLaunchedFromHistory -> navigationView.menu.findItem(R.id.announcement)
             else -> navigationView.menu.findItem(R.id.fast_pass)
         }
         jumpToFragment(item)
