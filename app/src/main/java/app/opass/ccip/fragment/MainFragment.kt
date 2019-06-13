@@ -212,7 +212,7 @@ class MainFragment : Fragment(), CoroutineScope {
                                         + attendee.userId
                                         + mActivity.getString(
                                         R.string.login_success,
-                                        PreferenceUtil.getCurrentEvent(mActivity).displayName!!.getDisplayName(mActivity)
+                                        PreferenceUtil.getCurrentEvent(mActivity).displayName.findBestMatch(mActivity)
                                     )
                                 )
                                 .setPositiveButton(android.R.string.ok, null)
