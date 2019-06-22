@@ -35,8 +35,7 @@ class LocalizedString {
 
         val keys = translations.keys.toList()
         if (Build.VERSION.SDK_INT >= 24) {
-            val userLanguages = localeListToLanguages(context.resources.configuration.locales)
-            keys.firstOrNull(userLanguages::contains)?.let {
+            localeListToStringList(context.resources.configuration.locales).firstOrNull(keys::contains)?.let {
                 return translations[it]
             }
         } else {
@@ -49,7 +48,7 @@ class LocalizedString {
     }
 
     @RequiresApi(24)
-    private fun localeListToLanguages(localeList: LocaleList): Array<String> {
+    private fun localeListToStringList(localeList: LocaleList): Array<String> {
         val list = mutableSetOf<String>()
         for (i in 0 until localeList.size()) {
             list.add(localeList[i].language)
