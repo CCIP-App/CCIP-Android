@@ -89,7 +89,9 @@ class MainActivity : AppCompatActivity() {
             else -> onDrawerItemClick(Action.FAST_PASS)
         }
 
-        updateConfLogo()
+        if (PreferenceUtil.getCurrentEvent(applicationContext).displayName != null) {
+            Picasso.get().load(PreferenceUtil.getCurrentEvent(mActivity).logoUrl).into(confLogoImageView)
+        }
 
         // Beacon need location access
         if (!PreferenceUtil.isBeaconPermissionRequested(mActivity) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -166,12 +168,6 @@ class MainActivity : AppCompatActivity() {
 
     fun setUserId(userId: String) {
         userIdTextView.text = userId
-    }
-
-    fun updateConfLogo() {
-        if (PreferenceUtil.getCurrentEvent(applicationContext).displayName != null) {
-            Picasso.get().load(PreferenceUtil.getCurrentEvent(mActivity).logoUrl).into(confLogoImageView)
-        }
     }
 
     private fun setupDrawerContent(event: EventConfig) {

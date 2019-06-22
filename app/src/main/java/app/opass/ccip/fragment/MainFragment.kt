@@ -17,14 +17,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.opass.ccip.R
 import app.opass.ccip.activity.CaptureActivity
 import app.opass.ccip.activity.CountdownActivity
-import app.opass.ccip.activity.EventActivity
 import app.opass.ccip.activity.MainActivity
 import app.opass.ccip.adapter.ScenarioAdapter
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.model.Scenario
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.ErrorUtil
-import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.snackbar.Snackbar
@@ -122,39 +120,8 @@ class MainFragment : Fragment(), CoroutineScope {
         scenarioView.layoutManager = LinearLayoutManager(mActivity)
         scenarioView.itemAnimator = DefaultItemAnimator()
 
-        if (mActivity.intent.action == Intent.ACTION_VIEW) {
-            val eventId = mActivity.intent.data!!.getQueryParameter("event_id")
-            val token = mActivity.intent.data!!.getQueryParameter("token")
-
-            if (eventId != null && token != null) {
-                launch {
-                    try {
-                        val response = PortalClient.get().getEventConfig(eventId).asyncExecute()
-                        if (response.isSuccessful) {
-                            val eventConfig = response.body()
-                            PreferenceUtil.setCurrentEvent(mActivity, eventConfig!!)
-                            PreferenceUtil.setIsNewToken(mActivity, true)
-                            PreferenceUtil.setToken(mActivity, token)
-                            CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mActivity).serverBaseUrl)
-                            updateStatus()
-                            mActivity.updateConfLogo()
-                        }
-                    } catch (e: Exception) {
-                        Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        } else {
-            if (PreferenceUtil.getCurrentEvent(mActivity).displayName == null) {
-                val intent = Intent()
-                intent.setClass(mActivity, EventActivity::class.java)
-                mActivity.startActivity(intent)
-                mActivity.finish()
-            }
-
-            if (PreferenceUtil.getToken(mActivity) == null) {
-                loginView.visibility = View.VISIBLE
-            }
+        if (PreferenceUtil.getToken(mActivity) == null) {
+            loginView.visibility = View.VISIBLE
         }
 
         swipeRefreshLayout.setOnRefreshListener { updateStatus() }
