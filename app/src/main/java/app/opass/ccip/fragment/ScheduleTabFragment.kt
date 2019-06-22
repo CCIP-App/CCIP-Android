@@ -95,6 +95,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
 
     private fun setupViewPager() {
         if (isAdded) {
+            viewPager.isSaveFromParentEnabled = false
             scheduleTabAdapter = ScheduleTabAdapter(childFragmentManager)
             addSessionFragments(mSessions!!)
             viewPager.adapter = scheduleTabAdapter

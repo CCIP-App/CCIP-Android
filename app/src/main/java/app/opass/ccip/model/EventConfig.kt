@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class EventConfig(
     @SerializedName("custom_features")
-    val customFeatures: List<Any>,
+    val customFeatures: List<Feature>,
     @SerializedName("display_name")
     val displayName: LocalizedString,
     @SerializedName("event_id")
