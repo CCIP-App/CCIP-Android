@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import app.opass.ccip.R
 import app.opass.ccip.adapter.DrawerMenuViewHolder.*
 import app.opass.ccip.model.Feature
-import app.opass.ccip.model.Features
+import app.opass.ccip.model.FeatureType
 import app.opass.ccip.model.LocalizedString
 import com.squareup.picasso.Picasso
 
@@ -24,8 +24,7 @@ private const val URL_GITHUB = "https://github.com/CCIP-App/CCIP-Android"
 
 class DrawerMenuAdapter(
     private val context: Context,
-    private val features: Features,
-    private val customFeatures: List<Feature>,
+    private val features: List<Feature>,
     private val onItemClick: (Any) -> Unit
 ) : RecyclerView.Adapter<DrawerMenuViewHolder>() {
     private val differ = AsyncListDiffer(this, DiffCallback)
@@ -71,20 +70,16 @@ class DrawerMenuAdapter(
                 val launchIconView = itemView.findViewById<ImageView>(R.id.launch_icon).apply { visibility = View.GONE }
 
                 when (item) {
-                    is Action -> {
-                        titleView.text = getTitleByAction(item)
-                        iconView.setImageDrawable(getDrawable(getIconByAction(item)))
-                    }
                     is IdentityAction -> {
                         titleView.text = getTitleByAction(item)
                         iconView.setImageDrawable(getDrawable(getIconByAction(item)))
                     }
-                    is Feature -> {
-                        titleView.text = item.displayName.findBestMatch(context)
+                    is FeatureItem -> {
+                        titleView.text = item.displayText.findBestMatch(context)
                         if (!item.isEmbedded) launchIconView?.visibility = View.VISIBLE
                         if (item.iconDrawable != null) return iconView.setImageDrawable(getDrawable(item.iconDrawable))
                         iconView.setImageDrawable(null)
-                        Picasso.get().load(item.icon).into(iconView)
+                        Picasso.get().load(item.iconUrl).into(iconView)
                     }
                 }
             }
@@ -99,9 +94,8 @@ class DrawerMenuAdapter(
         return when (differ.currentList[position]) {
             is PlaceholderItem -> R.layout.item_placeholder_menu_item
             is DividerItem -> R.layout.item_divider
-            is Action -> R.layout.item_menu_item
             is IdentityAction -> R.layout.item_menu_item
-            is Feature -> R.layout.item_menu_item
+            is FeatureItem -> R.layout.item_menu_item
             else -> throw IllegalStateException("Unknown view type at position $position")
         }
     }
@@ -111,12 +105,10 @@ class DrawerMenuAdapter(
         if (shouldShowIdentities) {
             merged.addAll(arrayOf(IdentityAction.SWITCH_EVENT, DividerItem))
         }
-        merged.addAll(arrayOf(Action.FAST_PASS, Action.SCHEDULE, Action.ANNOUNCEMENT, Action.PUZZLE, Action.TICKET))
-        merged.addAll(fromFeatures(features, context))
-        merged.addAll(customFeatures)
+        merged.addAll(features.map(FeatureItem.Companion::fromFeature))
         merged.add(
-            Feature(
-                null,
+            FeatureItem(
+                FeatureType.WEBVIEW,
                 LocalizedString.fromUntranslated(context.resources.getString(R.string.star_on_github)),
                 URL_GITHUB,
                 iconDrawable = R.drawable.github_mark,
@@ -126,20 +118,14 @@ class DrawerMenuAdapter(
         return merged
     }
 
-    private fun getTitleByAction(action: Action): String {
-        return when (action) {
-            Action.FAST_PASS -> context.resources.getString(R.string.fast_pass)
-            Action.SCHEDULE -> context.resources.getString(R.string.schedule)
-            Action.ANNOUNCEMENT -> context.resources.getString(R.string.announcement)
-            Action.TICKET -> context.resources.getString(R.string.my_ticket)
-            Action.PUZZLE -> context.resources.getString(R.string.puzzle)
-        }
-    }
-
     private fun getTitleByAction(action: IdentityAction): String {
         return when (action) {
             IdentityAction.SWITCH_EVENT -> context.resources.getString(R.string.switch_event)
         }
+    }
+
+    private fun getIconByAction(action: IdentityAction): Int = when (action) {
+        IdentityAction.SWITCH_EVENT -> R.drawable.ic_swap_horiz_black_24dp
     }
 
     private fun getDrawable(id: Int?): Drawable? {
@@ -151,24 +137,49 @@ class DrawerMenuAdapter(
         }
     }
 
-    private fun getIconByAction(action: Action): Int = when (action) {
-        Action.FAST_PASS -> R.drawable.ic_local_activity_black_48dp
-        Action.SCHEDULE -> R.drawable.ic_event_note_black_48dp
-        Action.ANNOUNCEMENT -> R.drawable.ic_announcement_black_48dp
-        Action.TICKET -> R.drawable.qr_code
-        Action.PUZZLE -> R.drawable.ic_extension_black_24dp
-    }
+    data class FeatureItem(
+        val type: FeatureType,
+        val displayText: LocalizedString,
+        val url: String?,
+        val iconUrl: String? = null,
+        val iconDrawable: Int? = null,
+        val isEmbedded: Boolean = true,
+        val shouldUseBuiltinZoomControls: Boolean = false
+    ) {
+        companion object {
+            private fun getIconByType(type: FeatureType): Int? = when (type) {
+                FeatureType.FAST_PASS -> R.drawable.ic_local_activity_black_48dp
+                FeatureType.SCHEDULE -> R.drawable.ic_event_note_black_48dp
+                FeatureType.ANNOUNCEMENT -> R.drawable.ic_announcement_black_48dp
+                FeatureType.PUZZLE -> R.drawable.ic_extension_black_24dp
+                FeatureType.TICKET -> R.drawable.qr_code
+                FeatureType.TELEGRAM -> R.drawable.telegram_logo
+                FeatureType.IM -> R.drawable.ic_question_answer_black_48dp
+                FeatureType.SPONSORS -> R.drawable.ic_redeem_black_48dp
+                FeatureType.STAFFS -> R.drawable.ic_group_black_48dp
+                FeatureType.VENUE -> R.drawable.ic_map_black_48dp
+                FeatureType.WEBVIEW -> null
+            }
 
-    private fun getIconByAction(action: IdentityAction): Int = when (action) {
-        IdentityAction.SWITCH_EVENT -> R.drawable.ic_swap_horiz_black_24dp
+            fun fromFeature(feature: Feature): FeatureItem {
+                var item = FeatureItem(feature.feature, feature.displayText, feature.url, iconUrl = feature.icon)
+                when (feature.feature) {
+                    FeatureType.TELEGRAM -> item = item.copy(isEmbedded = false)
+                    FeatureType.VENUE -> item = item.copy(shouldUseBuiltinZoomControls = true)
+                    else -> Unit
+                }
+                getIconByType(feature.feature)?.let { item = item.copy(iconDrawable = it) }
+                return item
+            }
+        }
     }
 }
 
 object DiffCallback : DiffUtil.ItemCallback<Any>() {
     override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
         return when {
-            oldItem is Action && newItem is Action -> oldItem == newItem
-            oldItem is Feature && newItem is Feature -> oldItem == newItem
+            oldItem is IdentityAction && newItem is IdentityAction -> oldItem == newItem
+            oldItem is DrawerMenuAdapter.FeatureItem && newItem is DrawerMenuAdapter.FeatureItem -> oldItem == newItem
             oldItem is PlaceholderItem && newItem is PlaceholderItem -> true
             oldItem is DividerItem && newItem is DividerItem -> true
             else -> false
@@ -178,84 +189,15 @@ object DiffCallback : DiffUtil.ItemCallback<Any>() {
     @SuppressLint("DiffUtilEquals") // Data classes already implemented equals
     override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
         return when {
-            oldItem is Action && newItem is Action -> oldItem == newItem
-            oldItem is Feature && newItem is Feature -> oldItem == newItem
+            oldItem is IdentityAction && newItem is IdentityAction -> oldItem == newItem
+            oldItem is DrawerMenuAdapter.FeatureItem && newItem is DrawerMenuAdapter.FeatureItem -> oldItem == newItem
             else -> true
         }
     }
 }
 
-private fun fromFeatures(features: Features, context: Context): List<Feature> {
-    val list = mutableListOf<Feature>()
-    features.irc.let {
-        if (it.isNotEmpty()) list.add(
-            Feature(
-                null,
-                LocalizedString.fromUntranslated(context.resources.getString(R.string.irclog)),
-                it,
-                iconDrawable = R.drawable.ic_question_answer_black_48dp,
-                isEmbedded = true
-            )
-        )
-    }
-    features.sponsors.let {
-        if (it.isNotEmpty()) list.add(
-            Feature(
-                null,
-                LocalizedString.fromUntranslated(context.resources.getString(R.string.sponsors)),
-                it,
-                iconDrawable = R.drawable.ic_redeem_black_48dp,
-                isEmbedded = true
-            )
-        )
-    }
-    features.staffs.let {
-        if (it.isNotEmpty()) list.add(
-            Feature(
-                null,
-                LocalizedString.fromUntranslated(context.resources.getString(R.string.staffs)),
-                it,
-                iconDrawable = R.drawable.ic_group_black_48dp,
-                isEmbedded = true
-            )
-        )
-    }
-    features.telegram.let {
-        if (it.isNotEmpty()) list.add(
-            Feature(
-                null,
-                LocalizedString.fromUntranslated(context.resources.getString(R.string.telegram)),
-                it,
-                iconDrawable = R.drawable.telegram_logo,
-                isEmbedded = false
-            )
-        )
-    }
-    features.venue.let {
-        if (it.isNotEmpty()) list.add(
-            Feature(
-                null,
-                LocalizedString.fromUntranslated(context.resources.getString(R.string.venue)),
-                it,
-                iconDrawable = R.drawable.ic_map_black_48dp,
-                isEmbedded = true,
-                shouldUseBuiltinZoomControls = true
-            )
-        )
-    }
-    return list
-}
-
 object PlaceholderItem
 object DividerItem
-
-enum class Action {
-    FAST_PASS,
-    SCHEDULE,
-    ANNOUNCEMENT,
-    TICKET,
-    PUZZLE
-}
 
 enum class IdentityAction {
     SWITCH_EVENT

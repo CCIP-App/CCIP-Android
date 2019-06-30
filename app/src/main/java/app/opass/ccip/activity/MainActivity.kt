@@ -23,19 +23,18 @@ import androidx.fragment.app.transaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
-import app.opass.ccip.adapter.Action
 import app.opass.ccip.adapter.DrawerMenuAdapter
 import app.opass.ccip.adapter.IdentityAction
 import app.opass.ccip.fragment.*
 import app.opass.ccip.model.EventConfig
-import app.opass.ccip.model.Feature
+import app.opass.ccip.model.FeatureType
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.navigation.NavigationView
 import com.google.zxing.integration.android.IntentIntegrator
 import com.squareup.picasso.Picasso
 
 private const val STATE_ACTION_BAR_TITLE = "ACTION_BAR_TITLE"
-private const val STATE_SELECTED_ACTION = "SELECTED_ACTION"
+private const val STATE_SELECTED_FEATURE = "SELECTED_FEATURE"
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userTitleTextView: TextView
     private lateinit var userIdTextView: TextView
 
-    private var selectedAction: Action? = Action.FAST_PASS
+    private var selectedFeature: FeatureType = FeatureType.FAST_PASS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,14 +78,17 @@ class MainActivity : AppCompatActivity() {
         drawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close)
 
         when {
-            intent.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false) -> onDrawerItemClick(Action.ANNOUNCEMENT)
+            intent.getBooleanExtra(
+                ARG_IS_FROM_NOTIFICATION,
+                false
+            ) -> getFeatureItemByFeatureType(FeatureType.ANNOUNCEMENT)?.let(::onDrawerItemClick)
             savedInstanceState != null -> {
                 savedInstanceState.getString(STATE_ACTION_BAR_TITLE)?.let(::setTitle)
-                savedInstanceState.getInt(STATE_SELECTED_ACTION).let {
-                    selectedAction = if (it == -1) null else Action.values()[it]
+                savedInstanceState.getString(STATE_SELECTED_FEATURE)?.let {
+                    selectedFeature = FeatureType.fromString(it)!!
                 }
             }
-            else -> onDrawerItemClick(Action.FAST_PASS)
+            else -> getFeatureItemByFeatureType(FeatureType.FAST_PASS)?.let(::onDrawerItemClick)
         }
 
         if (PreferenceUtil.getCurrentEvent(applicationContext).displayName != null) {
@@ -133,14 +135,14 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(STATE_ACTION_BAR_TITLE, title as String)
-        outState.putInt(STATE_SELECTED_ACTION, if (selectedAction != null) selectedAction!!.ordinal else -1)
+        outState.putString(STATE_SELECTED_FEATURE, selectedFeature.type)
     }
 
     override fun onBackPressed() {
         when {
             mDrawerLayout.isDrawerOpen(GravityCompat.START) -> mDrawerLayout.closeDrawers()
-            selectedAction == Action.FAST_PASS -> super.onBackPressed()
-            else -> onDrawerItemClick(Action.FAST_PASS)
+            selectedFeature == FeatureType.FAST_PASS -> super.onBackPressed()
+            else -> getFeatureItemByFeatureType(FeatureType.FAST_PASS)?.let(::onDrawerItemClick)
         }
     }
 
@@ -157,7 +159,7 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent?.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false) == true) {
-            onDrawerItemClick(Action.ANNOUNCEMENT)
+            getFeatureItemByFeatureType(FeatureType.ANNOUNCEMENT)?.let(::onDrawerItemClick)
         }
     }
 
@@ -170,8 +172,14 @@ class MainActivity : AppCompatActivity() {
         userIdTextView.text = userId
     }
 
+    private fun getFeatureItemByFeatureType(type: FeatureType): DrawerMenuAdapter.FeatureItem? {
+        if (type == FeatureType.WEBVIEW) throw IllegalArgumentException("shouldn't use webview at this time")
+        val feature = PreferenceUtil.getCurrentEvent(this).features.firstOrNull { it.feature == type } ?: return null
+        return DrawerMenuAdapter.FeatureItem.fromFeature(feature)
+    }
+
     private fun setupDrawerContent(event: EventConfig) {
-        drawerMenuAdapter = DrawerMenuAdapter(this, event.features, event.customFeatures, ::onDrawerItemClick)
+        drawerMenuAdapter = DrawerMenuAdapter(this, event.features, ::onDrawerItemClick)
         drawerMenu.adapter = drawerMenuAdapter
         drawerMenu.layoutManager = LinearLayoutManager(this)
         navigationView.getHeaderView(0).findViewById<RelativeLayout>(R.id.nav_header_info)
@@ -191,32 +199,23 @@ class MainActivity : AppCompatActivity() {
                 this.startActivity(Intent(this, EventActivity::class.java))
                 finish()
             }
-            is Action -> {
-                selectedAction = item
-                val fragment = when (item) {
-                    Action.FAST_PASS -> MainFragment()
-                    Action.SCHEDULE -> ScheduleTabFragment()
-                    Action.ANNOUNCEMENT -> AnnouncementFragment()
-                    Action.PUZZLE -> PuzzleFragment()
-                    Action.TICKET -> MyTicketFragment()
-                }
-                supportFragmentManager.transaction { replace(R.id.content_frame, fragment) }
-            }
-            is Feature -> {
-                selectedAction = null
-                if (!item.isEmbedded) return this.startActivity(Intent(Intent.ACTION_VIEW, item.url.toUri()))
+            is DrawerMenuAdapter.FeatureItem -> {
+                if (!item.isEmbedded) return this.startActivity(Intent(Intent.ACTION_VIEW, item.url!!.toUri()))
 
-                val fragment = WebViewFragment.newInstance(item.url, item.shouldUseBuiltinZoomControls)
+                selectedFeature = item.type
+                val fragment = when (item.type) {
+                    FeatureType.FAST_PASS -> MainFragment()
+                    FeatureType.SCHEDULE -> ScheduleTabFragment()
+                    FeatureType.ANNOUNCEMENT -> AnnouncementFragment()
+                    FeatureType.TICKET -> MyTicketFragment()
+                    FeatureType.PUZZLE -> if (item.url != null) PuzzleFragment.newInstance(item.url) else return
+                    else -> WebViewFragment.newInstance(item.url!!, item.shouldUseBuiltinZoomControls)
+                }
                 supportFragmentManager.transaction { replace(R.id.content_frame, fragment) }
             }
         }
         title = when (item) {
-            Action.FAST_PASS -> this.resources.getString(R.string.fast_pass)
-            Action.SCHEDULE -> this.resources.getString(R.string.schedule)
-            Action.ANNOUNCEMENT -> this.resources.getString(R.string.announcement)
-            Action.PUZZLE -> this.resources.getString(R.string.puzzle)
-            Action.TICKET -> this.resources.getString(R.string.my_ticket)
-            is Feature -> item.displayName.findBestMatch(this)
+            is DrawerMenuAdapter.FeatureItem -> item.displayText.findBestMatch(this)
             else -> "OPass"
         }
         mDrawerLayout.closeDrawers()

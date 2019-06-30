@@ -6,8 +6,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import app.opass.ccip.R
 import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.model.EventConfig
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.PortalClient
+import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -16,6 +18,14 @@ import kotlinx.coroutines.launch
 class LauncherActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Prevent old event schema from crashing the app
+        try {
+            PreferenceUtil.getCurrentEvent(this)
+        } catch (t: Exception) {
+            t.printStackTrace()
+            PreferenceUtil.setCurrentEvent(this, JsonUtil.fromJson("{\"event_id\": \"\"}", EventConfig::class.java))
+        }
 
         launch {
             this@LauncherActivity.run {

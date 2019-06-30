@@ -4,14 +4,12 @@ import com.google.gson.annotations.SerializedName
 
 
 data class EventConfig(
-    @SerializedName("custom_features")
-    val customFeatures: List<Feature>,
     @SerializedName("display_name")
     val displayName: LocalizedString,
     @SerializedName("event_id")
     val eventId: String,
     @SerializedName("features")
-    val features: Features,
+    val features: List<Feature>,
     @SerializedName("logo_url")
     val logoUrl: String,
     @SerializedName("publish")
