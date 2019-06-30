@@ -20,23 +20,6 @@ data class EventConfig(
     val serverBaseUrl: String
 )
 
-data class Features(
-    @SerializedName("irc")
-    val irc: String,
-    @SerializedName("partners")
-    val partners: String,
-    @SerializedName("puzzle")
-    val puzzle: String,
-    @SerializedName("sponsors")
-    val sponsors: String,
-    @SerializedName("staffs")
-    val staffs: String,
-    @SerializedName("telegram")
-    val telegram: String,
-    @SerializedName("venue")
-    val venue: String
-)
-
 data class Publish(
     @SerializedName("end")
     val end: String,
