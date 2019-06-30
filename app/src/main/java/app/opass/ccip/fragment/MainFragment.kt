@@ -198,9 +198,7 @@ class MainFragment : Fragment(), CoroutineScope {
 
                             val tags = JSONObject()
                             try {
-                                tags.put("event_id", attendee.eventId)
-                                tags.put("token", attendee.token)
-                                tags.put("type", attendee.type)
+                                tags.put(attendee.eventId + attendee.type, attendee.token)
                                 OneSignal.sendTags(tags)
                             } catch (e: JSONException) {
                                 e.printStackTrace()
