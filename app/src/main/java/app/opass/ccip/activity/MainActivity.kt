@@ -216,7 +216,7 @@ class MainActivity : AppCompatActivity() {
         }
         title = when (item) {
             is DrawerMenuAdapter.FeatureItem -> item.displayText.findBestMatch(this)
-            else -> "OPass"
+            else -> this.resources.getString(R.string.app_name)
         }
         mDrawerLayout.closeDrawers()
     }
