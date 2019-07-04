@@ -1,5 +1,6 @@
 package app.opass.ccip.util
 
+import app.opass.ccip.model.ConfSchedule
 import app.opass.ccip.model.LocalizedString
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
@@ -10,6 +11,7 @@ object JsonUtil {
     val GSON: Gson = GsonBuilder()
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         .registerTypeAdapter(LocalizedString::class.java, LocalizedStringDeserializer())
+        .registerTypeAdapter(ConfSchedule::class.java, ConfScheduleDeserializer())
         .create()
 
     fun <T> fromJson(json: String, clazz: Class<T>): T {
