@@ -13,8 +13,9 @@ import androidx.viewpager.widget.ViewPager
 import app.opass.ccip.R
 import app.opass.ccip.adapter.ScheduleTabAdapter
 import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.model.ConfSchedule
 import app.opass.ccip.model.Session
-import app.opass.ccip.network.ConfClient
+import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.internal.bind.util.ISO8601Utils
@@ -22,6 +23,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
@@ -39,7 +42,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
     private lateinit var menuItemStar: MenuItem
     private lateinit var mActivity: Activity
     private var starFilter = false
-    private var mSessions: List<Session>? = null
+    private var mSchedule: ConfSchedule? = null
     private var scheduleTabAdapter: ScheduleTabAdapter? = null
     private lateinit var mJob: Job
     override val coroutineContext: CoroutineContext
@@ -67,21 +70,25 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
 
         launch {
             try {
-                ConfClient.get().session(PreferenceUtil.getCurrentEvent(mActivity).scheduleUrl).asyncExecute().run {
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .url(PreferenceUtil.getCurrentEvent(mActivity).scheduleUrl)
+                    .build()
+                client.newCall(request).asyncExecute().run {
                     if (isSuccessful) {
                         swipeRefreshLayout.isRefreshing = false
 
-                        mSessions = body()
-                        PreferenceUtil.savePrograms(mActivity, mSessions!!)
+                        val scheduleJson = body()!!.string()
+                        mSchedule = JsonUtil.GSON.fromJson(scheduleJson, ConfSchedule::class.java)
+                        PreferenceUtil.saveSchedule(mActivity, scheduleJson)
                     } else {
                         loadOfflineSchedule()
                     }
-                    setupViewPager()
                 }
             } catch (t: Throwable) {
                 loadOfflineSchedule()
-                setupViewPager()
             }
+            setupViewPager()
         }
 
         return view
@@ -97,7 +104,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
         if (isAdded) {
             viewPager.isSaveFromParentEnabled = false
             scheduleTabAdapter = ScheduleTabAdapter(childFragmentManager)
-            addSessionFragments(mSessions!!)
+            addSessionFragments(mSchedule!!.sessions)
             viewPager.adapter = scheduleTabAdapter
             tabLayout.setupWithViewPager(viewPager)
             menuItemStar.isVisible = true
@@ -162,12 +169,12 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
         )
     }
 
-    fun loadOfflineSchedule() {
+    private fun loadOfflineSchedule() {
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = false }
         Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show()
-        val sessions = PreferenceUtil.loadPrograms(mActivity)
-        if (sessions != null) {
-            mSessions = sessions
+        val schedule = PreferenceUtil.loadSchedule(mActivity)
+        if (schedule != null) {
+            mSchedule = schedule
         }
     }
 }

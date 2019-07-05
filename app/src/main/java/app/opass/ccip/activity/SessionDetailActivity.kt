@@ -5,7 +5,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.net.Uri
@@ -94,7 +93,7 @@ class SessionDetailActivity : AppCompatActivity() {
         val speakerInfoBlock: View = findViewById(R.id.speaker_info_block)
         speakerInfo = findViewById(R.id.speakerinfo)
 
-        room.text = session.room
+        room.text = session.room.getDetails(mActivity).name
         title.text = session.getSessionDetail(mActivity).title
         title.setOnClickListener { view -> copyToClipboard(view as TextView) }
 
@@ -113,11 +112,7 @@ class SessionDetailActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-        try {
-            type.setText(session.type)
-        } catch (e: Resources.NotFoundException) {
-            type.text = ""
-        }
+        type.text = session.type?.getDetails(mActivity)?.name ?: ""
 
         setClickableUri(session.slide, slideLayout, slide)
         setClickableUri(session.qa, qaLayout, qa)
@@ -186,7 +181,7 @@ class SessionDetailActivity : AppCompatActivity() {
     private fun setClickableUri(uri: String?, layout: View, textView: TextView) {
         if (uri != null) {
             layout.visibility = View.VISIBLE
-            textView.setText(uri)
+            textView.text = uri
             textView.paintFlags = textView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             textView.setOnClickListener {
                 mActivity.startActivity(

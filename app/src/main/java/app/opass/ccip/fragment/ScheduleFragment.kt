@@ -82,7 +82,7 @@ class ScheduleFragment : Fragment() {
             if (map.containsKey(session.start)) {
                 val tmp = map[session.start]
                 tmp!!.add(session)
-                tmp.sortWith(Comparator { (_, room1), (_, room2) -> room1.compareTo(room2) })
+                tmp.sortWith(Comparator { (_, room1), (_, room2) -> room1.id.compareTo(room2.id) })
                 map[session.start] = tmp
             } else {
                 val list = ArrayList<Session>()
