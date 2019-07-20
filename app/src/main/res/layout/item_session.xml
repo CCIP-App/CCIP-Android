@@ -21,14 +21,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="3dp">
 
                 <TextView
                     android:id="@+id/room"
                     style="@style/Session.Room"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_gravity="center_vertical"
+                    android:autoSizeTextType="uniform"
+                    android:maxLines="1"
+                    android:padding="2dp"
                     android:text="New Text" />
 
                 <LinearLayout
@@ -36,10 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:orientation="vertical"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingBottom="5dp">
+                    android:paddingLeft="10dp"
+                    android:paddingRight="5dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
