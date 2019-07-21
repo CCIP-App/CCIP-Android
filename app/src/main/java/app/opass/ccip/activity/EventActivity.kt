@@ -76,7 +76,7 @@ class EventActivity : AppCompatActivity(), CoroutineScope {
                     noNetworkView.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
 
-                    if (response.body()?.size == 1) {
+                    if (response.body()?.size == 1 && PreferenceUtil.getCurrentEvent(mActivity).eventId == "") {
                         val event = (response.body() as List<Event>)[0]
                         val eventConfig = PortalClient.get().getEventConfig(event.eventId).asyncExecute()
                         if (eventConfig.isSuccessful) {

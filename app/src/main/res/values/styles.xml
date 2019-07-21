@@ -38,7 +38,6 @@
 
     <style name="Session.Room" parent="Session">
         <item name="android:textColor">#FFF</item>
-        <item name="android:textSize">20sp</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/room_background</item>
     </style>

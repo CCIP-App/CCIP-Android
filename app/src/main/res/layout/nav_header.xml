@@ -19,7 +19,6 @@
     android:layout_height="192dp"
     android:background="?attr/colorPrimaryDark"
     android:orientation="vertical"
-    android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
@@ -28,24 +27,38 @@
         android:layout_height="match_parent"
         android:padding="20dp" />
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/nav_header_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="vertical">
+        android:background="?attr/selectableItemBackground"
+        android:focusable="true"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/user_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:visibility="gone" />
 
         <TextView
             android:id="@+id/user_id"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/user_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/identities_shown_indicator"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@id/user_title"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_arrow_drop_down_black_24dp"
+            android:tint="@color/colorWhite" />
+
+    </RelativeLayout>
 
 </FrameLayout>

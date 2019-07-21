@@ -2,7 +2,6 @@ package app.opass.ccip.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +36,7 @@ class SessionAdapter(private val mContext: Context, private val mSessionList: Li
         val holder = viewHolder as ViewHolder
         val session = mSessionList[position]
 
-        holder.room.text = session.room
+        holder.room.text = session.room.getDetails(mContext).name
 
         holder.title.text = session.getSessionDetail(mContext).title
 
@@ -53,12 +52,7 @@ class SessionAdapter(private val mContext: Context, private val mSessionList: Li
             e.printStackTrace()
         }
 
-        try {
-            holder.type.setText(session.type)
-        } catch (e: Resources.NotFoundException) {
-            holder.type.text = ""
-            e.printStackTrace()
-        }
+        holder.type.text = session.type?.getDetails(mContext)?.name ?: ""
 
         if (!session.getSessionDetail(mContext).description.isEmpty()) {
             toggleStar(holder.star, isSessionStar(mContext, session))

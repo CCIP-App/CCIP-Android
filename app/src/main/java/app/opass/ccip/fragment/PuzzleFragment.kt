@@ -19,6 +19,10 @@ import java.security.NoSuchAlgorithmException
 class PuzzleFragment : Fragment() {
     companion object {
         private const val URL_NO_NETWORK = "file:///android_asset/no_network.html"
+        private const val EXTRA_URL = "EXTRA_URL"
+        fun newInstance(url: String): PuzzleFragment = PuzzleFragment().apply {
+            arguments = Bundle().apply { putString(EXTRA_URL, url) }
+        }
     }
 
     private lateinit var mActivity: MainActivity
@@ -39,7 +43,7 @@ class PuzzleFragment : Fragment() {
 
         if (PreferenceUtil.getToken(activity!!) != null) {
             webView.loadUrl(
-                PreferenceUtil.getCurrentEvent(mActivity).features.puzzle +
+                arguments!!.getString(EXTRA_URL)!! +
                     toPublicToken(PreferenceUtil.getToken(activity!!))
             )
         } else {

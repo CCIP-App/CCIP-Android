@@ -2,10 +2,10 @@ package app.opass.ccip.util
 
 import android.content.Context
 import androidx.core.content.edit
+import app.opass.ccip.model.ConfSchedule
 import app.opass.ccip.model.EventConfig
 import app.opass.ccip.model.Session
 import com.google.gson.reflect.TypeToken
-import java.util.*
 
 object PreferenceUtil {
     private const val PREF_BEACON = "beacon"
@@ -20,7 +20,7 @@ object PreferenceUtil {
     private const val PREF_AUTH_TOKEN = "token"
 
     private const val PREF_SCHEDULE = "schedule"
-    private const val PREF_SCHEDULE_PROGRAMS = "programs"
+    private const val PREF_SCHEDULE_SCHEDULE = "schedule"
     private const val PREF_SCHEDULE_STARS = "stars"
 
     fun setBeaconPermissionRequested(context: Context) {
@@ -75,25 +75,17 @@ object PreferenceUtil {
         return sharedPreferences.getString(getCurrentEvent(context).eventId + PREF_AUTH_TOKEN, null)
     }
 
-    fun savePrograms(context: Context, sessions: List<Session>) {
+    fun saveSchedule(context: Context, scheduleJson: String) {
         context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE)
-            .edit(true) {
-                putString(
-                    getCurrentEvent(context).eventId + PREF_SCHEDULE_PROGRAMS,
-                    JsonUtil.toJson(sessions)
-                )
-            }
+            .edit(true) { putString(getCurrentEvent(context).eventId + PREF_SCHEDULE_SCHEDULE, scheduleJson) }
     }
 
-    fun loadPrograms(context: Context): List<Session>? {
+    fun loadSchedule(context: Context): ConfSchedule? {
         val sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE)
-        val programsJson =
-            sharedPreferences.getString(getCurrentEvent(context).eventId + PREF_SCHEDULE_PROGRAMS, "[]")!!
+        val scheduleJson =
+            sharedPreferences.getString(getCurrentEvent(context).eventId + PREF_SCHEDULE_SCHEDULE, "{}")!!
 
-        return JsonUtil.fromJson<List<Session>>(
-            programsJson,
-            object : TypeToken<ArrayList<Session>>() {}.type
-        )
+        return JsonUtil.fromJson(scheduleJson, ConfSchedule::class.java)
     }
 
     fun saveStars(context: Context, sessions: List<Session>) {

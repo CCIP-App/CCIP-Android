@@ -1,38 +1,25 @@
 package app.opass.ccip.model
 
 import android.content.Context
-import android.content.res.Resources
-import app.opass.ccip.R
 import app.opass.ccip.util.LocaleUtil
 import java.util.*
 
 data class Session(
     val id: String,
-    val room: String,
+    val room: Room,
     val start: String?,
     val end: String,
-    val type: String,
+    val type: SessionType?,
     val zh: Zh,
     val en: En,
-    val speakers: ArrayList<Speaker>,
+    val speakers: List<Speaker>,
     val qa: String?,
-    val slide: String?
+    val slide: String?,
+    val broadcast: String?,
+    val live: String?,
+    val record: String?,
+    val tags: List<SessionTag>
 ) {
-    companion object {
-        fun getTypeString(type: String): Int {
-            return when (type) {
-                "K" -> R.string.keynote
-                "L" -> R.string.lightning_talk
-                "P" -> R.string.panel_discussion
-                "S" -> R.string.short_talk
-                "T" -> R.string.talk
-                "U" -> R.string.unconf
-                "E" -> R.string.event
-                else -> throw Resources.NotFoundException("Unexpected type symbol")
-            }
-        }
-    }
-
     fun getSessionDetail(context: Context): SessionDetail {
         return if (LocaleUtil.getCurrentLocale(context).language == Locale("zh").language) {
             zh

@@ -34,7 +34,7 @@ class EventAdapter(private val mContext: Context, private val eventList: List<Ev
         val holder = viewHolder as ViewHolder
         val event: Event = eventList!![position]
 
-        holder.title.text = event.displayName.getDisplayName(mContext)
+        holder.title.text = event.displayName.findBestMatch(mContext)
         Picasso.get().load(event.logoUrl).into(viewHolder.logo)
         holder.itemView.setOnClickListener {
             launch {
