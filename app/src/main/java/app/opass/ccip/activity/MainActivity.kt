@@ -101,9 +101,11 @@ class MainActivity : AppCompatActivity() {
                 AlertDialog.Builder(this)
                     .setTitle(R.string.beacon_request_permission_title)
                     .setMessage(R.string.beacon_request_permission_message)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .setOnDismissListener {
+                    .setPositiveButton(android.R.string.ok) { _, _ ->
                         requestPermissions(arrayOf(ACCESS_COARSE_LOCATION), 1)
+                    }
+                    .setNegativeButton(getString(R.string.no_thanks), null)
+                    .setOnDismissListener {
                         PreferenceUtil.setBeaconPermissionRequested(mActivity)
                     }
                     .show()

@@ -84,4 +84,5 @@
     <string name="beacon_notify_need_login">Welcome to event\nPlease remember to login OPass</string>
     <string name="beacon_notify_need_checkin">Welcome to event\nPlease remember to check-in</string>
     <string name="switch_event">Switch Event</string>
+    <string name="no_thanks">No thanks</string>
 </resources>
