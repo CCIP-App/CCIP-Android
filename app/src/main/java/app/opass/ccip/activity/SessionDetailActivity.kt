@@ -58,26 +58,27 @@ class SessionDetailActivity : AppCompatActivity() {
 
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        toolbar.title = session.speakers[0].getSpeakerDetail(mActivity).name
+        toolbar.title = if (session.speakers.isEmpty()) "" else session.speakers[0].getSpeakerDetail(mActivity).name
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        val adapter = SpeakerImageAdapter(supportFragmentManager, session.speakers)
-        speakerViewPager.adapter = adapter
-        speakerViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
+        if (session.speakers.isNotEmpty()) {
+            val adapter = SpeakerImageAdapter(supportFragmentManager, session.speakers)
+            speakerViewPager.adapter = adapter
+            speakerViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
 
-            override fun onPageSelected(position: Int) {
-                speakerInfo.text = session.speakers[position].getSpeakerDetail(mActivity).bio
-                collapsingToolbarLayout.title = session.speakers[position].getSpeakerDetail(mActivity).name
-            }
+                override fun onPageSelected(position: Int) {
+                    speakerInfo.text = session.speakers[position].getSpeakerDetail(mActivity).bio
+                    collapsingToolbarLayout.title = session.speakers[position].getSpeakerDetail(mActivity).name
+                }
 
-            override fun onPageScrollStateChanged(state: Int) = Unit
-        })
+                override fun onPageScrollStateChanged(state: Int) = Unit
+            })
 
-        spring_dots_indicator.setViewPager(speakerViewPager)
-
-        if (adapter.count == 1) spring_dots_indicator.visibility = View.INVISIBLE
+            spring_dots_indicator.setViewPager(speakerViewPager)
+        }
+        if (session.speakers.size <= 1) spring_dots_indicator.visibility = View.INVISIBLE
 
         val room: TextView = findViewById(R.id.room)
         val title: TextView = findViewById(R.id.title)
@@ -117,11 +118,12 @@ class SessionDetailActivity : AppCompatActivity() {
         setClickableUri(session.slide, slideLayout, slide)
         setClickableUri(session.qa, qaLayout, qa)
 
-        if (session.speakers[0].getSpeakerDetail(mActivity).name.isEmpty())
+        if (session.speakers.isEmpty() || session.speakers[0].getSpeakerDetail(mActivity).name.isEmpty()) {
             speakerInfoBlock.visibility = View.GONE
-
-        speakerInfo.text = session.speakers[0].getSpeakerDetail(mActivity).bio
-        speakerInfo.setOnClickListener { view -> copyToClipboard(view as TextView) }
+        } else {
+            speakerInfo.text = session.speakers[0].getSpeakerDetail(mActivity).bio
+            speakerInfo.setOnClickListener { view -> copyToClipboard(view as TextView) }
+        }
         programAbstract.text = session.getSessionDetail(mActivity).description
         programAbstract.setOnClickListener { view -> copyToClipboard(view as TextView) }
 
