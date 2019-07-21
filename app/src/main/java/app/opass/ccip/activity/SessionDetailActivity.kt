@@ -15,14 +15,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import app.opass.ccip.R
 import app.opass.ccip.adapter.SpeakerImageAdapter
 import app.opass.ccip.model.Session
+import app.opass.ccip.ui.ScrollingControlAppBarLayoutBehavior
 import app.opass.ccip.util.AlarmUtil
 import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -62,7 +65,14 @@ class SessionDetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        if (session.speakers.isNotEmpty()) {
+        if (session.speakers.isEmpty()) {
+            findViewById<AppBarLayout>(R.id.app_bar).run {
+                setExpanded(false)
+                val behavior =
+                    (layoutParams as CoordinatorLayout.LayoutParams).behavior as ScrollingControlAppBarLayoutBehavior
+                behavior.shouldScroll = false
+            }
+        } else {
             val adapter = SpeakerImageAdapter(supportFragmentManager, session.speakers)
             speakerViewPager.adapter = adapter
             speakerViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
