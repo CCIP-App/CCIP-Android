@@ -23,7 +23,7 @@
     <string name="hi">嗨\u0020</string>
     <string name="login_success">，歡迎您加入 %1$s！</string>
     <string name="open_via_link">你也可以透過連結開啟此應用程式。</string>
-    <string name="scan_kktix_qrcode">掃描 KKTIX 票券 QR code</string>
+    <string name="scan_ticket_qrcode">掃描票券 QR code</string>
     <string name="connect_to_conference_wifi">請使用會場提供的無線網路</string>
     <string name="tap_to_retry">點擊重試</string>
     <string name="announcement_empty">目前無任何公告哦！</string>

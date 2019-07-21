@@ -101,7 +101,7 @@ class MainFragment : Fragment(), CoroutineScope {
         loginTitle.setOnClickListener {
             val integrator = IntentIntegrator(mActivity)
             integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-            integrator.setPrompt(getString(R.string.scan_kktix_qrcode))
+            integrator.setPrompt(getString(R.string.scan_ticket_qrcode))
             integrator.setCameraId(0)
             integrator.setBeepEnabled(false)
             integrator.setBarcodeImageEnabled(false)
