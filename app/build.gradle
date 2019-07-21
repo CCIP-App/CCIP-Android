@@ -47,6 +47,8 @@ android {
 }
 
 dependencies {
+    final def markwon_version = '4.0.2'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
     implementation 'com.google.firebase:firebase-core:16.0.9'
@@ -78,6 +80,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2"
 
     implementation 'org.altbeacon:android-beacon-library:2.16.1'
+    implementation "io.noties.markwon:core:$markwon_version"
+    implementation "io.noties.markwon:linkify:$markwon_version"
 }
 
 apply plugin: 'com.google.gms.google-services'

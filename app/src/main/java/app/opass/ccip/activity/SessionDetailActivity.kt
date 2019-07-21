@@ -30,6 +30,8 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.internal.bind.util.ISO8601Utils
+import io.noties.markwon.Markwon
+import io.noties.markwon.linkify.LinkifyPlugin
 import kotlinx.android.synthetic.main.activity_session_detail.*
 import java.text.ParseException
 import java.text.ParsePosition
@@ -65,6 +67,10 @@ class SessionDetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
+        val markwon = Markwon.builder(this)
+            .usePlugin(LinkifyPlugin.create())
+            .build()
+
         if (session.speakers.isEmpty()) {
             findViewById<AppBarLayout>(R.id.app_bar).run {
                 setExpanded(false)
@@ -79,7 +85,7 @@ class SessionDetailActivity : AppCompatActivity() {
                 override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
 
                 override fun onPageSelected(position: Int) {
-                    speakerInfo.text = session.speakers[position].getSpeakerDetail(mActivity).bio
+                    markwon.setMarkdown(speakerInfo, session.speakers[position].getSpeakerDetail(mActivity).bio)
                     collapsingToolbarLayout.title = session.speakers[position].getSpeakerDetail(mActivity).name
                 }
 
@@ -131,10 +137,10 @@ class SessionDetailActivity : AppCompatActivity() {
         if (session.speakers.isEmpty() || session.speakers[0].getSpeakerDetail(mActivity).name.isEmpty()) {
             speakerInfoBlock.visibility = View.GONE
         } else {
-            speakerInfo.text = session.speakers[0].getSpeakerDetail(mActivity).bio
+            markwon.setMarkdown(speakerInfo, session.speakers[0].getSpeakerDetail(mActivity).bio)
             speakerInfo.setOnClickListener { view -> copyToClipboard(view as TextView) }
         }
-        programAbstract.text = session.getSessionDetail(mActivity).description
+        markwon.setMarkdown(programAbstract, session.getSessionDetail(mActivity).description)
         programAbstract.setOnClickListener { view -> copyToClipboard(view as TextView) }
 
         fab = findViewById(R.id.fab)
