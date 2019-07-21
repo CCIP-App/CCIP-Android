@@ -210,7 +210,11 @@ class MainActivity : AppCompatActivity() {
                     FeatureType.ANNOUNCEMENT -> AnnouncementFragment()
                     FeatureType.TICKET -> MyTicketFragment()
                     FeatureType.PUZZLE -> if (item.url != null) PuzzleFragment.newInstance(item.url) else return
-                    else -> WebViewFragment.newInstance(item.url!!, item.shouldUseBuiltinZoomControls)
+                    else -> WebViewFragment.newInstance(
+                        item.url!!
+                            .replace("{token}", PreferenceUtil.getToken(mActivity).toString())!!,
+                        item.shouldUseBuiltinZoomControls
+                    )
                 }
                 supportFragmentManager.transaction { replace(R.id.content_frame, fragment) }
             }
