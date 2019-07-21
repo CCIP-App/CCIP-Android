@@ -78,7 +78,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
                     if (isSuccessful) {
                         swipeRefreshLayout.isRefreshing = false
 
-                        val scheduleJson = body()!!.string()
+                        val scheduleJson = body!!.string()
                         mSchedule = JsonUtil.GSON.fromJson(scheduleJson, ConfSchedule::class.java)
                         PreferenceUtil.saveSchedule(mActivity, scheduleJson)
                     } else {
