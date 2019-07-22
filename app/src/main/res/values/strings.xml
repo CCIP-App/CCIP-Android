@@ -21,7 +21,7 @@
     <string name="star_on_github">Star on GitHub</string>
 
     <string name="hi">Hi\u0020</string>
-    <string name="login_success">, Welcome to %1$s!</string>
+    <string name="login_success">Welcome to %1$s!</string>
     <string name="open_via_link">You can also open this app via link.</string>
     <string name="scan_ticket_qrcode">Scan ticket QR code</string>
     <string name="connect_to_conference_wifi">Please connect to the wifi provided by event</string>
@@ -85,4 +85,19 @@
     <string name="beacon_notify_need_checkin">Welcome to event\nPlease remember to check-in</string>
     <string name="switch_event">Switch Event</string>
     <string name="no_thanks">No thanks</string>
+    <string name="sign_in">Sign in</string>
+    <string name="verify_your_identity">Verify your identity</string>
+    <string name="select_a_verification_method">Select a verification method</string>
+    <string name="enter_token_manually">Enter token manually</string>
+    <string name="scan_qr_code_from_gallery">Scan QR code from gallery</string>
+    <string name="scan_qr_code_from_camera">Scan QR code from camera</string>
+    <string name="please_wait">Please wait</string>
+    <string name="couldnt_verify_your_identity">Couldn\'t verify your identity</string>
+    <string name="checking_event_info">Checking event info</string>
+    <string name="couldnt_get_event_info">Couldn\'t get event info</string>
+    <string name="kontinue">Continue</string>
+    <string name="cancel">Cancel</string>
+    <string name="back">Back</string>
+    <string name="try_again">Try Again</string>
+    <string name="unexpected_error_try_again">An unexpected error occurred. Please try again later.</string>
 </resources>

@@ -21,7 +21,7 @@
     <string name="star_on_github">Star on GitHub</string>
 
     <string name="hi">嗨\u0020</string>
-    <string name="login_success">，歡迎您加入 %1$s！</string>
+    <string name="login_success">歡迎您加入 %1$s！</string>
     <string name="open_via_link">你也可以透過連結開啟此應用程式。</string>
     <string name="scan_ticket_qrcode">掃描票券 QR code</string>
     <string name="connect_to_conference_wifi">請使用會場提供的無線網路</string>
@@ -84,4 +84,19 @@
     <string name="beacon_notify_need_checkin">歡迎來到會場\n別忘記去報到！</string>
     <string name="switch_event">切換活動</string>
     <string name="no_thanks">不用了</string>
+    <string name="sign_in">登入</string>
+    <string name="verify_your_identity">驗證身份</string>
+    <string name="select_a_verification_method">選擇驗證方式</string>
+    <string name="enter_token_manually">手動輸入 Token</string>
+    <string name="scan_qr_code_from_gallery">從相簿中挑選圖片掃描 QR Code</string>
+    <string name="scan_qr_code_from_camera">用相機掃描 QR Code</string>
+    <string name="please_wait">請稍候</string>
+    <string name="couldnt_verify_your_identity">無法驗證身份</string>
+    <string name="checking_event_info">正在取得活動資訊</string>
+    <string name="couldnt_get_event_info">無法取得活動資訊</string>
+    <string name="kontinue">繼續</string>
+    <string name="cancel">取消</string>
+    <string name="back">返回</string>
+    <string name="try_again">重試</string>
+    <string name="unexpected_error_try_again">發生未預期的錯誤，請稍候再試。</string>
 </resources>

@@ -62,6 +62,7 @@
         </receiver>
 
         <activity android:name="app.opass.ccip.activity.CaptureActivity" />
+        <activity android:name=".activity.AuthActivity" />
     </application>
 
 </manifest>
