@@ -52,6 +52,8 @@ class TokenCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
     }
 
     override fun onSelected() {
+        mActivity.hideKeyboard()
+
         val token = arguments!!.getString(EXTRA_TOKEN)
         launch {
             try {

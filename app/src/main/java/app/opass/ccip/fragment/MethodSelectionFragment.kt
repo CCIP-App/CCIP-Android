@@ -13,6 +13,10 @@ class MethodSelectionFragment : AuthActivity.PageFragment() {
     override fun shouldShowNextButton() = false
     override fun getPreviousButtonText() = R.string.cancel
 
+    override fun onSelected() {
+        if (isAdded) mActivity.hideKeyboard()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

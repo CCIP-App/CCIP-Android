@@ -6,8 +6,10 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.getSystemService
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -209,6 +211,7 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
+    fun hideKeyboard() = getSystemService<InputMethodManager>()?.hideSoftInputFromWindow(content.windowToken, 0)
     companion object {
         private const val EXTRA_TOKEN = "EXTRA_TOKEN"
         private const val EXTRA_EVENT_ID = "EXTRA_EVENT_ID"
