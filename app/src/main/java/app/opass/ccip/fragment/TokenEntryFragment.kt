@@ -44,4 +44,9 @@ class TokenEntryFragment : AuthActivity.PageFragment() {
         token_input_layout.error = ""
         token_input.text?.clear()
     }
+
+    override fun onSelected() {
+        token_input.requestFocus()
+        mActivity.showKeyboard()
+    }
 }

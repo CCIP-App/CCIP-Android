@@ -212,6 +212,8 @@ class AuthActivity : AppCompatActivity() {
     }
 
     fun hideKeyboard() = getSystemService<InputMethodManager>()?.hideSoftInputFromWindow(content.windowToken, 0)
+    fun showKeyboard() = getSystemService<InputMethodManager>()?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+
     companion object {
         private const val EXTRA_TOKEN = "EXTRA_TOKEN"
         private const val EXTRA_EVENT_ID = "EXTRA_EVENT_ID"
