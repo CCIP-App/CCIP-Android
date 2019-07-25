@@ -21,7 +21,9 @@ class LauncherActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             PreferenceUtil.setCurrentEvent(this, JsonUtil.fromJson("{\"event_id\": \"\"}", EventConfig::class.java))
         }
         val currentEventId = PreferenceUtil.getCurrentEvent(this).eventId
-        if (intent.action == Intent.ACTION_VIEW) {
+        val isLaunchedFromHistory = intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY != 0
+
+        if (intent.action == Intent.ACTION_VIEW && !isLaunchedFromHistory) {
             val eventId = intent.data!!.getQueryParameter("event_id") ?: ""
             val token = intent.data!!.getQueryParameter("token") ?: ""
 
