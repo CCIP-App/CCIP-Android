@@ -62,7 +62,9 @@
         </receiver>
 
         <activity android:name="app.opass.ccip.activity.CaptureActivity" />
-        <activity android:name=".activity.AuthActivity" />
+        <activity
+            android:name=".activity.AuthActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
