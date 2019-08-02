@@ -100,4 +100,5 @@
     <string name="back">Back</string>
     <string name="try_again">Try Again</string>
     <string name="unexpected_error_try_again">An unexpected error occurred. Please try again later.</string>
+    <string name="verify_identity_to_use_this_function">Verify identity to use this function</string>
 </resources>

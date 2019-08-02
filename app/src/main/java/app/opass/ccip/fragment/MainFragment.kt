@@ -1,12 +1,10 @@
 package app.opass.ccip.fragment
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -15,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.opass.ccip.R
-import app.opass.ccip.activity.CaptureActivity
+import app.opass.ccip.activity.AuthActivity
 import app.opass.ccip.activity.CountdownActivity
 import app.opass.ccip.activity.MainActivity
 import app.opass.ccip.adapter.ScenarioAdapter
@@ -26,23 +24,16 @@ import app.opass.ccip.network.ErrorUtil
 import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
-import com.google.zxing.integration.android.IntentIntegrator
-import com.onesignal.OneSignal
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.json.JSONException
-import org.json.JSONObject
 import kotlin.coroutines.CoroutineContext
 
 class MainFragment : Fragment(), CoroutineScope {
     private lateinit var noNetworkView: View
     private lateinit var notConfWifiView: View
     private lateinit var loginView: View
-    private lateinit var loginTitle: TextView
     private lateinit var scenarioView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mActivity: MainActivity
@@ -58,60 +49,16 @@ class MainFragment : Fragment(), CoroutineScope {
         mActivity = requireActivity() as MainActivity
         noNetworkView = view.findViewById(R.id.no_network)
         notConfWifiView = view.findViewById(R.id.not_conf_wifi)
-        loginView = view.findViewById(R.id.login)
-        loginTitle = view.findViewById(R.id.login_title)
+        loginView = view.findViewById(R.id.login_view)
         mJob = Job()
-
-        val enterTokenButton: View = view.findViewById(R.id.enter_token)
-
-        enterTokenButton.setOnClickListener(View.OnClickListener {
-            val dialogView = layoutInflater.inflate(R.layout.dialog_enter_token, null)
-            val tokenInputLayout: TextInputLayout = dialogView.findViewById(R.id.token_input_layout)
-            val tokenInput: TextInputEditText = dialogView.findViewById(R.id.token_input)
-
-            val dialog = AlertDialog.Builder(mActivity)
-                .setView(dialogView)
-                .setTitle(R.string.enter_your_token)
-                .setPositiveButton(R.string.positive_button, null)
-                .setNegativeButton(R.string.negative_button, null)
-                .create()
-
-            dialog.setOnShowListener {
-                val positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-                val negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-
-                positiveButton.setOnClickListener(View.OnClickListener {
-                    val token = tokenInput.text.toString().trim()
-
-                    if (token == "") {
-                        tokenInputLayout.error = getString(R.string.token_required)
-                        return@OnClickListener
-                    }
-                    PreferenceUtil.setIsNewToken(mActivity, true)
-                    PreferenceUtil.setToken(mActivity, token)
-                    dialog.dismiss()
-                    updateStatus()
-                })
-                negativeButton.setOnClickListener { dialog.dismiss() }
-            }
-
-            dialog.show()
-        })
-
-        loginTitle.setOnClickListener {
-            val integrator = IntentIntegrator(mActivity)
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-            integrator.setPrompt(getString(R.string.scan_ticket_qrcode))
-            integrator.setCameraId(0)
-            integrator.setBeepEnabled(false)
-            integrator.setBarcodeImageEnabled(false)
-            integrator.captureActivity = CaptureActivity::class.java
-            integrator.initiateScan()
-        }
 
         noNetworkView.setOnClickListener {
             noNetworkView.visibility = View.GONE
             updateStatus()
+        }
+
+        view.findViewById<View>(R.id.login_button).setOnClickListener {
+            mActivity.startActivity(Intent(mActivity, AuthActivity::class.java))
         }
 
         scenarioView = view.findViewById(R.id.scenarios)
@@ -122,6 +69,7 @@ class MainFragment : Fragment(), CoroutineScope {
 
         if (PreferenceUtil.getToken(mActivity) == null) {
             loginView.visibility = View.VISIBLE
+            swipeRefreshLayout.visibility = View.GONE
         }
 
         swipeRefreshLayout.setOnRefreshListener { updateStatus() }
@@ -143,9 +91,11 @@ class MainFragment : Fragment(), CoroutineScope {
         val token = PreferenceUtil.getToken(mActivity)
         if (token == null) {
             loginView.visibility = View.VISIBLE
+            swipeRefreshLayout.visibility = View.GONE
             return
         }
 
+        swipeRefreshLayout.visibility = View.VISIBLE
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
         loginView.visibility = View.GONE
         noNetworkView.visibility = View.GONE
@@ -159,30 +109,6 @@ class MainFragment : Fragment(), CoroutineScope {
                     response.isSuccessful -> {
                         val attendee = response.body()
                         val attr = attendee!!.attr.asJsonObject
-
-                        if (PreferenceUtil.getIsNewToken(mActivity)) {
-                            PreferenceUtil.setIsNewToken(mActivity, false)
-
-                            val tags = JSONObject()
-                            try {
-                                tags.put(attendee.eventId + attendee.type, attendee.token)
-                                OneSignal.sendTags(tags)
-                            } catch (e: JSONException) {
-                                e.printStackTrace()
-                            }
-
-                            AlertDialog.Builder(mActivity)
-                                .setMessage(
-                                    mActivity.getString(R.string.hi)
-                                        + attendee.userId
-                                        + mActivity.getString(
-                                        R.string.login_success,
-                                        PreferenceUtil.getCurrentEvent(mActivity).displayName.findBestMatch(mActivity)
-                                    )
-                                )
-                                .setPositiveButton(android.R.string.ok, null)
-                                .show()
-                        }
 
                         attr.get("title")?.let {
                             mActivity.setUserTitle(it.asString)

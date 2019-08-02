@@ -99,4 +99,5 @@
     <string name="back">返回</string>
     <string name="try_again">重試</string>
     <string name="unexpected_error_try_again">發生未預期的錯誤，請稍候再試。</string>
+    <string name="verify_identity_to_use_this_function">請先驗證票券再使用此功能</string>
 </resources>
