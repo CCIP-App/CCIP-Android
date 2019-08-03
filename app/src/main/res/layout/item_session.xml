@@ -1,103 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_gravity="center"
+    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardUseCompatPadding="true">
 
-    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:id="@+id/session_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:foreground="?android:attr/selectableItemBackground"
-        card_view:cardUseCompatPadding="true">
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:padding="3dp">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/room"
+            style="@style/Session.Room"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:autoSizeTextType="uniform"
+            android:maxLines="1"
+            android:padding="2dp"
+            android:text="New Text" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp">
 
-            <LinearLayout
-                android:id="@+id/session_layout"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal"
-                android:padding="3dp">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/room"
-                    style="@style/Session.Room"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center_vertical"
-                    android:autoSizeTextType="uniform"
-                    android:maxLines="1"
-                    android:padding="2dp"
-                    android:text="New Text" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/title"
+                    style="@style/Session"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="5dp">
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/star"
+                    android:text="Title" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/star"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_bookmark_border_black_24dp" />
 
-                        <TextView
-                            android:id="@+id/title"
-                            style="@style/Session"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_toLeftOf="@+id/star"
-                            android:text="Title" />
+            </RelativeLayout>
 
-                        <ImageView
-                            android:id="@+id/star"
-                            android:layout_width="@dimen/icon_size"
-                            android:layout_height="@dimen/icon_size"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentRight="true"
-                            android:src="@drawable/ic_bookmark_border_black_24dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                    </RelativeLayout>
+                <TextView
+                    android:id="@+id/end_time"
+                    style="@style/Session"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="End Time" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/type"
+                    style="@style/Session.Type"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="Type" />
 
-                        <TextView
-                            android:id="@+id/end_time"
-                            style="@style/Session"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="End Time" />
-
-                        <TextView
-                            android:id="@+id/type"
-                            style="@style/Session.Type"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:text="Type" />
-
-                        <TextView
-                            android:id="@+id/lang"
-                            style="@style/Session"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:text="" />
-                    </LinearLayout>
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/lang"
+                    style="@style/Session"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="" />
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

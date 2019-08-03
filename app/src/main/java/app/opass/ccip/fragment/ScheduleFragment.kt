@@ -1,6 +1,7 @@
 package app.opass.ccip.fragment
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
+import app.opass.ccip.activity.SessionDetailActivity
 import app.opass.ccip.adapter.ScheduleAdapter
 import app.opass.ccip.model.Session
+import app.opass.ccip.util.AlarmUtil
+import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
 import com.google.gson.internal.bind.util.ISO8601Utils
 import java.text.ParseException
@@ -48,7 +52,13 @@ class ScheduleFragment : Fragment() {
         scheduleView?.itemAnimator = DefaultItemAnimator()
 
         if (mSessions != null) {
-            scheduleView?.adapter = ScheduleAdapter(mActivity, toSessionsGroupedByTime(mSessions))
+            scheduleView?.adapter = ScheduleAdapter(
+                mActivity,
+                toSessionsGroupedByTime(mSessions),
+                ::onSessionClicked,
+                ::onToggleStarState,
+                ::isSessionStarred
+            )
         }
 
         return view
@@ -67,6 +77,31 @@ class ScheduleFragment : Fragment() {
         return PreferenceUtil.loadStars(mActivity).filter {
             getDateOrNull(it.start) == date
         }
+    }
+
+    private fun onSessionClicked(session: Session) {
+        val intent = Intent(mActivity, SessionDetailActivity::class.java).apply {
+            putExtra(SessionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(session))
+        }
+        startActivity(intent)
+    }
+
+    private fun onToggleStarState(session: Session): Boolean {
+        val sessions = PreferenceUtil.loadStars(mActivity)
+        val isAlreadyStarred = sessions.contains(session)
+        if (isAlreadyStarred) {
+            sessions.remove(session)
+            AlarmUtil.cancelSessionAlarm(mActivity, session)
+        } else {
+            sessions.add(session)
+            AlarmUtil.setSessionAlarm(mActivity, session)
+        }
+        PreferenceUtil.saveStars(mActivity, sessions)
+        return !isAlreadyStarred
+    }
+
+    private fun isSessionStarred(session: Session): Boolean {
+        return PreferenceUtil.loadStars(mActivity).contains(session)
     }
 
     private fun toSessionsGroupedByTime(sessions: List<Session>?): List<List<Session>> {
@@ -88,5 +123,7 @@ class ScheduleFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         toggleStarFilter(starFilter)
+        // Force RV to reload star state :(
+        (scheduleView?.adapter as? ScheduleAdapter)?.notifyDataSetChanged()
     }
 }
