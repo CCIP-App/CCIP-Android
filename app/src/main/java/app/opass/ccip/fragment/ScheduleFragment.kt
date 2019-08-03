@@ -14,13 +14,10 @@ import app.opass.ccip.adapter.ScheduleAdapter
 import app.opass.ccip.model.Session
 import app.opass.ccip.util.PreferenceUtil
 import com.google.gson.internal.bind.util.ISO8601Utils
-
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class ScheduleFragment : Fragment() {
     companion object {
@@ -51,58 +48,40 @@ class ScheduleFragment : Fragment() {
         scheduleView?.itemAnimator = DefaultItemAnimator()
 
         if (mSessions != null) {
-            scheduleView?.adapter = ScheduleAdapter(mActivity, transformSessions(mSessions))
+            scheduleView?.adapter = ScheduleAdapter(mActivity, toSessionsGroupedByTime(mSessions))
         }
 
         return view
     }
 
     private fun loadStarSessions(): List<Session> {
-        val tmp = ArrayList<Session>()
-        val starSessions = PreferenceUtil.loadStars(mActivity)
-        for (session in starSessions) {
+        val getDateOrNull: (String?) -> String? = {
             try {
-                val tmpDate = SDF_DATE
-                    .format(ISO8601Utils.parse(session.start, ParsePosition(0)))
-                if (tmpDate == date) {
-                    tmp.add(session)
-                }
+                it?.let { SDF_DATE.format(ISO8601Utils.parse(it, ParsePosition(0))) }
             } catch (e: ParseException) {
                 e.printStackTrace()
+                null
             }
         }
-        return tmp
+
+        return PreferenceUtil.loadStars(mActivity).filter {
+            getDateOrNull(it.start) == date
+        }
     }
 
-    private fun transformSessions(sessions: List<Session>?): List<List<Session>> {
-        val map = HashMap<String, ArrayList<Session>>()
-        for (session in sessions!!) {
-            if (session.start == null) continue
-
-            if (map.containsKey(session.start)) {
-                val tmp = map[session.start]
-                tmp!!.add(session)
-                tmp.sortWith(Comparator { (_, room1), (_, room2) -> room1.id.compareTo(room2.id) })
-                map[session.start] = tmp
-            } else {
-                val list = ArrayList<Session>()
-                list.add(session)
-                map[session.start] = list
-            }
-        }
-
-        val keys = TreeSet(map.keys)
-        val sessionSlotList = ArrayList<ArrayList<Session>>()
-        for (key in keys) {
-            sessionSlotList.add(map[key]!!)
-        }
-        return sessionSlotList
+    private fun toSessionsGroupedByTime(sessions: List<Session>?): List<List<Session>> {
+        return sessions!!
+            .filter { it.start != null }
+            .groupBy { it.start }
+            .values
+            .sortedBy { it[0].start }
+            .map { it.sortedWith(Comparator { (_, room1), (_, room2) -> room1.id.compareTo(room2.id) }) }
     }
 
     fun toggleStarFilter(isStar: Boolean) {
         this.starFilter = isStar
         (scheduleView?.adapter as? ScheduleAdapter)?.update(
-            transformSessions(if (isStar) loadStarSessions() else mSessions)
+            toSessionsGroupedByTime(if (isStar) loadStarSessions() else mSessions)
         )
     }
 

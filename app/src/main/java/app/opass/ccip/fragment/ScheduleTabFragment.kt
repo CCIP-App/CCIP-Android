@@ -28,7 +28,6 @@ import okhttp3.Request
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class ScheduleTabFragment : Fragment(), CoroutineScope {
@@ -112,32 +111,25 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
     }
 
     private fun addSessionFragments(sessions: List<Session>) {
-        val map = HashMap<String, MutableList<Session>>()
-        for (session in sessions) {
+        val getDateOrNull: (String?) -> String? = {
             try {
-                val dateKey = SDF_DATE.format(ISO8601Utils.parse(session.start, ParsePosition(0)))
-                if (map.containsKey(dateKey)) {
-                    val tmp = map[dateKey]
-                    tmp!!.add(session)
-                    map[dateKey] = tmp
-                } else {
-                    val arrayList = ArrayList<Session>()
-                    arrayList.add(session)
-                    map[dateKey] = arrayList
-                }
+                it?.let { SDF_DATE.format(ISO8601Utils.parse(it, ParsePosition(0))) }
             } catch (e: ParseException) {
                 e.printStackTrace()
+                null
             }
-
         }
-        val keys = TreeSet(map.keys)
-        for (key in keys) {
-            val value = map[key]
-            scheduleTabAdapter!!.addFragment(ScheduleFragment.newInstance(key, value!!), key)
+
+        val sessionsGroupedByDate = sessions
+            .groupBy { getDateOrNull(it.start!!) }
+            .filterKeys { it != null }
+            .toSortedMap(Comparator { start1, start2 -> start1!!.compareTo(start2!!) })
+        sessionsGroupedByDate.forEach { (date, sessions) ->
+            scheduleTabAdapter!!.addFragment(ScheduleFragment.newInstance(date!!, sessions), date)
         }
         scheduleTabAdapter!!.notifyDataSetChanged()
 
-        if (map.size == 1) {
+        if (sessionsGroupedByDate.size == 1) {
             tabLayout.visibility = View.GONE
         }
     }
