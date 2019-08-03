@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                     selectedFeature = FeatureType.fromString(it)!!
                 }
             }
-            else -> getFeatureItemByFeatureType(FeatureType.FAST_PASS)?.let(::onDrawerItemClick)
+            else -> getFeatureItemByFeatureType(selectedFeature)?.let(::onDrawerItemClick)
         }
 
         if (PreferenceUtil.getCurrentEvent(applicationContext).displayName != null) {
@@ -169,6 +169,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupDrawerContent(event: EventConfig) {
+        selectedFeature = event.features[0].feature
         drawerMenuAdapter = DrawerMenuAdapter(this, event.features, ::onDrawerItemClick)
         drawerMenu.adapter = drawerMenuAdapter
         drawerMenu.layoutManager = LinearLayoutManager(this)
