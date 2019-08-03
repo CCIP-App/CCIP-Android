@@ -30,7 +30,6 @@ import app.opass.ccip.model.EventConfig
 import app.opass.ccip.model.FeatureType
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.navigation.NavigationView
-import com.google.zxing.integration.android.IntentIntegrator
 import com.squareup.picasso.Picasso
 
 private const val STATE_ACTION_BAR_TITLE = "ACTION_BAR_TITLE"
@@ -147,16 +146,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        if (result != null && result.contents != null) {
-            PreferenceUtil.setIsNewToken(this, true)
-            PreferenceUtil.setToken(this, result.contents)
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
-    }
-
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent?.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false) == true) {
@@ -212,7 +201,7 @@ class MainActivity : AppCompatActivity() {
                     FeatureType.PUZZLE -> if (item.url != null) PuzzleFragment.newInstance(item.url) else return
                     else -> WebViewFragment.newInstance(
                         item.url!!
-                            .replace("{token}", PreferenceUtil.getToken(mActivity).toString())!!,
+                            .replace("{token}", PreferenceUtil.getToken(mActivity).toString()),
                         item.shouldUseBuiltinZoomControls
                     )
                 }
