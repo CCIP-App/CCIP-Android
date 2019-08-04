@@ -45,4 +45,9 @@
     <style name="BorderlessButtonStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
+
+    <style name="ColoredButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
 </resources>
