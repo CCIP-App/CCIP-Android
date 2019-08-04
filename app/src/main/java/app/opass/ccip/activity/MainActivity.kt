@@ -33,7 +33,7 @@ import com.google.android.material.navigation.NavigationView
 import com.squareup.picasso.Picasso
 
 private const val STATE_ACTION_BAR_TITLE = "ACTION_BAR_TITLE"
-private const val STATE_IS_DEFAULT_FEATURE_SELECTED = "SELECTED_IS_DEFAULT_FEATURE_SELECTED"
+private const val STATE_IS_DEFAULT_FEATURE_SELECTED = "IS_DEFAULT_FEATURE_SELECTED"
 
 class MainActivity : AppCompatActivity() {
     companion object {
