@@ -69,12 +69,6 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
 
         setSupportActionBar(toolbar)
-        PreferenceUtil.getCurrentEvent(this).run {
-            if (eventId.isNotEmpty()) {
-                setupDrawerContent(this)
-                Picasso.get().load(logoUrl).into(confLogoImageView)
-            }
-        }
 
         drawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close)
 
@@ -104,6 +98,17 @@ class MainActivity : AppCompatActivity() {
                         PreferenceUtil.setBeaconPermissionRequested(mActivity)
                     }
                     .show()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        PreferenceUtil.getCurrentEvent(this).run {
+            if (eventId.isNotEmpty()) {
+                setupDrawerContent(this)
+                Picasso.get().load(logoUrl).into(confLogoImageView)
             }
         }
     }
