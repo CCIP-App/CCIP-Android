@@ -26,7 +26,6 @@ import app.opass.ccip.R
 import app.opass.ccip.adapter.DrawerMenuAdapter
 import app.opass.ccip.adapter.IdentityAction
 import app.opass.ccip.fragment.*
-import app.opass.ccip.model.EventConfig
 import app.opass.ccip.model.FeatureType
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.navigation.NavigationView
@@ -55,8 +54,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
+        if (PreferenceUtil.getCurrentEvent(this).eventId.isEmpty()) {
+            startActivity(Intent(this, EventActivity::class.java))
+            finish()
+            return
+        }
+
+        setContentView(R.layout.activity_main)
         mActivity = this
 
         mDrawerLayout = findViewById(R.id.drawer_layout)
@@ -71,6 +76,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         drawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close)
+
+        buildDrawer()
 
         val isFromNotification = intent.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false)
         val isLaunchedFromHistory = intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY == Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
@@ -104,13 +111,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        PreferenceUtil.getCurrentEvent(this).run {
-            if (eventId.isNotEmpty()) {
-                setupDrawerContent(this)
-                Picasso.get().load(logoUrl).into(confLogoImageView)
-            }
-        }
+        buildDrawer()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -169,7 +170,10 @@ class MainActivity : AppCompatActivity() {
         return DrawerMenuAdapter.FeatureItem.fromFeature(feature)
     }
 
-    private fun setupDrawerContent(event: EventConfig) {
+    private fun buildDrawer() {
+        val event = PreferenceUtil.getCurrentEvent(this)
+
+        Picasso.get().load(event.logoUrl).into(confLogoImageView)
         defaultFeatureItem = DrawerMenuAdapter.FeatureItem.fromFeature(event.features[0])
         drawerMenuAdapter = DrawerMenuAdapter(this, event.features, ::onDrawerItemClick)
         drawerMenu.adapter = drawerMenuAdapter
