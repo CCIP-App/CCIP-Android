@@ -33,7 +33,7 @@ import com.google.android.material.navigation.NavigationView
 import com.squareup.picasso.Picasso
 
 private const val STATE_ACTION_BAR_TITLE = "ACTION_BAR_TITLE"
-private const val STATE_SELECTED_FEATURE = "SELECTED_FEATURE"
+private const val STATE_IS_DEFAULT_FEATURE_SELECTED = "SELECTED_IS_DEFAULT_FEATURE_SELECTED"
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -50,7 +50,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userTitleTextView: TextView
     private lateinit var userIdTextView: TextView
 
-    private var selectedFeature: FeatureType = FeatureType.FAST_PASS
+    private lateinit var defaultFeatureItem: DrawerMenuAdapter.FeatureItem
+    private var isDefaultFeatureSelected: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         PreferenceUtil.getCurrentEvent(this).run {
             if (eventId.isNotEmpty()) {
                 setupDrawerContent(this)
+                Picasso.get().load(logoUrl).into(confLogoImageView)
             }
         }
 
@@ -82,15 +84,9 @@ class MainActivity : AppCompatActivity() {
             isFromNotification and !isLaunchedFromHistory -> getFeatureItemByFeatureType(FeatureType.ANNOUNCEMENT)?.let(::onDrawerItemClick)
             savedInstanceState != null -> {
                 savedInstanceState.getString(STATE_ACTION_BAR_TITLE)?.let(::setTitle)
-                savedInstanceState.getString(STATE_SELECTED_FEATURE)?.let {
-                    selectedFeature = FeatureType.fromString(it)!!
-                }
+                savedInstanceState.getBoolean(STATE_IS_DEFAULT_FEATURE_SELECTED).let { isDefaultFeatureSelected = it }
             }
-            else -> getFeatureItemByFeatureType(selectedFeature)?.let(::onDrawerItemClick)
-        }
-
-        if (PreferenceUtil.getCurrentEvent(applicationContext).displayName != null) {
-            Picasso.get().load(PreferenceUtil.getCurrentEvent(mActivity).logoUrl).into(confLogoImageView)
+            else -> onDrawerItemClick(defaultFeatureItem)
         }
 
         // Beacon need location access
@@ -135,14 +131,14 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(STATE_ACTION_BAR_TITLE, title as String)
-        outState.putString(STATE_SELECTED_FEATURE, selectedFeature.type)
+        outState.putBoolean(STATE_IS_DEFAULT_FEATURE_SELECTED, isDefaultFeatureSelected)
     }
 
     override fun onBackPressed() {
         when {
             mDrawerLayout.isDrawerOpen(GravityCompat.START) -> mDrawerLayout.closeDrawers()
-            selectedFeature == FeatureType.FAST_PASS -> super.onBackPressed()
-            else -> getFeatureItemByFeatureType(FeatureType.FAST_PASS)?.let(::onDrawerItemClick)
+            isDefaultFeatureSelected -> super.onBackPressed()
+            else -> onDrawerItemClick(defaultFeatureItem)
         }
     }
 
@@ -169,7 +165,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupDrawerContent(event: EventConfig) {
-        selectedFeature = event.features[0].feature
+        defaultFeatureItem = DrawerMenuAdapter.FeatureItem.fromFeature(event.features[0])
         drawerMenuAdapter = DrawerMenuAdapter(this, event.features, ::onDrawerItemClick)
         drawerMenu.adapter = drawerMenuAdapter
         drawerMenu.layoutManager = LinearLayoutManager(this)
@@ -193,7 +189,7 @@ class MainActivity : AppCompatActivity() {
             is DrawerMenuAdapter.FeatureItem -> {
                 if (!item.isEmbedded) return this.startActivity(Intent(Intent.ACTION_VIEW, item.url!!.toUri()))
 
-                selectedFeature = item.type
+                isDefaultFeatureSelected = item == defaultFeatureItem
                 val fragment = when (item.type) {
                     FeatureType.FAST_PASS -> MainFragment()
                     FeatureType.SCHEDULE -> ScheduleTabFragment()
