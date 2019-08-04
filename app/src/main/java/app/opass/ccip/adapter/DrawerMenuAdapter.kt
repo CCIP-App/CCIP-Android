@@ -3,7 +3,6 @@ package app.opass.ccip.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -129,12 +128,7 @@ class DrawerMenuAdapter(
     }
 
     private fun getDrawable(id: Int?): Drawable? {
-        if (id == null) return null
-        return if (Build.VERSION.SDK_INT < 21) {
-            context.resources.getDrawable(id)
-        } else {
-            context.resources.getDrawable(id, context.theme)
-        }
+        return id?.let { context.resources.getDrawable(it, context.theme) }
     }
 
     data class FeatureItem(

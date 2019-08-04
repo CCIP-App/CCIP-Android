@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         applicationId "app.opass.ccip"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 34
         versionName "2.0.3"
