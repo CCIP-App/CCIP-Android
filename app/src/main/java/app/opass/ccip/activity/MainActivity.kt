@@ -174,8 +174,14 @@ class MainActivity : AppCompatActivity() {
         val event = PreferenceUtil.getCurrentEvent(this)
 
         Picasso.get().load(event.logoUrl).into(confLogoImageView)
-        defaultFeatureItem = DrawerMenuAdapter.FeatureItem.fromFeature(event.features[0])
-        drawerMenuAdapter = DrawerMenuAdapter(this, event.features, ::onDrawerItemClick)
+
+        val role = PreferenceUtil.getRole(this)
+        val filteredFeatures = event.features.filter {
+            it.visibleRoles?.contains(role) ?: true
+        }
+
+        defaultFeatureItem = DrawerMenuAdapter.FeatureItem.fromFeature(filteredFeatures[0])
+        drawerMenuAdapter = DrawerMenuAdapter(this, filteredFeatures, ::onDrawerItemClick)
         drawerMenu.adapter = drawerMenuAdapter
         drawerMenu.layoutManager = LinearLayoutManager(this)
         navigationView.getHeaderView(0).findViewById<RelativeLayout>(R.id.nav_header_info)
