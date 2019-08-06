@@ -207,7 +207,8 @@ class MainActivity : AppCompatActivity() {
                     FeatureType.PUZZLE -> if (item.url != null) PuzzleFragment.newInstance(item.url) else return
                     else -> WebViewFragment.newInstance(
                         item.url!!
-                            .replace("{token}", PreferenceUtil.getToken(mActivity).toString()),
+                            .replace("{token}", PreferenceUtil.getToken(mActivity).toString())
+                            .replace("{role}", PreferenceUtil.getRole(mActivity).toString()),
                         item.shouldUseBuiltinZoomControls
                     )
                 }
