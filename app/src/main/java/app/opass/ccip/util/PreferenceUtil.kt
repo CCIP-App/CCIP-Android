@@ -16,7 +16,6 @@ object PreferenceUtil {
     private const val PREF_CURRENT_EVENT = "current_event"
 
     private const val PREF_AUTH = "auth"
-    private const val PREF_IS_NEW_TOKEN = "is_new_token"
     private const val PREF_AUTH_TOKEN = "token"
 
     private const val PREF_SCHEDULE = "schedule"
@@ -53,16 +52,6 @@ object PreferenceUtil {
         val currentEvent = sharedPreferences.getString(PREF_CURRENT_EVENT, "{\"event_id\": \"\"}")
 
         return JsonUtil.fromJson(currentEvent, object : TypeToken<EventConfig>() {}.type)
-    }
-
-    fun setIsNewToken(context: Context, isNewToken: Boolean) {
-        context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
-            .edit(true) { putBoolean(getCurrentEvent(context).eventId + PREF_IS_NEW_TOKEN, isNewToken) }
-    }
-
-    fun getIsNewToken(context: Context): Boolean {
-        val sharedPreferences = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
-        return sharedPreferences.getBoolean(getCurrentEvent(context).eventId + PREF_IS_NEW_TOKEN, false)
     }
 
     fun setToken(context: Context, token: String?) {
