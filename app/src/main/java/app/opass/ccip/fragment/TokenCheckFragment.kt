@@ -69,6 +69,7 @@ class TokenCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
                         message.isGone = false
 
                         PreferenceUtil.setToken(mActivity, token)
+                        PreferenceUtil.setRole(mActivity, attendee.role)
                         try {
                             JSONObject()
                                 .put(attendee.eventId + attendee.role, attendee.token)
