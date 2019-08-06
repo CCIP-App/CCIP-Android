@@ -8,6 +8,6 @@ data class Attendee(
     var userId: String,
     var attr: JsonElement,
     var firstUse: Int,
-    var type: String,
+    var role: String,
     var scenarios: ArrayList<Scenario>
 )

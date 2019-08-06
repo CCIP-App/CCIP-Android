@@ -71,7 +71,7 @@ class TokenCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
                         PreferenceUtil.setToken(mActivity, token)
                         try {
                             JSONObject()
-                                .put(attendee.eventId + attendee.type, attendee.token)
+                                .put(attendee.eventId + attendee.role, attendee.token)
                                 .let(OneSignal::sendTags)
                         } catch (e: JSONException) {
                             e.printStackTrace()
