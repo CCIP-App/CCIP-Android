@@ -17,6 +17,7 @@ object PreferenceUtil {
 
     private const val PREF_AUTH = "auth"
     private const val PREF_AUTH_TOKEN = "token"
+    private const val PREF_AUTH_ROLE = "role"
 
     private const val PREF_SCHEDULE = "schedule"
     private const val PREF_SCHEDULE_SCHEDULE = "schedule"
@@ -62,6 +63,16 @@ object PreferenceUtil {
     fun getToken(context: Context): String? {
         val sharedPreferences = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
         return sharedPreferences.getString(getCurrentEvent(context).eventId + PREF_AUTH_TOKEN, null)
+    }
+
+    fun setRole(context: Context, role: String?) {
+        context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
+            .edit(true) { putString(getCurrentEvent(context).eventId + PREF_AUTH_ROLE, role)}
+    }
+
+    fun getRole(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
+        return sharedPreferences.getString(getCurrentEvent(context).eventId + PREF_AUTH_ROLE, null)
     }
 
     fun saveSchedule(context: Context, scheduleJson: String) {
