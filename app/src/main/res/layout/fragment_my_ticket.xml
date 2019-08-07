@@ -9,6 +9,7 @@
     tools:context="app.opass.ccip.fragment.MyTicketFragment">
 
     <TextView
+        android:id="@+id/ticket_notice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/my_ticket_notice" />
@@ -17,5 +18,7 @@
         android:id="@+id/qrcodeImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <include layout="@layout/include_login" />
 
 </FrameLayout>

@@ -5,7 +5,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.net.Uri
@@ -16,18 +15,23 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import app.opass.ccip.R
 import app.opass.ccip.adapter.SpeakerImageAdapter
 import app.opass.ccip.model.Session
+import app.opass.ccip.ui.ScrollingControlAppBarLayoutBehavior
 import app.opass.ccip.util.AlarmUtil
 import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.internal.bind.util.ISO8601Utils
+import io.noties.markwon.Markwon
+import io.noties.markwon.linkify.LinkifyPlugin
 import kotlinx.android.synthetic.main.activity_session_detail.*
 import java.text.ParseException
 import java.text.ParsePosition
@@ -59,26 +63,38 @@ class SessionDetailActivity : AppCompatActivity() {
 
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        toolbar.title = session.speakers[0].getSpeakerDetail(mActivity).name
+        toolbar.title = if (session.speakers.isEmpty()) "" else session.speakers[0].getSpeakerDetail(mActivity).name
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        val adapter = SpeakerImageAdapter(supportFragmentManager, session.speakers)
-        speakerViewPager.adapter = adapter
-        speakerViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
+        val markwon = Markwon.builder(this)
+            .usePlugin(LinkifyPlugin.create())
+            .build()
 
-            override fun onPageSelected(position: Int) {
-                speakerInfo.text = session.speakers[position].getSpeakerDetail(mActivity).bio
-                collapsingToolbarLayout.title = session.speakers[position].getSpeakerDetail(mActivity).name
+        if (session.speakers.isEmpty()) {
+            findViewById<AppBarLayout>(R.id.app_bar).run {
+                setExpanded(false)
+                val behavior =
+                    (layoutParams as CoordinatorLayout.LayoutParams).behavior as ScrollingControlAppBarLayoutBehavior
+                behavior.shouldScroll = false
             }
+        } else {
+            val adapter = SpeakerImageAdapter(supportFragmentManager, session.speakers)
+            speakerViewPager.adapter = adapter
+            speakerViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
 
-            override fun onPageScrollStateChanged(state: Int) = Unit
-        })
+                override fun onPageSelected(position: Int) {
+                    markwon.setMarkdown(speakerInfo, session.speakers[position].getSpeakerDetail(mActivity).bio)
+                    collapsingToolbarLayout.title = session.speakers[position].getSpeakerDetail(mActivity).name
+                }
 
-        spring_dots_indicator.setViewPager(speakerViewPager)
+                override fun onPageScrollStateChanged(state: Int) = Unit
+            })
 
-        if (adapter.count == 1) spring_dots_indicator.visibility = View.INVISIBLE
+            spring_dots_indicator.setViewPager(speakerViewPager)
+        }
+        if (session.speakers.size <= 1) spring_dots_indicator.visibility = View.INVISIBLE
 
         val room: TextView = findViewById(R.id.room)
         val title: TextView = findViewById(R.id.title)
@@ -94,7 +110,7 @@ class SessionDetailActivity : AppCompatActivity() {
         val speakerInfoBlock: View = findViewById(R.id.speaker_info_block)
         speakerInfo = findViewById(R.id.speakerinfo)
 
-        room.text = session.room
+        room.text = session.room.getDetails(mActivity).name
         title.text = session.getSessionDetail(mActivity).title
         title.setOnClickListener { view -> copyToClipboard(view as TextView) }
 
@@ -113,21 +129,18 @@ class SessionDetailActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-        try {
-            type.setText(session.type)
-        } catch (e: Resources.NotFoundException) {
-            type.text = ""
-        }
+        type.text = session.type?.getDetails(mActivity)?.name ?: ""
 
         setClickableUri(session.slide, slideLayout, slide)
         setClickableUri(session.qa, qaLayout, qa)
 
-        if (session.speakers[0].getSpeakerDetail(mActivity).name.isEmpty())
+        if (session.speakers.isEmpty() || session.speakers[0].getSpeakerDetail(mActivity).name.isEmpty()) {
             speakerInfoBlock.visibility = View.GONE
-
-        speakerInfo.text = session.speakers[0].getSpeakerDetail(mActivity).bio
-        speakerInfo.setOnClickListener { view -> copyToClipboard(view as TextView) }
-        programAbstract.text = session.getSessionDetail(mActivity).description
+        } else {
+            markwon.setMarkdown(speakerInfo, session.speakers[0].getSpeakerDetail(mActivity).bio)
+            speakerInfo.setOnClickListener { view -> copyToClipboard(view as TextView) }
+        }
+        markwon.setMarkdown(programAbstract, session.getSessionDetail(mActivity).description)
         programAbstract.setOnClickListener { view -> copyToClipboard(view as TextView) }
 
         fab = findViewById(R.id.fab)
@@ -186,7 +199,7 @@ class SessionDetailActivity : AppCompatActivity() {
     private fun setClickableUri(uri: String?, layout: View, textView: TextView) {
         if (uri != null) {
             layout.visibility = View.VISIBLE
-            textView.setText(uri)
+            textView.text = uri
             textView.paintFlags = textView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             textView.setOnClickListener {
                 mActivity.startActivity(

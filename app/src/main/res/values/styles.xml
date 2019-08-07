@@ -38,12 +38,16 @@
 
     <style name="Session.Room" parent="Session">
         <item name="android:textColor">#FFF</item>
-        <item name="android:textSize">20sp</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/room_background</item>
     </style>
 
     <style name="BorderlessButtonStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="ColoredButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 </resources>

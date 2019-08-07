@@ -2,6 +2,7 @@ package app.opass.ccip.application
 
 import android.app.Application
 import app.opass.ccip.util.BeaconReceiver
+import app.opass.ccip.util.NotificationOpenedHandler
 import com.onesignal.OneSignal
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.BeaconParser
@@ -26,7 +27,7 @@ class CCIPApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        OneSignal.startInit(this).init()
+        OneSignal.startInit(this).setNotificationOpenedHandler(NotificationOpenedHandler(this)).init()
 
         // Beacon background service
         BeaconManager.getInstanceForApplication(this).apply {

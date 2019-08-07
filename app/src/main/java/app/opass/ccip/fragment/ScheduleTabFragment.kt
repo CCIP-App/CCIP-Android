@@ -12,20 +12,25 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import app.opass.ccip.R
 import app.opass.ccip.adapter.ScheduleTabAdapter
+import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.model.ConfSchedule
 import app.opass.ccip.model.Session
-import app.opass.ccip.network.ConfClient
+import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.internal.bind.util.ISO8601Utils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
-import java.util.*
+import kotlin.coroutines.CoroutineContext
 
-class ScheduleTabFragment : Fragment() {
+class ScheduleTabFragment : Fragment(), CoroutineScope {
     companion object {
         private val SDF_DATE = SimpleDateFormat("MM/dd")
     }
@@ -36,8 +41,11 @@ class ScheduleTabFragment : Fragment() {
     private lateinit var menuItemStar: MenuItem
     private lateinit var mActivity: Activity
     private var starFilter = false
-    private var mSessions: List<Session>? = null
+    private var mSchedule: ConfSchedule? = null
     private var scheduleTabAdapter: ScheduleTabAdapter? = null
+    private lateinit var mJob: Job
+    override val coroutineContext: CoroutineContext
+        get() = mJob + Dispatchers.Main
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -48,6 +56,7 @@ class ScheduleTabFragment : Fragment() {
         viewPager = view.findViewById(R.id.pager)
 
         mActivity = requireActivity()
+        mJob = Job()
 
         if (VERSION.SDK_INT >= 21) {
             mActivity.findViewById<View>(R.id.appbar).elevation = 0f
@@ -58,25 +67,28 @@ class ScheduleTabFragment : Fragment() {
         swipeRefreshLayout.isEnabled = false
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
 
-        val sessionCall = ConfClient.get().session(PreferenceUtil.getCurrentEvent(mActivity).scheduleUrl)
-        sessionCall.enqueue(object : Callback<List<Session>> {
-            override fun onResponse(call: Call<List<Session>>, response: Response<List<Session>>) {
-                if (response.isSuccessful) {
-                    swipeRefreshLayout.isRefreshing = false
+        launch {
+            try {
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .url(PreferenceUtil.getCurrentEvent(mActivity).scheduleUrl)
+                    .build()
+                client.newCall(request).asyncExecute().run {
+                    if (isSuccessful) {
+                        swipeRefreshLayout.isRefreshing = false
 
-                    mSessions = response.body()
-                    PreferenceUtil.savePrograms(mActivity, mSessions!!)
-                } else {
-                    loadOfflineSchedule()
+                        val scheduleJson = body!!.string()
+                        mSchedule = JsonUtil.GSON.fromJson(scheduleJson, ConfSchedule::class.java)
+                        PreferenceUtil.saveSchedule(mActivity, scheduleJson)
+                    } else {
+                        loadOfflineSchedule()
+                    }
                 }
-                setupViewPager()
-            }
-
-            override fun onFailure(call: Call<List<Session>>, t: Throwable) {
+            } catch (t: Throwable) {
                 loadOfflineSchedule()
-                setupViewPager()
             }
-        })
+            setupViewPager()
+        }
 
         return view
     }
@@ -84,12 +96,14 @@ class ScheduleTabFragment : Fragment() {
     override fun onDestroy() {
         tabLayout.setupWithViewPager(null)
         super.onDestroy()
+        mJob.cancel()
     }
 
     private fun setupViewPager() {
         if (isAdded) {
+            viewPager.isSaveFromParentEnabled = false
             scheduleTabAdapter = ScheduleTabAdapter(childFragmentManager)
-            addSessionFragments(mSessions!!)
+            addSessionFragments(mSchedule!!.sessions)
             viewPager.adapter = scheduleTabAdapter
             tabLayout.setupWithViewPager(viewPager)
             menuItemStar.isVisible = true
@@ -97,32 +111,25 @@ class ScheduleTabFragment : Fragment() {
     }
 
     private fun addSessionFragments(sessions: List<Session>) {
-        val map = HashMap<String, MutableList<Session>>()
-        for (session in sessions) {
+        val getDateOrNull: (String?) -> String? = {
             try {
-                val dateKey = SDF_DATE.format(ISO8601Utils.parse(session.start, ParsePosition(0)))
-                if (map.containsKey(dateKey)) {
-                    val tmp = map[dateKey]
-                    tmp!!.add(session)
-                    map[dateKey] = tmp
-                } else {
-                    val arrayList = ArrayList<Session>()
-                    arrayList.add(session)
-                    map[dateKey] = arrayList
-                }
+                it?.let { SDF_DATE.format(ISO8601Utils.parse(it, ParsePosition(0))) }
             } catch (e: ParseException) {
                 e.printStackTrace()
+                null
             }
-
         }
-        val keys = TreeSet(map.keys)
-        for (key in keys) {
-            val value = map[key]
-            scheduleTabAdapter!!.addFragment(ScheduleFragment.newInstance(key, value!!), key)
+
+        val sessionsGroupedByDate = sessions
+            .groupBy { getDateOrNull(it.start!!) }
+            .filterKeys { it != null }
+            .toSortedMap(Comparator { start1, start2 -> start1!!.compareTo(start2!!) })
+        sessionsGroupedByDate.forEach { (date, sessions) ->
+            scheduleTabAdapter!!.addFragment(ScheduleFragment.newInstance(date!!, sessions), date)
         }
         scheduleTabAdapter!!.notifyDataSetChanged()
 
-        if (map.size == 1) {
+        if (sessionsGroupedByDate.size == 1) {
             tabLayout.visibility = View.GONE
         }
     }
@@ -154,12 +161,12 @@ class ScheduleTabFragment : Fragment() {
         )
     }
 
-    fun loadOfflineSchedule() {
+    private fun loadOfflineSchedule() {
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = false }
         Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show()
-        val sessions = PreferenceUtil.loadPrograms(mActivity)
-        if (sessions != null) {
-            mSessions = sessions
+        val schedule = PreferenceUtil.loadSchedule(mActivity)
+        if (schedule != null) {
+            mSchedule = schedule
         }
     }
 }

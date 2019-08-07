@@ -11,18 +11,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
 import app.opass.ccip.activity.MainActivity
+import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.model.Event
-import app.opass.ccip.model.EventConfig
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.PreferenceUtil
 import com.squareup.picasso.Picasso
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class EventAdapter(private val mContext: Context, private val eventList: List<Event>?) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
@@ -33,30 +34,25 @@ class EventAdapter(private val mContext: Context, private val eventList: List<Ev
         val holder = viewHolder as ViewHolder
         val event: Event = eventList!![position]
 
-        holder.title.text = event.displayName.getDisplayName(mContext)
+        holder.title.text = event.displayName.findBestMatch(mContext)
         Picasso.get().load(event.logoUrl).into(viewHolder.logo)
         holder.itemView.setOnClickListener {
-            val eventConfig = PortalClient.get().getEventConfig(event.eventId)
-            eventConfig.enqueue(object : Callback<EventConfig> {
-                override fun onResponse(call: Call<EventConfig>, response: Response<EventConfig>) {
-                    when {
-                        response.isSuccessful -> {
-                            val eventConfig = response.body()
-                            PreferenceUtil.setCurrentEvent(mContext, eventConfig!!)
-                            CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mContext).serverBaseUrl)
+            launch {
+                try {
+                    PortalClient.get().getEventConfig(event.eventId).asyncExecute().run {
+                        if (!isSuccessful) return@run
 
-                            val intent = Intent()
-                            intent.setClass(mContext, MainActivity::class.java)
-                            mContext.startActivity(intent)
-                            (mContext as Activity).finish()
-                        }
+                        PreferenceUtil.setCurrentEvent(mContext, body()!!)
+                        CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mContext).serverBaseUrl)
+
+                        val intent = Intent()
+                        intent.setClass(mContext, MainActivity::class.java)
+                        mContext.startActivity(intent)
+                        (mContext as Activity).finish()
                     }
+                } catch (e: Exception) {
                 }
-
-                override fun onFailure(call: Call<EventConfig>, t: Throwable) {
-
-                }
-            })
+            }
         }
     }
 

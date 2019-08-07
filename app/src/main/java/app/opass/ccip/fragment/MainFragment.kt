@@ -1,12 +1,10 @@
 package app.opass.ccip.fragment
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -15,34 +13,34 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.opass.ccip.R
-import app.opass.ccip.activity.CaptureActivity
-import app.opass.ccip.activity.EventActivity
+import app.opass.ccip.activity.AuthActivity
+import app.opass.ccip.activity.CountdownActivity
 import app.opass.ccip.activity.MainActivity
 import app.opass.ccip.adapter.ScenarioAdapter
-import app.opass.ccip.model.Attendee
-import app.opass.ccip.model.EventConfig
+import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.model.Scenario
 import app.opass.ccip.network.CCIPClient
-import app.opass.ccip.network.PortalClient
+import app.opass.ccip.network.ErrorUtil
+import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
-import com.google.zxing.integration.android.IntentIntegrator
-import com.onesignal.OneSignal
-import org.json.JSONException
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), CoroutineScope {
     private lateinit var noNetworkView: View
     private lateinit var notConfWifiView: View
     private lateinit var loginView: View
-    private lateinit var loginTitle: TextView
     private lateinit var scenarioView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mActivity: MainActivity
+    private lateinit var mJob: Job
+    override val coroutineContext: CoroutineContext
+        get() = mJob + Dispatchers.Main
+    private lateinit var mAdapter: ScenarioAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
@@ -51,98 +49,27 @@ class MainFragment : Fragment() {
         mActivity = requireActivity() as MainActivity
         noNetworkView = view.findViewById(R.id.no_network)
         notConfWifiView = view.findViewById(R.id.not_conf_wifi)
-        loginView = view.findViewById(R.id.login)
-        loginTitle = view.findViewById(R.id.login_title)
+        loginView = view.findViewById(R.id.login_view)
+        mJob = Job()
 
-        val enterTokenButton: View = view.findViewById(R.id.enter_token)
-
-        enterTokenButton.setOnClickListener(View.OnClickListener {
-            val dialogView = layoutInflater.inflate(R.layout.dialog_enter_token, null)
-            val tokenInputLayout: TextInputLayout = dialogView.findViewById(R.id.token_input_layout)
-            val tokenInput: TextInputEditText = dialogView.findViewById(R.id.token_input)
-
-            val dialog = AlertDialog.Builder(mActivity)
-                .setView(dialogView)
-                .setTitle(R.string.enter_your_token)
-                .setPositiveButton(R.string.positive_button, null)
-                .setNegativeButton(R.string.negative_button, null)
-                .create()
-
-            dialog.setOnShowListener {
-                val positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-                val negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-
-                positiveButton.setOnClickListener(View.OnClickListener {
-                    val token = tokenInput.text.toString().trim()
-
-                    if (token == "") {
-                        tokenInputLayout.error = getString(R.string.token_required)
-                        return@OnClickListener
-                    }
-                    PreferenceUtil.setIsNewToken(mActivity, true)
-                    PreferenceUtil.setToken(mActivity, token)
-                    dialog.dismiss()
-                    updateStatus()
-                })
-                negativeButton.setOnClickListener { dialog.dismiss() }
-            }
-
-            dialog.show()
-        })
-
-        loginTitle.setOnClickListener {
-            val integrator = IntentIntegrator(mActivity)
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-            integrator.setPrompt(getString(R.string.scan_kktix_qrcode))
-            integrator.setCameraId(0)
-            integrator.setBeepEnabled(false)
-            integrator.setBarcodeImageEnabled(false)
-            integrator.captureActivity = CaptureActivity::class.java
-            integrator.initiateScan()
+        noNetworkView.setOnClickListener {
+            noNetworkView.visibility = View.GONE
+            updateStatus()
         }
+
+        view.findViewById<View>(R.id.login_button).setOnClickListener {
+            mActivity.startActivity(Intent(mActivity, AuthActivity::class.java))
+        }
+
         scenarioView = view.findViewById(R.id.scenarios)
         swipeRefreshLayout = view.findViewById(R.id.swipeContainer)
 
         scenarioView.layoutManager = LinearLayoutManager(mActivity)
         scenarioView.itemAnimator = DefaultItemAnimator()
 
-        if (mActivity.intent.action == Intent.ACTION_VIEW) {
-            val eventId = mActivity.intent.data!!.getQueryParameter("event_id")
-            val token = mActivity.intent.data!!.getQueryParameter("token")
-
-            if (eventId != null && token != null) {
-                val eventConfig = PortalClient.get().getEventConfig(eventId)
-                eventConfig.enqueue(object : Callback<EventConfig> {
-                    override fun onResponse(call: Call<EventConfig>, response: Response<EventConfig>) {
-                        when {
-                            response.isSuccessful -> {
-                                val eventConfig = response.body()
-                                PreferenceUtil.setCurrentEvent(mActivity, eventConfig!!)
-                                PreferenceUtil.setIsNewToken(mActivity, true)
-                                PreferenceUtil.setToken(mActivity, token)
-                                CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mActivity).serverBaseUrl)
-                                updateStatus()
-                                mActivity.updateConfLogo()
-                            }
-                        }
-                    }
-
-                    override fun onFailure(call: Call<EventConfig>, t: Throwable) {
-                        Toast.makeText(mActivity, R.string.offline, Toast.LENGTH_LONG).show()
-                    }
-                })
-            }
-        } else {
-            if (PreferenceUtil.getCurrentEvent(mActivity).displayName == null) {
-                val intent = Intent()
-                intent.setClass(mActivity, EventActivity::class.java)
-                mActivity.startActivity(intent)
-                mActivity.finish()
-            }
-
-            if (PreferenceUtil.getToken(mActivity) == null) {
-                loginView.visibility = View.VISIBLE
-            }
+        if (PreferenceUtil.getToken(mActivity) == null) {
+            loginView.visibility = View.VISIBLE
+            swipeRefreshLayout.visibility = View.GONE
         }
 
         swipeRefreshLayout.setOnRefreshListener { updateStatus() }
@@ -155,62 +82,57 @@ class MainFragment : Fragment() {
         updateStatus()
     }
 
-    internal fun updateStatus() {
-        if (PreferenceUtil.getToken(mActivity) == null) {
+    override fun onDestroy() {
+        super.onDestroy()
+        mJob.cancel()
+    }
+
+    private fun updateStatus() {
+        val token = PreferenceUtil.getToken(mActivity)
+        if (token == null) {
             loginView.visibility = View.VISIBLE
+            swipeRefreshLayout.visibility = View.GONE
             return
         }
 
+        swipeRefreshLayout.visibility = View.VISIBLE
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
         loginView.visibility = View.GONE
         noNetworkView.visibility = View.GONE
         notConfWifiView.visibility = View.GONE
 
-        val attendee = CCIPClient.get().status(PreferenceUtil.getToken(mActivity))
-        attendee.enqueue(object : Callback<Attendee> {
-            override fun onResponse(call: Call<Attendee>, response: Response<Attendee>) {
-                swipeRefreshLayout.isRefreshing = false
+        launch {
+            try {
+                val response = CCIPClient.get().status(token).asyncExecute()
+
                 when {
                     response.isSuccessful -> {
                         val attendee = response.body()
                         val attr = attendee!!.attr.asJsonObject
 
-                        if (PreferenceUtil.getIsNewToken(mActivity)) {
-                            PreferenceUtil.setIsNewToken(mActivity, false)
-
-                            val tags = JSONObject()
-                            try {
-                                tags.put("event_id", attendee.eventId)
-                                tags.put("token", attendee.token)
-                                tags.put("type", attendee.type)
-                                OneSignal.sendTags(tags)
-                            } catch (e: JSONException) {
-                                e.printStackTrace()
-                            }
-
-                            AlertDialog.Builder(mActivity)
-                                .setMessage(
-                                    mActivity.getString(R.string.hi)
-                                        + attendee.userId
-                                        + mActivity.getString(
-                                        R.string.login_success,
-                                        PreferenceUtil.getCurrentEvent(mActivity).displayName!!.getDisplayName(mActivity)
-                                    )
-                                )
-                                .setPositiveButton(android.R.string.ok, null)
-                                .show()
-                        }
-
-                        val attrTitle = attr.get("title")
-                        if (attrTitle != null) {
-                            mActivity.setUserTitle(attrTitle.asString)
+                        attr.get("title")?.let {
+                            mActivity.setUserTitle(it.asString)
                         }
                         mActivity.setUserId(attendee.userId)
 
-                        scenarioView.adapter = ScenarioAdapter(mActivity, attendee.scenarios)
+                        mAdapter = ScenarioAdapter(mActivity, attendee.scenarios) {
+                            val isUsed = it.used != null
+                            val hasCountdown = it.countdown > 0
+
+                            if (isUsed && hasCountdown) {
+                                startCountdownActivity(it)
+                                return@ScenarioAdapter
+                            }
+
+                            if (hasCountdown) {
+                                showConfirmDialog(it)
+                            } else {
+                                useScenario(it)
+                            }
+                        }
+                        scenarioView.adapter = mAdapter
                     }
                     response.code() == 403 -> {
-                        swipeRefreshLayout.isRefreshing = false
                         notConfWifiView.visibility = View.VISIBLE
                         notConfWifiView.setOnClickListener {
                             swipeRefreshLayout.isRefreshing = true
@@ -224,17 +146,59 @@ class MainFragment : Fragment() {
                         loginView.visibility = View.VISIBLE
                     }
                 }
-            }
-
-            override fun onFailure(call: Call<Attendee>, t: Throwable) {
-                swipeRefreshLayout.isRefreshing = false
+            } catch (t: Throwable) {
                 noNetworkView.visibility = View.VISIBLE
-                noNetworkView.setOnClickListener {
-                    swipeRefreshLayout.isRefreshing = true
-                    noNetworkView.visibility = View.GONE
-                    updateStatus()
-                }
+            } finally {
+                swipeRefreshLayout.isRefreshing = false
             }
-        })
+        }
+    }
+
+    private fun useScenario(scenario: Scenario) {
+        val token = PreferenceUtil.getToken(mActivity)
+
+        launch {
+            try {
+                val response = CCIPClient.get().use(scenario.id, token).asyncExecute()
+                when {
+                    response.isSuccessful -> {
+                        val attendee = response.body()
+                        mAdapter.setItems(attendee!!.scenarios)
+
+                        if (scenario.countdown > 0) {
+                            startCountdownActivity(scenario)
+                        }
+                    }
+                    response.code() == 400 -> {
+                        val (message) = ErrorUtil.parseError(response)
+                        Toast.makeText(mActivity, message, Toast.LENGTH_LONG).show()
+                    }
+                    response.code() == 403 -> {
+                        AlertDialog.Builder(mActivity)
+                            .setTitle(R.string.connect_to_conference_wifi)
+                            .setPositiveButton(android.R.string.ok, null)
+                            .show()
+                    }
+                    else -> Toast.makeText(mActivity, "Unexpected response", Toast.LENGTH_LONG).show()
+                }
+            } catch (t: Throwable) {
+                Toast.makeText(mActivity, "Use req fail, " + t.message, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun showConfirmDialog(scenario: Scenario) {
+        AlertDialog.Builder(mActivity)
+            .setTitle(R.string.confirm_dialog_title)
+            .setPositiveButton(R.string.positive_button) { dialogInterface, i -> useScenario(scenario) }
+            .setNegativeButton(R.string.negative_button, null)
+            .show()
+    }
+
+    private fun startCountdownActivity(scenario: Scenario) {
+        val intent = Intent()
+        intent.setClass(mActivity, CountdownActivity::class.java)
+        intent.putExtra(CountdownActivity.INTENT_EXTRA_SCENARIO, JsonUtil.toJson(scenario))
+        mActivity.startActivity(intent)
     }
 }

@@ -12,13 +12,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name="app.opass.ccip.activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
+        <meta-data
+            android:name="com.onesignal.NotificationOpened.DEFAULT"
+            android:value="DISABLE" />
+
+        <activity android:name=".activity.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
@@ -39,6 +39,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="app.opass.ccip.activity.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name="app.opass.ccip.activity.CountdownActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -48,6 +53,7 @@
         <activity
             android:name="app.opass.ccip.activity.EventActivity"
             android:screenOrientation="portrait" />
+
         <receiver android:name="app.opass.ccip.util.SessionAlarmReceiver" />
         <receiver android:name="app.opass.ccip.util.RebootReceiver">
             <intent-filter>
@@ -56,6 +62,9 @@
         </receiver>
 
         <activity android:name="app.opass.ccip.activity.CaptureActivity" />
+        <activity
+            android:name=".activity.AuthActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
