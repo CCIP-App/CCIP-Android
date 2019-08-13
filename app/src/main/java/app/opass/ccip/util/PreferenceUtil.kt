@@ -51,8 +51,13 @@ object PreferenceUtil {
     fun getCurrentEvent(context: Context): EventConfig {
         val sharedPreferences = context.getSharedPreferences(PREF_EVENT, Context.MODE_PRIVATE)
         val currentEvent = sharedPreferences.getString(PREF_CURRENT_EVENT, "{\"event_id\": \"\"}")
-
-        return JsonUtil.fromJson(currentEvent, object : TypeToken<EventConfig>() {}.type)
+        return try {
+            JsonUtil.fromJson(currentEvent!!, EventConfig::class.java)
+        } catch (t: Throwable) {
+            JsonUtil
+                .fromJson("{\"event_id\": \"\"}", EventConfig::class.java)
+                .also { setCurrentEvent(context, it) }
+        }
     }
 
     fun setToken(context: Context, token: String?) {
@@ -85,7 +90,12 @@ object PreferenceUtil {
         val scheduleJson =
             sharedPreferences.getString(getCurrentEvent(context).eventId + PREF_SCHEDULE_SCHEDULE, "{}")!!
 
-        return JsonUtil.fromJson(scheduleJson, ConfSchedule::class.java)
+        return try {
+            JsonUtil.fromJson(scheduleJson, ConfSchedule::class.java)
+        } catch (t: Throwable) {
+            saveSchedule(context, "{}")
+            JsonUtil.fromJson("{}", ConfSchedule::class.java)
+        }
     }
 
     fun saveStars(context: Context, sessions: List<Session>) {
@@ -97,6 +107,10 @@ object PreferenceUtil {
         val sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE_STARS, Context.MODE_PRIVATE)
         val starsJson = sharedPreferences.getString(getCurrentEvent(context).eventId + PREF_SCHEDULE_STARS, "[]")!!
 
-        return JsonUtil.fromJson(starsJson, object : TypeToken<MutableList<Session>>() {}.type)
+        return try {
+            JsonUtil.fromJson(starsJson, object : TypeToken<MutableList<Session>>() {}.type)
+        } catch (t: Throwable) {
+            mutableListOf<Session>().also { saveStars(context, it) }
+        }
     }
 }
