@@ -103,7 +103,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
         if (isAdded) {
             viewPager.isSaveFromParentEnabled = false
             scheduleTabAdapter = ScheduleTabAdapter(childFragmentManager)
-            addSessionFragments(mSchedule!!.sessions)
+            mSchedule?.sessions?.let(::addSessionFragments)
             viewPager.adapter = scheduleTabAdapter
             tabLayout.setupWithViewPager(viewPager)
             menuItemStar.isVisible = true
@@ -129,7 +129,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
         }
         scheduleTabAdapter!!.notifyDataSetChanged()
 
-        if (sessionsGroupedByDate.size == 1) {
+        if (sessionsGroupedByDate.size <= 1) {
             tabLayout.visibility = View.GONE
         }
     }
