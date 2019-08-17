@@ -34,7 +34,7 @@ class SessionAlarmReceiver : BroadcastReceiver() {
             .format(
                 context.getString(R.string.notification_session_start),
                 session.getSessionDetail(context).title,
-                session.room
+                session.room.getDetails(context).name
             )
 
         val manager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
