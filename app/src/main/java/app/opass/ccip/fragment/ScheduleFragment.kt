@@ -15,7 +15,6 @@ import app.opass.ccip.activity.SessionDetailActivity
 import app.opass.ccip.adapter.ScheduleAdapter
 import app.opass.ccip.model.Session
 import app.opass.ccip.util.AlarmUtil
-import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
 import app.opass.ccip.util.ScheduleUtil
 import com.google.gson.internal.bind.util.ISO8601Utils
@@ -81,7 +80,7 @@ class ScheduleFragment : Fragment() {
 
     private fun onSessionClicked(session: Session) {
         val intent = Intent(mActivity, SessionDetailActivity::class.java).apply {
-            putExtra(SessionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(session))
+            putExtra(SessionDetailActivity.INTENT_EXTRA_SESSION_ID, session.id)
         }
         startActivity(intent)
     }

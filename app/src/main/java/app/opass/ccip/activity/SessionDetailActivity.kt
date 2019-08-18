@@ -23,7 +23,6 @@ import app.opass.ccip.adapter.SpeakerImageAdapter
 import app.opass.ccip.model.Session
 import app.opass.ccip.ui.ScrollingControlAppBarLayoutBehavior
 import app.opass.ccip.util.AlarmUtil
-import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -39,7 +38,7 @@ import java.text.SimpleDateFormat
 
 class SessionDetailActivity : AppCompatActivity() {
     companion object {
-        const val INTENT_EXTRA_PROGRAM = "program"
+        const val INTENT_EXTRA_SESSION_ID = "session_id"
         private val SDF_DATETIME = SimpleDateFormat("MM/dd HH:mm")
         private val SDF_TIME = SimpleDateFormat("HH:mm")
     }
@@ -58,7 +57,9 @@ class SessionDetailActivity : AppCompatActivity() {
         mActivity = this
         val speakerViewPager: ViewPager = findViewById(R.id.viewPager_speaker)
 
-        session = JsonUtil.fromJson(intent.getStringExtra(INTENT_EXTRA_PROGRAM), Session::class.java)
+        session = PreferenceUtil.loadSchedule(this)?.sessions?.find {
+            it.id == intent.getStringExtra(INTENT_EXTRA_SESSION_ID)
+        } ?: return showToastAndFinish()
         isStar = PreferenceUtil.loadStarredIds(this).contains(session.id)
 
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
@@ -206,5 +207,10 @@ class SessionDetailActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    private fun showToastAndFinish() {
+        Toast.makeText(this, getString(R.string.cannot_read_session_info), Toast.LENGTH_SHORT).show()
+        finish()
     }
 }
