@@ -28,6 +28,8 @@ import okhttp3.Request
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.Comparator
 import kotlin.coroutines.CoroutineContext
 
 class ScheduleTabFragment : Fragment(), CoroutineScope {
@@ -103,8 +105,8 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
         if (isAdded) {
             viewPager.isSaveFromParentEnabled = false
             scheduleTabAdapter = ScheduleTabAdapter(childFragmentManager)
-            mSchedule?.sessions?.let(::addSessionFragments)
             viewPager.adapter = scheduleTabAdapter
+            mSchedule?.sessions?.let(::addSessionFragments)
             tabLayout.setupWithViewPager(viewPager)
             menuItemStar.isVisible = true
         }
@@ -128,6 +130,13 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
             scheduleTabAdapter!!.addFragment(ScheduleFragment.newInstance(date!!, sessions), date)
         }
         scheduleTabAdapter!!.notifyDataSetChanged()
+
+        val today = SDF_DATE.format(Date())
+        val index = sessionsGroupedByDate.keys.indexOfFirst { it == today }
+
+        if (index != -1) {
+            viewPager.currentItem = index
+        }
 
         if (sessionsGroupedByDate.size <= 1) {
             tabLayout.visibility = View.GONE
