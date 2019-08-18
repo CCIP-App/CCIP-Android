@@ -59,7 +59,7 @@ class SessionDetailActivity : AppCompatActivity() {
         val speakerViewPager: ViewPager = findViewById(R.id.viewPager_speaker)
 
         session = JsonUtil.fromJson(intent.getStringExtra(INTENT_EXTRA_PROGRAM), Session::class.java)
-        isStar = PreferenceUtil.loadStars(this).contains(session)
+        isStar = PreferenceUtil.loadStarredIds(this).contains(session.id)
 
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -172,21 +172,17 @@ class SessionDetailActivity : AppCompatActivity() {
     }
 
     private fun updateStarSessions(view: View) {
-        var sessions: MutableList<Session>? = PreferenceUtil.loadStars(this)
-        if (sessions != null) {
-            if (sessions.contains(session)) {
-                sessions.remove(session)
-                AlarmUtil.cancelSessionAlarm(this, session)
-                Snackbar.make(view, R.string.remove_bookmark, Snackbar.LENGTH_LONG).show()
-            } else {
-                sessions.add(session)
-                AlarmUtil.setSessionAlarm(this, session)
-                Snackbar.make(view, R.string.add_bookmark, Snackbar.LENGTH_LONG).show()
-            }
+        val sessionIds = PreferenceUtil.loadStarredIds(this).toMutableList()
+        if (sessionIds.contains(session.id)) {
+            sessionIds.remove(session.id)
+            AlarmUtil.cancelSessionAlarm(this, session)
+            Snackbar.make(view, R.string.remove_bookmark, Snackbar.LENGTH_LONG).show()
         } else {
-            sessions = mutableListOf(session)
+            sessionIds.add(session.id)
+            AlarmUtil.setSessionAlarm(this, session)
+            Snackbar.make(view, R.string.add_bookmark, Snackbar.LENGTH_LONG).show()
         }
-        PreferenceUtil.saveStars(this, sessions)
+        PreferenceUtil.saveStarredIds(this, sessionIds)
     }
 
     private fun copyToClipboard(textView: TextView) {

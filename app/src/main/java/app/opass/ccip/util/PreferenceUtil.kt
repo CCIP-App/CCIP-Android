@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.core.content.edit
 import app.opass.ccip.model.ConfSchedule
 import app.opass.ccip.model.EventConfig
-import app.opass.ccip.model.Session
-import com.google.gson.reflect.TypeToken
 
 object PreferenceUtil {
     private const val PREF_BEACON = "beacon"
@@ -98,19 +96,18 @@ object PreferenceUtil {
         }
     }
 
-    fun saveStars(context: Context, sessions: List<Session>) {
+    fun saveStarredIds(context: Context, sessionIds: List<String>) {
         context.getSharedPreferences(PREF_SCHEDULE_STARS, Context.MODE_PRIVATE)
-            .edit { putString(getCurrentEvent(context).eventId + PREF_SCHEDULE_STARS, JsonUtil.toJson(sessions)) }
+            .edit { putStringSet(getCurrentEvent(context).eventId + PREF_SCHEDULE_STARS, sessionIds.toSet()) }
     }
 
-    fun loadStars(context: Context): MutableList<Session> {
+    fun loadStarredIds(context: Context): List<String> {
         val sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE_STARS, Context.MODE_PRIVATE)
-        val starsJson = sharedPreferences.getString(getCurrentEvent(context).eventId + PREF_SCHEDULE_STARS, "[]")!!
-
         return try {
-            JsonUtil.fromJson(starsJson, object : TypeToken<MutableList<Session>>() {}.type)
+            sharedPreferences.getStringSet(getCurrentEvent(context).eventId + PREF_SCHEDULE_STARS, emptySet())!!
+                .toList()
         } catch (t: Throwable) {
-            mutableListOf<Session>().also { saveStars(context, it) }
+            emptyList<String>().also { saveStarredIds(context, it) }
         }
     }
 }
