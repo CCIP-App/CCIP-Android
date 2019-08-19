@@ -27,6 +27,7 @@ import app.opass.ccip.adapter.DrawerMenuAdapter
 import app.opass.ccip.adapter.IdentityAction
 import app.opass.ccip.fragment.*
 import app.opass.ccip.model.FeatureType
+import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.navigation.NavigationView
 import com.squareup.picasso.Picasso
@@ -55,11 +56,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (PreferenceUtil.getCurrentEvent(this).eventId.isEmpty()) {
+        val event = PreferenceUtil.getCurrentEvent(this)
+        if (event.eventId.isEmpty()) {
             startActivity(Intent(this, EventActivity::class.java))
             finish()
             return
         }
+        CCIPClient.setBaseUrl(event.serverBaseUrl)
 
         setContentView(R.layout.activity_main)
         mActivity = this
