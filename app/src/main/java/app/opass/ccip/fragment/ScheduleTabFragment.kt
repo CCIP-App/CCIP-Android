@@ -2,11 +2,11 @@ package app.opass.ccip.fragment
 
 import android.app.Activity
 import android.graphics.PorterDuff.Mode
-import android.os.Build.VERSION
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
@@ -53,16 +53,12 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.fragment_schedule_tab, container, false)
 
-        swipeRefreshLayout = view.findViewById(R.id.swipeContainer)
-        tabLayout = view.findViewById(R.id.tabs)
-        viewPager = view.findViewById(R.id.pager)
-
         mActivity = requireActivity()
         mJob = Job()
 
-        if (VERSION.SDK_INT >= 21) {
-            mActivity.findViewById<View>(R.id.appbar).elevation = 0f
-        }
+        tabLayout = mActivity.findViewById(R.id.tabs)
+        swipeRefreshLayout = view.findViewById(R.id.swipeContainer)
+        viewPager = view.findViewById(R.id.pager)
 
         setHasOptionsMenu(true)
 
@@ -97,6 +93,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
 
     override fun onDestroy() {
         tabLayout.setupWithViewPager(null)
+        tabLayout.isGone = true
         super.onDestroy()
         mJob.cancel()
     }
@@ -138,9 +135,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
             viewPager.currentItem = index
         }
 
-        if (sessionsGroupedByDate.size <= 1) {
-            tabLayout.visibility = View.GONE
-        }
+        tabLayout.isGone = sessionsGroupedByDate.size <= 1
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
