@@ -143,6 +143,7 @@ class MainFragment : Fragment(), CoroutineScope {
                     else -> {
                         Snackbar.make(view!!, getString(R.string.invalid_token), Snackbar.LENGTH_LONG).show()
                         PreferenceUtil.setToken(mActivity, null)
+                        PreferenceUtil.setRole(mActivity, null)
                         loginView.visibility = View.VISIBLE
                     }
                 }
