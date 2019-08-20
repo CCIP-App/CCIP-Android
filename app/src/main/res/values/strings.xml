@@ -101,4 +101,6 @@
     <string name="try_again">Try Again</string>
     <string name="unexpected_error_try_again">An unexpected error occurred. Please try again later.</string>
     <string name="verify_identity_to_use_this_function">Verify identity to use this function</string>
+    <string name="event_update_detected_message">Event information has updated. Restart app for accurate information.</string>
+    <string name="restart">Restart</string>
 </resources>

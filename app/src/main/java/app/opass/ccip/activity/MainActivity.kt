@@ -25,17 +25,25 @@ import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
 import app.opass.ccip.adapter.DrawerMenuAdapter
 import app.opass.ccip.adapter.IdentityAction
+import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.fragment.*
 import app.opass.ccip.model.FeatureType
 import app.opass.ccip.network.CCIPClient
+import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 private const val STATE_ACTION_BAR_TITLE = "ACTION_BAR_TITLE"
 private const val STATE_IS_DEFAULT_FEATURE_SELECTED = "IS_DEFAULT_FEATURE_SELECTED"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CoroutineScope {
     companion object {
         const val ARG_IS_FROM_NOTIFICATION = "isFromNotification"
     }
@@ -53,6 +61,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var defaultFeatureItem: DrawerMenuAdapter.FeatureItem
     private var isDefaultFeatureSelected: Boolean = true
 
+    private lateinit var mJob: Job
+    override val coroutineContext: CoroutineContext
+        get() = mJob + Dispatchers.Main
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -66,6 +78,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
         mActivity = this
+        mJob = Job()
 
         mDrawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
@@ -110,11 +123,34 @@ class MainActivity : AppCompatActivity() {
                     .show()
             }
         }
+
+        launch {
+            try {
+                val response = PortalClient.get().getEventConfig(event.eventId).asyncExecute()
+                if (!response.isSuccessful) {
+                    return@launch
+                }
+                val newEvent = response.body()!!
+                if (event != newEvent) {
+                    PreferenceUtil.setCurrentEvent(this@MainActivity, newEvent)
+                    Snackbar.make(mDrawerLayout, R.string.event_update_detected_message, 4000)
+                        .setAction(R.string.restart) { recreate() }
+                        .show()
+                }
+            } catch (t: Throwable) {
+                t.printStackTrace()
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         buildDrawer()
+    }
+
+    override fun onDestroy() {
+        mJob.cancel()
+        super.onDestroy()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
