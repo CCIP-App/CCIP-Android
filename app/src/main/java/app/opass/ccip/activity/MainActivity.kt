@@ -30,6 +30,7 @@ import app.opass.ccip.fragment.*
 import app.opass.ccip.model.FeatureType
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.PortalClient
+import app.opass.ccip.util.CryptoUtil
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -252,7 +253,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                     FeatureType.PUZZLE -> if (item.url != null) PuzzleFragment.newInstance(item.url) else return
                     else -> WebViewFragment.newInstance(
                         item.url!!
-                            .replace("{token}", PreferenceUtil.getToken(mActivity).toString())
+                            .replace("{public_token}",
+                                CryptoUtil.toPublicToken(PreferenceUtil.getToken(mActivity)).toString()
+                            )
                             .replace("{role}", PreferenceUtil.getRole(mActivity).toString()),
                         item.shouldUseBuiltinZoomControls
                     )
