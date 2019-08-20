@@ -5,9 +5,10 @@ import java.security.NoSuchAlgorithmException
 
 object CryptoUtil {
     fun toPublicToken(privateToken: String?): String? {
+        privateToken ?: return null
         try {
             val messageDigest = MessageDigest.getInstance("SHA-1")
-            val data = messageDigest.digest(privateToken!!.toByteArray())
+            val data = messageDigest.digest(privateToken.toByteArray())
             val buffer = StringBuilder()
 
             for (b in data) {
