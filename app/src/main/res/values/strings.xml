@@ -106,4 +106,5 @@
     <string name="schedule_updated">Schedule updated</string>
     <string name="reload">Reload</string>
     <string name="cannot_load_schedule">Cannot load schedule</string>
+    <string name="cannot_read_session_info">Cannot read session info</string>
 </resources>

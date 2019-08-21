@@ -21,7 +21,7 @@ object AlarmUtil {
 
             val intent = Intent(context, SessionAlarmReceiver::class.java)
             intent.action = session.hashCode().toString()
-            intent.putExtra(SessionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(session))
+            intent.putExtra(SessionDetailActivity.INTENT_EXTRA_SESSION_ID, session.id)
 
             val pendingIntent = PendingIntent
                 .getBroadcast(context, session.hashCode(), intent, 0)
@@ -47,7 +47,7 @@ object AlarmUtil {
 
     fun cancelSessionAlarm(context: Context, session: Session) {
         val intent = Intent(context, SessionDetailActivity::class.java)
-        intent.putExtra(SessionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(session))
+        intent.putExtra(SessionDetailActivity.INTENT_EXTRA_SESSION_ID, session.id)
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(
