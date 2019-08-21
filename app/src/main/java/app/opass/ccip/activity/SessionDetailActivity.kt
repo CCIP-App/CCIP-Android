@@ -23,7 +23,6 @@ import app.opass.ccip.adapter.SpeakerImageAdapter
 import app.opass.ccip.model.Session
 import app.opass.ccip.ui.ScrollingControlAppBarLayoutBehavior
 import app.opass.ccip.util.AlarmUtil
-import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -39,7 +38,7 @@ import java.text.SimpleDateFormat
 
 class SessionDetailActivity : AppCompatActivity() {
     companion object {
-        const val INTENT_EXTRA_PROGRAM = "program"
+        const val INTENT_EXTRA_SESSION_ID = "session_id"
         private val SDF_DATETIME = SimpleDateFormat("MM/dd HH:mm")
         private val SDF_TIME = SimpleDateFormat("HH:mm")
     }
@@ -58,8 +57,10 @@ class SessionDetailActivity : AppCompatActivity() {
         mActivity = this
         val speakerViewPager: ViewPager = findViewById(R.id.viewPager_speaker)
 
-        session = JsonUtil.fromJson(intent.getStringExtra(INTENT_EXTRA_PROGRAM), Session::class.java)
-        isStar = PreferenceUtil.loadStars(this).contains(session)
+        session = PreferenceUtil.loadSchedule(this)?.sessions?.find {
+            it.id == intent.getStringExtra(INTENT_EXTRA_SESSION_ID)
+        } ?: return showToastAndFinish()
+        isStar = PreferenceUtil.loadStarredIds(this).contains(session.id)
 
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -172,27 +173,23 @@ class SessionDetailActivity : AppCompatActivity() {
     }
 
     private fun updateStarSessions(view: View) {
-        var sessions: MutableList<Session>? = PreferenceUtil.loadStars(this)
-        if (sessions != null) {
-            if (sessions.contains(session)) {
-                sessions.remove(session)
-                AlarmUtil.cancelSessionAlarm(this, session)
-                Snackbar.make(view, R.string.remove_bookmark, Snackbar.LENGTH_LONG).show()
-            } else {
-                sessions.add(session)
-                AlarmUtil.setSessionAlarm(this, session)
-                Snackbar.make(view, R.string.add_bookmark, Snackbar.LENGTH_LONG).show()
-            }
+        val sessionIds = PreferenceUtil.loadStarredIds(this).toMutableList()
+        if (sessionIds.contains(session.id)) {
+            sessionIds.remove(session.id)
+            AlarmUtil.cancelSessionAlarm(this, session)
+            Snackbar.make(view, R.string.remove_bookmark, Snackbar.LENGTH_LONG).show()
         } else {
-            sessions = mutableListOf(session)
+            sessionIds.add(session.id)
+            AlarmUtil.setSessionAlarm(this, session)
+            Snackbar.make(view, R.string.add_bookmark, Snackbar.LENGTH_LONG).show()
         }
-        PreferenceUtil.saveStars(this, sessions)
+        PreferenceUtil.saveStarredIds(this, sessionIds)
     }
 
     private fun copyToClipboard(textView: TextView) {
         val cManager = mActivity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val cData = ClipData.newPlainText("text", textView.text)
-        cManager.primaryClip = cData
+        cManager.setPrimaryClip(cData)
         Toast.makeText(mActivity, R.string.copy_to_clipboard, Toast.LENGTH_SHORT).show()
     }
 
@@ -210,5 +207,10 @@ class SessionDetailActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    private fun showToastAndFinish() {
+        Toast.makeText(this, getString(R.string.cannot_read_session_info), Toast.LENGTH_SHORT).show()
+        finish()
     }
 }

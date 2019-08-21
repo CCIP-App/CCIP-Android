@@ -20,9 +20,7 @@ class CCIPClient {
                 .addConverterFactory(GsonConverterFactory.create(JsonUtil.GSON))
                 .build()
 
-        private val sCCIPService: CCIPService by lazy {
-            retrofit.create(CCIPService::class.java)
-        }
+        private var sCCIPService = retrofit.create(CCIPService::class.java)
 
         fun get(): CCIPService = sCCIPService
 
@@ -31,6 +29,7 @@ class CCIPClient {
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create(JsonUtil.GSON))
                 .build()
+            sCCIPService = retrofit.create(CCIPService::class.java)
         }
 
         interface CCIPService {

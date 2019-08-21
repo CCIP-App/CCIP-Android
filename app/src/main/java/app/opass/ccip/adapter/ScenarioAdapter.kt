@@ -82,6 +82,7 @@ class ScenarioAdapter(
             if (scenario.countdown > 0) {
                 holder.card.isClickable = true
             } else {
+                setCardUsed(holder)
                 holder.card.isClickable = false
                 holder.card.setOnClickListener(null)
             }

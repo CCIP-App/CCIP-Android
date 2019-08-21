@@ -15,7 +15,7 @@ data class Session(
     val speakers: List<Speaker>,
     val qa: String?,
     val slide: String?,
-    val broadcast: String?,
+    val broadcast: List<String>?,
     val live: String?,
     val record: String?,
     val tags: List<SessionTag>

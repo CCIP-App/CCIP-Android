@@ -11,10 +11,9 @@ import app.opass.ccip.R
 import app.opass.ccip.activity.MainActivity
 import app.opass.ccip.network.webclient.OfficialWebViewClient
 import app.opass.ccip.network.webclient.WebChromeViewClient
+import app.opass.ccip.util.CryptoUtil
 import app.opass.ccip.util.PreferenceUtil
 import kotlinx.android.synthetic.main.fragment_web.*
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 class PuzzleFragment : Fragment() {
     companion object {
@@ -44,7 +43,7 @@ class PuzzleFragment : Fragment() {
         if (PreferenceUtil.getToken(activity!!) != null) {
             webView.loadUrl(
                 arguments!!.getString(EXTRA_URL)!! +
-                    toPublicToken(PreferenceUtil.getToken(activity!!))
+                    CryptoUtil.toPublicToken(PreferenceUtil.getToken(activity!!))
             )
         } else {
             webView.loadUrl("data:text/html, <div>Please login</div>")
@@ -77,21 +76,4 @@ class PuzzleFragment : Fragment() {
         return true
     }
 
-    private fun toPublicToken(privateToken: String?): String? {
-        try {
-            val messageDigest = MessageDigest.getInstance("SHA-1")
-            val data = messageDigest.digest(privateToken!!.toByteArray())
-            val buffer = StringBuilder()
-
-            for (b in data) {
-                buffer.append("%02x".format(b))
-            }
-
-            return buffer.toString()
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        }
-
-        return null
-    }
 }

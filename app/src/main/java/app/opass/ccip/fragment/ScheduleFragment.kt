@@ -15,8 +15,8 @@ import app.opass.ccip.activity.SessionDetailActivity
 import app.opass.ccip.adapter.ScheduleAdapter
 import app.opass.ccip.model.Session
 import app.opass.ccip.util.AlarmUtil
-import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
+import app.opass.ccip.util.ScheduleUtil
 import com.google.gson.internal.bind.util.ISO8601Utils
 import java.text.ParseException
 import java.text.ParsePosition
@@ -73,35 +73,34 @@ class ScheduleFragment : Fragment() {
                 null
             }
         }
-
-        return PreferenceUtil.loadStars(mActivity).filter {
+        return ScheduleUtil.getStarredSessions(mActivity).filter {
             getDateOrNull(it.start) == date
         }
     }
 
     private fun onSessionClicked(session: Session) {
         val intent = Intent(mActivity, SessionDetailActivity::class.java).apply {
-            putExtra(SessionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(session))
+            putExtra(SessionDetailActivity.INTENT_EXTRA_SESSION_ID, session.id)
         }
         startActivity(intent)
     }
 
     private fun onToggleStarState(session: Session): Boolean {
-        val sessions = PreferenceUtil.loadStars(mActivity)
-        val isAlreadyStarred = sessions.contains(session)
+        val sessionIds = PreferenceUtil.loadStarredIds(mActivity).toMutableList()
+        val isAlreadyStarred = sessionIds.contains(session.id)
         if (isAlreadyStarred) {
-            sessions.remove(session)
+            sessionIds.remove(session.id)
             AlarmUtil.cancelSessionAlarm(mActivity, session)
         } else {
-            sessions.add(session)
+            sessionIds.add(session.id)
             AlarmUtil.setSessionAlarm(mActivity, session)
         }
-        PreferenceUtil.saveStars(mActivity, sessions)
+        PreferenceUtil.saveStarredIds(mActivity, sessionIds)
         return !isAlreadyStarred
     }
 
     private fun isSessionStarred(session: Session): Boolean {
-        return PreferenceUtil.loadStars(mActivity).contains(session)
+        return PreferenceUtil.loadStarredIds(mActivity).contains(session.id)
     }
 
     private fun toSessionsGroupedByTime(sessions: List<Session>?): List<List<Session>> {

@@ -46,9 +46,7 @@ class CountdownActivity : AppCompatActivity() {
             }
         } else {
             val entries = attr.entrySet()
-            for ((_, value) in entries) {
-                attrText.append(value.toString() + "\n")
-            }
+            attrText.text = entries.joinToString("\n") { (key, value) -> "$key: $value" }
         }
 
         val countdown = if (used == null) {

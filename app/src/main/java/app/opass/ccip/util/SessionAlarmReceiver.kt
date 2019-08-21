@@ -12,7 +12,6 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import app.opass.ccip.R
 import app.opass.ccip.activity.SessionDetailActivity
-import app.opass.ccip.model.Session
 
 class SessionAlarmReceiver : BroadcastReceiver() {
     companion object {
@@ -20,21 +19,20 @@ class SessionAlarmReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        val session = JsonUtil
-            .fromJson(
-                intent.getStringExtra(SessionDetailActivity.INTENT_EXTRA_PROGRAM),
-                Session::class.java
-            )
+        val session = PreferenceUtil.loadSchedule(context)?.sessions?.find {
+            it.id == intent.getStringExtra(SessionDetailActivity.INTENT_EXTRA_SESSION_ID)
+        } ?: return
 
-        intent.setClass(context, SessionDetailActivity::class.java)
-        intent.putExtra(SessionDetailActivity.INTENT_EXTRA_PROGRAM, JsonUtil.toJson(session))
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        val newIntent = Intent(context, SessionDetailActivity::class.java).apply {
+            putExtra(SessionDetailActivity.INTENT_EXTRA_SESSION_ID, session.id)
+        }
+        val pendingIntent = PendingIntent.getActivity(context, 0, newIntent, 0)
 
         val notificationContent = String
             .format(
                 context.getString(R.string.notification_session_start),
                 session.getSessionDetail(context).title,
-                session.room
+                session.room.getDetails(context).name
             )
 
         val manager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager

@@ -56,7 +56,7 @@ data class SessionTemp(
     val tags: List<String>,
     val qa: String?,
     val slide: String?,
-    val broadcast: String?,
+    val broadcast: List<String>?,
     val live: String?,
     val record: String?
 )
