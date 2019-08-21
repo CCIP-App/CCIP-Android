@@ -85,7 +85,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
                             PreferenceUtil.saveSchedule(mActivity, scheduleJson)
 
                             if (mSchedule == null) return@run loadCachedSchedule()
-                            Snackbar.make(coordinatorLayout, R.string.schedule_updated, Snackbar.LENGTH_LONG)
+                            Snackbar.make(coordinatorLayout, R.string.schedule_updated, Snackbar.LENGTH_INDEFINITE)
                                 .setAction(R.string.reload) { loadCachedSchedule() }
                                 .show()
                         }
