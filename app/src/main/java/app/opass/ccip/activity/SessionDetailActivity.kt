@@ -192,7 +192,7 @@ class SessionDetailActivity : AppCompatActivity() {
     private fun copyToClipboard(textView: TextView) {
         val cManager = mActivity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val cData = ClipData.newPlainText("text", textView.text)
-        cManager.primaryClip = cData
+        cManager.setPrimaryClip(cData)
         Toast.makeText(mActivity, R.string.copy_to_clipboard, Toast.LENGTH_SHORT).show()
     }
 
