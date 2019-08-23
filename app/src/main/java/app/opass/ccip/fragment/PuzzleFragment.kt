@@ -1,10 +1,13 @@
 package app.opass.ccip.fragment
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.webkit.PermissionRequest
 import android.webkit.WebSettings
 import androidx.fragment.app.Fragment
 import app.opass.ccip.R
@@ -38,7 +41,20 @@ class PuzzleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         webView.webViewClient = OfficialWebViewClient()
-        webView.webChromeClient = WebChromeViewClient(progressBar)
+        webView.webChromeClient = WebChromeViewClient(progressBar, fun (request) {
+            if (!request!!.resources.contains(PermissionRequest.RESOURCE_VIDEO_CAPTURE)) request.deny()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                // Android M Permission check
+                if (mActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(arrayOf(Manifest.permission.CAMERA), 2)
+                    request.deny()
+                } else {
+                    request.grant((request.resources))
+                }
+            } else {
+                request.grant((request.resources))
+            }
+        })
 
         if (PreferenceUtil.getToken(activity!!) != null) {
             webView.loadUrl(
@@ -54,6 +70,17 @@ class PuzzleFragment : Fragment() {
         settings.domStorageEnabled = true
         if (Build.VERSION.SDK_INT >= 21) {
             settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (permissions.contains(Manifest.permission.CAMERA)) {
+            webView.reload()
         }
     }
 
