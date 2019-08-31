@@ -15,6 +15,7 @@ import app.opass.ccip.R
 import app.opass.ccip.adapter.AnnouncementAdapter
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.network.CCIPClient
+import app.opass.ccip.util.PreferenceUtil
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -44,7 +45,7 @@ class AnnouncementFragment : Fragment(), CoroutineScope {
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
         launch {
             try {
-                CCIPClient.get().announcement().asyncExecute().run {
+                CCIPClient.get().announcement(PreferenceUtil.getToken(mActivity)).asyncExecute().run {
                     if (isSuccessful && !body().isNullOrEmpty()) {
                         announcementView.adapter = AnnouncementAdapter(mActivity, body()!!)
                     } else {

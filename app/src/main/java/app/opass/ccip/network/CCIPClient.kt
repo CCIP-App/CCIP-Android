@@ -45,7 +45,9 @@ class CCIPClient {
             ): Call<Attendee>
 
             @GET("/announcement")
-            fun announcement(): Call<List<Announcement>>
+            fun announcement(
+                @Query("token") token: String?
+            ): Call<List<Announcement>>
         }
     }
 }
