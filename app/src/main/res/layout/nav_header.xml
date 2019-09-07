@@ -19,7 +19,7 @@
     android:layout_height="192dp"
     android:background="?attr/colorPrimaryDark"
     android:orientation="vertical"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
 
     <ImageView
         android:id="@+id/conf_logo"

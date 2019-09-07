@@ -15,7 +15,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="32dp"
         android:alpha="0.54"
-        android:tint="#000000" />
+        android:tint="?attr/colorOnSurface" />
 
     <TextView
         android:id="@+id/title"
@@ -24,8 +24,8 @@
         android:layout_weight="1"
         android:gravity="center_vertical|start"
         android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#DE000000" />
+        android:textAppearance="?attr/textAppearanceSubtitle2"
+        android:textColor="?attr/colorOnSurface" />
 
     <ImageView
         android:id="@+id/launch_icon"
@@ -35,5 +35,6 @@
         android:layout_marginEnd="16dp"
         android:alpha="0.54"
         android:src="@drawable/ic_launch_black_24dp"
-        android:tint="#000000" />
+        android:tint="?attr/colorOnSurface" />
+
 </LinearLayout>

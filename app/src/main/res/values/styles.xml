@@ -1,16 +1,17 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="materialButtonStyle">@style/Widget.OPass.ColoredButton</item>
+        <item name="toolbarStyle">@style/Widget.OPass.Toolbar</item>
+        <item name="android:windowBackground">@color/colorWindowBackground</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupTheme" parent="ThemeOverlay.MaterialComponents.Light" />
 
     <style name="Widget.CardContent" parent="android:Widget">
         <item name="android:paddingLeft">16dp</item>
@@ -29,7 +30,7 @@
     </style>
 
     <style name="Session.Time" parent="Session">
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
         <item name="android:gravity">center_vertical</item>
@@ -42,12 +43,34 @@
         <item name="android:background">@drawable/room_background</item>
     </style>
 
-    <style name="BorderlessButtonStyle" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:textColor">@color/colorPrimary</item>
+    <style name="Widget.OPass" parent="android:Widget.Material" />
+
+    <style name="Widget.OPass.AppBar" parent="Widget.Design.AppBarLayout">
+        <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
     </style>
 
-    <style name="ColoredButtonStyle" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:colorButtonNormal">@color/colorPrimary</item>
+    <style name="Widget.OPass.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="popupTheme">@style/AppTheme.PopupTheme</item>
+    </style>
+
+    <style name="Widget.OPass.TabLayout" parent="Widget.MaterialComponents.TabLayout.Colored">
+        <item name="tabIndicatorColor">?attr/colorSecondary</item>
+    </style>
+
+    <style name="Widget.OPass.ColoredButton" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Widget.OPass.AuthNavBar">
+        <item name="android:background">#EEE</item>
+    </style>
+
+    <style name="TextAppearance.OPass.AuthTitle" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+
+    <style name="TextAppearance.OPass.AuthListItem" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 </resources>
