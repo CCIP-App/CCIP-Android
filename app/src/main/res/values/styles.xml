@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -23,6 +23,10 @@
 
     <style name="Session">
         <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="Session.Title">
+        <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="Session.Type" parent="Session">
@@ -47,6 +51,7 @@
 
     <style name="Widget.OPass.AppBar" parent="Widget.Design.AppBarLayout">
         <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
+        <item name="android:elevation">4dp</item>
     </style>
 
     <style name="Widget.OPass.Toolbar" parent="Widget.MaterialComponents.Toolbar">

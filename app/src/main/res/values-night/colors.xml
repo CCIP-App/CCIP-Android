@@ -1,0 +1,8 @@
+<resources>
+    <color name="colorWindowBackground">@color/design_dark_default_color_background</color>
+    <color name="colorPrimary">@color/colorAccent</color>
+    <color name="colorPrimaryDark">@color/design_dark_default_color_primary_dark</color>
+
+    <color name="session_detail_primary">@color/colorWhite</color>
+    <color name="toolbar_scrim">@color/design_dark_default_color_surface</color>
+</resources>

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@color/toolbar_scrim"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <FrameLayout

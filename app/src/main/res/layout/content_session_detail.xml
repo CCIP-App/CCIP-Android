@@ -29,7 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Anistar Sung 宋志峰 / Howard Huang 黃元亨"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/session_detail_primary"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Yahoo Mobile SDK Open Source Projects and Experience Sharing"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/session_detail_primary"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
@@ -58,7 +58,7 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:text="@string/time"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/session_detail_primary" />
 
                         <TextView
                             android:id="@+id/time"
@@ -78,7 +78,7 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:text="@string/type"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/session_detail_primary" />
 
                         <TextView
                             android:id="@+id/type"
@@ -99,7 +99,7 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:text="@string/community"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/session_detail_primary" />
 
                         <TextView
                             android:id="@+id/community"
@@ -119,7 +119,7 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:text="@string/lang"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/session_detail_primary" />
 
                         <TextView
                             android:id="@+id/lang"
@@ -140,7 +140,7 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:text="@string/slide"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/session_detail_primary" />
 
                         <TextView
                             android:id="@+id/slide"
@@ -161,7 +161,7 @@
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:text="@string/qa"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/session_detail_primary" />
 
                         <TextView
                             android:id="@+id/qa"
@@ -193,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/speaker_info"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/session_detail_primary" />
 
                 <TextView
                     android:id="@+id/speakerinfo"
@@ -221,7 +221,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/program_abstract"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/session_detail_primary" />
 
                 <TextView
                     android:id="@+id/program_abstract"

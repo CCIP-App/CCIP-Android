@@ -9,4 +9,7 @@
     <color name="colorGray">#9D9D9D</color>
     <color name="materialGrey50">#fffafafa</color>
     <color name="colorWindowBackground">@color/materialGrey50</color>
+
+    <color name="session_detail_primary">@color/colorPrimary</color>
+    <color name="toolbar_scrim">@color/colorPrimary</color>
 </resources>
