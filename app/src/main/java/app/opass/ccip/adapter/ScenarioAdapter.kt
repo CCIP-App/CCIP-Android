@@ -62,7 +62,11 @@ class ScenarioAdapter(
             holder.scenarioName.text = scenario.displayText.enUS
         }
 
-        holder.scenarioName.setTextColor(ContextCompat.getColor(mContext, android.R.color.black))
+        val typedArr = mContext.obtainStyledAttributes(intArrayOf(R.attr.colorOnSurface))
+        val colorOnSurface = typedArr.getColor(0, 0)
+        typedArr.recycle()
+
+        holder.scenarioName.setTextColor(colorOnSurface)
         holder.allowTimeRange.text = String.format(
             FORMAT_TIMERANGE,
             SDF.format(Date(scenario.availableTime * 1000L)),

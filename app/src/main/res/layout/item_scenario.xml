@@ -28,7 +28,8 @@
                     android:layout_height="60dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:src="@drawable/day1checkin" />
+                    android:src="@drawable/day1checkin"
+                    android:tint="?attr/colorOnSurface" />
 
                 <ImageView
                     android:id="@+id/tick"
