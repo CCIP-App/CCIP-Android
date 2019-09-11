@@ -5,4 +5,5 @@
 
     <color name="session_detail_primary">@color/colorWhite</color>
     <color name="toolbar_scrim">@color/design_dark_default_color_surface</color>
+    <color name="link_color">@color/color_accent_variant</color>
 </resources>

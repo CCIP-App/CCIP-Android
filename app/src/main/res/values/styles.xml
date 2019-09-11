@@ -9,6 +9,7 @@
         <item name="materialButtonStyle">@style/Widget.OPass.ColoredButton</item>
         <item name="toolbarStyle">@style/Widget.OPass.Toolbar</item>
         <item name="android:windowBackground">@color/colorWindowBackground</item>
+        <item name="android:textColorLink">@color/link_color</item>
     </style>
 
     <style name="AppTheme.PopupTheme" parent="ThemeOverlay.MaterialComponents.Light" />
