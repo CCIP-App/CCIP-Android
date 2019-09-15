@@ -49,10 +49,10 @@ class PuzzleFragment : Fragment() {
                     requestPermissions(arrayOf(Manifest.permission.CAMERA), 2)
                     request.deny()
                 } else {
-                    request.grant((request.resources))
+                    request.grant(request.resources)
                 }
             } else {
-                request.grant((request.resources))
+                request.grant(request.resources)
             }
         })
 
@@ -79,7 +79,7 @@ class PuzzleFragment : Fragment() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (permissions.contains(Manifest.permission.CAMERA)) {
+        if (permissions.contains(Manifest.permission.CAMERA) && grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
             webView.reload()
         }
     }
