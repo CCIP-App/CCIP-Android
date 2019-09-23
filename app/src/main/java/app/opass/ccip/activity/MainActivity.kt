@@ -242,6 +242,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             is DrawerMenuAdapter.FeatureItem -> {
                 val feature = item.origFeature
                 if (item.shouldShowLaunchIcon) return this.startActivity(Intent(Intent.ACTION_VIEW, feature.url!!.toUri()))
+                if (feature.feature == FeatureType.WIFI) {
+                    mDrawerLayout.closeDrawers()
+                    return
+                }
 
                 isDefaultFeatureSelected = item == defaultFeatureItem
                 val fragment = when (feature.feature) {

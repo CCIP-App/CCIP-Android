@@ -12,7 +12,9 @@ data class Feature(
     @SerializedName("url")
     val url: String?,
     @SerializedName("visible_roles")
-    val visibleRoles: List<String>?
+    val visibleRoles: List<String>?,
+    @SerializedName("wifi")
+    val wifiNetworks: List<WifiNetworkInfo>?
 )
 
 enum class FeatureType(val type: String) {
@@ -37,7 +39,9 @@ enum class FeatureType(val type: String) {
     @SerializedName("venue")
     VENUE("venue"),
     @SerializedName("webview")
-    WEBVIEW("webview");
+    WEBVIEW("webview"),
+    @SerializedName("wifi")
+    WIFI("wifi");
 
     companion object {
         private val map = values().associateBy(FeatureType::type)

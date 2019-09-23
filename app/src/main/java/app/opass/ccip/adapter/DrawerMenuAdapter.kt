@@ -115,7 +115,8 @@ class DrawerMenuAdapter(
                     icon = null,
                     displayText = LocalizedString.fromUntranslated(context.resources.getString(R.string.star_on_github)),
                     url = URL_GITHUB,
-                    visibleRoles = null
+                    visibleRoles = null,
+                    wifiNetworks = null
                 ),
                 iconDrawable = R.drawable.github_mark,
                 shouldShowLaunchIcon = true
@@ -155,6 +156,7 @@ class DrawerMenuAdapter(
                 FeatureType.SPONSORS -> R.drawable.ic_redeem_black_48dp
                 FeatureType.STAFFS -> R.drawable.ic_group_black_48dp
                 FeatureType.VENUE -> R.drawable.ic_map_black_48dp
+                FeatureType.WIFI -> R.drawable.ic_network_wifi_black_24dp
                 FeatureType.WEBVIEW -> null
             }
 
