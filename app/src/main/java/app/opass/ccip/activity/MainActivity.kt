@@ -240,29 +240,30 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 finish()
             }
             is DrawerMenuAdapter.FeatureItem -> {
-                if (!item.isEmbedded) return this.startActivity(Intent(Intent.ACTION_VIEW, item.url!!.toUri()))
+                val feature = item.origFeature
+                if (item.shouldShowLaunchIcon) return this.startActivity(Intent(Intent.ACTION_VIEW, feature.url!!.toUri()))
 
                 isDefaultFeatureSelected = item == defaultFeatureItem
-                val fragment = when (item.type) {
+                val fragment = when (feature.feature) {
                     FeatureType.FAST_PASS -> MainFragment()
                     FeatureType.SCHEDULE -> ScheduleTabFragment()
                     FeatureType.ANNOUNCEMENT -> AnnouncementFragment()
                     FeatureType.TICKET -> MyTicketFragment()
-                    FeatureType.PUZZLE -> if (item.url != null) PuzzleFragment.newInstance(item.url) else return
+                    FeatureType.PUZZLE -> if (feature.url != null) PuzzleFragment.newInstance(feature.url) else return
                     else -> WebViewFragment.newInstance(
-                        item.url!!
+                        feature.url!!
                             .replace("{public_token}",
                                 CryptoUtil.toPublicToken(PreferenceUtil.getToken(mActivity)).toString()
                             )
                             .replace("{role}", PreferenceUtil.getRole(mActivity).toString()),
-                        item.shouldUseBuiltinZoomControls
+                        shouldUseBuiltinZoomControls = feature.feature == FeatureType.VENUE
                     )
                 }
                 supportFragmentManager.transaction { replace(R.id.content_frame, fragment) }
             }
         }
         title = when (item) {
-            is DrawerMenuAdapter.FeatureItem -> item.displayText.findBestMatch(this)
+            is DrawerMenuAdapter.FeatureItem -> item.origFeature.displayText.findBestMatch(this)
             else -> this.resources.getString(R.string.app_name)
         }
         mDrawerLayout.closeDrawers()
