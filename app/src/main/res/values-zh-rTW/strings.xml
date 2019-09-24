@@ -106,4 +106,8 @@
     <string name="reload">重新載入</string>
     <string name="cannot_load_schedule">無法載入議程</string>
     <string name="cannot_read_session_info">無法讀取議程資訊</string>
+    <string name="choose_network_to_connect">選擇要連線的網路</string>
+    <string name="wifi_saved">Wifi 網路資訊已儲存</string>
+    <string name="failed_to_save_wifi">無法儲存 Wifi 網路資訊</string>
+    <string name="failed_to_save_wifi_copied_to_clipboard">無法儲存 WiFi 網路資訊。網路密碼已複製到剪貼簿。</string>
 </resources>

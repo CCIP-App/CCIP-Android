@@ -107,4 +107,8 @@
     <string name="reload">Reload</string>
     <string name="cannot_load_schedule">Cannot load schedule</string>
     <string name="cannot_read_session_info">Cannot read session info</string>
+    <string name="choose_network_to_connect">Choose a network to connect</string>
+    <string name="wifi_saved">Saved wifi network</string>
+    <string name="failed_to_save_wifi">Failed to save wifi network</string>
+    <string name="failed_to_save_wifi_copied_to_clipboard">Failed to save wifi network. Password copied to clipboard instead.</string>
 </resources>
