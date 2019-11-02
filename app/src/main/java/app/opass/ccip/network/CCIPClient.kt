@@ -12,24 +12,17 @@ import retrofit2.http.Query
 
 class CCIPClient {
     companion object {
-        private const val API_BASE_URL = "https://ccip.opass.app"
+        private val cache = mutableMapOf<String, CCIPService>()
 
-        var retrofit: Retrofit =
-            Retrofit.Builder()
-                .baseUrl(API_BASE_URL)
+        fun withBaseUrl(url: String): CCIPService {
+            cache[url]?.let { return@withBaseUrl it }
+            val retrofit = Retrofit.Builder()
+                .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create(JsonUtil.GSON))
                 .build()
-
-        private var sCCIPService = retrofit.create(CCIPService::class.java)
-
-        fun get(): CCIPService = sCCIPService
-
-        fun setBaseUrl(baseUrl: String) {
-            retrofit = Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(JsonUtil.GSON))
-                .build()
-            sCCIPService = retrofit.create(CCIPService::class.java)
+            val service = retrofit.create(CCIPService::class.java)
+            cache[url] = service
+            return service
         }
 
         interface CCIPService {
