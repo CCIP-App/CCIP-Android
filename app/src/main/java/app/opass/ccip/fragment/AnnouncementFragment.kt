@@ -16,10 +16,20 @@ import app.opass.ccip.adapter.AnnouncementAdapter
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.util.PreferenceUtil
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class AnnouncementFragment : Fragment(), CoroutineScope {
+    companion object {
+        private const val EXTRA_URL = "EXTRA_URL"
+        fun newInstance(url: String): AnnouncementFragment = AnnouncementFragment().apply {
+            arguments = Bundle().apply { putString(EXTRA_URL, url) }
+        }
+    }
+
     private lateinit var announcementView: RecyclerView
     private lateinit var announcementEmptyView: View
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -27,6 +37,8 @@ class AnnouncementFragment : Fragment(), CoroutineScope {
     private lateinit var mJob: Job
     override val coroutineContext: CoroutineContext
         get() = mJob + Dispatchers.Main
+
+    private val baseUrl by lazy { arguments!!.getString(EXTRA_URL)!! }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)

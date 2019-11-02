@@ -31,6 +31,13 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class MainFragment : Fragment(), CoroutineScope {
+    companion object {
+        private const val EXTRA_URL = "EXTRA_URL"
+        fun newInstance(url: String): MainFragment = MainFragment().apply {
+            arguments = Bundle().apply { putString(EXTRA_URL, url) }
+        }
+    }
+
     private lateinit var noNetworkView: View
     private lateinit var notConfWifiView: View
     private lateinit var loginView: View

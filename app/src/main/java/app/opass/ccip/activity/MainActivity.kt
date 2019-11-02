@@ -31,6 +31,7 @@ import app.opass.ccip.adapter.IdentityAction
 import app.opass.ccip.adapter.WifiNetworkAdapter
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.fragment.*
+import app.opass.ccip.model.Feature
 import app.opass.ccip.model.FeatureType
 import app.opass.ccip.model.WifiNetworkInfo
 import app.opass.ccip.network.CCIPClient
@@ -254,13 +255,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                     return
                 }
 
+                if (!isFeatureValid(feature)) return
                 isDefaultFeatureSelected = item == defaultFeatureItem
                 val fragment = when (feature.feature) {
-                    FeatureType.FAST_PASS -> MainFragment()
-                    FeatureType.SCHEDULE -> ScheduleTabFragment()
-                    FeatureType.ANNOUNCEMENT -> AnnouncementFragment()
+                    FeatureType.FAST_PASS -> MainFragment.newInstance(feature.url!!)
+                    FeatureType.SCHEDULE -> ScheduleTabFragment.newInstance(feature.url!!)
+                    FeatureType.ANNOUNCEMENT -> AnnouncementFragment.newInstance(feature.url!!)
                     FeatureType.TICKET -> MyTicketFragment()
-                    FeatureType.PUZZLE -> if (feature.url != null) PuzzleFragment.newInstance(feature.url) else return
+                    FeatureType.PUZZLE -> PuzzleFragment.newInstance(feature.url!!)
                     else -> WebViewFragment.newInstance(
                         feature.url!!
                             .replace("{public_token}",
@@ -332,5 +334,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         dialog.setView(rv)
         dialog.show()
+    }
+
+    private fun isFeatureValid(f: Feature) : Boolean {
+        return when (f.feature) {
+            FeatureType.FAST_PASS,
+            FeatureType.SCHEDULE,
+            FeatureType.ANNOUNCEMENT,
+            FeatureType.PUZZLE -> f.url != null
+            else -> true
+        }
     }
 }
