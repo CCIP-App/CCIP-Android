@@ -15,11 +15,7 @@ data class EventConfig(
     @SerializedName("event_date")
     val eventDate: TimeRange,
     @SerializedName("publish")
-    val publish: TimeRange,
-    @SerializedName("schedule_url")
-    val scheduleUrl: String,
-    @SerializedName("server_base_url")
-    val serverBaseUrl: String
+    val publish: TimeRange
 )
 
 data class TimeRange(
