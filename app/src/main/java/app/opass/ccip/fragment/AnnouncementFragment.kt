@@ -57,7 +57,7 @@ class AnnouncementFragment : Fragment(), CoroutineScope {
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
         launch {
             try {
-                CCIPClient.get().announcement(PreferenceUtil.getToken(mActivity)).asyncExecute().run {
+                CCIPClient.withBaseUrl(baseUrl).announcement(PreferenceUtil.getToken(mActivity)).asyncExecute().run {
                     if (isSuccessful && !body().isNullOrEmpty()) {
                         announcementView.adapter = AnnouncementAdapter(mActivity, body()!!)
                     } else {

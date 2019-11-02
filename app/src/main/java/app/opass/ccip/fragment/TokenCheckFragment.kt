@@ -8,6 +8,7 @@ import androidx.core.view.isGone
 import app.opass.ccip.R
 import app.opass.ccip.activity.AuthActivity
 import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.extension.getFastPassUrl
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.util.PreferenceUtil
 import com.onesignal.OneSignal
@@ -55,9 +56,10 @@ class TokenCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
         mActivity.hideKeyboard()
 
         val token = arguments!!.getString(EXTRA_TOKEN)
+        val baseUrl = PreferenceUtil.getCurrentEvent(mActivity).getFastPassUrl() ?: return mActivity.finish()
         launch {
             try {
-                val response = CCIPClient.get().status(token).asyncExecute()
+                val response = CCIPClient.withBaseUrl(baseUrl).status(token).asyncExecute()
                 when {
                     response.isSuccessful -> {
                         val attendee = response.body()!!

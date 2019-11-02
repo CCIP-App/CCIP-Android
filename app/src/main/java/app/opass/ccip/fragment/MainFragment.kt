@@ -49,6 +49,8 @@ class MainFragment : Fragment(), CoroutineScope {
         get() = mJob + Dispatchers.Main
     private lateinit var mAdapter: ScenarioAdapter
 
+    private val baseUrl by lazy { arguments!!.getString(EXTRA_URL)!! }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
         val view = inflater.inflate(R.layout.fragment_main, container, false)
@@ -110,7 +112,7 @@ class MainFragment : Fragment(), CoroutineScope {
 
         launch {
             try {
-                val response = CCIPClient.get().status(token).asyncExecute()
+                val response = CCIPClient.withBaseUrl(baseUrl).status(token).asyncExecute()
 
                 when {
                     response.isSuccessful -> {
@@ -167,7 +169,7 @@ class MainFragment : Fragment(), CoroutineScope {
 
         launch {
             try {
-                val response = CCIPClient.get().use(scenario.id, token).asyncExecute()
+                val response = CCIPClient.withBaseUrl(baseUrl).use(scenario.id, token).asyncExecute()
                 when {
                     response.isSuccessful -> {
                         val attendee = response.body()

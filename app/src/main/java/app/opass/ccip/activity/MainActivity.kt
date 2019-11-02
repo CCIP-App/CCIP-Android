@@ -34,7 +34,6 @@ import app.opass.ccip.fragment.*
 import app.opass.ccip.model.Feature
 import app.opass.ccip.model.FeatureType
 import app.opass.ccip.model.WifiNetworkInfo
-import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.CryptoUtil
 import app.opass.ccip.util.PreferenceUtil
@@ -82,7 +81,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             finish()
             return
         }
-        CCIPClient.setBaseUrl(event.serverBaseUrl)
 
         setContentView(R.layout.activity_main)
         mActivity = this
