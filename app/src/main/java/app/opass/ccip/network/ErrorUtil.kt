@@ -1,16 +1,16 @@
 package app.opass.ccip.network
 
 import app.opass.ccip.model.Error
+import app.opass.ccip.util.JsonUtil
 import retrofit2.Response
 import java.io.IOException
 
 class ErrorUtil {
     companion object {
         fun parseError(response: Response<*>): Error {
-            val converter = CCIPClient.retrofit.responseBodyConverter<Error>(Error::class.java, arrayOfNulls(0))
-
             return try {
-                converter.convert(response.errorBody())!!
+                val body = response.errorBody()?.string() ?: return Error()
+                JsonUtil.fromJson(body, Error::class.java)
             } catch (e: IOException) {
                 Error()
             }
