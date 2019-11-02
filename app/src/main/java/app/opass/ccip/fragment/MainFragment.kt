@@ -154,6 +154,7 @@ class MainFragment : Fragment(), CoroutineScope {
                         PreferenceUtil.setToken(mActivity, null)
                         PreferenceUtil.setRole(mActivity, null)
                         loginView.visibility = View.VISIBLE
+                        swipeRefreshLayout.visibility = View.GONE
                     }
                 }
             } catch (t: Throwable) {
