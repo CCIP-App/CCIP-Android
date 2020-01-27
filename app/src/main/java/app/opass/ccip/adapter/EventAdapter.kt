@@ -13,7 +13,6 @@ import app.opass.ccip.R
 import app.opass.ccip.activity.MainActivity
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.model.Event
-import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.PreferenceUtil
 import com.squareup.picasso.Picasso
@@ -43,7 +42,6 @@ class EventAdapter(private val mContext: Context, private val eventList: List<Ev
                         if (!isSuccessful) return@run
 
                         PreferenceUtil.setCurrentEvent(mContext, body()!!)
-                        CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mContext).serverBaseUrl)
 
                         val intent = Intent()
                         intent.setClass(mContext, MainActivity::class.java)

@@ -2,6 +2,8 @@ package app.opass.ccip.activity
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -16,6 +18,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -25,13 +28,16 @@ import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
 import app.opass.ccip.adapter.DrawerMenuAdapter
 import app.opass.ccip.adapter.IdentityAction
+import app.opass.ccip.adapter.WifiNetworkAdapter
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.fragment.*
+import app.opass.ccip.model.Feature
 import app.opass.ccip.model.FeatureType
-import app.opass.ccip.network.CCIPClient
+import app.opass.ccip.model.WifiNetworkInfo
 import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.CryptoUtil
 import app.opass.ccip.util.PreferenceUtil
+import app.opass.ccip.util.WifiUtil
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -75,7 +81,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             finish()
             return
         }
-        CCIPClient.setBaseUrl(event.serverBaseUrl)
 
         setContentView(R.layout.activity_main)
         mActivity = this
@@ -240,29 +245,36 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 finish()
             }
             is DrawerMenuAdapter.FeatureItem -> {
-                if (!item.isEmbedded) return this.startActivity(Intent(Intent.ACTION_VIEW, item.url!!.toUri()))
+                val feature = item.origFeature
+                if (item.shouldShowLaunchIcon) return this.startActivity(Intent(Intent.ACTION_VIEW, feature.url!!.toUri()))
+                if (feature.feature == FeatureType.WIFI) {
+                    feature.wifiNetworks?.let(::showWifiDialog)
+                    mDrawerLayout.closeDrawers()
+                    return
+                }
 
+                if (!isFeatureValid(feature)) return
                 isDefaultFeatureSelected = item == defaultFeatureItem
-                val fragment = when (item.type) {
-                    FeatureType.FAST_PASS -> MainFragment()
-                    FeatureType.SCHEDULE -> ScheduleTabFragment()
-                    FeatureType.ANNOUNCEMENT -> AnnouncementFragment()
+                val fragment = when (feature.feature) {
+                    FeatureType.FAST_PASS -> MainFragment.newInstance(feature.url!!)
+                    FeatureType.SCHEDULE -> ScheduleTabFragment.newInstance(feature.url!!)
+                    FeatureType.ANNOUNCEMENT -> AnnouncementFragment.newInstance(feature.url!!)
                     FeatureType.TICKET -> MyTicketFragment()
-                    FeatureType.PUZZLE -> if (item.url != null) PuzzleFragment.newInstance(item.url) else return
+                    FeatureType.PUZZLE -> PuzzleFragment.newInstance(feature.url!!)
                     else -> WebViewFragment.newInstance(
-                        item.url!!
+                        feature.url!!
                             .replace("{public_token}",
                                 CryptoUtil.toPublicToken(PreferenceUtil.getToken(mActivity)).toString()
                             )
                             .replace("{role}", PreferenceUtil.getRole(mActivity).toString()),
-                        item.shouldUseBuiltinZoomControls
+                        shouldUseBuiltinZoomControls = feature.feature == FeatureType.VENUE
                     )
                 }
                 supportFragmentManager.transaction { replace(R.id.content_frame, fragment) }
             }
         }
         title = when (item) {
-            is DrawerMenuAdapter.FeatureItem -> item.displayText.findBestMatch(this)
+            is DrawerMenuAdapter.FeatureItem -> item.origFeature.displayText.findBestMatch(this)
             else -> this.resources.getString(R.string.app_name)
         }
         mDrawerLayout.closeDrawers()
@@ -279,5 +291,56 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 }
             })
             .show()
+    }
+
+    private fun onWifiSelected(info: WifiNetworkInfo) {
+        val success = WifiUtil.installNetwork(this, info)
+        if (success) {
+            Snackbar.make(mDrawerLayout, R.string.wifi_saved, Snackbar.LENGTH_SHORT).show()
+        } else {
+            val hasPassword = !info.password.isNullOrEmpty()
+            if (!hasPassword) return Snackbar.make(
+                mDrawerLayout,
+                R.string.failed_to_save_wifi,
+                Snackbar.LENGTH_LONG
+            ).show()
+
+            getSystemService<ClipboardManager>()?.run {
+                setPrimaryClip(ClipData.newPlainText("", info.password))
+            } ?: return
+            Snackbar.make(
+                mDrawerLayout,
+                R.string.failed_to_save_wifi_copied_to_clipboard,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun showWifiDialog(networks: List<WifiNetworkInfo>) {
+        val dialog = AlertDialog.Builder(this).setTitle(R.string.choose_network_to_connect).create()
+        val rv = RecyclerView(this).apply {
+            layoutParams = RecyclerView.LayoutParams(
+                RecyclerView.LayoutParams.MATCH_PARENT,
+                RecyclerView.LayoutParams.MATCH_PARENT
+            )
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = WifiNetworkAdapter(networks) { info ->
+                dialog.dismiss()
+                onWifiSelected(info)
+            }
+        }
+
+        dialog.setView(rv)
+        dialog.show()
+    }
+
+    private fun isFeatureValid(f: Feature) : Boolean {
+        return when (f.feature) {
+            FeatureType.FAST_PASS,
+            FeatureType.SCHEDULE,
+            FeatureType.ANNOUNCEMENT,
+            FeatureType.PUZZLE -> f.url != null
+            else -> true
+        }
     }
 }

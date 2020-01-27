@@ -8,7 +8,6 @@ import androidx.core.view.isGone
 import app.opass.ccip.R
 import app.opass.ccip.activity.AuthActivity
 import app.opass.ccip.extension.asyncExecute
-import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.PreferenceUtil
 import kotlinx.android.synthetic.main.fragment_event_check.*
@@ -48,7 +47,6 @@ class EventCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
                 if (response.isSuccessful) {
                     val eventConfig = response.body()!!
                     PreferenceUtil.setCurrentEvent(mActivity, eventConfig)
-                    CCIPClient.setBaseUrl(eventConfig.serverBaseUrl)
                 } else {
                     shouldRetry = true
                     title.setText(R.string.couldnt_get_event_info)
