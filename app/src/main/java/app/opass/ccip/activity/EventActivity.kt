@@ -13,7 +13,6 @@ import app.opass.ccip.R
 import app.opass.ccip.adapter.EventAdapter
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.model.Event
-import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.PreferenceUtil
 import kotlinx.coroutines.CoroutineScope
@@ -82,7 +81,6 @@ class EventActivity : AppCompatActivity(), CoroutineScope {
                         if (eventConfig.isSuccessful) {
                             val eventConfig = eventConfig.body()!!
                             PreferenceUtil.setCurrentEvent(mActivity, eventConfig)
-                            CCIPClient.setBaseUrl(PreferenceUtil.getCurrentEvent(mActivity).serverBaseUrl)
 
                             val intent = Intent()
                             intent.setClass(mActivity, MainActivity::class.java)

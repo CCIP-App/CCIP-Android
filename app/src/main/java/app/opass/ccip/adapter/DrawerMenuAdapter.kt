@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -74,11 +75,13 @@ class DrawerMenuAdapter(
                         iconView.setImageDrawable(getDrawable(getIconByAction(item)))
                     }
                     is FeatureItem -> {
-                        titleView.text = item.displayText.findBestMatch(context)
-                        if (!item.isEmbedded) launchIconView?.visibility = View.VISIBLE
+                        val feature = item.origFeature
+
+                        titleView.text = feature.displayText.findBestMatch(context)
+                        launchIconView?.isGone = !item.shouldShowLaunchIcon
                         if (item.iconDrawable != null) return iconView.setImageDrawable(getDrawable(item.iconDrawable))
                         iconView.setImageDrawable(null)
-                        Picasso.get().load(item.iconUrl).into(iconView)
+                        Picasso.get().load(feature.icon).into(iconView)
                     }
                 }
             }
@@ -107,11 +110,16 @@ class DrawerMenuAdapter(
         merged.addAll(features.map(FeatureItem.Companion::fromFeature))
         merged.add(
             FeatureItem(
-                FeatureType.WEBVIEW,
-                LocalizedString.fromUntranslated(context.resources.getString(R.string.star_on_github)),
-                URL_GITHUB,
+                Feature(
+                    FeatureType.WEBVIEW,
+                    icon = null,
+                    displayText = LocalizedString.fromUntranslated(context.resources.getString(R.string.star_on_github)),
+                    url = URL_GITHUB,
+                    visibleRoles = null,
+                    wifiNetworks = null
+                ),
                 iconDrawable = R.drawable.github_mark,
-                isEmbedded = false
+                shouldShowLaunchIcon = true
             )
         )
         return merged
@@ -132,13 +140,9 @@ class DrawerMenuAdapter(
     }
 
     data class FeatureItem(
-        val type: FeatureType,
-        val displayText: LocalizedString,
-        val url: String?,
-        val iconUrl: String? = null,
+        val origFeature: Feature,
         val iconDrawable: Int? = null,
-        val isEmbedded: Boolean = true,
-        val shouldUseBuiltinZoomControls: Boolean = false
+        val shouldShowLaunchIcon: Boolean = false
     ) {
         companion object {
             private fun getIconByType(type: FeatureType): Int? = when (type) {
@@ -152,15 +156,14 @@ class DrawerMenuAdapter(
                 FeatureType.SPONSORS -> R.drawable.ic_redeem_black_48dp
                 FeatureType.STAFFS -> R.drawable.ic_group_black_48dp
                 FeatureType.VENUE -> R.drawable.ic_map_black_48dp
+                FeatureType.WIFI -> R.drawable.ic_network_wifi_black_24dp
                 FeatureType.WEBVIEW -> null
             }
 
             fun fromFeature(feature: Feature): FeatureItem {
-                var item = FeatureItem(feature.feature, feature.displayText, feature.url, iconUrl = feature.icon)
-                when (feature.feature) {
-                    FeatureType.TELEGRAM -> item = item.copy(isEmbedded = false)
-                    FeatureType.VENUE -> item = item.copy(shouldUseBuiltinZoomControls = true)
-                    else -> Unit
+                var item = FeatureItem(feature)
+                if (feature.feature == FeatureType.TELEGRAM) {
+                    item = item.copy(shouldShowLaunchIcon = true)
                 }
                 getIconByType(feature.feature)?.let { item = item.copy(iconDrawable = it) }
                 return item

@@ -33,6 +33,10 @@ import kotlin.coroutines.CoroutineContext
 class ScheduleTabFragment : Fragment(), CoroutineScope {
     companion object {
         private val SDF_DATE = SimpleDateFormat("MM/dd")
+        private const val EXTRA_URL = "EXTRA_URL"
+        fun newInstance(url: String) : ScheduleTabFragment = ScheduleTabFragment().apply {
+            arguments = Bundle().apply { putString(EXTRA_URL, url) }
+        }
     }
 
     private lateinit var coordinatorLayout: CoordinatorLayout
@@ -47,6 +51,8 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
     private lateinit var mJob: Job
     override val coroutineContext: CoroutineContext
         get() = mJob + Dispatchers.Main
+
+    private val scheduleUrl by lazy { arguments!!.getString(EXTRA_URL)!! }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -75,7 +81,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
             try {
                 val client = OkHttpClient()
                 val request = Request.Builder()
-                    .url(PreferenceUtil.getCurrentEvent(mActivity).scheduleUrl)
+                    .url(scheduleUrl)
                     .build()
                 client.newCall(request).asyncExecute().run {
                     if (isSuccessful) {

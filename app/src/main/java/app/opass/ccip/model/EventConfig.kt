@@ -12,15 +12,13 @@ data class EventConfig(
     val features: List<Feature>,
     @SerializedName("logo_url")
     val logoUrl: String,
+    @SerializedName("event_date")
+    val eventDate: TimeRange,
     @SerializedName("publish")
-    val publish: Publish,
-    @SerializedName("schedule_url")
-    val scheduleUrl: String,
-    @SerializedName("server_base_url")
-    val serverBaseUrl: String
+    val publish: TimeRange
 )
 
-data class Publish(
+data class TimeRange(
     @SerializedName("end")
     val end: String,
     @SerializedName("start")

@@ -31,6 +31,13 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class MainFragment : Fragment(), CoroutineScope {
+    companion object {
+        private const val EXTRA_URL = "EXTRA_URL"
+        fun newInstance(url: String): MainFragment = MainFragment().apply {
+            arguments = Bundle().apply { putString(EXTRA_URL, url) }
+        }
+    }
+
     private lateinit var noNetworkView: View
     private lateinit var notConfWifiView: View
     private lateinit var loginView: View
@@ -41,6 +48,8 @@ class MainFragment : Fragment(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = mJob + Dispatchers.Main
     private lateinit var mAdapter: ScenarioAdapter
+
+    private val baseUrl by lazy { arguments!!.getString(EXTRA_URL)!! }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
@@ -103,7 +112,7 @@ class MainFragment : Fragment(), CoroutineScope {
 
         launch {
             try {
-                val response = CCIPClient.get().status(token).asyncExecute()
+                val response = CCIPClient.withBaseUrl(baseUrl).status(token).asyncExecute()
 
                 when {
                     response.isSuccessful -> {
@@ -145,6 +154,7 @@ class MainFragment : Fragment(), CoroutineScope {
                         PreferenceUtil.setToken(mActivity, null)
                         PreferenceUtil.setRole(mActivity, null)
                         loginView.visibility = View.VISIBLE
+                        swipeRefreshLayout.visibility = View.GONE
                     }
                 }
             } catch (t: Throwable) {
@@ -160,7 +170,7 @@ class MainFragment : Fragment(), CoroutineScope {
 
         launch {
             try {
-                val response = CCIPClient.get().use(scenario.id, token).asyncExecute()
+                val response = CCIPClient.withBaseUrl(baseUrl).use(scenario.id, token).asyncExecute()
                 when {
                     response.isSuccessful -> {
                         val attendee = response.body()

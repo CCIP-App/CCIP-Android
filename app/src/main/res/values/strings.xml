@@ -62,8 +62,8 @@
     <string name="share">Share</string>
     <string name="puzzle_share_subject">Here\'s my collected puzzles, let us solve this game.</string>
 
-    <string name="add_bookmark">Added to bookmark, 10 mins before the session start will notify you.</string>
-    <string name="remove_bookmark">Remove from bookmark</string>
+    <string name="add_bookmark">Added to bookmark, you\'ll be notified 10 mins before the session starts.</string>
+    <string name="remove_bookmark">Removed from bookmark</string>
     <string name="bookmark_channel_name">Session bookmark</string>
     <string name="notification_session_start">%1$s will start in 10 minutes at %2$s</string>
     <string name="invalid_token">Invalid QR code, invite link, or token</string>
@@ -78,7 +78,7 @@
 
     <string name="copy_to_clipboard">Copied to clipboard</string>
 
-    <string name="beacon_request_permission_title">Request access approximate location</string>
+    <string name="beacon_request_permission_title">Request access for approximate location</string>
     <string name="beacon_request_permission_message">(Experimental) When Bluetooth is ON, we will use beacons to notify you that you can check-in</string>
     <string name="beacon_channel_name">Welcome to event</string>
     <string name="beacon_notify_need_login">Welcome to event\nPlease remember to login OPass</string>
@@ -101,10 +101,14 @@
     <string name="try_again">Try Again</string>
     <string name="unexpected_error_try_again">An unexpected error occurred. Please try again later.</string>
     <string name="verify_identity_to_use_this_function">Verify identity to use this function</string>
-    <string name="event_update_detected_message">Event information has updated. Restart app for accurate information.</string>
+    <string name="event_update_detected_message">Event information has been updated. Restart app for accurate information.</string>
     <string name="restart">Restart</string>
     <string name="schedule_updated">Schedule updated</string>
     <string name="reload">Reload</string>
     <string name="cannot_load_schedule">Cannot load schedule</string>
     <string name="cannot_read_session_info">Cannot read session info</string>
+    <string name="choose_network_to_connect">Choose a network to connect</string>
+    <string name="wifi_saved">Saved wifi network</string>
+    <string name="failed_to_save_wifi">Failed to save wifi network</string>
+    <string name="failed_to_save_wifi_copied_to_clipboard">Failed to save wifi network. Password copied to clipboard instead.</string>
 </resources>

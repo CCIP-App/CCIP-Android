@@ -13,6 +13,7 @@ import app.opass.ccip.R
 import app.opass.ccip.R.string.*
 import app.opass.ccip.activity.MainActivity
 import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.extension.getFastPassUrl
 import app.opass.ccip.network.CCIPClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
@@ -59,7 +60,7 @@ class BeaconReceiver(private val context: Context) : MonitorNotifier, CoroutineS
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setWhen(System.currentTimeMillis())
                 .setContentIntent(
                     PendingIntent.getActivity(
@@ -75,7 +76,8 @@ class BeaconReceiver(private val context: Context) : MonitorNotifier, CoroutineS
             launch {
                 // check has been checked in
                 try {
-                    if (CCIPClient.get().status(token).asyncExecute().body()?.scenarios?.any { it.used != null } != false) return@launch
+                    val baseUrl = PreferenceUtil.getCurrentEvent(context).getFastPassUrl() ?: return@launch
+                    if (CCIPClient.withBaseUrl(baseUrl).status(token).asyncExecute().body()?.scenarios?.any { it.used != null } != false) return@launch
                 } catch (e: Exception) {
                     return@launch
                 }
