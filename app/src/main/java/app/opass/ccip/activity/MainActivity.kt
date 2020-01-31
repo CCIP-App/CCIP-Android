@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
 import app.opass.ccip.adapter.DrawerMenuAdapter
-import app.opass.ccip.adapter.IdentityAction
+import app.opass.ccip.adapter.MenuAction
 import app.opass.ccip.adapter.WifiNetworkAdapter
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.fragment.*
@@ -240,9 +240,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private fun onDrawerItemClick(item: Any) {
         when (item) {
-            IdentityAction.SWITCH_EVENT -> {
+            MenuAction.SWITCH_EVENT -> {
                 this.startActivity(Intent(this, EventActivity::class.java))
                 finish()
+            }
+            MenuAction.LAUNCH_ABOUT_SCREEN -> {
+                this.startActivity(Intent(this, AboutActivity::class.java))
             }
             is DrawerMenuAdapter.FeatureItem -> {
                 val feature = item.origFeature
@@ -273,9 +276,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 supportFragmentManager.transaction { replace(R.id.content_frame, fragment) }
             }
         }
-        title = when (item) {
-            is DrawerMenuAdapter.FeatureItem -> item.origFeature.displayText.findBestMatch(this)
-            else -> this.resources.getString(R.string.app_name)
+
+        if (item is DrawerMenuAdapter.FeatureItem) {
+            title = item.origFeature.displayText.findBestMatch(this)
         }
         mDrawerLayout.closeDrawers()
     }

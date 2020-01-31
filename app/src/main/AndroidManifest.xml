@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
-        android:name="app.opass.ccip.application.CCIPApplication"
+        android:name=".application.CCIPApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -40,32 +40,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="app.opass.ccip.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="app.opass.ccip.activity.CountdownActivity"
+            android:name=".activity.CountdownActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="app.opass.ccip.activity.SessionDetailActivity"
+            android:name=".activity.SessionDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="app.opass.ccip.activity.EventActivity"
+            android:name=".activity.EventActivity"
             android:screenOrientation="portrait" />
 
-        <receiver android:name="app.opass.ccip.util.SessionAlarmReceiver" />
-        <receiver android:name="app.opass.ccip.util.RebootReceiver">
+        <receiver android:name=".util.SessionAlarmReceiver" />
+        <receiver android:name=".util.RebootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <activity android:name="app.opass.ccip.activity.CaptureActivity" />
+        <activity android:name=".activity.CaptureActivity" />
         <activity
             android:name=".activity.AuthActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AboutActivity"
+            android:parentActivityName=".activity.MainActivity" />
     </application>
 
 </manifest>
