@@ -30,10 +30,12 @@
 
                 <data
                     android:host="opass.app"
-                    android:scheme="http" />
+                    android:scheme="http"
+                    android:pathPrefix="/open" />
                 <data
                     android:host="opass.app"
-                    android:scheme="https" />
+                    android:scheme="https"
+                    android:pathPrefix="/open" />
                 <data
                     android:host="login"
                     android:scheme="ccip" />
