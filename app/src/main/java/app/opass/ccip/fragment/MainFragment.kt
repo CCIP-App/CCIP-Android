@@ -49,7 +49,7 @@ class MainFragment : Fragment(), CoroutineScope {
         get() = mJob + Dispatchers.Main
     private lateinit var mAdapter: ScenarioAdapter
 
-    private val baseUrl by lazy { arguments!!.getString(EXTRA_URL)!! }
+    private val baseUrl by lazy { requireArguments().getString(EXTRA_URL)!! }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
@@ -150,7 +150,7 @@ class MainFragment : Fragment(), CoroutineScope {
                         }
                     }
                     else -> {
-                        Snackbar.make(view!!, getString(R.string.invalid_token), Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(requireView(), getString(R.string.invalid_token), Snackbar.LENGTH_LONG).show()
                         PreferenceUtil.setToken(mActivity, null)
                         PreferenceUtil.setRole(mActivity, null)
                         loginView.visibility = View.VISIBLE

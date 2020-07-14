@@ -38,7 +38,7 @@ class AnnouncementFragment : Fragment(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = mJob + Dispatchers.Main
 
-    private val baseUrl by lazy { arguments!!.getString(EXTRA_URL)!! }
+    private val baseUrl by lazy { requireArguments().getString(EXTRA_URL)!! }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)

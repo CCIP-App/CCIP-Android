@@ -30,6 +30,7 @@ class WebViewFragment : Fragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val args = requireArguments()
 
         webView.webChromeClient = WebChromeViewClient(progressBar, fun (request) {
             if (!request!!.resources.contains(RESOURCE_VIDEO_CAPTURE)) request.deny()
@@ -49,13 +50,13 @@ class WebViewFragment : Fragment() {
         webView.settings.apply {
             javaScriptEnabled = true
             domStorageEnabled = true
-            if (arguments!!.getBoolean(EXTRA_SHOULD_USE_BUILTIN_ZOOM_CONTROLS)) {
+            if (args.getBoolean(EXTRA_SHOULD_USE_BUILTIN_ZOOM_CONTROLS)) {
                 builtInZoomControls = true
                 displayZoomControls = false
             }
             if (Build.VERSION.SDK_INT >= 21) mixedContentMode = MIXED_CONTENT_COMPATIBILITY_MODE
         }
-        webView.loadUrl(arguments!!.getString(EXTRA_URL))
+        webView.loadUrl(args.getString(EXTRA_URL))
     }
 
     override fun onRequestPermissionsResult(

@@ -43,7 +43,7 @@ class EventCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
         if (hasRequestEnd) mActivity.finish()
         launch {
             try {
-                val response = PortalClient.get().getEventConfig(arguments!!.getString(EXTRA_EVENT_ID)!!).asyncExecute()
+                val response = PortalClient.get().getEventConfig(requireArguments().getString(EXTRA_EVENT_ID)!!).asyncExecute()
                 if (response.isSuccessful) {
                     val eventConfig = response.body()!!
                     PreferenceUtil.setCurrentEvent(mActivity, eventConfig)
