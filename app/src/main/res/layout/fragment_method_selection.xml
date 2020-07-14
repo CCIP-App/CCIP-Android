@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.MethodSelectionFragment">
+    tools:context=".ui.auth.MethodSelectionFragment">
 
     <TextView
         style="@style/TextAppearance.AppCompat.Headline"

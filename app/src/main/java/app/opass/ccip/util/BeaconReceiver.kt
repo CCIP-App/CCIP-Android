@@ -11,10 +11,10 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import app.opass.ccip.R
 import app.opass.ccip.R.string.*
-import app.opass.ccip.activity.MainActivity
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.extension.getFastPassUrl
 import app.opass.ccip.network.CCIPClient
+import app.opass.ccip.ui.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch

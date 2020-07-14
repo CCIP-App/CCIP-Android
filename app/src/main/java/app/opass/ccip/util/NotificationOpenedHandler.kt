@@ -3,7 +3,7 @@ package app.opass.ccip.util
 import android.app.Application
 import android.content.Intent
 import android.net.Uri
-import app.opass.ccip.activity.MainActivity
+import app.opass.ccip.ui.MainActivity
 import com.onesignal.OSNotificationOpenResult
 import com.onesignal.OneSignal
 

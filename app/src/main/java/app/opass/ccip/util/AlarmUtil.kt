@@ -5,8 +5,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import app.opass.ccip.activity.SessionDetailActivity
 import app.opass.ccip.model.Session
+import app.opass.ccip.ui.sessiondetail.SessionDetailActivity
 import com.google.gson.internal.bind.util.ISO8601Utils
 import java.text.ParseException
 import java.text.ParsePosition

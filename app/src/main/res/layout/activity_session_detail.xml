@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activity.SessionDetailActivity">
+    tools:context=".ui.sessiondetail.SessionDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
-        app:layout_behavior=".ui.ScrollingControlAppBarLayoutBehavior"
+        app:layout_behavior=".ui.sessiondetail.ScrollingControlAppBarLayoutBehavior"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
