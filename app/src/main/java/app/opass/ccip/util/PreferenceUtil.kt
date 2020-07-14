@@ -84,9 +84,7 @@ object PreferenceUtil {
     }
 
     fun loadSchedule(context: Context): ConfSchedule? {
-        val sharedPreferences = context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE)
-        val scheduleJson =
-            sharedPreferences.getString(getCurrentEvent(context).eventId + PREF_SCHEDULE_SCHEDULE, "{}")!!
+        val scheduleJson = loadRawSchedule(context)
 
         return try {
             JsonUtil.fromJson(scheduleJson, ConfSchedule::class.java)
@@ -94,6 +92,11 @@ object PreferenceUtil {
             saveSchedule(context, "{}")
             JsonUtil.fromJson("{}", ConfSchedule::class.java)
         }
+    }
+
+    fun loadRawSchedule(context: Context): String {
+        val prefs = context.getSharedPreferences(PREF_SCHEDULE, Context.MODE_PRIVATE)
+        return prefs.getString(getCurrentEvent(context).eventId + PREF_SCHEDULE_SCHEDULE, "{}")!!
     }
 
     fun saveStarredIds(context: Context, sessionIds: List<String>) {

@@ -85,10 +85,16 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
                     .build()
                 client.newCall(request).asyncExecute().run {
                     if (isSuccessful) {
-                        val scheduleJson = withContext(Dispatchers.IO) { body!!.string() }
-                        val newSchedule = JsonUtil.GSON.fromJson(scheduleJson, ConfSchedule::class.java)
-                        if (mSchedule != newSchedule) {
-                            PreferenceUtil.saveSchedule(mActivity, scheduleJson)
+                        // Strings that end with \n may cause problem with SharedPreferences. Trim
+                        // first for safety.
+                        // See https://issuetracker.google.com/issues/37032278
+                        val cached = PreferenceUtil.loadRawSchedule(mActivity).trim()
+                        val new = withContext(Dispatchers.IO) { body!!.string().trim() }
+                        // try to parse first
+                        JsonUtil.GSON.fromJson(new, ConfSchedule::class.java)
+
+                        if (cached != new) {
+                            PreferenceUtil.saveSchedule(mActivity, new)
 
                             if (mSchedule == null) return@run loadCachedSchedule()
                             Snackbar.make(coordinatorLayout, R.string.schedule_updated, Snackbar.LENGTH_INDEFINITE)
