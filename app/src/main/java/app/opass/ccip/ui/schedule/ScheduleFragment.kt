@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
@@ -15,66 +17,47 @@ import app.opass.ccip.model.Session
 import app.opass.ccip.ui.sessiondetail.SessionDetailActivity
 import app.opass.ccip.util.AlarmUtil
 import app.opass.ccip.util.PreferenceUtil
-import app.opass.ccip.util.ScheduleUtil
-import com.google.gson.internal.bind.util.ISO8601Utils
-import java.text.ParseException
-import java.text.ParsePosition
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ScheduleFragment : Fragment() {
     companion object {
-        private val SDF_DATE = SimpleDateFormat("MM/dd")
+        private const val ARG_DATE = "ARG_DATE"
 
-        fun newInstance(date: String, sessions: List<Session>): Fragment {
-            val scheduleFragment = ScheduleFragment()
-            scheduleFragment.date = date
-            scheduleFragment.mSessions = sessions
-            return scheduleFragment
-        }
+        fun newInstance(date: String) =
+            ScheduleFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_DATE, date)
+                }
+            }
     }
 
-    private var scheduleView: RecyclerView? = null
+    private lateinit var adapter: ScheduleAdapter
     private lateinit var mActivity: Activity
-    private var mSessions: List<Session>? = null
-    private var date: String? = null
-    private var starFilter = false
+    private lateinit var date: String
+    private lateinit var vm: ScheduleViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view = inflater.inflate(R.layout.fragment_schedule, container, false)
-
-        scheduleView = view.findViewById(R.id.schedule)
-
         mActivity = requireActivity()
-        scheduleView?.layoutManager = LinearLayoutManager(mActivity)
-        scheduleView?.itemAnimator = DefaultItemAnimator()
+        date = requireArguments().getString(ARG_DATE)!!
+        vm = ViewModelProvider(requireParentFragment()).get()
 
-        if (mSessions != null) {
-            scheduleView?.adapter = ScheduleAdapter(
-                mActivity,
-                toSessionsGroupedByTime(mSessions),
-                ::onSessionClicked,
-                ::onToggleStarState,
-                ::isSessionStarred
-            )
-        }
+        val view = inflater.inflate(R.layout.fragment_schedule, container, false)
+        val scheduleView = view.findViewById<RecyclerView>(R.id.schedule)
+        scheduleView.layoutManager = LinearLayoutManager(mActivity)
+        adapter = ScheduleAdapter(
+            mActivity,
+            emptyList(),
+            ::onSessionClicked,
+            ::onToggleStarState,
+            ::isSessionStarred
+        )
+        scheduleView.adapter = adapter
+
+        vm.showStarredOnly.observe(viewLifecycleOwner, Observer { showStarredOnly ->
+            toggleStarFilter(showStarredOnly)
+        })
 
         return view
-    }
-
-    private fun loadStarSessions(): List<Session> {
-        val getDateOrNull: (String?) -> String? = {
-            try {
-                it?.let { SDF_DATE.format(ISO8601Utils.parse(it, ParsePosition(0))) }
-            } catch (e: ParseException) {
-                e.printStackTrace()
-                null
-            }
-        }
-        return ScheduleUtil.getStarredSessions(mActivity).filter {
-            getDateOrNull(it.start) == date
-        }
     }
 
     private fun onSessionClicked(session: Session) {
@@ -102,8 +85,8 @@ class ScheduleFragment : Fragment() {
         return PreferenceUtil.loadStarredIds(mActivity).contains(session.id)
     }
 
-    private fun toSessionsGroupedByTime(sessions: List<Session>?): List<List<Session>> {
-        return sessions!!
+    private fun toSessionsGroupedByTime(sessions: List<Session>): List<List<Session>> {
+        return sessions
             .filter { it.start != null }
             .groupBy { it.start }
             .values
@@ -111,17 +94,19 @@ class ScheduleFragment : Fragment() {
             .map { it.sortedWith(Comparator { (_, room1), (_, room2) -> room1.id.compareTo(room2.id) }) }
     }
 
-    fun toggleStarFilter(isStar: Boolean) {
-        this.starFilter = isStar
-        (scheduleView?.adapter as? ScheduleAdapter)?.update(
-            toSessionsGroupedByTime(if (isStar) loadStarSessions() else mSessions)
-        )
+    private fun toggleStarFilter(isStar: Boolean) {
+        val sessions = if (isStar) {
+            vm.starredSessionGroupedByDate.value!![date]
+        } else {
+            vm.sessionsGroupedByDate.value!![date]
+        }
+        val grouped = sessions?.let(::toSessionsGroupedByTime) ?: emptyList()
+        adapter.update(grouped)
     }
 
     override fun onResume() {
         super.onResume()
-        toggleStarFilter(starFilter)
         // Force RV to reload star state :(
-        (scheduleView?.adapter as? ScheduleAdapter)?.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
     }
 }
