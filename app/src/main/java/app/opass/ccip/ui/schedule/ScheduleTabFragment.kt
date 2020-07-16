@@ -11,8 +11,8 @@ import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.observe
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import app.opass.ccip.R
@@ -72,17 +72,17 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        Transformations
-            .distinctUntilChanged(vm.isScheduleReady)
-            .observe(viewLifecycleOwner, Observer { isReady ->
+        vm.isScheduleReady
+            .distinctUntilChanged()
+            .observe(viewLifecycleOwner) { isReady ->
                 if (isReady) {
                     setupViewPager()
                     mActivity.invalidateOptionsMenu()
                 }
-            })
-        vm.showStarredOnly.observe(viewLifecycleOwner, Observer {
+            }
+        vm.showStarredOnly.observe(viewLifecycleOwner) {
             mActivity.invalidateOptionsMenu()
-        })
+        }
 
         launch {
             swipeRefreshLayout.isRefreshing = true

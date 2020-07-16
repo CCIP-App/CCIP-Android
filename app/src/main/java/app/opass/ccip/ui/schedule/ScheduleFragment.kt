@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
@@ -53,9 +53,10 @@ class ScheduleFragment : Fragment() {
         )
         scheduleView.adapter = adapter
 
-        vm.showStarredOnly.observe(viewLifecycleOwner, Observer { showStarredOnly ->
-            toggleStarFilter(showStarredOnly)
-        })
+        vm.groupedSessionsToShow.observe(viewLifecycleOwner) { sessionsMap ->
+            val grouped = sessionsMap?.get(date)?.let(::toSessionsGroupedByTime) ?: emptyList()
+            adapter.update(grouped)
+        }
 
         return view
     }
@@ -92,16 +93,6 @@ class ScheduleFragment : Fragment() {
             .values
             .sortedBy { it[0].start }
             .map { it.sortedWith(Comparator { (_, room1), (_, room2) -> room1.id.compareTo(room2.id) }) }
-    }
-
-    private fun toggleStarFilter(isStar: Boolean) {
-        val sessions = if (isStar) {
-            vm.starredSessionGroupedByDate.value!![date]
-        } else {
-            vm.sessionsGroupedByDate.value!![date]
-        }
-        val grouped = sessions?.let(::toSessionsGroupedByTime) ?: emptyList()
-        adapter.update(grouped)
     }
 
     override fun onResume() {
