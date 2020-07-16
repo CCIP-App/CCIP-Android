@@ -31,6 +31,11 @@ android {
                                 onesignal_app_id               : "b6213f49-e356-4b48-aa9d-7cf10ce1904d",
                                 onesignal_google_project_number: "REMOTE"]
     }
+
+    buildFeatures {
+        viewBinding true
+    }
+
     buildTypes {
         debug {
         }
