@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.opass.ccip.R
 import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.extension.setOnApplyWindowInsetsListenerCompat
 import app.opass.ccip.model.Scenario
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.ErrorUtil
@@ -73,6 +75,13 @@ class FastPassFragment : Fragment(), CoroutineScope {
 
         scenarioView.layoutManager = LinearLayoutManager(mActivity)
         scenarioView.itemAnimator = DefaultItemAnimator()
+
+        listOf(scenarioView, loginView, noNetworkView, notConfWifiView).forEach { v ->
+            v.setOnApplyWindowInsetsListenerCompat { v, insets, insetsCompat ->
+                v.updatePadding(bottom = insetsCompat.systemGestureInsets.bottom)
+                insets
+            }
+        }
 
         if (PreferenceUtil.getToken(mActivity) == null) {
             loginView.visibility = View.VISIBLE

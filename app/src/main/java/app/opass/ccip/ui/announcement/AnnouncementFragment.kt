@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.opass.ccip.R
 import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.extension.setOnApplyWindowInsetsListenerCompat
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.util.PreferenceUtil
 import kotlinx.coroutines.CoroutineScope
@@ -51,6 +55,16 @@ class AnnouncementFragment : Fragment(), CoroutineScope {
         mJob = Job()
         announcementView.layoutManager = LinearLayoutManager(mActivity)
         announcementView.itemAnimator = DefaultItemAnimator()
+        announcementView.setOnApplyWindowInsetsListenerCompat { v, insets, insetsCompat ->
+            v.updatePadding(bottom = insetsCompat.systemGestureInsets.bottom)
+            insets
+        }
+        announcementEmptyView.setOnApplyWindowInsetsListenerCompat { v, insets, insetsCompat ->
+            v.updateLayoutParams<LinearLayout.LayoutParams> {
+                this.bottomMargin = insetsCompat.systemGestureInsets.bottom
+            }
+            insets
+        }
 
         swipeRefreshLayout.isEnabled = false
         swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }

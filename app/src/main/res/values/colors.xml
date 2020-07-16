@@ -7,4 +7,5 @@
     <color name="colorDietVegetarian">#298A08</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGray">#9D9D9D</color>
+    <color name="navigationBarColor">#B3FFFFFF</color>
 </resources>

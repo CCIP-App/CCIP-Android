@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.PermissionRequest.RESOURCE_VIDEO_CAPTURE
 import android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+import android.widget.FrameLayout
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import app.opass.ccip.R
 import app.opass.ccip.network.webclient.OfficialWebViewClient
@@ -30,6 +32,12 @@ class WebViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args = requireArguments()
+
+        view.findViewById<FrameLayout>(R.id.webview_wrapper)
+            .setOnApplyWindowInsetsListener { v, insets ->
+                v.updatePadding(bottom = insets.systemWindowInsetBottom)
+                insets
+            }
 
         webView.webChromeClient = WebChromeViewClient(progressBar, fun (request) {
             if (!request!!.resources.contains(RESOURCE_VIDEO_CAPTURE)) request.deny()

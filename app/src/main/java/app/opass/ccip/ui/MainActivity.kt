@@ -21,12 +21,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
+import androidx.core.view.updatePadding
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.transaction
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
 import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.extension.setOnApplyWindowInsetsListenerCompat
 import app.opass.ccip.model.Feature
 import app.opass.ccip.model.FeatureType
 import app.opass.ccip.model.WifiNetworkInfo
@@ -99,6 +101,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         setSupportActionBar(toolbar)
 
         drawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close)
+        mDrawerLayout.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        mDrawerLayout.setOnApplyWindowInsetsListenerCompat { _, insets, insetsCompat ->
+            drawerMenu.updatePadding(bottom = insetsCompat.systemGestureInsets.bottom)
+            insets
+        }
 
         buildDrawer()
 
@@ -276,7 +284,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                         shouldUseBuiltinZoomControls = feature.feature == FeatureType.VENUE
                     )
                 }
-                supportFragmentManager.transaction { replace(R.id.content_frame, fragment) }
+                supportFragmentManager.commit { replace(R.id.content_frame, fragment) }
             }
         }
 

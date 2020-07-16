@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
@@ -13,6 +14,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
+import app.opass.ccip.extension.setOnApplyWindowInsetsListenerCompat
 import app.opass.ccip.model.Session
 import app.opass.ccip.ui.sessiondetail.SessionDetailActivity
 import app.opass.ccip.util.AlarmUtil
@@ -56,6 +58,10 @@ class ScheduleFragment : Fragment() {
         vm.groupedSessionsToShow.observe(viewLifecycleOwner) { sessionsMap ->
             val grouped = sessionsMap?.get(date)?.let(::toSessionsGroupedByTime) ?: emptyList()
             adapter.update(grouped)
+        }
+        scheduleView.setOnApplyWindowInsetsListenerCompat { v, insets, insetsCompat ->
+            v.updatePadding(bottom = insetsCompat.systemGestureInsets.bottom)
+            insets
         }
 
         return view

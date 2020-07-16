@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.view.*
 import android.webkit.PermissionRequest
 import android.webkit.WebSettings
+import android.widget.FrameLayout
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import app.opass.ccip.R
 import app.opass.ccip.network.webclient.OfficialWebViewClient
@@ -38,6 +40,12 @@ class PuzzleFragment : Fragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<FrameLayout>(R.id.webview_wrapper)
+            .setOnApplyWindowInsetsListener { v, insets ->
+                v.updatePadding(bottom = insets.systemWindowInsetBottom)
+                insets
+            }
 
         webView.webViewClient = OfficialWebViewClient()
         webView.webChromeClient = WebChromeViewClient(progressBar, fun (request) {

@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.opass.ccip.R
 import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.extension.setOnApplyWindowInsetsListenerCompat
 import app.opass.ccip.model.Event
 import app.opass.ccip.network.PortalClient
 import app.opass.ccip.ui.MainActivity
@@ -37,15 +39,29 @@ class EventActivity : AppCompatActivity(), CoroutineScope {
         setContentView(R.layout.activity_event)
 
         mActivity = this
+        swipeRefreshLayout = findViewById(R.id.swipeContainer)
+        recyclerView = findViewById(R.id.events)
         mJob = Job()
         setSupportActionBar(findViewById(R.id.toolbar))
         setTitle(R.string.select_event)
+
+        swipeRefreshLayout.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+
+        recyclerView.setOnApplyWindowInsetsListenerCompat { v, insets, insetsCompat ->
+            v.updatePadding(bottom = insetsCompat.systemGestureInsets.bottom)
+            insets
+        }
 
         noNetworkView = findViewById(R.id.no_network)
         noNetworkView.setOnClickListener {
             swipeRefreshLayout.isRefreshing = true
             swipeRefreshLayout.isEnabled = true
             getEvents()
+        }
+        noNetworkView.setOnApplyWindowInsetsListenerCompat { v, insets, insetsCompat ->
+            v.updatePadding(bottom = insetsCompat.systemGestureInsets.bottom)
+            insets
         }
 
         getEvents()
@@ -57,8 +73,6 @@ class EventActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun getEvents() {
-        swipeRefreshLayout = findViewById(R.id.swipeContainer)
-        recyclerView = findViewById(R.id.events)
         viewManager = LinearLayoutManager(mActivity)
 
         swipeRefreshLayout.isRefreshing = true
