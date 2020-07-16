@@ -3,7 +3,6 @@ package app.opass.ccip.ui.schedule
 import android.app.Activity
 import android.os.Bundle
 import android.view.*
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -13,9 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.observe
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.viewpager.widget.ViewPager
 import app.opass.ccip.R
+import app.opass.ccip.databinding.FragmentScheduleTabBinding
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.model.ConfSchedule
 import app.opass.ccip.util.JsonUtil
@@ -38,11 +36,12 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
         }
     }
 
-    private lateinit var coordinatorLayout: CoordinatorLayout
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var tabLayout: TabLayout
-    private lateinit var viewPager: ViewPager
+    private var _binding: FragmentScheduleTabBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var mActivity: Activity
+    private lateinit var tabLayout: TabLayout
+
     private var scheduleTabAdapter: ScheduleTabAdapter? = null
     private lateinit var mJob: Job
     override val coroutineContext: CoroutineContext
@@ -51,26 +50,23 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
     private val scheduleUrl by lazy { requireArguments().getString(EXTRA_URL)!! }
     private val vm: ScheduleViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        val view = inflater.inflate(R.layout.fragment_schedule_tab, container, false)
-
-        mActivity = requireActivity()
-        mJob = Job()
-
-        tabLayout = mActivity.findViewById(R.id.tabs)
-        swipeRefreshLayout = view.findViewById(R.id.swipeContainer)
-        viewPager = view.findViewById(R.id.pager)
-        coordinatorLayout = view.findViewById(R.id.coordinator_layout)
-
-        setHasOptionsMenu(true)
-
-        swipeRefreshLayout.isEnabled = false
-        return view
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentScheduleTabBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        mActivity = requireActivity()
+        tabLayout = mActivity.findViewById(R.id.tabs)
+        mJob = Job()
+        setHasOptionsMenu(true)
+        binding.swipeContainer.isEnabled = false
 
         vm.isScheduleReady
             .distinctUntilChanged()
@@ -85,7 +81,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
         }
 
         launch {
-            swipeRefreshLayout.isRefreshing = true
+            binding.swipeContainer.isRefreshing = true
             try {
                 val client = OkHttpClient()
                 val request = Request.Builder()
@@ -105,22 +101,27 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
                             PreferenceUtil.saveSchedule(mActivity, new)
 
                             if (!vm.isScheduleReady.value!!) return@run vm.reloadSessions()
-                            Snackbar.make(coordinatorLayout, R.string.schedule_updated, Snackbar.LENGTH_INDEFINITE)
+                            Snackbar.make(binding.root, R.string.schedule_updated, Snackbar.LENGTH_INDEFINITE)
                                 .setAction(R.string.reload) { vm.reloadSessions() }
                                 .show()
                         }
                     } else {
-                        Snackbar.make(coordinatorLayout, R.string.cannot_load_schedule, Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(binding.root, R.string.cannot_load_schedule, Snackbar.LENGTH_LONG).show()
                     }
                 }
             } catch (_: CancellationException) {
+                return@launch
             } catch (t: Throwable) {
                 t.printStackTrace()
-                Snackbar.make(coordinatorLayout, R.string.offline, Snackbar.LENGTH_LONG).show()
-            } finally {
-                swipeRefreshLayout.isRefreshing = false
+                Snackbar.make(binding.root, R.string.offline, Snackbar.LENGTH_LONG).show()
             }
+            binding.swipeContainer.isRefreshing = false
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onDestroy() {
@@ -133,16 +134,16 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
     private fun setupViewPager() {
         val dates = vm.sessionsGroupedByDate.value!!.keys
         scheduleTabAdapter = ScheduleTabAdapter(childFragmentManager, dates.toList())
-        viewPager.adapter = scheduleTabAdapter
+        binding.pager.adapter = scheduleTabAdapter
 
         val today = SDF_DATE.format(Date())
         val index = dates.indexOfFirst { it == today }
         if (index != -1) {
-            viewPager.currentItem = index
+            binding.pager.currentItem = index
         }
 
         tabLayout.isGone = dates.size <= 1
-        tabLayout.setupWithViewPager(viewPager)
+        tabLayout.setupWithViewPager(binding.pager)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
