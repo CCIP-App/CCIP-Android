@@ -68,7 +68,7 @@ class PuzzleFragment : Fragment() {
                 requireArguments().getString(EXTRA_URL)!!
                     .replace(
                         "{public_token}",
-                        CryptoUtil.toPublicToken(PreferenceUtil.getToken(mActivity)).toString()
+                        CryptoUtil.toPublicToken(PreferenceUtil.getToken(mActivity)) ?: ""
                     )
             )
         } else {

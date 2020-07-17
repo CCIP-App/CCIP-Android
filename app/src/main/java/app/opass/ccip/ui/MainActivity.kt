@@ -275,13 +275,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                     FeatureType.PUZZLE -> PuzzleFragment.newInstance(feature.url!!)
                     else -> WebViewFragment.newInstance(
                         feature.url!!
-                            .replace("{token}", PreferenceUtil.getToken(mActivity).toString())
+                            .replace("{token}", PreferenceUtil.getToken(mActivity) ?: "")
                             .replace(
                                 "{public_token}",
-                                CryptoUtil.toPublicToken(PreferenceUtil.getToken(mActivity))
-                                    .toString()
+                                CryptoUtil.toPublicToken(PreferenceUtil.getToken(mActivity)) ?: ""
                             )
-                            .replace("{role}", PreferenceUtil.getRole(mActivity).toString()),
+                            .replace("{role}", PreferenceUtil.getRole(mActivity) ?: ""),
                         shouldUseBuiltinZoomControls = feature.feature == FeatureType.VENUE
                     )
                 }
