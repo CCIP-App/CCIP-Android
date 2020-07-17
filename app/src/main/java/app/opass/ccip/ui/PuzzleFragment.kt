@@ -65,8 +65,11 @@ class PuzzleFragment : Fragment() {
 
         if (PreferenceUtil.getToken(mActivity) != null) {
             webView.loadUrl(
-                requireArguments().getString(EXTRA_URL)!! +
-                    CryptoUtil.toPublicToken(PreferenceUtil.getToken(mActivity))
+                requireArguments().getString(EXTRA_URL)!!
+                    .replace(
+                        "{public_token}",
+                        CryptoUtil.toPublicToken(PreferenceUtil.getToken(mActivity)).toString()
+                    )
             )
         } else {
             webView.loadUrl("data:text/html, <div>Please login</div>")
