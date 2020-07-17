@@ -275,6 +275,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                     FeatureType.PUZZLE -> PuzzleFragment.newInstance(feature.url!!)
                     else -> WebViewFragment.newInstance(
                         feature.url!!
+                            .replace("{token}", PreferenceUtil.getToken(mActivity).toString())
                             .replace(
                                 "{public_token}",
                                 CryptoUtil.toPublicToken(PreferenceUtil.getToken(mActivity))
