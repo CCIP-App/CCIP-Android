@@ -121,24 +121,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             else -> onDrawerItemClick(defaultFeatureItem)
         }
 
-        // Beacon need location access
-        if (!PreferenceUtil.isBeaconPermissionRequested(mActivity) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Android M Permission check
-            if (this.checkSelfPermission(ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                AlertDialog.Builder(this)
-                    .setTitle(R.string.beacon_request_permission_title)
-                    .setMessage(R.string.beacon_request_permission_message)
-                    .setPositiveButton(android.R.string.ok) { _, _ ->
-                        requestPermissions(arrayOf(ACCESS_COARSE_LOCATION), 1)
-                    }
-                    .setNegativeButton(getString(R.string.no_thanks), null)
-                    .setOnDismissListener {
-                        PreferenceUtil.setBeaconPermissionRequested(mActivity)
-                    }
-                    .show()
-            }
-        }
-
         launch {
             try {
                 val response = PortalClient.get().getEventConfig(event.eventId).asyncExecute()

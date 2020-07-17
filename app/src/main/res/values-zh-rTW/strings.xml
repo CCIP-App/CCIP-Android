@@ -81,11 +81,6 @@
 
     <string name="copy_to_clipboard">已複製至剪貼簿</string>
 
-    <string name="beacon_request_permission_title">請求存取概略位置權限</string>
-    <string name="beacon_request_permission_message">（實驗性功能）當藍芽為開啟狀態，我們會透過 beacon 提醒您已抵達會場可報到區域</string>
-    <string name="beacon_channel_name">歡迎來到會場</string>
-    <string name="beacon_notify_need_login">歡迎來到會場\n別忘記登入OPass！</string>
-    <string name="beacon_notify_need_checkin">歡迎來到會場\n別忘記去報到！</string>
     <string name="switch_event">切換活動</string>
     <string name="no_thanks">不用了</string>
     <string name="sign_in">登入</string>

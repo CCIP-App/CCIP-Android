@@ -6,10 +6,6 @@ import app.opass.ccip.model.ConfSchedule
 import app.opass.ccip.model.EventConfig
 
 object PreferenceUtil {
-    private const val PREF_BEACON = "beacon"
-    private const val PREF_BEACON_PERMISSION_REQUESTED = "permission_requested"
-    private const val PREF_BEACON_NOTIFIED = "notified"
-
     private const val PREF_EVENT = "event"
     private const val PREF_CURRENT_EVENT = "current_event"
 
@@ -20,26 +16,6 @@ object PreferenceUtil {
     private const val PREF_SCHEDULE = "schedule"
     private const val PREF_SCHEDULE_SCHEDULE = "schedule"
     private const val PREF_SCHEDULE_STARS = "stars"
-
-    fun setBeaconPermissionRequested(context: Context) {
-        context.getSharedPreferences(PREF_BEACON, Context.MODE_PRIVATE)
-            .edit(true) { putBoolean(PREF_BEACON_PERMISSION_REQUESTED, true) }
-    }
-
-    fun isBeaconPermissionRequested(context: Context): Boolean {
-        val sharedPreferences = context.getSharedPreferences(PREF_BEACON, Context.MODE_PRIVATE)
-        return sharedPreferences.getBoolean(PREF_BEACON_PERMISSION_REQUESTED, false)
-    }
-
-    fun setBeaconNotified(context: Context) {
-        context.getSharedPreferences(PREF_BEACON, Context.MODE_PRIVATE)
-            .edit(true) { putBoolean(getCurrentEvent(context).eventId + PREF_BEACON_NOTIFIED, true) }
-    }
-
-    fun isBeaconNotified(context: Context): Boolean {
-        val sharedPreferences = context.getSharedPreferences(PREF_BEACON, Context.MODE_PRIVATE)
-        return sharedPreferences.getBoolean(getCurrentEvent(context).eventId + PREF_BEACON_NOTIFIED, false)
-    }
 
     fun setCurrentEvent(context: Context, eventConfig: EventConfig) {
         context.getSharedPreferences(PREF_EVENT, Context.MODE_PRIVATE)
