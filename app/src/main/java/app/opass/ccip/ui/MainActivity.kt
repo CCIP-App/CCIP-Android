@@ -1,13 +1,10 @@
 package app.opass.ccip.ui
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -56,6 +53,11 @@ private const val STATE_IS_DEFAULT_FEATURE_SELECTED = "IS_DEFAULT_FEATURE_SELECT
 class MainActivity : AppCompatActivity(), CoroutineScope {
     companion object {
         const val ARG_IS_FROM_NOTIFICATION = "isFromNotification"
+    }
+
+    interface BackPressAwareFragment {
+        // Returns true if the event is consumed.
+        fun onBackPressed(): Boolean
     }
 
     private lateinit var mDrawerLayout: DrawerLayout
@@ -174,9 +176,16 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         outState.putBoolean(STATE_IS_DEFAULT_FEATURE_SELECTED, isDefaultFeatureSelected)
     }
 
+    private fun dispatchBackPressToChildFragment(): Boolean {
+        val fragment = supportFragmentManager.findFragmentById(R.id.content_frame) ?: return false
+        if (fragment !is BackPressAwareFragment) return false
+        return fragment.onBackPressed()
+    }
+
     override fun onBackPressed() {
         when {
             mDrawerLayout.isDrawerOpen(GravityCompat.START) -> mDrawerLayout.closeDrawers()
+            dispatchBackPressToChildFragment() -> Unit
             isDefaultFeatureSelected -> super.onBackPressed()
             else -> onDrawerItemClick(defaultFeatureItem)
         }

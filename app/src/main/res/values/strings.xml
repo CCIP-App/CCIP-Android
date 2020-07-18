@@ -113,4 +113,10 @@
     <string name="about_app">About &appname;</string>
     <string name="version">Version %s</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="no_matching_sessions_multiple_day">No session matches your filter at this day</string>
+    <string name="no_matching_sessions">No session matches your filter</string>
+    <string name="filter">Filter</string>
+    <string name="reset_filters">Reset filters</string>
+    <string name="collapse_filter_panel">Collapse filter panel</string>
+    <string name="bookmarked">Bookmarked</string>
 </resources>

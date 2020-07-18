@@ -2,11 +2,10 @@ package app.opass.ccip.ui.schedule
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.*
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
-import androidx.core.view.get
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,9 +14,13 @@ import androidx.lifecycle.observe
 import app.opass.ccip.R
 import app.opass.ccip.databinding.FragmentScheduleTabBinding
 import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.extension.doOnApplyWindowInsets
+import app.opass.ccip.extension.updateMargin
 import app.opass.ccip.model.ConfSchedule
+import app.opass.ccip.ui.MainActivity
 import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.*
@@ -27,7 +30,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
-class ScheduleTabFragment : Fragment(), CoroutineScope {
+class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAwareFragment {
     companion object {
         private val SDF_DATE = SimpleDateFormat("MM/dd", Locale.US)
         private const val EXTRA_URL = "EXTRA_URL"
@@ -65,20 +68,30 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
         mActivity = requireActivity()
         tabLayout = mActivity.findViewById(R.id.tabs)
         mJob = Job()
-        setHasOptionsMenu(true)
         binding.swipeContainer.isEnabled = false
 
+        val sheetBehavior = BottomSheetBehavior.from(requireView().findViewById<View>(R.id.filterSheet))
+        binding.fab.setOnClickListener {
+            sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+        binding.fab.doOnApplyWindowInsets { v, insets, _, margin ->
+            v.updateMargin(bottom = margin.bottom + insets.systemGestureInsets.bottom)
+        }
+
+        vm.filtersActivated.observe(viewLifecycleOwner) { activated ->
+            if (activated) binding.fab.hide()
+            else binding.fab.show()
+        }
         vm.isScheduleReady
             .distinctUntilChanged()
             .observe(viewLifecycleOwner) { isReady ->
                 if (isReady) {
                     setupViewPager()
-                    mActivity.invalidateOptionsMenu()
+                    binding.fab.show()
+                } else {
+                    binding.fab.hide()
                 }
             }
-        vm.showStarredOnly.observe(viewLifecycleOwner) {
-            mActivity.invalidateOptionsMenu()
-        }
 
         launch {
             binding.swipeContainer.isRefreshing = true
@@ -100,20 +113,26 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
                         if (cached != new) {
                             PreferenceUtil.saveSchedule(mActivity, new)
 
-                            if (!vm.isScheduleReady.value!!) return@run vm.reloadSessions()
+                            val isSchedulePresent = vm.isScheduleReady.value ?: false
+                            if (!isSchedulePresent) return@run vm.reloadSchedule()
                             Snackbar.make(binding.root, R.string.schedule_updated, Snackbar.LENGTH_INDEFINITE)
-                                .setAction(R.string.reload) { vm.reloadSessions() }
+                                .setAction(R.string.reload) { vm.reloadSchedule() }
+                                .setAnchorView(binding.fab)
                                 .show()
                         }
                     } else {
-                        Snackbar.make(binding.root, R.string.cannot_load_schedule, Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(binding.root, R.string.cannot_load_schedule, Snackbar.LENGTH_LONG)
+                            .setAnchorView(binding.fab)
+                            .show()
                     }
                 }
             } catch (_: CancellationException) {
                 return@launch
             } catch (t: Throwable) {
                 t.printStackTrace()
-                Snackbar.make(binding.root, R.string.offline, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, R.string.offline, Snackbar.LENGTH_LONG)
+                    .setAnchorView(binding.fab)
+                    .show()
             }
             binding.swipeContainer.isRefreshing = false
         }
@@ -146,31 +165,15 @@ class ScheduleTabFragment : Fragment(), CoroutineScope {
         tabLayout.setupWithViewPager(binding.pager)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.add("star").run {
-            setIcon(R.drawable.ic_bookmark_border_black_24dp)
-            setOnMenuItemClickListener { item ->
-                vm.showStarredOnly.value = !vm.showStarredOnly.value!!
-                false
-            }
-            isVisible = false
-            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+    override fun onBackPressed(): Boolean {
+        val sheetBehavior = BottomSheetBehavior.from(requireView().findViewById<ConstraintLayout>(R.id.filterSheet))
+        if (sheetBehavior.state == BottomSheetBehavior.STATE_DRAGGING
+            || sheetBehavior.state == BottomSheetBehavior.STATE_SETTLING) return true
+        if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.state = if (sheetBehavior.skipCollapsed) BottomSheetBehavior.STATE_HIDDEN
+                else BottomSheetBehavior.STATE_COLLAPSED
+            return true
         }
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        val item = menu[0]
-        item.isVisible = vm.sessionsGroupedByDate.value != null
-        if (vm.showStarredOnly.value!!) {
-            item.setIcon(R.drawable.ic_bookmark_black_24dp)
-        } else {
-            item.setIcon(R.drawable.ic_bookmark_border_black_24dp)
-        }
-        val filter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-            ContextCompat.getColor(requireContext(), R.color.colorWhite),
-            BlendModeCompat.SRC_ATOP
-        )
-        item.icon.colorFilter = filter
+        return false
     }
 }
