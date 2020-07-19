@@ -49,9 +49,10 @@ class ScheduleFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_schedule, container, false)
         val scheduleView = view.findViewById<RecyclerView>(R.id.schedule)
         scheduleView.layoutManager = LinearLayoutManager(mActivity)
+        val tagViewPool = RecyclerView.RecycledViewPool()
         adapter = ScheduleAdapter(
             mActivity,
-            emptyList(),
+            tagViewPool,
             ::onSessionClicked,
             ::onToggleStarState,
             ::isSessionStarred
