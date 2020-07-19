@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/session_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,72 +21,81 @@
             style="@style/Session.Room"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_gravity="center_vertical"
             android:autoSizeTextType="uniform"
             android:maxLines="1"
             android:padding="2dp"
-            android:text="New Text" />
+            android:text="New Text"
+            app:layout_constraintBottom_toTopOf="@id/tagsBarrier"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/title"
+            style="@style/Session"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="5dp">
+            android:layout_marginStart="10dp"
+            android:text="Title"
+            app:layout_constraintBottom_toTopOf="@id/firstRowBarrier"
+            app:layout_constraintEnd_toStartOf="@+id/star"
+            app:layout_constraintStart_toEndOf="@+id/room"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_bookmark_border_black_24dp"
+            app:layout_constraintBottom_toTopOf="@+id/firstRowBarrier"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
-                <TextView
-                    android:id="@+id/title"
-                    style="@style/Session"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/star"
-                    android:text="Title" />
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/firstRowBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top" />
 
-                <ImageView
-                    android:id="@+id/star"
-                    android:layout_width="@dimen/icon_size"
-                    android:layout_height="@dimen/icon_size"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_bookmark_border_black_24dp" />
+        <TextView
+            android:id="@+id/end_time"
+            style="@style/Session"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="End Time"
+            app:layout_constraintBottom_toTopOf="@id/tagsBarrier"
+            app:layout_constraintStart_toEndOf="@+id/room"
+            app:layout_constraintTop_toBottomOf="@+id/firstRowBarrier" />
 
-            </RelativeLayout>
+        <TextView
+            android:id="@+id/type"
+            style="@style/Session.Type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="Type"
+            app:layout_constraintBottom_toTopOf="@id/tagsBarrier"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/end_time"
+            app:layout_constraintTop_toTopOf="@+id/firstRowBarrier" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/type" />
 
-                <TextView
-                    android:id="@+id/end_time"
-                    style="@style/Session"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="End Time" />
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/tagsBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top" />
 
-                <TextView
-                    android:id="@+id/type"
-                    style="@style/Session.Type"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="Type" />
-
-                <TextView
-                    android:id="@+id/lang"
-                    style="@style/Session"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

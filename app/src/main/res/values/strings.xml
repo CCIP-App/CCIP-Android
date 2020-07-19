@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+    <!ENTITY appname "OPass">
+]>
+
 <resources>
-    <string name="app_name">OPass</string>
+    <string name="app_name">&appname;</string>
 
     <string name="select_event">Select Event</string>
 
@@ -78,11 +82,6 @@
 
     <string name="copy_to_clipboard">Copied to clipboard</string>
 
-    <string name="beacon_request_permission_title">Request access for approximate location</string>
-    <string name="beacon_request_permission_message">(Experimental) When Bluetooth is ON, we will use beacons to notify you that you can check-in</string>
-    <string name="beacon_channel_name">Welcome to event</string>
-    <string name="beacon_notify_need_login">Welcome to event\nPlease remember to login OPass</string>
-    <string name="beacon_notify_need_checkin">Welcome to event\nPlease remember to check-in</string>
     <string name="switch_event">Switch Event</string>
     <string name="no_thanks">No thanks</string>
     <string name="sign_in">Sign in</string>
@@ -111,4 +110,13 @@
     <string name="wifi_saved">Saved wifi network</string>
     <string name="failed_to_save_wifi">Failed to save wifi network</string>
     <string name="failed_to_save_wifi_copied_to_clipboard">Failed to save wifi network. Password copied to clipboard instead.</string>
+    <string name="about_app">About &appname;</string>
+    <string name="version">Version %s</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="no_matching_sessions_multiple_day">No session matches your filter at this day</string>
+    <string name="no_matching_sessions">No session matches your filter</string>
+    <string name="filter">Filter</string>
+    <string name="reset_filters">Reset filters</string>
+    <string name="collapse_filter_panel">Collapse filter panel</string>
+    <string name="bookmarked">Bookmarked</string>
 </resources>

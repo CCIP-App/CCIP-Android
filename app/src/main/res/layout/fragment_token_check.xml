@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".fragment.TokenCheckFragment">
+    tools:context=".ui.auth.TokenCheckFragment">
 
     <TextView
         android:id="@+id/title"

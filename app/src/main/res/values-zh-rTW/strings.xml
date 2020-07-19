@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+    <!ENTITY appname "OPass">
+]>
+
 <resources>
-    <string name="app_name">OPass</string>
+    <string name="app_name">&appname;</string>
 
     <string name="select_event">選擇活動</string>
 
@@ -77,11 +81,6 @@
 
     <string name="copy_to_clipboard">已複製至剪貼簿</string>
 
-    <string name="beacon_request_permission_title">請求存取概略位置權限</string>
-    <string name="beacon_request_permission_message">（實驗性功能）當藍芽為開啟狀態，我們會透過 beacon 提醒您已抵達會場可報到區域</string>
-    <string name="beacon_channel_name">歡迎來到會場</string>
-    <string name="beacon_notify_need_login">歡迎來到會場\n別忘記登入OPass！</string>
-    <string name="beacon_notify_need_checkin">歡迎來到會場\n別忘記去報到！</string>
     <string name="switch_event">切換活動</string>
     <string name="no_thanks">不用了</string>
     <string name="sign_in">登入</string>
@@ -110,4 +109,13 @@
     <string name="wifi_saved">Wifi 網路資訊已儲存</string>
     <string name="failed_to_save_wifi">無法儲存 Wifi 網路資訊</string>
     <string name="failed_to_save_wifi_copied_to_clipboard">無法儲存 WiFi 網路資訊。網路密碼已複製到剪貼簿。</string>
+    <string name="about_app">關於 &appname;</string>
+    <string name="version">版本 %s</string>
+    <string name="privacy_policy">隱私權政策</string>
+    <string name="no_matching_sessions_multiple_day">這天沒有符合篩選條件的議程</string>
+    <string name="no_matching_sessions">沒有符合篩選條件的議程</string>
+    <string name="filter">篩選器</string>
+    <string name="reset_filters">重設篩選器</string>
+    <string name="collapse_filter_panel">收合篩選器面板</string>
+    <string name="bookmarked">已加入書籤</string>
 </resources>

@@ -11,7 +11,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import app.opass.ccip.R
-import app.opass.ccip.activity.SessionDetailActivity
+import app.opass.ccip.ui.sessiondetail.SessionDetailActivity
 
 class SessionAlarmReceiver : BroadcastReceiver() {
     companion object {

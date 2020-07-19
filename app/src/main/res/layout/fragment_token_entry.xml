@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.TokenEntryFragment">
+    tools:context=".ui.auth.TokenEntryFragment">
 
     <TextView
         style="@style/TextAppearance.AppCompat.Headline"
