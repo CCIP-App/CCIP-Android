@@ -108,7 +108,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
                         val cached = PreferenceUtil.loadRawSchedule(mActivity).trim()
                         val new = withContext(Dispatchers.IO) { body!!.string().trim() }
                         // try to parse first
-                        JsonUtil.GSON.fromJson(new, ConfSchedule::class.java)
+                        withContext(Dispatchers.Default) { JsonUtil.GSON.fromJson(new, ConfSchedule::class.java) }
 
                         if (cached != new) {
                             PreferenceUtil.saveSchedule(mActivity, new)

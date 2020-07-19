@@ -7,6 +7,9 @@ import app.opass.ccip.model.Session
 import app.opass.ccip.model.SessionTag
 import app.opass.ccip.util.PreferenceUtil
 import com.google.gson.internal.bind.util.ISO8601Utils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
@@ -48,24 +51,32 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
     }
 
     init {
-        schedule.value = PreferenceUtil.loadSchedule(getApplication())
-        sessionsGroupedByDate = schedule.map { schedule -> schedule?.sessions?.groupedByDate() }
+        viewModelScope.launch {
+            schedule.value = getSchedule()
+        }
+        sessionsGroupedByDate = schedule.switchMap { schedule ->
+            liveData(viewModelScope.coroutineContext + Dispatchers.Default) {
+                emit(schedule?.sessions?.groupedByDate())
+            }
+        }
         groupedSessionsToShow = MediatorLiveData<Map<String, List<Session>>?>().apply {
             val update = update@{
                 val sessions = sessionsGroupedByDate.value
-                if (sessions == null ) {
+                if (sessions == null) {
                     value = null
                     return@update
                 }
                 val starredOnly = showStarredOnly.value!!
                 val selectedTagIds = selectedTagIds.value!!
-
-                val filtered = if (starredOnly) sessions.let(::filterStarred) else sessions
-                value = if (selectedTagIds.isNotEmpty()) {
-                    filtered.mapValues { (_, sessions) ->
-                        sessions.filter { session -> session.tags.any { tag -> selectedTagIds.any { id -> id == tag.id } } }
-                    }
-                } else filtered
+                viewModelScope.launch(Dispatchers.Default) {
+                    val filtered = if (starredOnly) sessions.let(::filterStarred) else sessions
+                    val result = if (selectedTagIds.isNotEmpty()) {
+                        filtered.mapValues { (_, sessions) ->
+                            sessions.filter { session -> session.tags.any { tag -> selectedTagIds.any { id -> id == tag.id } } }
+                        }
+                    } else filtered
+                    postValue(result)
+                }
             }
             addSource(sessionsGroupedByDate) { update() }
             addSource(showStarredOnly) { update() }
@@ -75,8 +86,12 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
         tags = schedule.map { schedule -> schedule?.tags }
     }
 
+    private suspend fun getSchedule() = withContext(Dispatchers.Default) { PreferenceUtil.loadSchedule(getApplication()) }
+
     fun reloadSchedule() {
-        schedule.value = PreferenceUtil.loadSchedule(getApplication())
+        viewModelScope.launch {
+            schedule.value = getSchedule()
+        }
         val validTagIds = tags.value?.map { tag -> tag.id } ?: return
         selectedTagIds.value = selectedTagIds.value!!.filter { id -> validTagIds.contains(id) }
     }
