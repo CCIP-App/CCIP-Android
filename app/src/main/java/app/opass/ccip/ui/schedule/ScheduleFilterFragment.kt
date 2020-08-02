@@ -93,6 +93,13 @@ class ScheduleFilterFragment : Fragment() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {}
         })
 
+        binding.btnSearch.setOnClickListener {
+            val searchText = binding.editSearch.text.toString()
+            vm.search(searchText)
+            sheetBehavior.state = if (sheetBehavior.skipCollapsed) BottomSheetBehavior.STATE_HIDDEN
+            else BottomSheetBehavior.STATE_COLLAPSED
+        }
+
         vm.filtersActivated.observe(viewLifecycleOwner) { activated ->
             sheetBehavior.isHideable = !activated
             sheetBehavior.skipCollapsed = !activated

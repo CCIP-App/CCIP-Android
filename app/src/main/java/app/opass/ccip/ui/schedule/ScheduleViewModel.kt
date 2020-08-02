@@ -50,6 +50,8 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
         addSource(selectedTagIds) { update() }
     }
 
+    private val searchTerm: MutableLiveData<String> = MutableLiveData()
+
     init {
         viewModelScope.launch {
             schedule.value = getSchedule()
@@ -75,15 +77,35 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
                             sessions.filter { session -> session.tags.any { tag -> selectedTagIds.any { id -> id == tag.id } } }
                         }
                     } else filtered
-                    postValue(result)
+
+                    if (hasSearchTerm()) {
+                        val searchText = searchTerm.value!!
+                        val searchResult = result.mapValues { (_, sessions) ->
+                            sessions.filter { session ->
+                                session.en.description.contains(searchText, ignoreCase = true) ||
+                                    session.en.title.contains(searchText, ignoreCase = true) ||
+                                    session.zh.title.contains(searchText, ignoreCase = true) ||
+                                    session.zh.title.contains(searchText, ignoreCase = true)
+                            }
+                        }
+                        postValue(searchResult)
+                    } else {
+                        postValue(result)
+                    }
+
                 }
             }
             addSource(sessionsGroupedByDate) { update() }
             addSource(showStarredOnly) { update() }
             addSource(selectedTagIds) { update() }
+            addSource(searchTerm) { update() }
         }
         isScheduleReady = groupedSessionsToShow.map { sessions -> sessions != null }
         tags = schedule.map { schedule -> schedule?.tags }
+    }
+
+    private fun hasSearchTerm(): Boolean {
+        return searchTerm.value.isNullOrEmpty().not()
     }
 
     private suspend fun getSchedule() = withContext(Dispatchers.Default) { PreferenceUtil.loadSchedule(getApplication()) }
@@ -111,6 +133,10 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
 
     fun toggleStarFilter() {
         showStarredOnly.value = showStarredOnly.value!!.not()
+    }
+
+    fun search(key: String) {
+        searchTerm.postValue(key)
     }
 
     private fun filterStarred(sessions: Map<String, List<Session>>): Map<String, List<Session>> {

@@ -21,6 +21,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editSearch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnSearch"
+        app:layout_constraintTop_toBottomOf="@id/filterTitle"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="type search here"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/editSearch"
+        app:layout_constraintBottom_toBottomOf="@id/editSearch"
+        android:src="@drawable/ic_search_24"
+        android:layout_marginEnd="16dp"
+        android:background="@color/colorWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/filterHeaderRv"
         android:layout_width="0dp"
@@ -29,10 +51,10 @@
         android:orientation="horizontal"
         android:requiresFadingEdge="horizontal"
         app:layoutManager="LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/peekHeight"
+        app:layout_constraintBottom_toTopOf="@id/filterContentRv"
         app:layout_constraintEnd_toStartOf="@id/clearButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editSearch"
         tools:visibility="gone" />
 
     <ImageButton
@@ -85,6 +107,6 @@
         app:layoutManager="GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/peekHeight" />
+        app:layout_constraintTop_toBottomOf="@id/filterHeaderRv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
