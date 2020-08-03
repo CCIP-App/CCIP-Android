@@ -112,13 +112,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
 
                         if (cached != new) {
                             PreferenceUtil.saveSchedule(mActivity, new)
-
-                            val isSchedulePresent = vm.isScheduleReady.value ?: false
-                            if (!isSchedulePresent) return@run vm.reloadSchedule()
-                            Snackbar.make(binding.root, R.string.schedule_updated, Snackbar.LENGTH_INDEFINITE)
-                                .setAction(R.string.reload) { vm.reloadSchedule() }
-                                .setAnchorView(binding.fab)
-                                .show()
+                            vm.reloadSchedule()
                         }
                     } else {
                         Snackbar.make(binding.root, R.string.cannot_load_schedule, Snackbar.LENGTH_LONG)
