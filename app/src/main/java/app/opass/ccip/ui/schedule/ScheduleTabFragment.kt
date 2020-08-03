@@ -78,10 +78,6 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
             v.updateMargin(bottom = margin.bottom + insets.systemGestureInsets.bottom)
         }
 
-        vm.filtersActivated.observe(viewLifecycleOwner) { activated ->
-            if (activated) binding.fab.hide()
-            else binding.fab.show()
-        }
         vm.isScheduleReady
             .distinctUntilChanged()
             .observe(viewLifecycleOwner) { isReady ->
@@ -92,6 +88,10 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
                     binding.fab.hide()
                 }
             }
+        vm.filtersActivated.observe(viewLifecycleOwner) { activated ->
+            if (activated) binding.fab.hide()
+            else binding.fab.show()
+        }
 
         launch {
             binding.swipeContainer.isRefreshing = true
