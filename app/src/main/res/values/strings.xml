@@ -100,10 +100,6 @@
     <string name="try_again">Try Again</string>
     <string name="unexpected_error_try_again">An unexpected error occurred. Please try again later.</string>
     <string name="verify_identity_to_use_this_function">Verify identity to use this function</string>
-    <string name="event_update_detected_message">Event information has been updated. Restart app for accurate information.</string>
-    <string name="restart">Restart</string>
-    <string name="schedule_updated">Schedule updated</string>
-    <string name="reload">Reload</string>
     <string name="cannot_load_schedule">Cannot load schedule</string>
     <string name="cannot_read_session_info">Cannot read session info</string>
     <string name="choose_network_to_connect">Choose a network to connect</string>

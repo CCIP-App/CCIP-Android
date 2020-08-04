@@ -27,24 +27,4 @@ data class Session(
             en
         }
     }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        if (other == null || other !is Session) {
-            return false
-        }
-
-        return this.id == other.id
-    }
-
-    override fun hashCode(): Int {
-        var result = start.hashCode()
-        result = 31 * result + end.hashCode()
-        result = 31 * result + room.hashCode()
-
-        return result
-    }
 }

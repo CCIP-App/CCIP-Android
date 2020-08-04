@@ -45,6 +45,12 @@ class ScheduleFilterFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val sheetBehavior = BottomSheetBehavior.from(binding.filterSheet)
+        val peekHeight = sheetBehavior.peekHeight
+        binding.root.doOnApplyWindowInsets { _, insets, _, _ ->
+            sheetBehavior.peekHeight = insets.systemWindowInsetBottom + peekHeight
+        }
+
         binding.filterHeaderRv.isNestedScrollingEnabled = false
         binding.filterHeaderRv.adapter = FilterHeaderChipAdapter(requireContext())
 
@@ -71,7 +77,6 @@ class ScheduleFilterFragment : Fragment() {
             }
         }
 
-        val sheetBehavior = BottomSheetBehavior.from(binding.filterSheet)
         binding.collapseButton.setOnClickListener {
             sheetBehavior.state = if (sheetBehavior.skipCollapsed) BottomSheetBehavior.STATE_HIDDEN
             else BottomSheetBehavior.STATE_COLLAPSED

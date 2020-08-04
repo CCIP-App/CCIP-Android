@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 val newEvent = response.body()!!
                 if (event != newEvent) {
                     PreferenceUtil.setCurrentEvent(this@MainActivity, newEvent)
-                    showRestartSnackbar()
+                    recreate()
                 }
             } catch (t: Throwable) {
                 t.printStackTrace()
@@ -283,19 +283,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             title = item.origFeature.displayText.findBestMatch(this)
         }
         mDrawerLayout.closeDrawers()
-    }
-
-    private fun showRestartSnackbar() {
-        Snackbar.make(mDrawerLayout, R.string.event_update_detected_message, Snackbar.LENGTH_INDEFINITE)
-            .setAction(R.string.restart) { recreate() }
-            .addCallback(object : Snackbar.Callback() {
-                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                    if (event == DISMISS_EVENT_CONSECUTIVE) {
-                        showRestartSnackbar()
-                    }
-                }
-            })
-            .show()
     }
 
     private fun onWifiSelected(info: WifiNetworkInfo) {
