@@ -23,6 +23,11 @@ fun BottomSheetBehavior<*>.approxSlideOffset() = when (state) {
     else -> 0F
 }
 
+fun BottomSheetBehavior<*>.collapseOrHide() {
+    state = if (skipCollapsed) BottomSheetBehavior.STATE_HIDDEN
+    else BottomSheetBehavior.STATE_COLLAPSED
+}
+
 class ScheduleFilterFragment : Fragment() {
     private var _binding: FragmentScheduleFilterBinding? = null
     private val binding get() = _binding!!
@@ -73,8 +78,7 @@ class ScheduleFilterFragment : Fragment() {
 
         val sheetBehavior = BottomSheetBehavior.from(binding.filterSheet)
         binding.collapseButton.setOnClickListener {
-            sheetBehavior.state = if (sheetBehavior.skipCollapsed) BottomSheetBehavior.STATE_HIDDEN
-            else BottomSheetBehavior.STATE_COLLAPSED
+            sheetBehavior.collapseOrHide()
         }
         binding.clearButton.setOnClickListener {
             vm.clearFilter()
@@ -96,8 +100,7 @@ class ScheduleFilterFragment : Fragment() {
         binding.btnSearch.setOnClickListener {
             val searchText = binding.editSearch.text.toString()
             vm.search(searchText)
-            sheetBehavior.state = if (sheetBehavior.skipCollapsed) BottomSheetBehavior.STATE_HIDDEN
-            else BottomSheetBehavior.STATE_COLLAPSED
+            sheetBehavior.collapseOrHide()
         }
 
         vm.filtersActivated.observe(viewLifecycleOwner) { activated ->
@@ -135,6 +138,8 @@ class ScheduleFilterFragment : Fragment() {
         binding.filterTitle.alpha = filterContentAlpha
         binding.filterContentRv.alpha = filterContentAlpha
         binding.collapseButton.alpha = filterContentAlpha
+        binding.btnSearch.alpha = filterContentAlpha
+        binding.editSearch.alpha = filterContentAlpha
         binding.clearButton.alpha = peekAlpha
         binding.filterHeaderRv.alpha = peekAlpha
 
@@ -144,6 +149,10 @@ class ScheduleFilterFragment : Fragment() {
         }
         binding.clearButton.run {
             isClickable = offset == 0F
+            isGone = alpha == 0F
+        }
+        binding.btnSearch.run {
+            isClickable = offset == 1F
             isGone = alpha == 0F
         }
     }
