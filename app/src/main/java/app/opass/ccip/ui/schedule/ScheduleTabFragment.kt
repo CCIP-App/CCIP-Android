@@ -89,6 +89,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
                 }
             }
         vm.filtersActivated.observe(viewLifecycleOwner) { activated ->
+            if (vm.isScheduleReady.value != true) return@observe
             if (activated) binding.fab.hide()
             else binding.fab.show()
         }
