@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.extension.setOnApplyWindowInsetsListenerCompat
+import app.opass.ccip.extension.updateMargin
 import app.opass.ccip.model.Feature
 import app.opass.ccip.model.FeatureType
 import app.opass.ccip.model.WifiNetworkInfo
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var confLogoImageView: ImageView
     private lateinit var userTitleTextView: TextView
     private lateinit var userIdTextView: TextView
+    private lateinit var navbarAnchor: View
 
     private lateinit var defaultFeatureItem: DrawerMenuAdapter.FeatureItem
     private var isDefaultFeatureSelected: Boolean = true
@@ -102,11 +104,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         setSupportActionBar(toolbar)
 
+        navbarAnchor = findViewById(R.id.navbar_anchor)
         drawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close)
         mDrawerLayout.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         mDrawerLayout.setOnApplyWindowInsetsListenerCompat { _, insets, insetsCompat ->
             drawerMenu.updatePadding(bottom = insetsCompat.systemGestureInsets.bottom)
+            navbarAnchor.updateMargin(bottom = insetsCompat.systemGestureInsets.bottom)
             insets
         }
 
@@ -288,23 +292,27 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private fun onWifiSelected(info: WifiNetworkInfo) {
         val success = WifiUtil.installNetwork(this, info)
         if (success) {
-            Snackbar.make(mDrawerLayout, R.string.wifi_saved, Snackbar.LENGTH_SHORT).show()
+            Snackbar
+                .make(mDrawerLayout, R.string.wifi_saved, Snackbar.LENGTH_SHORT)
+                .setAnchorView(navbarAnchor)
+                .show()
         } else {
             val hasPassword = !info.password.isNullOrEmpty()
-            if (!hasPassword) return Snackbar.make(
-                mDrawerLayout,
-                R.string.failed_to_save_wifi,
-                Snackbar.LENGTH_LONG
-            ).show()
+            if (!hasPassword) {
+                Snackbar
+                    .make(mDrawerLayout, R.string.failed_to_save_wifi, Snackbar.LENGTH_LONG)
+                    .setAnchorView(navbarAnchor)
+                    .show()
+                return
+            }
 
             getSystemService<ClipboardManager>()?.run {
                 setPrimaryClip(ClipData.newPlainText("", info.password))
             } ?: return
-            Snackbar.make(
-                mDrawerLayout,
-                R.string.failed_to_save_wifi_copied_to_clipboard,
-                Snackbar.LENGTH_LONG
-            ).show()
+            Snackbar
+                .make(mDrawerLayout, R.string.failed_to_save_wifi_copied_to_clipboard, Snackbar.LENGTH_LONG)
+                .setAnchorView(navbarAnchor)
+                .show()
         }
     }
 
