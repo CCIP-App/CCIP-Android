@@ -15,6 +15,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
@@ -104,14 +105,19 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         setSupportActionBar(toolbar)
 
+        val drawerContent = findViewById<CoordinatorLayout>(R.id.main_content)
         navbarAnchor = findViewById(R.id.navbar_anchor)
         drawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close)
         mDrawerLayout.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        mDrawerLayout.setOnApplyWindowInsetsListenerCompat { _, insets, insetsCompat ->
+        mDrawerLayout.setOnApplyWindowInsetsListenerCompat { _, _, insetsCompat ->
+            drawerContent.updatePadding(left = insetsCompat.systemWindowInsetLeft, right = insetsCompat.systemWindowInsetRight)
             drawerMenu.updatePadding(bottom = insetsCompat.systemGestureInsets.bottom)
             navbarAnchor.updateMargin(bottom = insetsCompat.systemGestureInsets.bottom)
-            insets
+            insetsCompat.inset(
+                insetsCompat.systemWindowInsetLeft, 0,
+                insetsCompat.systemWindowInsetRight, 0
+            ).toWindowInsets()!!
         }
 
         buildDrawer()
