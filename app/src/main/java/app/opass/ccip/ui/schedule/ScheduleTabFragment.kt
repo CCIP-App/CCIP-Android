@@ -87,9 +87,9 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
                 }
                 requireActivity().invalidateOptionsMenu()
             }
-        vm.filtersActivated.observe(viewLifecycleOwner) { activated ->
-            if (activated) binding.fab.hide()
-            else binding.fab.show()
+        vm.shouldShowFab.observe(viewLifecycleOwner) { show ->
+            if (show) binding.fab.show()
+            else binding.fab.hide()
         }
 
         binding.searchPanel.post {
