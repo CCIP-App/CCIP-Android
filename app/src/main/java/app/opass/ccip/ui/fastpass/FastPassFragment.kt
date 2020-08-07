@@ -16,6 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.opass.ccip.R
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.extension.setOnApplyWindowInsetsListenerCompat
+import app.opass.ccip.extension.updateMargin
 import app.opass.ccip.model.Scenario
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.ErrorUtil
@@ -43,6 +44,7 @@ class FastPassFragment : Fragment(), CoroutineScope {
     private lateinit var loginView: View
     private lateinit var scenarioView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var navbarAnchor: View
     private lateinit var mActivity: MainActivity
     private lateinit var mJob: Job
     override val coroutineContext: CoroutineContext
@@ -53,7 +55,7 @@ class FastPassFragment : Fragment(), CoroutineScope {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
-        val view = inflater.inflate(R.layout.fragment_main, container, false)
+        val view = inflater.inflate(R.layout.fragment_fastpass, container, false)
 
         mActivity = requireActivity() as MainActivity
         noNetworkView = view.findViewById(R.id.no_network)
@@ -72,6 +74,7 @@ class FastPassFragment : Fragment(), CoroutineScope {
 
         scenarioView = view.findViewById(R.id.scenarios)
         swipeRefreshLayout = view.findViewById(R.id.swipeContainer)
+        navbarAnchor = view.findViewById<View>(R.id.navbar_anchor)
 
         scenarioView.layoutManager = LinearLayoutManager(mActivity)
         scenarioView.itemAnimator = DefaultItemAnimator()
@@ -81,6 +84,10 @@ class FastPassFragment : Fragment(), CoroutineScope {
                 v.updatePadding(bottom = insetsCompat.systemGestureInsets.bottom)
                 insets
             }
+        }
+        navbarAnchor.setOnApplyWindowInsetsListenerCompat { v, insets, insetsCompat ->
+            v.updateMargin(bottom = insetsCompat.systemGestureInsets.bottom)
+            insets
         }
 
         if (PreferenceUtil.getToken(mActivity) == null) {
@@ -157,7 +164,10 @@ class FastPassFragment : Fragment(), CoroutineScope {
                         }
                     }
                     else -> {
-                        Snackbar.make(requireView(), getString(R.string.invalid_token), Snackbar.LENGTH_LONG).show()
+                        Snackbar
+                            .make(requireView(), getString(R.string.invalid_token), Snackbar.LENGTH_LONG)
+                            .setAnchorView(navbarAnchor)
+                            .show()
                         PreferenceUtil.setToken(mActivity, null)
                         PreferenceUtil.setRole(mActivity, null)
                         loginView.visibility = View.VISIBLE

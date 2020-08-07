@@ -23,6 +23,11 @@ fun BottomSheetBehavior<*>.approxSlideOffset() = when (state) {
     else -> 0F
 }
 
+fun BottomSheetBehavior<*>.collapseOrHide() {
+    state = if (skipCollapsed) BottomSheetBehavior.STATE_HIDDEN
+    else BottomSheetBehavior.STATE_COLLAPSED
+}
+
 class ScheduleFilterFragment : Fragment() {
     private var _binding: FragmentScheduleFilterBinding? = null
     private val binding get() = _binding!!
@@ -78,8 +83,7 @@ class ScheduleFilterFragment : Fragment() {
         }
 
         binding.collapseButton.setOnClickListener {
-            sheetBehavior.state = if (sheetBehavior.skipCollapsed) BottomSheetBehavior.STATE_HIDDEN
-            else BottomSheetBehavior.STATE_COLLAPSED
+            sheetBehavior.collapseOrHide()
         }
         binding.clearButton.setOnClickListener {
             vm.clearFilter()

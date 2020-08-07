@@ -115,4 +115,5 @@
     <string name="reset_filters">Reset filters</string>
     <string name="collapse_filter_panel">Collapse filter panel</string>
     <string name="bookmarked">Bookmarked</string>
+    <string name="search_sessions">Search sessions</string>
 </resources>
