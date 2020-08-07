@@ -3,7 +3,9 @@ package app.opass.ccip.extension
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.Px
+import androidx.core.content.getSystemService
 import androidx.core.view.*
 
 fun View.setOnApplyWindowInsetsListenerCompat(block: (v: View, insets: WindowInsets, insetsCompat: WindowInsetsCompat) -> WindowInsets) {
@@ -39,3 +41,7 @@ fun View.updateMargin(
         this.setMargins(left, top ,right, bottom)
     }
 }
+
+fun View.getIme() = context.getSystemService<InputMethodManager>()
+fun View.showIme() = getIme()?.showSoftInput(this, 0)
+fun View.hideIme() = getIme()?.hideSoftInputFromWindow(windowToken, 0)

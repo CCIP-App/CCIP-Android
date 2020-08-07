@@ -6,22 +6,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isInvisible
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.get
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
 import app.opass.ccip.extension.doOnApplyWindowInsets
+import app.opass.ccip.extension.dpToPx
+import app.opass.ccip.extension.updateMargin
 import app.opass.ccip.model.Session
 import app.opass.ccip.ui.sessiondetail.SessionDetailActivity
 import app.opass.ccip.util.AlarmUtil
 import app.opass.ccip.util.PreferenceUtil
-import kotlinx.android.synthetic.main.fragment_schedule.*
 
 class ScheduleFragment : Fragment() {
     companion object {
@@ -47,6 +49,7 @@ class ScheduleFragment : Fragment() {
         vm = ViewModelProvider(requireParentFragment()).get()
 
         val view = inflater.inflate(R.layout.fragment_schedule, container, false)
+        val emptyView = view.findViewById<TextView>(R.id.emptyView)
         val scheduleView = view.findViewById<RecyclerView>(R.id.schedule)
         scheduleView.layoutManager = LinearLayoutManager(mActivity)
         val tagViewPool = RecyclerView.RecycledViewPool()
@@ -62,7 +65,6 @@ class ScheduleFragment : Fragment() {
         vm.groupedSessionsToShow.observe(viewLifecycleOwner) { sessionsMap ->
             val grouped = sessionsMap?.get(date)?.let(::toSessionsGroupedByTime).orEmpty()
             adapter.update(grouped)
-            scheduleView.isInvisible = grouped.isEmpty()
             val shouldShowEmptyView = sessionsMap != null && grouped.isEmpty()
             val confSpansMultipleDay = sessionsMap?.size?.let { size -> size > 1 } ?: false
             emptyView.isVisible = shouldShowEmptyView
@@ -72,9 +74,21 @@ class ScheduleFragment : Fragment() {
                 getString(R.string.no_matching_sessions)
             }
         }
+        vm.shouldShowSearchPanel
+            .distinctUntilChanged()
+            .observe(viewLifecycleOwner) {
+                requireView().requestApplyInsets()
+            }
 
         scheduleView.doOnApplyWindowInsets { v, insets, padding, _ ->
-            v.updatePadding(bottom = insets.systemGestureInsets.bottom + padding.bottom)
+            val panelInset =
+                if (vm.shouldShowSearchPanel.value == true) 56F.dpToPx(resources) else 0
+            v.updatePadding(bottom = insets.systemGestureInsets.bottom + padding.bottom + panelInset)
+        }
+        emptyView.doOnApplyWindowInsets { v, insets, _, margin ->
+            val panelInset =
+                if (vm.shouldShowSearchPanel.value == true) 56F.dpToPx(resources) else 0
+            v.updateMargin(bottom = insets.systemGestureInsets.bottom + margin.bottom + panelInset)
         }
 
         return view

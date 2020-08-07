@@ -102,12 +102,6 @@ class ScheduleFilterFragment : Fragment() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {}
         })
 
-        binding.btnSearch.setOnClickListener {
-            val searchText = binding.editSearch.text.toString()
-            vm.search(searchText)
-            sheetBehavior.collapseOrHide()
-        }
-
         vm.filtersActivated.observe(viewLifecycleOwner) { activated ->
             sheetBehavior.isHideable = !activated
             sheetBehavior.skipCollapsed = !activated
@@ -143,8 +137,6 @@ class ScheduleFilterFragment : Fragment() {
         binding.filterTitle.alpha = filterContentAlpha
         binding.filterContentRv.alpha = filterContentAlpha
         binding.collapseButton.alpha = filterContentAlpha
-        binding.btnSearch.alpha = filterContentAlpha
-        binding.editSearch.alpha = filterContentAlpha
         binding.clearButton.alpha = peekAlpha
         binding.filterHeaderRv.alpha = peekAlpha
 
@@ -154,10 +146,6 @@ class ScheduleFilterFragment : Fragment() {
         }
         binding.clearButton.run {
             isClickable = offset == 0F
-            isGone = alpha == 0F
-        }
-        binding.btnSearch.run {
-            isClickable = offset == 1F
             isGone = alpha == 0F
         }
     }

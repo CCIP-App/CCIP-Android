@@ -31,7 +31,11 @@ fun List<Session>.groupedByDate(): Map<String, List<Session>> =
         .filterKeys { it != null }
         .toSortedMap(Comparator { start1, start2 -> start1!!.compareTo(start2!!) })
 
-class ScheduleViewModel(application: Application) : AndroidViewModel(application) {
+private const val KEY_SHOW_STARRED_ONLY = "showStarredOnly"
+private const val KEY_SELECTED_TAG_IDS = "selectedTagIds"
+private const val KEY_SHOW_SEARCH_PANEL = "showSearchPanel"
+
+class ScheduleViewModel(application: Application, stateHandle: SavedStateHandle) : AndroidViewModel(application) {
     val schedule: MutableLiveData<ConfSchedule?> = MutableLiveData(null)
     val sessionsGroupedByDate: LiveData<Map<String, List<Session>>?> = schedule.switchMap { schedule ->
         liveData(viewModelScope.coroutineContext + Dispatchers.Default) {
@@ -40,17 +44,10 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
     }
     val tags: LiveData<List<SessionTag>?> = schedule.map { schedule -> schedule?.tags }
 
-    val showStarredOnly: MutableLiveData<Boolean> = MutableLiveData(false)
-    val selectedTagIds = MutableLiveData<List<String>>(emptyList())
-    val filtersActivated = MediatorLiveData<Boolean>().apply {
-        val update = {
-            val starredOnly = showStarredOnly.value!!
-            val hasSelectedTags = selectedTagIds.value!!.isNotEmpty()
-            value = starredOnly || hasSelectedTags
-        }
-        addSource(showStarredOnly) { update() }
-        addSource(selectedTagIds) { update() }
-    }
+    val showStarredOnly = stateHandle.getLiveData(KEY_SHOW_STARRED_ONLY, false)
+    val selectedTagIds = stateHandle.getLiveData(KEY_SELECTED_TAG_IDS, emptyList<String>())
+    val shouldShowSearchPanel = stateHandle.getLiveData(KEY_SHOW_SEARCH_PANEL, false)
+
     private val searchTerm: MutableLiveData<String> = MutableLiveData("")
     private val filterConfig: LiveData<FilterConfig> = MediatorLiveData<FilterConfig>().apply {
         val update = {
@@ -90,6 +87,17 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
         }
     }
     val isScheduleReady: LiveData<Boolean> = groupedSessionsToShow.map { sessions -> sessions != null }
+    val filtersActivated = MediatorLiveData<Boolean>().apply {
+        val update = {
+            val scheduleReady = isScheduleReady.value ?: false
+            val starredOnly = showStarredOnly.value ?: false
+            val hasSelectedTags = selectedTagIds.value?.isNotEmpty() ?: false
+            value = scheduleReady && (starredOnly || hasSelectedTags)
+        }
+        addSource(isScheduleReady) { update() }
+        addSource(showStarredOnly) { update() }
+        addSource(selectedTagIds) { update() }
+    }
 
     init {
         viewModelScope.launch {
@@ -131,6 +139,10 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
 
     fun search(key: String) {
         searchTerm.postValue(key)
+    }
+
+    fun toggleSearchPanel(show: Boolean) {
+        shouldShowSearchPanel.value = show
     }
 
     private fun filterStarred(sessions: Map<String, List<Session>>): Map<String, List<Session>> {

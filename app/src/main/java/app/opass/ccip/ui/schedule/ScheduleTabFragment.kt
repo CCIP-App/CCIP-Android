@@ -2,9 +2,11 @@ package app.opass.ccip.ui.schedule
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.*
+import android.view.animation.DecelerateInterpolator
+import android.view.inputmethod.EditorInfo
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -13,9 +15,7 @@ import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.observe
 import app.opass.ccip.R
 import app.opass.ccip.databinding.FragmentScheduleTabBinding
-import app.opass.ccip.extension.asyncExecute
-import app.opass.ccip.extension.doOnApplyWindowInsets
-import app.opass.ccip.extension.updateMargin
+import app.opass.ccip.extension.*
 import app.opass.ccip.model.ConfSchedule
 import app.opass.ccip.ui.MainActivity
 import app.opass.ccip.util.JsonUtil
@@ -69,6 +69,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
         tabLayout = mActivity.findViewById(R.id.tabs)
         mJob = Job()
         binding.swipeContainer.isEnabled = false
+        setHasOptionsMenu(true)
 
         val sheetBehavior = BottomSheetBehavior.from(requireView().findViewById<View>(R.id.filterSheet))
         binding.fab.setOnClickListener {
@@ -83,15 +84,61 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
             .observe(viewLifecycleOwner) { isReady ->
                 if (isReady) {
                     setupViewPager()
-                    binding.fab.show()
-                } else {
-                    binding.fab.hide()
                 }
+                requireActivity().invalidateOptionsMenu()
             }
         vm.filtersActivated.observe(viewLifecycleOwner) { activated ->
-            if (vm.isScheduleReady.value != true) return@observe
             if (activated) binding.fab.hide()
             else binding.fab.show()
+        }
+
+        binding.searchPanel.post {
+            var firstRender = true
+
+            val animator = binding.searchPanel.animate()
+            animator.interpolator = DecelerateInterpolator()
+            animator.duration = 150
+            vm.shouldShowSearchPanel
+                .distinctUntilChanged()
+                .observe(viewLifecycleOwner) { shouldShow ->
+                    if (!firstRender && shouldShow) binding.searchInput.run {
+                        requestFocus()
+                        postDelayed({ showIme() }, 200)
+                    }
+                    binding.searchPanel.run {
+                        val targetY = if (shouldShow) 0F else -height.toFloat()
+                        if (firstRender) {
+                            translationY = targetY
+                            firstRender = false
+                        } else {
+                            animator.translationY(targetY)
+                        }
+                    }
+                }
+        }
+        binding.searchInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                vm.search(binding.searchInput.text.toString())
+            }
+        })
+        binding.searchInput.setOnEditorActionListener { v, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                v.clearFocus()
+                v.hideIme()
+                true
+            } else false
+        }
+        binding.searchClearBtn.setOnClickListener {
+            binding.searchInput.run {
+                if (text.isNotEmpty()) text.clear()
+                else {
+                    clearFocus()
+                    hideIme()
+                    vm.toggleSearchPanel(false)
+                }
+            }
         }
 
         launch {
@@ -170,5 +217,21 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
             return true
         }
         return false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.schedule, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val ready = vm.isScheduleReady.value == true
+        menu.findItem(R.id.search).isVisible = ready
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.search) {
+            vm.toggleSearchPanel(true)
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
