@@ -6,15 +6,15 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.getSystemService
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
 import app.opass.ccip.R
+import app.opass.ccip.extension.hideIme
+import app.opass.ccip.extension.showIme
 import app.opass.ccip.ui.MainActivity
 import app.opass.ccip.ui.event.EventActivity
 import com.google.android.material.snackbar.Snackbar
@@ -208,8 +208,8 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
-    fun hideKeyboard() = getSystemService<InputMethodManager>()?.hideSoftInputFromWindow(content.windowToken, 0)
-    fun showKeyboard() = getSystemService<InputMethodManager>()?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+    fun hideKeyboard() = content.hideIme()
+    fun showKeyboard() = content.showIme()
 
     companion object {
         private const val EXTRA_TOKEN = "EXTRA_TOKEN"
