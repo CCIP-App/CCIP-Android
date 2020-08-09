@@ -12,8 +12,8 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:foreground="?android:attr/selectableItemBackground"
-        card_view:cardUseCompatPadding="true"
-        card_view:cardCornerRadius="4dp">
+        card_view:cardCornerRadius="4dp"
+        card_view:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@color/colorAccent">
+                android:background="?attr/colorSecondary">
 
                 <ImageView
                     android:id="@+id/event_logo"
@@ -31,18 +31,18 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:padding="10dp"
-                    card_view:srcCompat="@color/colorAccent" />
+                    card_view:srcCompat="?attr/colorSecondary" />
             </RelativeLayout>
 
             <TextView
                 android:id="@+id/event_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:text="TextView"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="30sp" />
 
         </LinearLayout>

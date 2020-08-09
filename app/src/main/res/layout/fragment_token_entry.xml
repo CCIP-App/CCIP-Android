@@ -8,7 +8,7 @@
     tools:context=".ui.auth.TokenEntryFragment">
 
     <TextView
-        style="@style/TextAppearance.AppCompat.Headline"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
