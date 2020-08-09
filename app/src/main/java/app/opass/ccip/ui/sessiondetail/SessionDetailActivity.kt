@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import app.opass.ccip.R
 import app.opass.ccip.model.Session
+import app.opass.ccip.ui.MainActivity
 import app.opass.ccip.util.AlarmUtil
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.appbar.AppBarLayout
@@ -149,6 +150,10 @@ class SessionDetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
+            // Up button pressed
+            if (isTaskRoot) {
+                startActivity(Intent(this, MainActivity::class.java))
+            }
             finish()
             return true
         }
