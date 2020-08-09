@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodManager.SHOW_FORCED
 import androidx.annotation.Px
 import androidx.core.content.getSystemService
 import androidx.core.view.*
@@ -43,5 +44,5 @@ fun View.updateMargin(
 }
 
 fun View.getIme() = context.getSystemService<InputMethodManager>()
-fun View.showIme() = getIme()?.showSoftInput(this, 0)
+fun View.showIme() = getIme()?.toggleSoftInput(SHOW_FORCED, 0)
 fun View.hideIme() = getIme()?.hideSoftInputFromWindow(windowToken, 0)
