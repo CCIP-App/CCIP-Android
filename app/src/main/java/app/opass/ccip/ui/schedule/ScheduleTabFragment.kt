@@ -92,7 +92,17 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
             else binding.fab.hide()
         }
 
+        binding.searchPanel.run {
+            val listener = object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    translationY = -measuredHeight.toFloat()
+                    viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            }
+            viewTreeObserver.addOnGlobalLayoutListener(listener)
+        }
         binding.searchPanel.post {
+            binding.searchPanel.alpha = 1F
             var firstRender = true
 
             val animator = binding.searchPanel.animate()

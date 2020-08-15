@@ -44,6 +44,7 @@
         android:id="@+id/searchPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:alpha="0"
         android:background="?colorSurface"
         android:elevation="4dp"
         android:paddingVertical="8dp"
