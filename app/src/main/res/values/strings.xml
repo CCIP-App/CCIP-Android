@@ -43,10 +43,12 @@
     <string name="lang">Lang</string>
     <string name="time">Time</string>
     <string name="type">Type</string>
-    <string name="community">Community</string>
     <string name="slide">Slide</string>
-    <string name="link">Link</string>
+    <string name="co_write">Co-write</string>
+    <string name="live">Live</string>
+    <string name="record">Record</string>
     <string name="qa">Q &amp; A</string>
+    <string name="link">Link</string>
     <string name="speaker_info">Speaker Info</string>
     <string name="program_abstract">Abstract</string>
 

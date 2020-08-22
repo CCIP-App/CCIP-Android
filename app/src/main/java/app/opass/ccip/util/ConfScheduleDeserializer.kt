@@ -5,6 +5,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
+import org.intellij.lang.annotations.Language
 import java.lang.reflect.Type
 
 class ConfScheduleDeserializer : JsonDeserializer<ConfSchedule> {
@@ -31,8 +32,10 @@ class ConfScheduleDeserializer : JsonDeserializer<ConfSchedule> {
                 qa = session.qa,
                 slide = session.slide,
                 broadcast = session.broadcast,
+                coWrite = session.coWrite,
                 live = session.live,
-                record = session.record
+                record = session.record,
+                language = session.language
             )
         }
 
@@ -57,6 +60,8 @@ data class SessionTemp(
     val qa: String?,
     val slide: String?,
     val broadcast: List<String>?,
+    val coWrite: String?,
     val live: String?,
-    val record: String?
+    val record: String?,
+    val language: String?
 )

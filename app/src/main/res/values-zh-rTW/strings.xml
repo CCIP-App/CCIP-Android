@@ -45,8 +45,10 @@
     <string name="type">類型</string>
     <string name="slide">投影片</string>
     <string name="link">連結</string>
+    <string name="co_write">共筆連結</string>
+    <string name="live">直播連結</string>
+    <string name="record">錄影連結</string>
     <string name="qa">發問系統</string>
-    <string name="community">社群</string>
     <string name="speaker_info">講者簡介</string>
     <string name="program_abstract">議程簡介</string>
 

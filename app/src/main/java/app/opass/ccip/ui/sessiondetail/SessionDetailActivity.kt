@@ -100,11 +100,17 @@ class SessionDetailActivity : AppCompatActivity() {
         val title: TextView = findViewById(R.id.title)
         val time: TextView = findViewById(R.id.time)
         val type: TextView = findViewById(R.id.type)
-        val community: TextView = findViewById(R.id.community)
         val slideLayout: View = findViewById(R.id.slide_layout)
         val slide: TextView = findViewById(R.id.slide)
+        val coWiteLayout: View = findViewById(R.id.co_write_layout)
+        val coWrite: TextView = findViewById(R.id.co_write)
+        val liveLayout: View = findViewById(R.id.live_layout)
+        val live: TextView = findViewById(R.id.live)
+        val recordLayout: View = findViewById(R.id.record_layout)
+        val record: TextView = findViewById(R.id.record)
         val qaLayout: View = findViewById(R.id.qa_layout)
         val qa: TextView = findViewById(R.id.qa)
+        val langLayout: View = findViewById(R.id.lang_layout)
         val lang: TextView = findViewById(R.id.lang)
         val programAbstract: TextView = findViewById(R.id.program_abstract)
         val speakerInfoBlock: View = findViewById(R.id.speaker_info_block)
@@ -131,7 +137,11 @@ class SessionDetailActivity : AppCompatActivity() {
 
         type.text = session.type?.getDetails(mActivity)?.name ?: ""
 
+        setSessionInfo(session.language, langLayout, lang)
         setClickableUri(session.slide, slideLayout, slide)
+        setClickableUri(session.coWrite, coWiteLayout, coWrite)
+        setClickableUri(session.live, liveLayout, live)
+        setClickableUri(session.record, recordLayout, record)
         setClickableUri(session.qa, qaLayout, qa)
 
         if (session.speakers.isEmpty() || session.speakers[0].getSpeakerDetail(mActivity).name.isEmpty()) {
@@ -196,10 +206,16 @@ class SessionDetailActivity : AppCompatActivity() {
         Toast.makeText(mActivity, R.string.copy_to_clipboard, Toast.LENGTH_SHORT).show()
     }
 
+    private fun setSessionInfo(text: String?, layout: View, textView: TextView) {
+        if (text != null) {
+            layout.visibility = View.VISIBLE
+            textView.text = text
+        }
+    }
+
     private fun setClickableUri(uri: String?, layout: View, textView: TextView) {
         if (uri != null) {
-            layout.visibility = View.VISIBLE
-            textView.text = uri
+            setSessionInfo(uri, layout, textView)
             textView.paintFlags = textView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             textView.setOnClickListener {
                 mActivity.startActivity(
