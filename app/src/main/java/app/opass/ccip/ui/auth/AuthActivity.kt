@@ -61,8 +61,7 @@ class AuthActivity : AppCompatActivity() {
                         it
                     )
                 )
-            }
-                ?: mutableListOf<PageFragment>(MethodSelectionFragment())
+            } ?: mutableListOf<PageFragment>(MethodSelectionFragment())
 
         adapter = AuthViewPagerAdapter(this, fragmentList)
         view_pager.isUserInputEnabled = false
@@ -206,6 +205,11 @@ class AuthActivity : AppCompatActivity() {
             startActivity(Intent(this, EventActivity::class.java))
             finish()
         }
+    }
+
+    fun switchEvent() {
+        startActivity(Intent(this, EventActivity::class.java))
+        finish()
     }
 
     fun hideKeyboard() = content.hideIme()

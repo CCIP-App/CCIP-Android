@@ -5,30 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import app.opass.ccip.R
+import app.opass.ccip.databinding.FragmentTokenCheckBinding
+import app.opass.ccip.databinding.IncludeAuthHeaderBinding
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.extension.getFastPassUrl
+import app.opass.ccip.extension.isInverted
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.util.PreferenceUtil
 import com.onesignal.OneSignal
-import kotlinx.android.synthetic.main.fragment_token_check.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
-import kotlin.coroutines.CoroutineContext
 
-class TokenCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
+class TokenCheckFragment : AuthActivity.PageFragment() {
     private var hasRequestEnd = false
     private var hasErrorOccurred = false
     private val isRetryDisabled: Boolean by lazy { requireArguments().getBoolean(EXTRA_DISABLE_RETRY) }
     private val mActivity: AuthActivity by lazy { requireActivity() as AuthActivity }
 
-    private val mJob: Job by lazy { Job() }
-    override val coroutineContext: CoroutineContext
-        get() = mJob + Dispatchers.Main
+    private var _binding: FragmentTokenCheckBinding? = null
+    private val binding get() = _binding!!
 
     override fun shouldShowNextButton() = hasRequestEnd
     override fun shouldShowPreviousButton() = false
@@ -56,18 +56,20 @@ class TokenCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
 
         val token = requireArguments().getString(EXTRA_TOKEN)
         val baseUrl = PreferenceUtil.getCurrentEvent(mActivity).getFastPassUrl() ?: return mActivity.finish()
-        launch {
+        lifecycleScope.launch {
             try {
                 val response = CCIPClient.withBaseUrl(baseUrl).status(token).asyncExecute()
                 when {
                     response.isSuccessful -> {
                         val attendee = response.body()!!
-                        title.text = getString(R.string.hi) + attendee.userId
-                        message.text = getString(
+                        binding.title.text = getString(R.string.hi) + attendee.userId
+                        binding.message.text = getString(
                             R.string.login_success,
                             PreferenceUtil.getCurrentEvent(mActivity).displayName.findBestMatch(mActivity)
                         )
-                        message.isGone = false
+                        binding.message.isGone = false
+                        val header = IncludeAuthHeaderBinding.bind(binding.root)
+                        header.confName.isGone = true
 
                         PreferenceUtil.setToken(mActivity, token)
                         PreferenceUtil.setRole(mActivity, attendee.role)
@@ -80,28 +82,26 @@ class TokenCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
                         }
                     }
                     response.code() == 403 -> {
-                        title.setText(R.string.couldnt_verify_your_identity)
-                        message.setText(R.string.connect_to_conference_wifi)
-                        message.isGone = false
+                        binding.title.setText(R.string.couldnt_verify_your_identity)
+                        binding.message.setText(R.string.connect_to_conference_wifi)
+                        binding.message.isGone = false
                         hasErrorOccurred = true
                     }
                     else -> {
-                        title.setText(R.string.couldnt_verify_your_identity)
-                        message.setText(R.string.invalid_token)
-                        message.isGone = false
+                        binding.title.setText(R.string.couldnt_verify_your_identity)
+                        binding.message.setText(R.string.invalid_token)
+                        binding.message.isGone = false
                         hasErrorOccurred = true
                     }
                 }
             } catch (t: Throwable) {
-                // TODO: Should check network status before method selection, so we can assume the exception caught
-                //  here can't be fixed by user. (should display "Unexpected Error")
                 t.printStackTrace()
-                title.setText(R.string.couldnt_verify_your_identity)
-                message.setText(R.string.offline)
-                message.isGone = false
+                binding.title.setText(R.string.couldnt_verify_your_identity)
+                binding.message.setText(R.string.offline)
+                binding.message.isGone = false
                 hasErrorOccurred = true
             } finally {
-                progress.isGone = true
+                binding.progress.isGone = true
                 hasRequestEnd = true
                 mActivity.updateButtonState()
             }
@@ -112,12 +112,24 @@ class TokenCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_token_check, container, false)
+        _binding = FragmentTokenCheckBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onDestroy() {
-        mJob.cancel()
-        super.onDestroy()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val header = IncludeAuthHeaderBinding.bind(binding.root)
+        header.notThisEvent.isVisible = false
+
+        val context = requireContext()
+        val event = PreferenceUtil.getCurrentEvent(context)
+        header.confName.text = event.displayName.findBestMatch(context)
+        header.confLogo.isInverted = true
+        Picasso.get().load(event.logoUrl).into(header.confLogo)
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 
     companion object {

@@ -101,6 +101,8 @@ dependencies {
 
     implementation "io.noties.markwon:core:$markwon_version"
     implementation "io.noties.markwon:linkify:$markwon_version"
+
+    implementation 'me.saket:better-link-movement-method:2.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
