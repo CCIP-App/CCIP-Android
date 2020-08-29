@@ -2,6 +2,7 @@ package app.opass.ccip.model
 
 import android.content.Context
 import app.opass.ccip.util.LocaleUtil
+import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class Session(
@@ -18,6 +19,9 @@ data class Session(
     val broadcast: List<String>?,
     val live: String?,
     val record: String?,
+    val language: String?,
+    @SerializedName("co_write")
+    val coWrite: String?,
     val tags: List<SessionTag>
 ) {
     fun getSessionDetail(context: Context): SessionDetail {

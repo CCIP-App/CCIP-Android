@@ -1,17 +1,25 @@
 package app.opass.ccip.ui.auth
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.core.text.buildSpannedString
 import app.opass.ccip.R
-import kotlinx.android.synthetic.main.dialog_enter_token.*
+import app.opass.ccip.databinding.FragmentTokenEntryBinding
+import app.opass.ccip.databinding.IncludeAuthHeaderBinding
+import app.opass.ccip.extension.clickable
+import app.opass.ccip.extension.isInverted
+import app.opass.ccip.util.PreferenceUtil
+import com.squareup.picasso.Picasso
+import me.saket.bettermovementmethod.BetterLinkMovementMethod
 
 class TokenEntryFragment : AuthActivity.PageFragment() {
     private val mActivity: AuthActivity by lazy { requireActivity() as AuthActivity }
+    private var _binding: FragmentTokenEntryBinding? = null
+    private val binding get() = _binding!!
     override fun shouldShowNextButton() = true
     override fun getNextButtonText() = android.R.string.ok
     override fun getPreviousButtonText() = R.string.back
@@ -20,32 +28,52 @@ class TokenEntryFragment : AuthActivity.PageFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_token_entry, container, false)
+        _binding = FragmentTokenEntryBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        token_input.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
+        binding.tokenInput.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 onNextButtonClicked()
                 return@OnEditorActionListener true
             }
             false
         })
+        val header = IncludeAuthHeaderBinding.bind(binding.root)
+        val built = buildSpannedString {
+            clickable(mActivity::switchEvent) {
+                append(getString(R.string.not_this_event))
+            }
+        }
+        header.notThisEvent.text = built
+        header.notThisEvent.movementMethod = BetterLinkMovementMethod.newInstance()
+
+        val context = requireContext()
+        val event = PreferenceUtil.getCurrentEvent(context)
+        header.confName.text = event.displayName.findBestMatch(context)
+        header.confLogo.isInverted = true
+        Picasso.get().load(event.logoUrl).into(header.confLogo)
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 
     override fun onNextButtonClicked() {
-        val input = token_input.text.toString().trim()
+        val input = binding.tokenInput.text.toString().trim()
         if (input.isEmpty()) {
-            token_input_layout.error = getString(R.string.token_required)
+            binding.tokenInputLayout.error = getString(R.string.token_required)
             return
         }
         mActivity.processToken(input)
-        token_input_layout.error = ""
-        token_input.text?.clear()
+        binding.tokenInputLayout.error = ""
+        binding.tokenInput.text?.clear()
     }
 
     override fun onSelected() {
-        token_input.requestFocus()
+        binding.tokenInput.requestFocus()
         mActivity.showKeyboard()
     }
 }

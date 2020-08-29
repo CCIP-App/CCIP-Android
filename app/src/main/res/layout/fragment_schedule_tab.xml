@@ -26,6 +26,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/filter"
+        android:tint="?attr/colorOnSecondary"
         android:visibility="invisible"
         app:srcCompat="@drawable/ic_baseline_filter_list_24" />
 
@@ -43,6 +44,7 @@
         android:id="@+id/searchPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:alpha="0"
         android:background="?colorSurface"
         android:elevation="4dp"
         android:paddingVertical="8dp"

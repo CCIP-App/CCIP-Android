@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.opass.ccip.R
 import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.extension.getFastPassUrl
 import app.opass.ccip.extension.setOnApplyWindowInsetsListenerCompat
 import app.opass.ccip.extension.updateMargin
 import app.opass.ccip.model.Scenario
@@ -32,13 +33,6 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class FastPassFragment : Fragment(), CoroutineScope {
-    companion object {
-        private const val EXTRA_URL = "EXTRA_URL"
-        fun newInstance(url: String): FastPassFragment = FastPassFragment().apply {
-            arguments = Bundle().apply { putString(EXTRA_URL, url) }
-        }
-    }
-
     private lateinit var noNetworkView: View
     private lateinit var notConfWifiView: View
     private lateinit var loginView: View
@@ -50,8 +44,6 @@ class FastPassFragment : Fragment(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = mJob + Dispatchers.Main
     private lateinit var mAdapter: ScenarioAdapter
-
-    private val baseUrl by lazy { requireArguments().getString(EXTRA_URL)!! }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
@@ -124,9 +116,10 @@ class FastPassFragment : Fragment(), CoroutineScope {
         noNetworkView.visibility = View.GONE
         notConfWifiView.visibility = View.GONE
 
+        val event = PreferenceUtil.getCurrentEvent(mActivity)
         launch {
             try {
-                val response = CCIPClient.withBaseUrl(baseUrl).status(token).asyncExecute()
+                val response = CCIPClient.withBaseUrl(event.getFastPassUrl()!!).status(token).asyncExecute()
 
                 when {
                     response.isSuccessful -> {
@@ -184,10 +177,10 @@ class FastPassFragment : Fragment(), CoroutineScope {
 
     private fun useScenario(scenario: Scenario) {
         val token = PreferenceUtil.getToken(mActivity)
-
+        val event = PreferenceUtil.getCurrentEvent(mActivity)
         launch {
             try {
-                val response = CCIPClient.withBaseUrl(baseUrl).use(scenario.id, token).asyncExecute()
+                val response = CCIPClient.withBaseUrl(event.getFastPassUrl()!!).use(scenario.id, token).asyncExecute()
                 when {
                     response.isSuccessful -> {
                         val attendee = response.body()

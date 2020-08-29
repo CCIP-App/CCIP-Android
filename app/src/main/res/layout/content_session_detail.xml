@@ -88,27 +88,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/community_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="70dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/community"
-                            android:textColor="@color/colorPrimary" />
-
-                        <TextView
-                            android:id="@+id/community"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="New Text" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                        android:id="@+id/lang_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -147,6 +127,69 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/link" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/co_write_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/co_write"
+                            android:textColor="@color/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/co_write"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="New Text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/live_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/live"
+                            android:textColor="@color/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/live"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="New Text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/record_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/record"
+                            android:textColor="@color/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/record"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="New Text" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -189,10 +232,10 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/speaker_info"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textColor="@color/colorPrimary" />
 
                 <TextView
@@ -217,10 +260,10 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/program_abstract"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textColor="@color/colorPrimary" />
 
                 <TextView

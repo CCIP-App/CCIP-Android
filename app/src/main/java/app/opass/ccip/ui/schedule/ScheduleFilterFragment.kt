@@ -102,10 +102,10 @@ class ScheduleFilterFragment : Fragment() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {}
         })
 
-        vm.filtersActivated.observe(viewLifecycleOwner) { activated ->
-            sheetBehavior.isHideable = !activated
-            sheetBehavior.skipCollapsed = !activated
-            if (!activated && sheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED)
+        vm.shouldFilterSheetCollapse.observe(viewLifecycleOwner) { collapse ->
+            sheetBehavior.isHideable = !collapse
+            sheetBehavior.skipCollapsed = !collapse
+            if (!collapse && sheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED)
                 sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
         MediatorLiveData<List<SessionFilter>>().apply {

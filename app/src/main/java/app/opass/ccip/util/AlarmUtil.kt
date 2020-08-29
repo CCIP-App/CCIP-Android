@@ -20,11 +20,11 @@ object AlarmUtil {
             calendar.time = date
 
             val intent = Intent(context, SessionAlarmReceiver::class.java)
-            intent.action = session.hashCode().toString()
+            intent.action = session.id
             intent.putExtra(SessionDetailActivity.INTENT_EXTRA_SESSION_ID, session.id)
 
             val pendingIntent = PendingIntent
-                .getBroadcast(context, session.hashCode(), intent, 0)
+                .getBroadcast(context, 0, intent, 0)
 
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -47,12 +47,12 @@ object AlarmUtil {
 
     fun cancelSessionAlarm(context: Context, session: Session) {
         val intent = Intent(context, SessionDetailActivity::class.java)
-        intent.putExtra(SessionDetailActivity.INTENT_EXTRA_SESSION_ID, session.id)
+        intent.action = session.id
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(
             PendingIntent
-                .getBroadcast(context, session.hashCode(), intent, 0)
+                .getBroadcast(context, 0, intent, 0)
         )
     }
 }

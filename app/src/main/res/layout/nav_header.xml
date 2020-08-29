@@ -19,7 +19,7 @@
     android:layout_height="192dp"
     android:background="?attr/colorPrimaryDark"
     android:orientation="vertical"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
 
     <ImageView
         android:id="@+id/conf_logo"
@@ -45,10 +45,10 @@
 
         <TextView
             android:id="@+id/user_id"
+            style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/user_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:layout_below="@id/user_title" />
 
         <ImageView
             android:id="@+id/identities_shown_indicator"

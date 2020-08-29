@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private lateinit var defaultFeatureItem: DrawerMenuAdapter.FeatureItem
     private var isDefaultFeatureSelected: Boolean = true
+    private var currentEventId: String? = null
 
     private lateinit var mJob: Job
     override val coroutineContext: CoroutineContext
@@ -132,6 +133,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             }
             else -> onDrawerItemClick(defaultFeatureItem)
         }
+        currentEventId = event.eventId
 
         launch {
             try {
@@ -142,7 +144,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 val newEvent = response.body()!!
                 if (event != newEvent) {
                     PreferenceUtil.setCurrentEvent(this@MainActivity, newEvent)
-                    recreate()
+                    restartActivity()
                 }
             } catch (t: Throwable) {
                 t.printStackTrace()
@@ -203,7 +205,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if (intent?.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false) == true) {
+        if (PreferenceUtil.getCurrentEvent(this).eventId != currentEventId) {
+            restartActivity()
+        } else if (intent?.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false) == true) {
             getFeatureItemByFeatureType(FeatureType.ANNOUNCEMENT)?.let(::onDrawerItemClick)
         }
     }
@@ -215,6 +219,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     fun setUserId(userId: String) {
         userIdTextView.text = userId
+    }
+
+    private fun restartActivity() {
+        val restartIntent = Intent(this, this::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        }
+        overridePendingTransition(0, 0)
+        finish()
+        startActivity(restartIntent)
     }
 
     private fun getFeatureItemByFeatureType(type: FeatureType): DrawerMenuAdapter.FeatureItem? {
@@ -269,7 +282,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 if (!isFeatureValid(feature)) return
                 isDefaultFeatureSelected = item == defaultFeatureItem
                 val fragment = when (feature.feature) {
-                    FeatureType.FAST_PASS -> FastPassFragment.newInstance(feature.url!!)
+                    FeatureType.FAST_PASS -> FastPassFragment()
                     FeatureType.SCHEDULE -> ScheduleTabFragment.newInstance(feature.url!!)
                     FeatureType.ANNOUNCEMENT -> AnnouncementFragment.newInstance(feature.url!!)
                     FeatureType.TICKET -> MyTicketFragment()
