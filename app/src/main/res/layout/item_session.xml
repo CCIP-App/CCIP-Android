@@ -92,7 +92,7 @@
                 app:layout_constraintStart_toEndOf="@+id/end_time"
                 app:layout_constraintTop_toTopOf="@+id/firstRowBarrier" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <app.opass.ccip.ui.schedule.TouchIgnoringRecyclerView
                 android:id="@+id/tags"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
