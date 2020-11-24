@@ -24,6 +24,7 @@ class SessionAlarmReceiver : BroadcastReceiver() {
         } ?: return
 
         val newIntent = Intent(context, SessionDetailActivity::class.java).apply {
+            action = intent.action
             putExtra(SessionDetailActivity.INTENT_EXTRA_SESSION_ID, session.id)
         }
         val pendingIntent = PendingIntent.getActivity(context, 0, newIntent, 0)
