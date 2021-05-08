@@ -27,7 +27,7 @@ class CountdownActivity : AppCompatActivity() {
         val countdownText = countdown
 
         val (_, _, _, _, attr1, _, countdown1, used) = JsonUtil.fromJson(
-            intent.getStringExtra(INTENT_EXTRA_SCENARIO),
+            intent.getStringExtra(INTENT_EXTRA_SCENARIO).toString(),
             Scenario::class.java
         )
 

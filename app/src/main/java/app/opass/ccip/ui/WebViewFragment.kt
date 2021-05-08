@@ -63,7 +63,7 @@ class WebViewFragment : Fragment() {
             }
             if (Build.VERSION.SDK_INT >= 21) mixedContentMode = MIXED_CONTENT_COMPATIBILITY_MODE
         }
-        webView.loadUrl(args.getString(EXTRA_URL))
+        webView.loadUrl(args.getString(EXTRA_URL).toString())
     }
 
     override fun onRequestPermissionsResult(
