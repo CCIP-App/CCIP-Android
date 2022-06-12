@@ -24,7 +24,7 @@ object AlarmUtil {
             intent.putExtra(SessionDetailActivity.INTENT_EXTRA_SESSION_ID, session.id)
 
             val pendingIntent = PendingIntent
-                .getBroadcast(context, 0, intent, 0)
+                .getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -52,7 +52,7 @@ object AlarmUtil {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(
             PendingIntent
-                .getBroadcast(context, 0, intent, 0)
+                .getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         )
     }
 }
