@@ -17,7 +17,7 @@
             android:name="com.onesignal.NotificationOpened.DEFAULT"
             android:value="DISABLE" />
 
-        <activity android:name=".ui.LauncherActivity">
+        <activity android:name=".ui.LauncherActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -57,7 +57,7 @@
             android:screenOrientation="portrait" />
 
         <receiver android:name=".util.SessionAlarmReceiver" />
-        <receiver android:name=".util.RebootReceiver">
+        <receiver android:name=".util.RebootReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
