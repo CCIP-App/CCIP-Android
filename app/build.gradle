@@ -17,12 +17,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdk 32
 
     defaultConfig {
         applicationId "app.opass.ccip"
-        minSdkVersion 24
-        targetSdkVersion 30
+        minSdk 24
+        targetSdk 32
         versionCode 44
         versionName "3.2.0"
 
