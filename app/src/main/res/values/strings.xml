@@ -118,6 +118,5 @@
     <string name="collapse_filter_panel">Collapse filter panel</string>
     <string name="bookmarked">Bookmarked</string>
     <string name="search_sessions">Search sessions</string>
-    <string name="share_sessions">Share sessions</string>
     <string name="not_this_event">Not this event?</string>
 </resources>

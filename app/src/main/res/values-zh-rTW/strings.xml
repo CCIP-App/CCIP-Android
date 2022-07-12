@@ -117,6 +117,5 @@
     <string name="collapse_filter_panel">收合篩選器面板</string>
     <string name="bookmarked">已加入書籤</string>
     <string name="search_sessions">搜尋議程</string>
-    <string name="share_sessions">分享議程</string>
     <string name="not_this_event">不是這場活動嗎？</string>
 </resources>
