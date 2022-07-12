@@ -173,7 +173,7 @@ class SessionDetailActivity : AppCompatActivity() {
             R.id.share -> {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"
-                intent.putExtra(Intent.EXTRA_SUBJECT, session.zh.title)
+                intent.putExtra(Intent.EXTRA_SUBJECT, session.getSessionDetail(mActivity).title)
                 intent.putExtra(Intent.EXTRA_TEXT, session.uri)
 
                 startActivity(Intent.createChooser(intent, resources.getText(R.string.share)))
