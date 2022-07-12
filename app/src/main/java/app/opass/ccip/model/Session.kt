@@ -11,6 +11,7 @@ data class Session(
     val start: String?,
     val end: String,
     val type: SessionType?,
+    val uri: String?,
     val zh: Zh,
     val en: En,
     val speakers: List<Speaker>,

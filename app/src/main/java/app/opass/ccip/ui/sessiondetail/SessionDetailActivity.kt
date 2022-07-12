@@ -9,6 +9,7 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -159,14 +160,26 @@ class SessionDetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            // Up button pressed
-            if (isTaskRoot) {
-                startActivity(Intent(this, MainActivity::class.java))
+        when (item.itemId) {
+            android.R.id.home -> {
+                if (isTaskRoot) {
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+                finish()
+
+                return true
             }
-            finish()
-            return true
+
+            R.id.share -> {
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
+                intent.putExtra(Intent.EXTRA_SUBJECT, session.getSessionDetail(mActivity).title)
+                intent.putExtra(Intent.EXTRA_TEXT, session.uri)
+
+                startActivity(Intent.createChooser(intent, resources.getText(R.string.share)))
+            }
         }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -226,6 +239,19 @@ class SessionDetailActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.session_detail, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val test = menu.findItem(R.id.share)
+        test.isVisible = session.uri != null
+
+        return super.onPrepareOptionsMenu(menu)
     }
 
     private fun showToastAndFinish() {
