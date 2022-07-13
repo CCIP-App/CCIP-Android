@@ -4,22 +4,19 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import app.opass.ccip.R
+import app.opass.ccip.databinding.FragmentMyTicketBinding
 import app.opass.ccip.ui.auth.AuthActivity
 import app.opass.ccip.util.PreferenceUtil
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
-import kotlinx.android.synthetic.main.fragment_my_ticket.*
-import kotlinx.android.synthetic.main.include_login.*
 
-class MyTicketFragment : Fragment() {
+class MyTicketFragment : Fragment(R.layout.fragment_my_ticket) {
     companion object {
         private const val WHITE = -0x1
         private const val BLACK = -0x1000000
@@ -56,9 +53,17 @@ class MyTicketFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.fragment_my_ticket, container, false)
+    private var _binding: FragmentMyTicketBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentMyTicketBinding.bind(view)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun updateView() {
@@ -68,17 +73,17 @@ class MyTicketFragment : Fragment() {
             val widthPixels = Resources.getSystem().displayMetrics.widthPixels / 4
 
             val bm = encodeAsBitmap(PreferenceUtil.getToken(activity), BarcodeFormat.QR_CODE, widthPixels, widthPixels)
-            qrcodeImage.setImageBitmap(bm)
+            binding.qrcodeImage.setImageBitmap(bm)
 
-            qrcodeImage.isGone = false
-            ticket_notice.isGone = false
-            login_view.isGone = true
+            binding.qrcodeImage.isGone = false
+            binding.ticketNotice.isGone = false
+            binding.login.loginView.isGone = true
         } else {
-            qrcodeImage.isGone = true
-            ticket_notice.isGone = true
-            login_view.isGone = false
+            binding.qrcodeImage.isGone = true
+            binding.ticketNotice.isGone = true
+            binding.login.loginView.isGone = false
 
-            login_button.setOnClickListener {
+            binding.login.loginButton.setOnClickListener {
                 activity.startActivity(Intent(activity, AuthActivity::class.java))
             }
         }

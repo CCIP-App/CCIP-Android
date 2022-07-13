@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
 import app.opass.ccip.R
+import app.opass.ccip.databinding.ActivityAuthBinding
 import app.opass.ccip.extension.hideIme
 import app.opass.ccip.extension.showIme
 import app.opass.ccip.ui.MainActivity
@@ -21,12 +22,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.integration.android.IntentIntegrator
-import kotlinx.android.synthetic.main.activity_auth.*
 import java.io.IOException
 
 private const val REQUEST_SCAN_FROM_GALLERY = 1
 
 class AuthActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityAuthBinding
     private lateinit var adapter: AuthViewPagerAdapter
     private lateinit var nextButton: Button
     private lateinit var prevButton: Button
@@ -37,7 +38,7 @@ class AuthActivity : AppCompatActivity() {
         ENTER_TOKEN
     }
 
-    abstract class PageFragment : Fragment() {
+    abstract class PageFragment(resId: Int = 0) : Fragment(resId) {
         open fun onSelected() {}
         open fun onNextButtonClicked() {}
         open fun getNextButtonText(): Int? = null
@@ -50,9 +51,10 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_auth)
-        nextButton = findViewById(R.id.next)
-        prevButton = findViewById(R.id.previous)
+        binding = ActivityAuthBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        nextButton = binding.next
+        prevButton = binding.previous
 
         val fragmentList =
             intent?.extras?.getString(EXTRA_EVENT_ID)?.let {
@@ -64,19 +66,19 @@ class AuthActivity : AppCompatActivity() {
             } ?: mutableListOf<PageFragment>(MethodSelectionFragment())
 
         adapter = AuthViewPagerAdapter(this, fragmentList)
-        view_pager.isUserInputEnabled = false
-        view_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        binding.viewPager.isUserInputEnabled = false
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrollStateChanged(state: Int) {
-                if (state == SCROLL_STATE_IDLE && adapter.fragments.lastIndex >= view_pager.currentItem) {
+                if (state == SCROLL_STATE_IDLE && adapter.fragments.lastIndex >= binding.viewPager.currentItem) {
                     onPageSelected()
                 }
             }
         })
-        view_pager.adapter = adapter
+        binding.viewPager.adapter = adapter
 
         nextButton.setOnClickListener {
-            if (adapter.fragments.lastIndex >= view_pager.currentItem) {
-                adapter.fragments[view_pager.currentItem].onNextButtonClicked()
+            if (adapter.fragments.lastIndex >= binding.viewPager.currentItem) {
+                adapter.fragments[binding.viewPager.currentItem].onNextButtonClicked()
             }
         }
         prevButton.setOnClickListener { onBackPressed() }
@@ -84,7 +86,7 @@ class AuthActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val item = adapter.fragments[view_pager.currentItem]
+        val item = adapter.fragments[binding.viewPager.currentItem]
         if (!item.onBackPressed() && !popFragment()) {
             super.onBackPressed()
         }
@@ -101,7 +103,7 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun onPageSelected() {
-        adapter.fragments[view_pager.currentItem].onSelected()
+        adapter.fragments[binding.viewPager.currentItem].onSelected()
         updateButtonState()
     }
 
@@ -128,7 +130,7 @@ class AuthActivity : AppCompatActivity() {
             val result = reader.decode(binaryBitmap)
             result?.text?.let { processToken(it) }
         } catch (e: NotFoundException) {
-            Snackbar.make(content, R.string.no_qr_code_found, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.content, R.string.no_qr_code_found, Snackbar.LENGTH_SHORT).show()
         } catch (e: ChecksumException) {
             e.printStackTrace()
         } catch (e: FormatException) {
@@ -139,20 +141,20 @@ class AuthActivity : AppCompatActivity() {
     private fun addAndAdvance(fragment: PageFragment) {
         adapter.fragments.add(fragment)
         adapter.notifyDataSetChanged()
-        view_pager.currentItem++
+        binding.viewPager.currentItem++
     }
 
     private fun popFragment(): Boolean {
         if (adapter.fragments.size <= 1) return false
 
-        view_pager.currentItem--
+        binding.viewPager.currentItem--
         adapter.fragments.removeAt(adapter.fragments.lastIndex)
         adapter.notifyDataSetChanged()
         return true
     }
 
     fun updateButtonState() {
-        adapter.fragments[view_pager.currentItem].run {
+        adapter.fragments[binding.viewPager.currentItem].run {
             nextButton.isGone = !shouldShowNextButton()
             prevButton.isGone = !shouldShowPreviousButton()
             if (shouldShowNextButton()) nextButton.text = getNextButtonText()?.let(this@AuthActivity::getString)
@@ -212,8 +214,8 @@ class AuthActivity : AppCompatActivity() {
         finish()
     }
 
-    fun hideKeyboard() = content.hideIme()
-    fun showKeyboard() = content.showIme()
+    fun hideKeyboard() = binding.content.hideIme()
+    fun showKeyboard() = binding.content.showIme()
 
     companion object {
         private const val EXTRA_TOKEN = "EXTRA_TOKEN"

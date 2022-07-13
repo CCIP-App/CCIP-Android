@@ -10,22 +10,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.PermissionRequest.RESOURCE_VIDEO_CAPTURE
 import android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
-import android.widget.FrameLayout
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import app.opass.ccip.R
+import app.opass.ccip.databinding.FragmentWebBinding
 import app.opass.ccip.network.webclient.OfficialWebViewClient
 import app.opass.ccip.network.webclient.WebChromeViewClient
-import kotlinx.android.synthetic.main.fragment_web.*
 
 class WebViewFragment : Fragment() {
     private lateinit var mActivity: MainActivity
+    private var _binding: FragmentWebBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         mActivity = requireActivity() as MainActivity
 
-        return inflater.inflate(R.layout.fragment_web, container, false)
+        _binding = FragmentWebBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -33,13 +34,13 @@ class WebViewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val args = requireArguments()
 
-        view.findViewById<FrameLayout>(R.id.webview_wrapper)
-            .setOnApplyWindowInsetsListener { v, insets ->
-                v.updatePadding(bottom = insets.systemWindowInsetBottom)
-                insets
-            }
+        binding.webviewWrapper.setOnApplyWindowInsetsListener { v, insets ->
+            v.updatePadding(bottom = insets.systemWindowInsetBottom)
+            insets
+        }
 
-        webView.webChromeClient = WebChromeViewClient(progressBar, fun (request) {
+        val webView = binding.webView
+        webView.webChromeClient = WebChromeViewClient(binding.progressBar, fun (request) {
             if (!request!!.resources.contains(RESOURCE_VIDEO_CAPTURE)) request.deny()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 // Android M Permission check
@@ -66,6 +67,11 @@ class WebViewFragment : Fragment() {
         webView.loadUrl(args.getString(EXTRA_URL).toString())
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -73,7 +79,7 @@ class WebViewFragment : Fragment() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (permissions.contains(Manifest.permission.CAMERA) && grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
-            webView.reload()
+            binding.webView.reload()
         }
     }
 

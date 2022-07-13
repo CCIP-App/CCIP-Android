@@ -1,25 +1,25 @@
 package app.opass.ccip.ui.auth
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isGone
 import app.opass.ccip.R
+import app.opass.ccip.databinding.FragmentEventCheckBinding
 import app.opass.ccip.extension.asyncExecute
 import app.opass.ccip.network.PortalClient
 import app.opass.ccip.util.PreferenceUtil
-import kotlinx.android.synthetic.main.fragment_event_check.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class EventCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
+class EventCheckFragment : AuthActivity.PageFragment(R.layout.fragment_event_check), CoroutineScope {
     private var hasRequestEnd = false
     private var shouldRetry = false
     private val mActivity: AuthActivity by lazy { requireActivity() as AuthActivity }
+    private var _binding: FragmentEventCheckBinding? = null
+    private val binding get() = _binding!!
 
     private val mJob: Job by lazy { Job() }
     override val coroutineContext: CoroutineContext
@@ -48,19 +48,19 @@ class EventCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
                     PreferenceUtil.setCurrentEvent(mActivity, eventConfig)
                 } else {
                     shouldRetry = true
-                    title.setText(R.string.couldnt_get_event_info)
-                    message.setText(R.string.unexpected_error_try_again)
-                    message.isGone = false
+                    binding.title.setText(R.string.couldnt_get_event_info)
+                    binding.message.setText(R.string.unexpected_error_try_again)
+                    binding.message.isGone = false
                 }
             } catch (t: Throwable) {
                 t.printStackTrace()
                 shouldRetry = true
-                title.setText(R.string.couldnt_get_event_info)
-                message.setText(R.string.offline)
-                message.isGone = false
+                binding.title.setText(R.string.couldnt_get_event_info)
+                binding.message.setText(R.string.offline)
+                binding.message.isGone = false
             } finally {
                 hasRequestEnd = true
-                progress.isGone = true
+                binding.progress.isGone = true
                 if (shouldRetry) mActivity.updateButtonState()
                 else mActivity.onEventChecked(true)
             }
@@ -68,11 +68,14 @@ class EventCheckFragment : AuthActivity.PageFragment(), CoroutineScope {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_event_check, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentEventCheckBinding.bind(view)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onDestroy() {
