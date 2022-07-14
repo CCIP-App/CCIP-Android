@@ -68,7 +68,7 @@ class ScheduleFilterFragment : Fragment() {
                 spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
                         return when ((adapter as ScheduleFilterAdapter).currentList[position]) {
-                            is SessionFilter.TagFilter -> 1
+                            is SessionFilter.TagFilter, is SessionFilter.TypeFilter -> 1
                             else -> 2
                         }
                     }
@@ -78,6 +78,7 @@ class ScheduleFilterFragment : Fragment() {
                 when (filter) {
                     is SessionFilter.StarredFilter -> vm.toggleStarFilter()
                     is SessionFilter.TagFilter -> vm.toggleFilterTag(filter.tag.id)
+                    is SessionFilter.TypeFilter -> vm.toggleFilterType(filter.type.id)
                 }
             }
         }
