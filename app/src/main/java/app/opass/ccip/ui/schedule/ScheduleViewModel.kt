@@ -6,6 +6,7 @@ import app.opass.ccip.extension.debounce
 import app.opass.ccip.model.ConfSchedule
 import app.opass.ccip.model.Session
 import app.opass.ccip.model.SessionTag
+import app.opass.ccip.model.SessionType
 import app.opass.ccip.util.PreferenceUtil
 import com.google.gson.internal.bind.util.ISO8601Utils
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +44,7 @@ class ScheduleViewModel(application: Application, stateHandle: SavedStateHandle)
         }
     }
     val tags: LiveData<List<SessionTag>?> = schedule.map { schedule -> schedule?.tags }
+    val types: LiveData<List<SessionType>?> = schedule.map { schedule -> schedule?.sessionTypes }
 
     val showStarredOnly = stateHandle.getLiveData(KEY_SHOW_STARRED_ONLY, false)
     val selectedTagIds = stateHandle.getLiveData(KEY_SELECTED_TAG_IDS, emptyList<String>())
