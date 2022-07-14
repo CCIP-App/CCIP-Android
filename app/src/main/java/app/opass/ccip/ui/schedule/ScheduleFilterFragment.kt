@@ -11,7 +11,9 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.recyclerview.widget.GridLayoutManager
+import app.opass.ccip.R
 import app.opass.ccip.databinding.FragmentScheduleFilterBinding
+import app.opass.ccip.extension.debounce
 import app.opass.ccip.extension.doOnApplyWindowInsets
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.math.MathUtils
@@ -133,6 +135,27 @@ class ScheduleFilterFragment : Fragment() {
             (binding.filterHeaderRv.adapter as FilterHeaderChipAdapter).submitList(filters.filter { f -> f.isActivated })
             (binding.filterContentRv.adapter as ScheduleFilterAdapter).submitFilters(filters)
         }
+
+        MediatorLiveData<Any>().apply {
+            val update = {
+                value = Any()
+            }
+            addSource(vm.hasAnyFilter) { update() }
+            addSource(vm.groupedSessionsToShow) { update() }
+        }
+            .debounce(150)
+            .observe(viewLifecycleOwner) {
+                if (vm.hasAnyFilter.value != true) {
+                    binding.filterTitle.setText(R.string.filter)
+                    return@observe
+                }
+                val sessions = vm.groupedSessionsToShow.value ?: return@observe
+                var count = 0
+                for (day in sessions.values) {
+                    count += day.size
+                }
+                binding.filterTitle.text = resources.getQuantityString(R.plurals.n_matches, count, count)
+            }
     }
 
     private fun updateSheetView(slideOffset: Float, sheetBehavior: BottomSheetBehavior<*>) {

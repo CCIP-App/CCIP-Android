@@ -103,18 +103,25 @@ class ScheduleViewModel(application: Application, stateHandle: SavedStateHandle)
         }
     }
     val isScheduleReady: LiveData<Boolean> = groupedSessionsToShow.map { sessions -> sessions != null }
-    val shouldFilterSheetCollapse = MediatorLiveData<Boolean>().apply {
+    val hasAnyFilter = MediatorLiveData<Boolean>().apply {
         val update = {
-            val scheduleReady = isScheduleReady.value ?: false
             val starredOnly = showStarredOnly.value ?: false
             val hasSelectedTags = selectedTagIds.value?.isNotEmpty() ?: false
             val hasSelectedTypes = selectedTypeIds.value?.isNotEmpty() ?: false
-            value = scheduleReady && (starredOnly || hasSelectedTags || hasSelectedTypes)
+            value = starredOnly || hasSelectedTags || hasSelectedTypes
         }
-        addSource(isScheduleReady) { update() }
         addSource(showStarredOnly) { update() }
         addSource(selectedTagIds) { update() }
         addSource(selectedTypeIds) { update() }
+    }
+    val shouldFilterSheetCollapse = MediatorLiveData<Boolean>().apply {
+        val update = {
+            val scheduleReady = isScheduleReady.value ?: false
+            val hasFilter = hasAnyFilter.value ?: false
+            value = scheduleReady && hasFilter
+        }
+        addSource(isScheduleReady) { update() }
+        addSource(hasAnyFilter) { update() }
     }
     val shouldShowFab = MediatorLiveData<Boolean>().apply {
         val update = {
