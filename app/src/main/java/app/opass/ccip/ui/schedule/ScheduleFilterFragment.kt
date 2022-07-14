@@ -10,9 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import app.opass.ccip.R
 import app.opass.ccip.databinding.FragmentScheduleFilterBinding
+import app.opass.ccip.extension.debounce
 import app.opass.ccip.extension.doOnApplyWindowInsets
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.math.MathUtils
@@ -37,7 +38,7 @@ class ScheduleFilterFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentScheduleFilterBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -68,7 +69,7 @@ class ScheduleFilterFragment : Fragment() {
                 spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
                         return when ((adapter as ScheduleFilterAdapter).currentList[position]) {
-                            is SessionFilter.TagFilter -> 1
+                            is SessionFilter.TagFilter, is SessionFilter.TypeFilter -> 1
                             else -> 2
                         }
                     }
@@ -78,6 +79,7 @@ class ScheduleFilterFragment : Fragment() {
                 when (filter) {
                     is SessionFilter.StarredFilter -> vm.toggleStarFilter()
                     is SessionFilter.TagFilter -> vm.toggleFilterTag(filter.tag.id)
+                    is SessionFilter.TypeFilter -> vm.toggleFilterType(filter.type.id)
                 }
             }
         }
@@ -111,23 +113,49 @@ class ScheduleFilterFragment : Fragment() {
         MediatorLiveData<List<SessionFilter>>().apply {
             val update = update@{
                 val starredOnly = vm.showStarredOnly.value!!
+                val types = vm.types.value ?: return@update
                 val tags = vm.tags.value ?: return@update
+                val selectedTypes = vm.selectedTypeIds.value!!
                 val selectedTags = vm.selectedTagIds.value!!
-                value =
-                    emptyList<SessionFilter>() + SessionFilter.StarredFilter(starredOnly) + tags.map { tag ->
-                        SessionFilter.TagFilter(
-                            tag,
-                            selectedTags.contains(tag.id)
-                        )
-                    }
+                val filters = mutableListOf<SessionFilter>(SessionFilter.StarredFilter(starredOnly))
+                types.map { type ->
+                    SessionFilter.TypeFilter(type, selectedTypes.contains(type.id))
+                }.let(filters::addAll)
+                tags.map { tag ->
+                    SessionFilter.TagFilter(tag, selectedTags.contains(tag.id))
+                }.let(filters::addAll)
+                value = filters
             }
             addSource(vm.showStarredOnly) { update() }
+            addSource(vm.types) { update() }
             addSource(vm.tags) { update() }
+            addSource(vm.selectedTypeIds) { update() }
             addSource(vm.selectedTagIds) { update() }
         }.observe(viewLifecycleOwner) { filters ->
             (binding.filterHeaderRv.adapter as FilterHeaderChipAdapter).submitList(filters.filter { f -> f.isActivated })
-            (binding.filterContentRv.adapter as ScheduleFilterAdapter).submitList(filters)
+            (binding.filterContentRv.adapter as ScheduleFilterAdapter).submitFilters(filters)
         }
+
+        MediatorLiveData<Any>().apply {
+            val update = {
+                value = Any()
+            }
+            addSource(vm.hasAnyFilter) { update() }
+            addSource(vm.groupedSessionsToShow) { update() }
+        }
+            .debounce(150)
+            .observe(viewLifecycleOwner) {
+                if (vm.hasAnyFilter.value != true) {
+                    binding.filterTitle.setText(R.string.filter)
+                    return@observe
+                }
+                val sessions = vm.groupedSessionsToShow.value ?: return@observe
+                var count = 0
+                for (day in sessions.values) {
+                    count += day.size
+                }
+                binding.filterTitle.text = resources.getQuantityString(R.plurals.n_matches, count, count)
+            }
     }
 
     private fun updateSheetView(slideOffset: Float, sheetBehavior: BottomSheetBehavior<*>) {

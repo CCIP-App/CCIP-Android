@@ -9,15 +9,14 @@ import android.os.Bundle
 import android.view.*
 import android.webkit.PermissionRequest
 import android.webkit.WebSettings
-import android.widget.FrameLayout
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import app.opass.ccip.R
+import app.opass.ccip.databinding.FragmentWebBinding
 import app.opass.ccip.network.webclient.OfficialWebViewClient
 import app.opass.ccip.network.webclient.WebChromeViewClient
 import app.opass.ccip.util.CryptoUtil
 import app.opass.ccip.util.PreferenceUtil
-import kotlinx.android.synthetic.main.fragment_web.*
 
 class PuzzleFragment : Fragment() {
     companion object {
@@ -29,26 +28,29 @@ class PuzzleFragment : Fragment() {
     }
 
     private lateinit var mActivity: MainActivity
+    private var _binding: FragmentWebBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         mActivity = requireActivity() as MainActivity
 
-        return inflater.inflate(R.layout.fragment_web, container, false)
+        _binding = FragmentWebBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<FrameLayout>(R.id.webview_wrapper)
-            .setOnApplyWindowInsetsListener { v, insets ->
-                v.updatePadding(bottom = insets.systemWindowInsetBottom)
-                insets
-            }
+        binding.webviewWrapper.setOnApplyWindowInsetsListener { v, insets ->
+            v.updatePadding(bottom = insets.systemWindowInsetBottom)
+            insets
+        }
 
+        val webView = binding.webView
         webView.webViewClient = OfficialWebViewClient()
-        webView.webChromeClient = WebChromeViewClient(progressBar, fun (request) {
+        webView.webChromeClient = WebChromeViewClient(binding.progressBar, fun (request) {
             if (!request!!.resources.contains(PermissionRequest.RESOURCE_VIDEO_CAPTURE)) request.deny()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 // Android M Permission check
@@ -83,6 +85,11 @@ class PuzzleFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -90,7 +97,7 @@ class PuzzleFragment : Fragment() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (permissions.contains(Manifest.permission.CAMERA) && grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
-            webView.reload()
+            binding.webView.reload()
         }
     }
 
@@ -104,7 +111,7 @@ class PuzzleFragment : Fragment() {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"
                 intent.putExtra(Intent.EXTRA_SUBJECT, resources.getText(R.string.puzzle_share_subject))
-                intent.putExtra(Intent.EXTRA_TEXT, webView.url)
+                intent.putExtra(Intent.EXTRA_TEXT, binding.webView.url)
 
                 mActivity.startActivity(Intent.createChooser(intent, resources.getText(R.string.share)))
             }
