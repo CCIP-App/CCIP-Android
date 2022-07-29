@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -53,6 +54,18 @@ class ScheduleFilterAdapter(
                         is SessionFilter.TypeFilter -> item.type.getDetails(context).name
                     }
                     isChipIconVisible = item is SessionFilter.StarredFilter
+                    checkedIcon =
+                        if (item is SessionFilter.StarredFilter && text == context.getString(R.string.bookmarked)) {
+                            AppCompatResources.getDrawable(
+                                context,
+                                R.drawable.ic_bookmark_black_24dp
+                            )
+                        } else {
+                            AppCompatResources.getDrawable(
+                                context,
+                                R.drawable.ic_mtrl_chip_checked_circle
+                            )
+                        }
                 }
             }
             is SectionHeader -> {
@@ -127,6 +140,7 @@ class FilterHeaderChipAdapter(
                 is SessionFilter.TypeFilter -> item.type.getDetails(context).name
             }
             isChipIconVisible = item is SessionFilter.StarredFilter
+            chipIcon = AppCompatResources.getDrawable(context, R.drawable.ic_bookmark_black_24dp)
         }
     }
 }
