@@ -80,6 +80,7 @@ class ScheduleFilterFragment : Fragment() {
                     is SessionFilter.StarredFilter -> vm.toggleStarFilter()
                     is SessionFilter.TagFilter -> vm.toggleFilterTag(filter.tag.id)
                     is SessionFilter.TypeFilter -> vm.toggleFilterType(filter.type.id)
+                    is SessionFilter.LangFilter -> vm.toggleLangType(filter.lang.id)
                 }
             }
         }
@@ -115,8 +116,10 @@ class ScheduleFilterFragment : Fragment() {
                 val starredOnly = vm.showStarredOnly.value!!
                 val types = vm.types.value ?: return@update
                 val tags = vm.tags.value ?: return@update
+                val langList = vm.langList.value
                 val selectedTypes = vm.selectedTypeIds.value!!
                 val selectedTags = vm.selectedTagIds.value!!
+                val selectedLangList = vm.selectedLangIds.value!!
                 val filters = mutableListOf<SessionFilter>(SessionFilter.StarredFilter(starredOnly))
                 types.map { type ->
                     SessionFilter.TypeFilter(type, selectedTypes.contains(type.id))
@@ -124,13 +127,18 @@ class ScheduleFilterFragment : Fragment() {
                 tags.map { tag ->
                     SessionFilter.TagFilter(tag, selectedTags.contains(tag.id))
                 }.let(filters::addAll)
+                langList?.map { sessionLang ->
+                    SessionFilter.LangFilter(sessionLang, selectedLangList.contains(sessionLang.id))
+                }?.let(filters::addAll)
                 value = filters
             }
             addSource(vm.showStarredOnly) { update() }
             addSource(vm.types) { update() }
             addSource(vm.tags) { update() }
+            addSource(vm.langList) { update() }
             addSource(vm.selectedTypeIds) { update() }
             addSource(vm.selectedTagIds) { update() }
+            addSource(vm.selectedLangIds) { update() }
         }.observe(viewLifecycleOwner) { filters ->
             (binding.filterHeaderRv.adapter as FilterHeaderChipAdapter).submitList(filters.filter { f -> f.isActivated })
             (binding.filterContentRv.adapter as ScheduleFilterAdapter).submitFilters(filters)
