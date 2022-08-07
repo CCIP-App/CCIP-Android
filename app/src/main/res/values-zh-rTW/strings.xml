@@ -120,4 +120,7 @@
     <string name="bookmarked">已加入書籤</string>
     <string name="search_sessions">搜尋議程</string>
     <string name="not_this_event">不是這場活動嗎？</string>
+    <string name="is_about_to_start">%s 即將要開始囉！</string>
+    <string name="my_favorite_session_this_year_is">今年我最感興趣的議程是</string>
+    <string name="use_opass_to_make_your_own_agenda_together">一起使用 OPass 製作屬於你自己的議程表吧！</string>
 </resources>
