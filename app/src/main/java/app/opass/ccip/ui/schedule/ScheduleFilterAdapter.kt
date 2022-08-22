@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import app.opass.ccip.R
 import app.opass.ccip.extension.dpToPx
 import app.opass.ccip.extension.updateMargin
+import app.opass.ccip.model.SessionLang
 import app.opass.ccip.model.SessionTag
 import app.opass.ccip.model.SessionType
 import com.google.android.material.chip.Chip
@@ -52,6 +53,7 @@ class ScheduleFilterAdapter(
                         is SessionFilter.StarredFilter -> context.getString(R.string.bookmarked)
                         is SessionFilter.TagFilter -> item.tag.getDetails(context).name
                         is SessionFilter.TypeFilter -> item.type.getDetails(context).name
+                        is SessionFilter.LangFilter -> item.lang.getDetails(context).name
                     }
                     isChipIconVisible = item is SessionFilter.StarredFilter
                     checkedIcon =
@@ -99,6 +101,13 @@ class ScheduleFilterAdapter(
                     merged.add(firstTagFilterIdx, context.resources.getText(R.string.tag))
                 }
             }
+        merged
+            .indexOfFirst { it is SessionFilter.LangFilter }
+            .let { firstLangFilterIdx ->
+                if (firstLangFilterIdx != -1) {
+                    merged.add(firstLangFilterIdx, context.resources.getText(R.string.lang))
+                }
+            }
         super.submitList(merged)
     }
 }
@@ -138,6 +147,7 @@ class FilterHeaderChipAdapter(
                 is SessionFilter.StarredFilter -> context.getString(R.string.bookmarked)
                 is SessionFilter.TagFilter -> item.tag.getDetails(context).name
                 is SessionFilter.TypeFilter -> item.type.getDetails(context).name
+                is SessionFilter.LangFilter -> item.lang.getDetails(context).name
             }
             isChipIconVisible = item is SessionFilter.StarredFilter
             chipIcon = AppCompatResources.getDrawable(context, R.drawable.ic_bookmark_black_24dp)
@@ -152,6 +162,7 @@ sealed class SessionFilter(val isActivated: Boolean) {
     class StarredFilter(isActivated: Boolean) : SessionFilter(isActivated)
     class TagFilter(val tag: SessionTag, isActivated: Boolean) : SessionFilter(isActivated)
     class TypeFilter(val type: SessionType, isActivated: Boolean) : SessionFilter(isActivated)
+    class LangFilter(val lang: SessionLang, isActivated: Boolean) : SessionFilter(isActivated)
 }
 
 private object Differ : DiffUtil.ItemCallback<Any>() {
@@ -163,6 +174,8 @@ private object Differ : DiffUtil.ItemCallback<Any>() {
             -> oldItem.tag.id == newItem.tag.id
             (oldItem is SessionFilter.TypeFilter && newItem is SessionFilter.TypeFilter)
             -> oldItem.type.id == newItem.type.id
+            (oldItem is SessionFilter.LangFilter && newItem is SessionFilter.LangFilter)
+            -> oldItem.lang.id == newItem.lang.id
             else -> oldItem === newItem
         }
     }
