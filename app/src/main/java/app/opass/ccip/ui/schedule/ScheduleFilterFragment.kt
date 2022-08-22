@@ -69,7 +69,9 @@ class ScheduleFilterFragment : Fragment() {
                 spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
                         return when ((adapter as ScheduleFilterAdapter).currentList[position]) {
-                            is SessionFilter.TagFilter, is SessionFilter.TypeFilter -> 1
+                            is SessionFilter.TagFilter,
+                            is SessionFilter.TypeFilter,
+                            is SessionFilter.LangFilter -> 1
                             else -> 2
                         }
                     }
