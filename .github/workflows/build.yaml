@@ -28,13 +28,11 @@ jobs:
           fail-if-no-release: false
           tag: latest
           assets: |
-                  ./app/build/outputs/apk/release/app-release-unsigned.apk
+                  ./app/build/outputs/apk/release/app\-release\-unsigned.apk
 
       # https://github.com/softprops/action-gh-release
       - run: cat apk
       - uses: softprops/action-gh-release@v1
         with:
-          files: |
-            ./app/build/outputs/apk/release/app-release-unsigned.apk
-          tag_name: "latest"
-          prerelease: true      
+          files: ./app/build/outputs/apk/release/app\-release\-unsigned.apk
+          tag: latest

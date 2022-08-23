@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
@@ -15,7 +16,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="32dp"
         android:alpha="0.54"
-        android:tint="?attr/colorOnSurface" />
+        app:tint="?attr/colorOnSurface" />
 
     <TextView
         android:id="@+id/title"
@@ -34,5 +35,5 @@
         android:layout_marginEnd="16dp"
         android:alpha="0.54"
         android:src="@drawable/ic_launch_black_24dp"
-        android:tint="?attr/colorOnSurface" />
+        app:tint="?attr/colorOnSurface" />
 </LinearLayout>
