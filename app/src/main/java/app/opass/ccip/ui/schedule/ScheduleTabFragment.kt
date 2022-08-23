@@ -7,8 +7,8 @@ import android.text.TextWatcher
 import android.view.*
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.EditorInfo
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
+import androidx.core.view.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
@@ -43,6 +43,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
 
     private lateinit var mActivity: Activity
     private lateinit var tabLayout: TabLayout
+    private lateinit var sheetBehavior: BottomSheetBehavior<View>
 
     private var scheduleTabAdapter: ScheduleTabAdapter? = null
     private lateinit var mJob: Job
@@ -70,7 +71,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
         binding.swipeContainer.isEnabled = false
         setHasOptionsMenu(true)
 
-        val sheetBehavior = BottomSheetBehavior.from(requireView().findViewById<View>(R.id.filterSheet))
+        sheetBehavior = BottomSheetBehavior.from(requireView().findViewById(R.id.filterSheet))
         binding.fab.setOnClickListener {
             sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
@@ -110,9 +111,6 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
             vm.shouldShowSearchPanel
                 .distinctUntilChanged()
                 .observe(viewLifecycleOwner) { shouldShow ->
-                    if (!firstRender && shouldShow) binding.searchInput.run {
-                        focusAndShowKeyboard()
-                    }
                     binding.searchPanel.run {
                         val targetY = if (shouldShow) 0F else -height.toFloat()
                         if (firstRender) {
@@ -216,12 +214,10 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
     }
 
     override fun onBackPressed(): Boolean {
-        val sheetBehavior = BottomSheetBehavior.from(requireView().findViewById<ConstraintLayout>(R.id.filterSheet))
         if (sheetBehavior.state == BottomSheetBehavior.STATE_DRAGGING
             || sheetBehavior.state == BottomSheetBehavior.STATE_SETTLING) return true
         if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-            sheetBehavior.state = if (sheetBehavior.skipCollapsed) BottomSheetBehavior.STATE_HIDDEN
-                else BottomSheetBehavior.STATE_COLLAPSED
+            sheetBehavior.collapseOrHide()
             return true
         }
         return false
@@ -239,6 +235,11 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.search) {
             vm.toggleSearchPanel(true)
+            binding.searchInput.focusAndShowKeyboard()
+            // Wait for the sheet to update insets so if collapsed the sheet won't be covered by keyboard
+            binding.root.postDelayed(100) {
+                sheetBehavior.collapseOrHide()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
