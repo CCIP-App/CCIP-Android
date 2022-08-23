@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.get
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
@@ -37,10 +36,12 @@ class ScheduleFragment : Fragment() {
             }
     }
 
+    lateinit var date: String
+        private set
     private lateinit var adapter: ScheduleAdapter
     private lateinit var mActivity: Activity
-    private lateinit var date: String
     private lateinit var vm: ScheduleViewModel
+    private lateinit var scheduleView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -50,7 +51,7 @@ class ScheduleFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_schedule, container, false)
         val emptyView = view.findViewById<TextView>(R.id.emptyView)
-        val scheduleView = view.findViewById<RecyclerView>(R.id.schedule)
+        scheduleView = view.findViewById(R.id.schedule)
         scheduleView.layoutManager = LinearLayoutManager(mActivity)
         val tagViewPool = RecyclerView.RecycledViewPool()
         adapter = ScheduleAdapter(
@@ -125,7 +126,11 @@ class ScheduleFragment : Fragment() {
             .groupBy { it.start }
             .values
             .sortedBy { it[0].start }
-            .map { it.sortedWith(Comparator { (_, room1), (_, room2) -> room1.id.compareTo(room2.id) }) }
+            .map { it.sortedWith { (_, room1), (_, room2) -> room1.id.compareTo(room2.id) } }
+    }
+
+    fun scrollToTop() {
+        scheduleView.smoothScrollToPosition(0)
     }
 
     override fun onResume() {

@@ -57,7 +57,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentScheduleTabBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -211,6 +211,19 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
 
         tabLayout.isGone = dates.size <= 1
         tabLayout.setupWithViewPager(binding.pager)
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {}
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                for (fragment in childFragmentManager.fragments) {
+                    if (fragment !is ScheduleFragment) continue
+                    if (fragment.date == tab.text) {
+                        fragment.scrollToTop()
+                        break
+                    }
+                }
+            }
+        })
     }
 
     override fun onBackPressed(): Boolean {
