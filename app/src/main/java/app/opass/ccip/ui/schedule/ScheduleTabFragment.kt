@@ -12,7 +12,6 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
-import androidx.lifecycle.observe
 import app.opass.ccip.R
 import app.opass.ccip.databinding.FragmentScheduleTabBinding
 import app.opass.ccip.extension.*
@@ -112,8 +111,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
                 .distinctUntilChanged()
                 .observe(viewLifecycleOwner) { shouldShow ->
                     if (!firstRender && shouldShow) binding.searchInput.run {
-                        requestFocus()
-                        postDelayed({ showIme() }, 200)
+                        focusAndShowKeyboard()
                     }
                     binding.searchPanel.run {
                         val targetY = if (shouldShow) 0F else -height.toFloat()

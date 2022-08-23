@@ -14,8 +14,6 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
 import app.opass.ccip.R
 import app.opass.ccip.databinding.ActivityAuthBinding
-import app.opass.ccip.extension.hideIme
-import app.opass.ccip.extension.showIme
 import app.opass.ccip.ui.MainActivity
 import app.opass.ccip.ui.event.EventActivity
 import com.google.android.material.snackbar.Snackbar
@@ -213,9 +211,6 @@ class AuthActivity : AppCompatActivity() {
         startActivity(Intent(this, EventActivity::class.java))
         finish()
     }
-
-    fun hideKeyboard() = binding.content.hideIme()
-    fun showKeyboard() = binding.content.showIme()
 
     companion object {
         private const val EXTRA_TOKEN = "EXTRA_TOKEN"

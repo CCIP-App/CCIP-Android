@@ -52,8 +52,6 @@ class TokenCheckFragment : AuthActivity.PageFragment() {
     }
 
     override fun onSelected() {
-        mActivity.hideKeyboard()
-
         val token = requireArguments().getString(EXTRA_TOKEN)
         val baseUrl = PreferenceUtil.getCurrentEvent(mActivity).getFastPassUrl() ?: return mActivity.finish()
         lifecycleScope.launch {
