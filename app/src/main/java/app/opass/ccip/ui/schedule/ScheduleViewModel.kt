@@ -278,9 +278,9 @@ class ScheduleViewModel(application: Application, stateHandle: SavedStateHandle)
                 )
                 appendLine("${event.eventWebsite}\n")
                 appendLine("${resources.getString(R.string.my_favorite_session_this_year_is)}\n")
-                var eventDay = 0
+                val allDates = sessionsGroupedByDate.value!!.keys.toList()
                 starredSessions?.groupedByDate()?.forEach { (date, sessions) ->
-                    appendLine("Day${++eventDay} $date\n")
+                    appendLine("Day${allDates.indexOf(date) + 1} $date\n")
                     sessions.forEach { session ->
                         val startDate = ISO8601Utils.parse(session.start, ParsePosition(0))
                         val endDate = ISO8601Utils.parse(session.start, ParsePosition(0))
