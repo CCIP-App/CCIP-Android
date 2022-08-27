@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/login_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -11,7 +12,7 @@
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/qr_code"
-        android:tint="@android:color/darker_gray" />
+        app:tint="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/login_title"

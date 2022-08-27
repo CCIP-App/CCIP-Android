@@ -22,8 +22,8 @@ android {
         applicationId "app.opass.ccip"
         minSdk 24
         targetSdk 32
-        versionCode 48
-        versionName "3.2.4"
+        versionCode 49
+        versionName "3.2.5"
 
         manifestPlaceholders = [manifestApplicationId: "${applicationId}"]
     }
@@ -58,7 +58,7 @@ android {
 
 dependencies {
     final def markwon_version = '4.6.2'
-    final def lifecycle_version = '2.3.1'
+    final def lifecycle_version = '2.5.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.13.2'

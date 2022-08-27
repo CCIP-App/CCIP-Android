@@ -28,7 +28,7 @@
     <string name="login_success">歡迎您加入 %1$s！</string>
     <string name="open_via_link">你也可以透過連結開啟此應用程式。</string>
     <string name="scan_ticket_qrcode">掃描票券 QR code</string>
-    <string name="connect_to_conference_wifi">請使用會場提供的無線網路</string>
+    <string name="connect_to_conference_wifi">請使用會場提供的 Wi-Fi</string>
     <string name="tap_to_retry">點擊重試</string>
     <string name="announcement_empty">目前無任何公告哦！</string>
 
@@ -74,12 +74,12 @@
     <string name="remove_bookmark">已經移除書籤</string>
     <string name="bookmark_channel_name">議程書籤</string>
     <string name="notification_session_start">%1$s 於 %2$s 將在十分鐘後開始</string>
-    <string name="invalid_token">QR code、專屬連結或 Token 不正確</string>
-    <string name="tap_here_to_scan">輕觸這裡透過相機或從圖片中掃描 KKTIX 票券上的 QR Code</string>
-    <string name="enter_token_button">手動輸入 Token</string>
-    <string name="enter_your_token">輸入 Token</string>
-    <string name="token_required">必須輸入 Token</string>
-    <string name="no_qr_code_found">未在此圖片中找到 QR Code</string>
+    <string name="invalid_token">QR code、專屬連結或 token 不正確</string>
+    <string name="tap_here_to_scan">輕觸這裡透過相機或從圖片中掃描 KKTIX 票券上的 QR code</string>
+    <string name="enter_token_button">手動輸入 token</string>
+    <string name="enter_your_token">輸入 token</string>
+    <string name="token_required">必須輸入 token</string>
+    <string name="no_qr_code_found">未在此圖片中找到 QR code</string>
     <string name="select_from_gallery">從相簿中挑選</string>
     <string name="select_picture">選擇圖片</string>
 
@@ -90,9 +90,9 @@
     <string name="sign_in">登入</string>
     <string name="verify_your_identity">驗證身份</string>
     <string name="select_a_verification_method">選擇驗證方式</string>
-    <string name="enter_token_manually">手動輸入 Token</string>
-    <string name="scan_qr_code_from_gallery">從相簿中挑選圖片掃描 QR Code</string>
-    <string name="scan_qr_code_from_camera">用相機掃描 QR Code</string>
+    <string name="enter_token_manually">手動輸入 token</string>
+    <string name="scan_qr_code_from_gallery">從相簿中挑選圖片掃描 QR code</string>
+    <string name="scan_qr_code_from_camera">用相機掃描 QR code</string>
     <string name="please_wait">請稍候</string>
     <string name="couldnt_verify_your_identity">無法驗證身份</string>
     <string name="checking_event_info">正在取得活動資訊</string>
@@ -106,9 +106,9 @@
     <string name="cannot_load_schedule">無法載入議程</string>
     <string name="cannot_read_session_info">無法讀取議程資訊</string>
     <string name="choose_network_to_connect">選擇要連線的網路</string>
-    <string name="wifi_saved">Wifi 網路資訊已儲存</string>
-    <string name="failed_to_save_wifi">無法儲存 Wifi 網路資訊</string>
-    <string name="failed_to_save_wifi_copied_to_clipboard">無法儲存 WiFi 網路資訊。網路密碼已複製到剪貼簿。</string>
+    <string name="wifi_saved">Wi-Fi 網路資訊已儲存</string>
+    <string name="failed_to_save_wifi">無法儲存 Wi-Fi 網路資訊</string>
+    <string name="failed_to_save_wifi_copied_to_clipboard">無法儲存 Wi-Fi 網路資訊。網路密碼已複製到剪貼簿。</string>
     <string name="about_app">關於 &appname;</string>
     <string name="version">版本 %s</string>
     <string name="privacy_policy">隱私權政策</string>
@@ -120,4 +120,7 @@
     <string name="bookmarked">已加入書籤</string>
     <string name="search_sessions">搜尋議程</string>
     <string name="not_this_event">不是這場活動嗎？</string>
+    <string name="is_about_to_start">%s 即將要開始囉！</string>
+    <string name="my_favorite_session_this_year_is">今年我最感興趣的議程是</string>
+    <string name="use_opass_to_make_your_own_agenda_together">一起使用 OPass 製作屬於你自己的議程表吧！</string>
 </resources>

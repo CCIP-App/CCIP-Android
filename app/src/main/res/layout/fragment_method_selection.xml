@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -46,7 +47,7 @@
                 android:layout_marginEnd="32dp"
                 android:alpha="0.54"
                 android:src="@drawable/ic_camera_alt_black_24dp"
-                android:tint="?attr/colorOnSurface" />
+                app:tint="?attr/colorOnSurface" />
 
             <TextView
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
@@ -73,7 +74,7 @@
                 android:layout_marginEnd="32dp"
                 android:alpha="0.54"
                 android:src="@drawable/ic_photo_library_black_24dp"
-                android:tint="?attr/colorOnSurface" />
+                app:tint="?attr/colorOnSurface" />
 
             <TextView
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
@@ -100,7 +101,7 @@
                 android:layout_marginEnd="32dp"
                 android:alpha="0.54"
                 android:src="@drawable/ic_confirmation_number_black_24dp"
-                android:tint="?attr/colorOnSurface" />
+                app:tint="?attr/colorOnSurface" />
 
             <TextView
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"

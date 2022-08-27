@@ -79,7 +79,7 @@
     <string name="enter_token_button">I have a token</string>
     <string name="enter_your_token">Enter your token</string>
     <string name="token_required">Token required</string>
-    <string name="no_qr_code_found">No QR Code found in this picture</string>
+    <string name="no_qr_code_found">No QR code found in this picture</string>
     <string name="select_from_gallery">Select from gallery</string>
     <string name="select_picture">Select picture</string>
 
@@ -120,4 +120,7 @@
     <string name="bookmarked">Bookmarked</string>
     <string name="search_sessions">Search sessions</string>
     <string name="not_this_event">Not this event?</string>
+    <string name="is_about_to_start">%s is about to start!</string>
+    <string name="my_favorite_session_this_year_is">My favorite this year is</string>
+    <string name="use_opass_to_make_your_own_agenda_together">Use OPass to make your own agenda together!</string>
 </resources>

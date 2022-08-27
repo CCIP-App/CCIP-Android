@@ -8,6 +8,8 @@ data class EventConfig(
     val displayName: LocalizedString,
     @SerializedName("event_id")
     val eventId: String,
+    @SerializedName("event_website")
+    val eventWebsite: String?,
     @SerializedName("features")
     val features: List<Feature>,
     @SerializedName("logo_url")

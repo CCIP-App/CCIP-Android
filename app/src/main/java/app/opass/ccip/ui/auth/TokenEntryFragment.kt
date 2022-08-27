@@ -11,6 +11,7 @@ import app.opass.ccip.R
 import app.opass.ccip.databinding.FragmentTokenEntryBinding
 import app.opass.ccip.databinding.IncludeAuthHeaderBinding
 import app.opass.ccip.extension.clickable
+import app.opass.ccip.extension.focusAndShowKeyboard
 import app.opass.ccip.extension.isInverted
 import app.opass.ccip.util.PreferenceUtil
 import com.squareup.picasso.Picasso
@@ -73,7 +74,6 @@ class TokenEntryFragment : AuthActivity.PageFragment() {
     }
 
     override fun onSelected() {
-        binding.tokenInput.requestFocus()
-        mActivity.showKeyboard()
+        binding.tokenInput.focusAndShowKeyboard()
     }
 }
