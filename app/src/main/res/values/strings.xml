@@ -79,7 +79,7 @@
     <string name="enter_token_button">I have a token</string>
     <string name="enter_your_token">Enter your token</string>
     <string name="token_required">Token required</string>
-    <string name="no_qr_code_found">No QR Code found in this picture</string>
+    <string name="no_qr_code_found">No QR code found in this picture</string>
     <string name="select_from_gallery">Select from gallery</string>
     <string name="select_picture">Select picture</string>
 
