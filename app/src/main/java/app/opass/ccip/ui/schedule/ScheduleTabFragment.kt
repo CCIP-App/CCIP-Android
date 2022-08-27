@@ -1,6 +1,7 @@
 package app.opass.ccip.ui.schedule
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -90,6 +91,9 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
         vm.shouldShowFab.observe(viewLifecycleOwner) { show ->
             if (show) binding.fab.show()
             else binding.fab.hide()
+        }
+        vm.hasStarredSessions.observe(viewLifecycleOwner) {
+            activity?.invalidateOptionsMenu()
         }
 
         binding.searchPanel.run {
@@ -243,15 +247,29 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
     override fun onPrepareOptionsMenu(menu: Menu) {
         val ready = vm.isScheduleReady.value == true
         menu.findItem(R.id.search).isVisible = ready
+        menu.findItem(R.id.share).apply {
+            isVisible = vm.hasStarredSessions.value ?: false && ready
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.search) {
-            vm.toggleSearchPanel(true)
-            binding.searchInput.focusAndShowKeyboard()
-            // Wait for the sheet to update insets so if collapsed the sheet won't be covered by keyboard
-            binding.root.postDelayed(100) {
-                sheetBehavior.collapseOrHide()
+        when (item.itemId) {
+            R.id.search -> {
+                vm.toggleSearchPanel(true)
+                binding.searchInput.focusAndShowKeyboard()
+                // Wait for the sheet to update insets so if collapsed the sheet won't be covered by keyboard
+                binding.root.postDelayed(100) {
+                    sheetBehavior.collapseOrHide()
+                }
+            }
+            R.id.share -> {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, vm.getShareSessionString())
+                    type = "text/plain"
+                }
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
             }
         }
         return super.onOptionsItemSelected(item)

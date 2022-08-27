@@ -2,6 +2,8 @@ package app.opass.ccip.ui.schedule
 
 import android.app.Application
 import androidx.lifecycle.*
+import app.opass.ccip.CCIPApplication
+import app.opass.ccip.R
 import app.opass.ccip.extension.debounce
 import app.opass.ccip.model.*
 import app.opass.ccip.util.PreferenceUtil
@@ -15,6 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private val SDF_DATE = SimpleDateFormat("MM/dd", Locale.US)
+private val SDF_TIME = SimpleDateFormat("HH:mm", Locale.TAIWAN)
 
 fun getDateOrNull(date: String): String? =
     try {
@@ -129,6 +132,7 @@ class ScheduleViewModel(application: Application, stateHandle: SavedStateHandle)
         }
     }
     val isScheduleReady: LiveData<Boolean> = groupedSessionsToShow.map { sessions -> sessions != null }
+    val hasStarredSessions: MutableLiveData<Boolean> = MutableLiveData(PreferenceUtil.loadStarredIds(getApplication()).isNotEmpty())
     val hasAnyFilter = MediatorLiveData<Boolean>().apply {
         val update = {
             val starredOnly = showStarredOnly.value ?: false
@@ -238,6 +242,61 @@ class ScheduleViewModel(application: Application, stateHandle: SavedStateHandle)
 
     fun toggleSearchPanel(show: Boolean) {
         shouldShowSearchPanel.value = show
+    }
+
+
+    /** Pattern Example：
+    ${event name} is about to start!
+    ${event website}
+
+    My most interesting agenda this year is
+
+    Day${eventDayIndex} ${date}
+
+    ${session_start_time} ~ ${session_end_time}
+    ${session title}
+    ${session uri}
+    ...
+    ${session_start_time} ~ ${session_end_time}
+    ${session title}
+    ${session uri}
+
+    Use OPass to make your own agenda together!
+    https://opass.app/
+     */
+    fun getShareSessionString(): String {
+        return StringBuilder().apply {
+            val starredIds = PreferenceUtil.loadStarredIds(getApplication())
+            val starredSessions = schedule.value?.sessions?.filter { starredIds.contains(it.id) }
+            val event = PreferenceUtil.getCurrentEvent(getApplication())
+            getApplication<CCIPApplication>().resources?.let { resources ->
+                appendLine(
+                    resources.getString(
+                        R.string.is_about_to_start,
+                        event.displayName.findBestMatch(getApplication())
+                    )
+                )
+                appendLine("${event.eventWebsite}\n")
+                appendLine("${resources.getString(R.string.my_favorite_session_this_year_is)}\n")
+                val allDates = sessionsGroupedByDate.value!!.keys.toList()
+                starredSessions?.groupedByDate()?.forEach { (date, sessions) ->
+                    appendLine("Day${allDates.indexOf(date) + 1} $date\n")
+                    sessions.forEach { session ->
+                        val startDate = ISO8601Utils.parse(session.start, ParsePosition(0))
+                        val endDate = ISO8601Utils.parse(session.start, ParsePosition(0))
+                        appendLine("${SDF_TIME.format(startDate)} ~ ${SDF_TIME.format(endDate)}")
+                        appendLine(session.getSessionDetail(getApplication()).title)
+                        if (session.uri != null) {
+                            appendLine("${session.uri}\n")
+                        } else {
+                            appendLine()
+                        }
+                    }
+                }
+                appendLine(resources.getString(R.string.use_opass_to_make_your_own_agenda_together))
+                appendLine("https://opass.app/")
+            }
+        }.toString()
     }
 
     private fun filterStarred(sessions: Map<String, List<Session>>): Map<String, List<Session>> {

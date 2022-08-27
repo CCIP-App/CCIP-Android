@@ -112,6 +112,7 @@ class ScheduleFragment : Fragment() {
             sessionIds.add(session.id)
             AlarmUtil.setSessionAlarm(mActivity, session)
         }
+        vm.hasStarredSessions.value = sessionIds.isNotEmpty()
         PreferenceUtil.saveStarredIds(mActivity, sessionIds)
         return !isAlreadyStarred
     }
@@ -135,6 +136,7 @@ class ScheduleFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        vm.hasStarredSessions.value = PreferenceUtil.loadStarredIds(mActivity).isNotEmpty()
         // Force RV to reload star state :(
         adapter.notifyDataSetChanged()
     }
