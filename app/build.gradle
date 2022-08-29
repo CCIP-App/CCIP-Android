@@ -16,14 +16,14 @@ repositories {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "app.opass.ccip"
         minSdk 24
-        targetSdk 32
-        versionCode 49
-        versionName "3.2.5"
+        targetSdk 33
+        versionCode 50
+        versionName "3.2.6"
 
         manifestPlaceholders = [manifestApplicationId: "${applicationId}"]
     }
