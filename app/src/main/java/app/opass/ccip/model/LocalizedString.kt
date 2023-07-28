@@ -39,7 +39,13 @@ class LocalizedString {
                 return translations[it]
             }
         } else {
-            val language = context.resources.configuration.locale.language
+            val locale = if (Build.VERSION.SDK_INT >= 24) {
+                context.resources.configuration.locales.get(0)
+            } else {
+                @Suppress("DEPRECATION")
+                context.resources.configuration.locale
+            }
+            val language = locale.language
             if (translations.containsKey(language)) return translations[language]
         }
 
