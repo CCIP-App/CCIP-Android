@@ -83,6 +83,7 @@ class AuthActivity : AppCompatActivity() {
         onPageSelected()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val item = adapter.fragments[binding.viewPager.currentItem]
         if (!item.onBackPressed() && !popFragment()) {
@@ -90,6 +91,7 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)

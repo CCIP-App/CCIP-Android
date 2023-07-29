@@ -194,6 +194,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         return fragment.onBackPressed()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         when {
             mDrawerLayout.isDrawerOpen(GravityCompat.START) -> mDrawerLayout.closeDrawers()
