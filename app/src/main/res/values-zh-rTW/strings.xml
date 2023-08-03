@@ -26,6 +26,7 @@
 
     <string name="hi">嗨\u0020</string>
     <string name="login_success">歡迎您加入 %1$s！</string>
+    <string name="on_login_request_notification_permission">活動主辦方將透過推播發送活動最新消息，請開啟通知權限以接收第一手資訊。</string>
     <string name="open_via_link">你也可以透過連結開啟此應用程式。</string>
     <string name="scan_ticket_qrcode">掃描票券 QR code</string>
     <string name="connect_to_conference_wifi">請使用會場提供的 Wi-Fi</string>

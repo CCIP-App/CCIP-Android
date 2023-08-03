@@ -26,6 +26,7 @@
 
     <string name="hi">Hi\u0020</string>
     <string name="login_success">Welcome to %1$s!</string>
+    <string name="on_login_request_notification_permission">The organizer will send event updates via push notifications. Please allow notifications for firsthand information.</string>
     <string name="open_via_link">You can also open this app via a link.</string>
     <string name="scan_ticket_qrcode">Scan ticket QR code</string>
     <string name="connect_to_conference_wifi">Please connect to the Wi-Fi provided by event</string>
