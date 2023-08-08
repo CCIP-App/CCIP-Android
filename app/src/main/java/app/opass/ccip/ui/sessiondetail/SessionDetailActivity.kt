@@ -1,6 +1,7 @@
 package app.opass.ccip.ui.sessiondetail
 
 import android.app.Activity
+import android.app.AlarmManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -8,12 +9,15 @@ import android.content.Intent
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -34,6 +38,12 @@ import java.text.ParsePosition
 import java.text.SimpleDateFormat
 
 class SessionDetailActivity : AppCompatActivity() {
+
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
+            AlarmUtil.setSessionAlarm(this, session)
+        }
+
     companion object {
         const val INTENT_EXTRA_SESSION_ID = "session_id"
         private val SDF_DATETIME = SimpleDateFormat("MM/dd HH:mm")
@@ -199,14 +209,24 @@ class SessionDetailActivity : AppCompatActivity() {
         val sessionIds = PreferenceUtil.loadStarredIds(this).toMutableList()
         if (sessionIds.contains(session.id)) {
             sessionIds.remove(session.id)
+            PreferenceUtil.saveStarredIds(this, sessionIds)
             AlarmUtil.cancelSessionAlarm(this, session)
             Snackbar.make(view, R.string.remove_bookmark, Snackbar.LENGTH_LONG).show()
         } else {
-            sessionIds.add(session.id)
-            AlarmUtil.setSessionAlarm(this, session)
-            Snackbar.make(view, R.string.add_bookmark, Snackbar.LENGTH_LONG).show()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                if (alarmManager.canScheduleExactAlarms()) {
+                    AlarmUtil.setSessionAlarm(mActivity, session)
+                    Snackbar.make(view, R.string.add_bookmark, Snackbar.LENGTH_LONG).show()
+                } else {
+                    val uri = Uri.parse("package:" + this.packageName)
+                    startForResult.launch(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, uri))
+                }
+            } else {
+                AlarmUtil.setSessionAlarm(mActivity, session)
+                Snackbar.make(view, R.string.add_bookmark, Snackbar.LENGTH_LONG).show()
+            }
         }
-        PreferenceUtil.saveStarredIds(this, sessionIds)
     }
 
     private fun copyToClipboard(textView: TextView) {
