@@ -31,14 +31,7 @@ object AlarmUtil {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis - 10 * 60 * 1000,
-                    pendingIntent
-                )
-            }
-            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 when {
                     alarmManager.canScheduleExactAlarms() -> {
                         alarmManager.setExactAndAllowWhileIdle(
@@ -48,7 +41,7 @@ object AlarmUtil {
                         )
                     }
                     else -> {
-                        var uri = Uri.parse("package:" + context.packageName)
+                        val uri = Uri.parse("package:" + context.packageName)
                         context.startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, uri))
                     }
                 }
