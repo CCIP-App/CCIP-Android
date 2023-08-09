@@ -1,12 +1,16 @@
 package app.opass.ccip.util
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.core.content.ContextCompat
 import app.opass.ccip.model.Session
 import app.opass.ccip.ui.sessiondetail.SessionDetailActivity
 import com.google.gson.internal.bind.util.ISO8601Utils
@@ -30,32 +34,41 @@ object AlarmUtil {
 
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                when {
-                    alarmManager.canScheduleExactAlarms() -> {
-                        alarmManager.setExactAndAllowWhileIdle(
-                            AlarmManager.RTC_WAKEUP,
-                            calendar.timeInMillis - 10 * 60 * 1000,
-                            pendingIntent
-                        )
-                    }
-                    else -> {
-                        val uri = Uri.parse("package:" + context.packageName)
-                        context.startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, uri))
-                    }
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.SET_ALARM) == PackageManager.PERMISSION_GRANTED) {
+                    setExactAlarm(alarmManager, calendar, pendingIntent)
+                } else {
+                    requestExactAlarmPermission(context)
+                    // Toast.makeText(context, "請在設定中開啟鬧鐘權限以設定活動提醒", Toast.LENGTH_LONG).show()
                 }
-            }
-            else {
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis - 10 * 60 * 1000,
-                    pendingIntent
-                )
+            } else {
+                setExactAlarm(alarmManager, calendar, pendingIntent)
             }
         } catch (e: ParseException) {
             e.printStackTrace()
         }
+    }
+
+    @SuppressLint("ScheduleExactAlarm")
+    private fun setExactAlarm(alarmManager: AlarmManager, calendar: Calendar, pendingIntent: PendingIntent) {
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis - 10 * 60 * 1000,
+            pendingIntent
+        )
+    }
+
+    private fun requestExactAlarmPermission(context: Context) {
+        val uri = Uri.parse("package:" + context.packageName)
+        val intent: Intent
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, uri)
+        } else {
+            intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uri)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        context.startActivity(intent)
     }
 
     fun cancelSessionAlarm(context: Context, session: Session) {
