@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace 'app.opass.ccip'
     compileSdk 34
 
     defaultConfig {
@@ -23,9 +24,6 @@ android {
     }
 
     buildTypes {
-        debug {
-        }
-
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -45,11 +43,6 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_9
-    }
-    namespace 'app.opass.ccip'
-    dependenciesInfo {
-        includeInApk true
-        includeInBundle true
     }
 }
 
