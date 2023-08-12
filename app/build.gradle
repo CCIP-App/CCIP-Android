@@ -1,21 +1,11 @@
-buildscript {
-    repositories {
-        maven { url 'https://plugins.gradle.org/m2/' }
-    }
-    dependencies {
-        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.8, 0.99.99]'
-    }
-}
-apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-
-repositories {
-    maven { url 'https://maven.google.com' }
-    mavenCentral()
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
+    namespace 'app.opass.ccip'
     compileSdk 34
 
     defaultConfig {
@@ -33,9 +23,6 @@ android {
     }
 
     buildTypes {
-        debug {
-        }
-
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -49,17 +36,12 @@ android {
 
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_9
-        targetCompatibility JavaVersion.VERSION_1_9
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_9
-    }
-    namespace 'app.opass.ccip'
-    dependenciesInfo {
-        includeInApk true
-        includeInBundle true
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
@@ -98,7 +80,6 @@ dependencies {
 
     implementation 'com.tbuonomo:dotsindicator:5.0'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 
@@ -107,5 +88,3 @@ dependencies {
 
     implementation 'me.saket:better-link-movement-method:2.2.0'
 }
-
-apply plugin: 'com.google.gms.google-services'
