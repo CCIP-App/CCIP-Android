@@ -124,5 +124,7 @@
     <string name="is_about_to_start">%s is about to start!</string>
     <string name="my_favorite_session_this_year_is">My favorite this year is</string>
     <string name="use_opass_to_make_your_own_agenda_together">Use OPass to make your own agenda together!</string>
-    <string name="alarm_perm_denied">Required permission denied! Please grant permission to schedule event.</string>
+    <string name="perm_denied">Required permission denied! Please grant permission manually to get notification for event.</string>
+    <string name="get_notified_title">Get notified</string>
+    <string name="get_notified_desc">OPass can send you notification reminder before this event starts. Would you like to be notified?</string>
 </resources>

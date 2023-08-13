@@ -30,7 +30,7 @@ object AlarmUtil {
                 if (context is Activity) {
                     Toast.makeText(
                         context,
-                        context.getString(R.string.alarm_perm_denied),
+                        context.getString(R.string.perm_denied),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -58,13 +58,8 @@ object AlarmUtil {
                 calendar.timeInMillis - 10 * 60 * 1000,
                 pendingIntent
             )
-        } catch (e: ParseException) {
-            e.printStackTrace()
-        } finally {
-            // Mark the session as starred regardless of Alarm status
-            val sessionIds = PreferenceUtil.loadStarredIds(context).toMutableList()
-            sessionIds.add(session.id)
-            PreferenceUtil.saveStarredIds(context, sessionIds)
+        } catch (exception: Exception) {
+            Log.e(TAG, "Failed to schedule event!", exception)
         }
     }
 
