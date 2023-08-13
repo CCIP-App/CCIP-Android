@@ -143,10 +143,13 @@ class ScheduleFragment : Fragment() {
         } else {
             sessionIds.add(session.id)
 
-            val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            if (!notificationManager.areNotificationsEnabled()) {
-                NotificationDialogFragment(::requestNotificationPermission)
-                    .show(childFragmentManager, NotificationDialogFragment.TAG)
+            if (PreferenceUtil.shouldPromptForNotification(requireContext())) {
+                val notificationManager =
+                    context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                if (!notificationManager.areNotificationsEnabled()) {
+                    NotificationDialogFragment(::requestNotificationPermission)
+                        .show(childFragmentManager, NotificationDialogFragment.TAG)
+                }
             }
         }
         vm.hasStarredSessions.value = sessionIds.isNotEmpty()

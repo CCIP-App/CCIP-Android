@@ -2,8 +2,10 @@ package app.opass.ccip.ui.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import app.opass.ccip.R
+import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class NotificationDialogFragment (private val callback: () -> Unit) : DialogFragment() {
@@ -19,7 +21,11 @@ class NotificationDialogFragment (private val callback: () -> Unit) : DialogFrag
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 callback()
             }
-            .setNegativeButton(android.R.string.cancel)  { _, _ ->
+            .setNeutralButton(getString(R.string.later))  { _, _ ->
+                dismiss()
+            }
+            .setNegativeButton(getString(R.string.dont_ask_again))  { _, _ ->
+                PreferenceUtil.shouldPromptForNotification(requireContext(), false)
                 dismiss()
             }
             .create()
