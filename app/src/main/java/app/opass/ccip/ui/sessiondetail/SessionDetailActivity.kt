@@ -57,7 +57,7 @@ class SessionDetailActivity : AppCompatActivity() {
                 scheduleAlarm()
             } else {
                 Log.i(TAG, "Missing notification permission!")
-                Toast.makeText(this, getString(R.string.perm_denied), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.perm_denied), Toast.LENGTH_LONG).show()
             }
         }
 

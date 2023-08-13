@@ -51,7 +51,7 @@ class ScheduleFragment : Fragment() {
                 scheduleAlarm()
             } else {
                 Log.i(TAG, "Missing notification permission!")
-                Toast.makeText(context, getString(R.string.perm_denied), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.perm_denied), Toast.LENGTH_LONG).show()
             }
         }
 

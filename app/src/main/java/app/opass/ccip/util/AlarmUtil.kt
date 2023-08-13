@@ -31,7 +31,7 @@ object AlarmUtil {
                     Toast.makeText(
                         context,
                         context.getString(R.string.perm_denied),
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_LONG
                     ).show()
                 }
                 return
