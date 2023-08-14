@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import app.opass.ccip.model.Speaker
-import java.util.*
 
 class SpeakerImageAdapter(fm: FragmentManager, speakers: List<Speaker>) : FragmentStatePagerAdapter(fm) {
     private val mFragmentList = ArrayList<Fragment>()

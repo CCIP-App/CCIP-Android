@@ -1,7 +1,14 @@
 package app.opass.ccip.util
 
 import app.opass.ccip.model.LocalizedString
-import com.google.gson.*
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
 class LocalizedStringDeserializer : JsonDeserializer<LocalizedString>, JsonSerializer<LocalizedString> {
