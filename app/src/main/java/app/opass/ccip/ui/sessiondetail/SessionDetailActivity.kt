@@ -1,6 +1,9 @@
 package app.opass.ccip.ui.sessiondetail
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.NotificationManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -8,12 +11,16 @@ import android.content.Intent
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -22,6 +29,7 @@ import app.opass.ccip.R
 import app.opass.ccip.databinding.ActivitySessionDetailBinding
 import app.opass.ccip.model.Session
 import app.opass.ccip.ui.MainActivity
+import app.opass.ccip.ui.dialogs.NotificationDialogFragment
 import app.opass.ccip.util.AlarmUtil
 import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -34,6 +42,25 @@ import java.text.ParsePosition
 import java.text.SimpleDateFormat
 
 class SessionDetailActivity : AppCompatActivity() {
+
+    private val TAG = SessionDetailActivity::class.java.simpleName
+
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
+            AlarmUtil.setSessionAlarm(this, session)
+        }
+
+    private val startForPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                Log.i(TAG, "Notification permission granted, trying to schedule alarm!")
+                scheduleAlarm()
+            } else {
+                Log.i(TAG, "Missing notification permission!")
+                Toast.makeText(this, getString(R.string.perm_denied), Toast.LENGTH_LONG).show()
+            }
+        }
+
     companion object {
         const val INTENT_EXTRA_SESSION_ID = "session_id"
         private val SDF_DATETIME = SimpleDateFormat("MM/dd HH:mm")
@@ -203,8 +230,15 @@ class SessionDetailActivity : AppCompatActivity() {
             Snackbar.make(view, R.string.remove_bookmark, Snackbar.LENGTH_LONG).show()
         } else {
             sessionIds.add(session.id)
-            AlarmUtil.setSessionAlarm(this, session)
-            Snackbar.make(view, R.string.add_bookmark, Snackbar.LENGTH_LONG).show()
+
+            if (PreferenceUtil.shouldPromptForNotification(this)) {
+                val notificationManager =
+                    this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                if (!notificationManager.areNotificationsEnabled()) {
+                    NotificationDialogFragment (::requestNotificationPermission)
+                        .show(supportFragmentManager, NotificationDialogFragment.TAG)
+                }
+            }
         }
         PreferenceUtil.saveStarredIds(this, sessionIds)
     }
@@ -254,5 +288,30 @@ class SessionDetailActivity : AppCompatActivity() {
     private fun showToastAndFinish() {
         Toast.makeText(this, getString(R.string.cannot_read_session_info), Toast.LENGTH_SHORT).show()
         finish()
+    }
+
+    private fun requestNotificationPermission() {
+        val notificationManager =
+            this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            !notificationManager.areNotificationsEnabled()
+        ) {
+            startForPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+
+    private fun scheduleAlarm() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            if (alarmManager.canScheduleExactAlarms()) {
+                AlarmUtil.setSessionAlarm(mActivity, session)
+                Snackbar.make(binding.root, R.string.add_bookmark, Snackbar.LENGTH_LONG).show()
+            } else {
+                val uri = Uri.parse("package:" + this.packageName)
+                startForResult.launch(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, uri))
+            }
+        } else {
+            AlarmUtil.setSessionAlarm(mActivity, session)
+        }
     }
 }

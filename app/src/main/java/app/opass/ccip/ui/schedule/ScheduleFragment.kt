@@ -1,12 +1,22 @@
 package app.opass.ccip.ui.schedule
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -20,11 +30,31 @@ import app.opass.ccip.extension.doOnApplyWindowInsets
 import app.opass.ccip.extension.dpToPx
 import app.opass.ccip.extension.updateMargin
 import app.opass.ccip.model.Session
+import app.opass.ccip.ui.dialogs.NotificationDialogFragment
 import app.opass.ccip.ui.sessiondetail.SessionDetailActivity
 import app.opass.ccip.util.AlarmUtil
 import app.opass.ccip.util.PreferenceUtil
 
 class ScheduleFragment : Fragment() {
+
+    private val TAG = ScheduleFragment::class.java.simpleName
+
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
+            context?.let { AlarmUtil.setSessionAlarm(it, session) }
+        }
+
+    private val startForPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                Log.i(TAG, "Notification permission granted, trying to schedule alarm!")
+                scheduleAlarm()
+            } else {
+                Log.i(TAG, "Missing notification permission!")
+                Toast.makeText(context, getString(R.string.perm_denied), Toast.LENGTH_LONG).show()
+            }
+        }
+
     companion object {
         private const val ARG_DATE = "ARG_DATE"
 
@@ -42,6 +72,7 @@ class ScheduleFragment : Fragment() {
     private lateinit var mActivity: Activity
     private lateinit var vm: ScheduleViewModel
     private lateinit var scheduleView: RecyclerView
+    private lateinit var session: Session
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -103,6 +134,7 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun onToggleStarState(session: Session): Boolean {
+        this.session = session
         val sessionIds = PreferenceUtil.loadStarredIds(mActivity).toMutableList()
         val isAlreadyStarred = sessionIds.contains(session.id)
         if (isAlreadyStarred) {
@@ -110,7 +142,15 @@ class ScheduleFragment : Fragment() {
             AlarmUtil.cancelSessionAlarm(mActivity, session)
         } else {
             sessionIds.add(session.id)
-            AlarmUtil.setSessionAlarm(mActivity, session)
+
+            if (PreferenceUtil.shouldPromptForNotification(requireContext())) {
+                val notificationManager =
+                    context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                if (!notificationManager.areNotificationsEnabled()) {
+                    NotificationDialogFragment(::requestNotificationPermission)
+                        .show(childFragmentManager, NotificationDialogFragment.TAG)
+                }
+            }
         }
         vm.hasStarredSessions.value = sessionIds.isNotEmpty()
         PreferenceUtil.saveStarredIds(mActivity, sessionIds)
@@ -139,5 +179,26 @@ class ScheduleFragment : Fragment() {
         vm.hasStarredSessions.value = PreferenceUtil.loadStarredIds(mActivity).isNotEmpty()
         // Force RV to reload star state :(
         adapter.notifyDataSetChanged()
+    }
+
+    private fun requestNotificationPermission() {
+        val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !notificationManager.areNotificationsEnabled()) {
+            startForPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+
+    private fun scheduleAlarm() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            if (alarmManager.canScheduleExactAlarms()) {
+                AlarmUtil.setSessionAlarm(mActivity, session)
+            } else {
+                val uri = Uri.parse("package:" + requireContext().packageName)
+                startForResult.launch(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, uri))
+            }
+        } else {
+            AlarmUtil.setSessionAlarm(mActivity, session)
+        }
     }
 }

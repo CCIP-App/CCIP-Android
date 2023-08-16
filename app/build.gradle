@@ -1,29 +1,19 @@
-buildscript {
-    repositories {
-        maven { url 'https://plugins.gradle.org/m2/' }
-    }
-    dependencies {
-        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.8, 0.99.99]'
-    }
-}
-apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-
-repositories {
-    maven { url 'https://maven.google.com' }
-    mavenCentral()
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
+    namespace 'app.opass.ccip'
     compileSdk 34
 
     defaultConfig {
         applicationId "app.opass.ccip"
         minSdk 24
         targetSdk 34
-        versionCode 52
-        versionName "3.2.8"
+        versionCode 53
+        versionName "3.3.0"
 
         manifestPlaceholders = [manifestApplicationId: "${applicationId}"]
     }
@@ -33,9 +23,6 @@ android {
     }
 
     buildTypes {
-        debug {
-        }
-
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -49,17 +36,20 @@ android {
 
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_9
-        targetCompatibility JavaVersion.VERSION_1_9
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_9
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
-    namespace 'app.opass.ccip'
-    dependenciesInfo {
-        includeInApk true
-        includeInBundle true
+
+    lint {
+        lintConfig file("lint.xml")
+    }
+
+    androidResources {
+        generateLocaleConfig true
     }
 }
 
@@ -68,7 +58,6 @@ dependencies {
     final def lifecycle_version = '2.6.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.13.2'
     implementation 'com.google.firebase:firebase-analytics-ktx:21.3.0'
 
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
@@ -98,7 +87,6 @@ dependencies {
 
     implementation 'com.tbuonomo:dotsindicator:5.0'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 
@@ -107,5 +95,3 @@ dependencies {
 
     implementation 'me.saket:better-link-movement-method:2.2.0'
 }
-
-apply plugin: 'com.google.gms.google-services'

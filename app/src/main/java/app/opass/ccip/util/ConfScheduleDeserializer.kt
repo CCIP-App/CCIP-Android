@@ -1,11 +1,17 @@
 package app.opass.ccip.util
 
-import app.opass.ccip.model.*
+import app.opass.ccip.model.ConfSchedule
+import app.opass.ccip.model.En
+import app.opass.ccip.model.Room
+import app.opass.ccip.model.Session
+import app.opass.ccip.model.SessionTag
+import app.opass.ccip.model.SessionType
+import app.opass.ccip.model.Speaker
+import app.opass.ccip.model.Zh
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
-import org.intellij.lang.annotations.Language
 import java.lang.reflect.Type
 
 class ConfScheduleDeserializer : JsonDeserializer<ConfSchedule> {

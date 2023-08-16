@@ -1,5 +1,8 @@
 package app.opass.ccip.ui.auth
 
+import android.app.AlertDialog
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -77,6 +80,15 @@ class TokenCheckFragment : AuthActivity.PageFragment() {
                                 .let(OneSignal::sendTags)
                         } catch (e: JSONException) {
                             e.printStackTrace()
+                        }
+
+                        val manager = mActivity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                        if (!manager.areNotificationsEnabled()) {
+                            AlertDialog.Builder(mActivity)
+                                .setMessage(R.string.on_login_request_notification_permission)
+                                .setPositiveButton(android.R.string.ok) { _, _ -> OneSignal.promptForPushNotifications() }
+                                .setNegativeButton(android.R.string.cancel) { _, _ -> }
+                                .show()
                         }
                     }
                     response.code() == 403 -> {

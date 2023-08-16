@@ -17,6 +17,9 @@ object PreferenceUtil {
     private const val PREF_SCHEDULE_SCHEDULE = "schedule"
     private const val PREF_SCHEDULE_STARS = "stars"
 
+    private const val DEFAULT_SHARED_PREFS = "default_shared_prefs"
+    private const val NOTIFICATION = "notification"
+
     fun setCurrentEvent(context: Context, eventConfig: EventConfig) {
         context.getSharedPreferences(PREF_EVENT, Context.MODE_PRIVATE)
             .edit(true) { putString(PREF_CURRENT_EVENT, JsonUtil.toJson(eventConfig)) }
@@ -88,5 +91,17 @@ object PreferenceUtil {
         } catch (t: Throwable) {
             emptyList<String>().also { saveStarredIds(context, it) }
         }
+    }
+
+    fun shouldPromptForNotification(context: Context): Boolean {
+        val sharedPreferences =
+            context.getSharedPreferences(DEFAULT_SHARED_PREFS, Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean(NOTIFICATION, true)
+    }
+
+    fun shouldPromptForNotification(context: Context, bool: Boolean) {
+        val sharedPreferences =
+            context.getSharedPreferences(DEFAULT_SHARED_PREFS, Context.MODE_PRIVATE)
+        sharedPreferences.edit { putBoolean(NOTIFICATION, bool) }
     }
 }

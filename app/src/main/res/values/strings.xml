@@ -26,6 +26,7 @@
 
     <string name="hi">Hi\u0020</string>
     <string name="login_success">Welcome to %1$s!</string>
+    <string name="on_login_request_notification_permission">The organizer will send event updates via push notifications. Please allow notifications for firsthand information.</string>
     <string name="open_via_link">You can also open this app via a link.</string>
     <string name="scan_ticket_qrcode">Scan ticket QR code</string>
     <string name="connect_to_conference_wifi">Please connect to the Wi-Fi provided by event</string>
@@ -123,4 +124,11 @@
     <string name="is_about_to_start">%s is about to start!</string>
     <string name="my_favorite_session_this_year_is">My favorite this year is</string>
     <string name="use_opass_to_make_your_own_agenda_together">Use OPass to make your own agenda together!</string>
+    <string name="perm_denied">Required permission denied! Please grant permission manually to get notification for event.</string>
+
+    <!-- DialogFragment -->
+    <string name="get_notified_title">Get notified</string>
+    <string name="get_notified_desc">OPass can send you notification just before this event starts. Would you like to allow Opass required permissions?</string>
+    <string name="dont_ask_again">Don\'t ask again</string>
+    <string name="later">Later</string>
 </resources>
