@@ -2,7 +2,6 @@ package app.opass.ccip.ui.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import app.opass.ccip.R
 import app.opass.ccip.util.PreferenceUtil

@@ -7,7 +7,12 @@ import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.Px
 import androidx.core.content.getSystemService
-import androidx.core.view.*
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.marginBottom
+import androidx.core.view.marginLeft
+import androidx.core.view.marginRight
+import androidx.core.view.marginTop
+import androidx.core.view.updateLayoutParams
 
 fun View.setOnApplyWindowInsetsListenerCompat(block: (v: View, insets: WindowInsets, insetsCompat: WindowInsetsCompat) -> WindowInsets) {
     setOnApplyWindowInsetsListener { v, insets ->

@@ -43,6 +43,14 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
+
+    lint {
+        lintConfig file("lint.xml")
+    }
+
+    androidResources {
+        generateLocaleConfig true
+    }
 }
 
 dependencies {
@@ -50,7 +58,6 @@ dependencies {
     final def lifecycle_version = '2.6.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.13.2'
     implementation 'com.google.firebase:firebase-analytics-ktx:21.3.0'
 
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'

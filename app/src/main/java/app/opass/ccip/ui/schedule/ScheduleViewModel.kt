@@ -1,11 +1,23 @@
 package app.opass.ccip.ui.schedule
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.liveData
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import app.opass.ccip.CCIPApplication
 import app.opass.ccip.R
 import app.opass.ccip.extension.debounce
-import app.opass.ccip.model.*
+import app.opass.ccip.model.ConfSchedule
+import app.opass.ccip.model.Session
+import app.opass.ccip.model.SessionLang
+import app.opass.ccip.model.SessionTag
+import app.opass.ccip.model.SessionType
 import app.opass.ccip.util.PreferenceUtil
 import com.google.gson.internal.bind.util.ISO8601Utils
 import kotlinx.coroutines.Dispatchers
