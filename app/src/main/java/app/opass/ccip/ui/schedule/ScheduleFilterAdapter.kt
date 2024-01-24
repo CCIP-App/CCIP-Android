@@ -65,7 +65,7 @@ class ScheduleFilterAdapter(
                         } else {
                             AppCompatResources.getDrawable(
                                 context,
-                                R.drawable.ic_mtrl_chip_checked_circle
+                                R.drawable.ic_check
                             )
                         }
                 }
