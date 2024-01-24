@@ -31,23 +31,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    app:layout_collapseMode="parallax">
+                    app:layout_collapseMode="parallax" />
 
-                </androidx.viewpager.widget.ViewPager>
-
-                <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+                <com.google.android.material.tabs.TabLayout
                     android:id="@+id/spring_dots_indicator"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center"
-                    android:layout_marginBottom="8dp"
-                    app:dampingRatio="0.5"
-                    app:dotsColor="@color/colorWhite"
-                    app:dotsSize="12dp"
-                    app:dotsSpacing="4dp"
-                    app:dotsStrokeColor="@color/colorAccent"
-                    app:dotsStrokeWidth="2dp"
-                    app:stiffness="300" />
+                    android:background="@android:color/transparent"
+                    app:tabBackground="@drawable/tab_selector"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp" />
 
             </FrameLayout>
 

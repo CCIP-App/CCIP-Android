@@ -78,8 +78,6 @@ dependencies {
 
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 
-    implementation("com.tbuonomo:dotsindicator:5.0")
-
     // Coil
     implementation("io.coil-kt:coil:2.5.0")
 
