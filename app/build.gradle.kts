@@ -97,6 +97,4 @@ dependencies {
     val markwonVersion = "4.6.2"
     implementation("io.noties.markwon:core:$markwonVersion")
     implementation("io.noties.markwon:linkify:$markwonVersion")
-
-    implementation("me.saket:better-link-movement-method:2.2.0")
 }
