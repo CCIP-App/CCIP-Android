@@ -77,11 +77,12 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("javax.annotation:jsr250-api:1.0")
 
-    implementation("com.squareup.picasso:picasso:2.71828")
-
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 
     implementation("com.tbuonomo:dotsindicator:5.0")
+
+    // Coil
+    implementation("io.coil-kt:coil:2.5.0")
 
     // Coroutines
     val coroutinesVersion = "1.7.3"

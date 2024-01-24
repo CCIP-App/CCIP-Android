@@ -18,8 +18,8 @@ import app.opass.ccip.extension.getFastPassUrl
 import app.opass.ccip.extension.isInverted
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.util.PreferenceUtil
+import coil.load
 import com.onesignal.OneSignal
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
@@ -134,7 +134,7 @@ class TokenCheckFragment : AuthActivity.PageFragment() {
         val event = PreferenceUtil.getCurrentEvent(context)
         header.confName.text = event.displayName.findBestMatch(context)
         header.confLogo.isInverted = true
-        Picasso.get().load(event.logoUrl).into(header.confLogo)
+        header.confLogo.load(event.logoUrl)
     }
 
     override fun onDestroyView() {

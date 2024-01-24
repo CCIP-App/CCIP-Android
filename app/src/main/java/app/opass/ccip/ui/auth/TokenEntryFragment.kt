@@ -14,7 +14,7 @@ import app.opass.ccip.extension.focusAndShowKeyboard
 import app.opass.ccip.extension.isInverted
 import app.opass.ccip.ui.event.EventActivity
 import app.opass.ccip.util.PreferenceUtil
-import com.squareup.picasso.Picasso
+import coil.load
 
 class TokenEntryFragment : AuthActivity.PageFragment() {
     private val mActivity: AuthActivity by lazy { requireActivity() as AuthActivity }
@@ -49,7 +49,7 @@ class TokenEntryFragment : AuthActivity.PageFragment() {
         val event = PreferenceUtil.getCurrentEvent(context)
         header.confName.text = event.displayName.findBestMatch(context)
         header.confLogo.isInverted = true
-        Picasso.get().load(event.logoUrl).into(header.confLogo)
+        header.confLogo.load(event.logoUrl)
     }
 
     override fun onDestroyView() {

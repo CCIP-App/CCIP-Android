@@ -15,7 +15,7 @@ import app.opass.ccip.model.Event
 import app.opass.ccip.network.PortalClient
 import app.opass.ccip.ui.MainActivity
 import app.opass.ccip.util.PreferenceUtil
-import com.squareup.picasso.Picasso
+import coil.load
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,7 +34,7 @@ class EventAdapter(private val mContext: Context, private val eventList: List<Ev
         val event: Event = eventList!![position]
 
         holder.title.text = event.displayName.findBestMatch(mContext)
-        Picasso.get().load(event.logoUrl).into(viewHolder.logo)
+        viewHolder.logo.load(event.logoUrl)
         holder.itemView.setOnClickListener {
             launch {
                 try {
