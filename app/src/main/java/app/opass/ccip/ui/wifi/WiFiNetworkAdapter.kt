@@ -1,4 +1,4 @@
-package app.opass.ccip.ui
+package app.opass.ccip.ui.wifi
 
 import android.view.LayoutInflater
 import android.view.View
