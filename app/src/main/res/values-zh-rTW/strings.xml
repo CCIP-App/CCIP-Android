@@ -8,8 +8,8 @@
 
     <string name="select_event">選擇活動</string>
 
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_open">開啟導覽匣</string>
+    <string name="drawer_close">關閉導覽匣</string>
 
     <string name="fast_pass">快速通關</string>
     <string name="schedule">議程</string>
@@ -124,9 +124,9 @@
     <string name="is_about_to_start">%s 即將要開始囉！</string>
     <string name="my_favorite_session_this_year_is">今年我最感興趣的議程是</string>
     <string name="use_opass_to_make_your_own_agenda_together">一起使用 OPass 製作屬於你自己的議程表吧！</string>
-    <string name="perm_denied">沒有提供所需要的權限！請提供通知權限來獲取活動提醒</string>
+    <string name="perm_denied">沒有提供所需要的權限！請提供通知權限來取得活動提醒</string>
     <string name="get_notified_title">收到通知</string>
-    <string name="get_notified_desc">OPass 可以在此活動開始之前向您發送通知。 您想要允許 Opass 所需的權限嗎？</string>
+    <string name="get_notified_desc">OPass 可以在此活動開始之前向您發送通知。 您想要允許 OPass 所需的權限嗎？</string>
     <string name="dont_ask_again">不再詢問</string>
     <string name="later">稍後</string>
 </resources>
