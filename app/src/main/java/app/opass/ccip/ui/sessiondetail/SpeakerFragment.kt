@@ -8,7 +8,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import app.opass.ccip.R
 import app.opass.ccip.model.Speaker
-import com.squareup.picasso.Picasso
+import coil.load
 
 class SpeakerFragment : Fragment() {
     companion object {
@@ -25,7 +25,7 @@ class SpeakerFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.item_speaker_image, container, false)
         val speakerImageView = view.findViewById<ImageView>(R.id.speaker_image)
-        Picasso.get().load(speaker?.avatar).into(speakerImageView)
+        speakerImageView.load(speaker?.avatar)
 
         return view
     }

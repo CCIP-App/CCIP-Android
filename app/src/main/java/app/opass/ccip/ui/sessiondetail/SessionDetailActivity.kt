@@ -117,7 +117,7 @@ class SessionDetailActivity : AppCompatActivity() {
                 override fun onPageScrollStateChanged(state: Int) = Unit
             })
 
-            binding.springDotsIndicator.attachTo(speakerViewPager)
+            binding.springDotsIndicator.setupWithViewPager(speakerViewPager)
         }
         if (session.speakers.size <= 1) binding.springDotsIndicator.visibility = View.INVISIBLE
 

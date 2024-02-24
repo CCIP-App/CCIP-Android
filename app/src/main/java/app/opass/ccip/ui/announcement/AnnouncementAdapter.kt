@@ -21,7 +21,7 @@ class AnnouncementAdapter(private val mContext: Context, private val announcemen
     private val mBackground = mTypedValue.resourceId
 
     init {
-        mContext.theme.resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true)
+        mContext.theme.resolveAttribute(android.R.attr.selectableItemBackground, mTypedValue, true)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

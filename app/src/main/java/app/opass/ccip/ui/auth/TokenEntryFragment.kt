@@ -1,21 +1,20 @@
 package app.opass.ccip.ui.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import androidx.core.text.buildSpannedString
 import app.opass.ccip.R
 import app.opass.ccip.databinding.FragmentTokenEntryBinding
 import app.opass.ccip.databinding.IncludeAuthHeaderBinding
-import app.opass.ccip.extension.clickable
 import app.opass.ccip.extension.focusAndShowKeyboard
 import app.opass.ccip.extension.isInverted
+import app.opass.ccip.ui.event.EventActivity
 import app.opass.ccip.util.PreferenceUtil
-import com.squareup.picasso.Picasso
-import me.saket.bettermovementmethod.BetterLinkMovementMethod
+import coil.load
 
 class TokenEntryFragment : AuthActivity.PageFragment() {
     private val mActivity: AuthActivity by lazy { requireActivity() as AuthActivity }
@@ -42,19 +41,15 @@ class TokenEntryFragment : AuthActivity.PageFragment() {
             false
         })
         val header = IncludeAuthHeaderBinding.bind(binding.root)
-        val built = buildSpannedString {
-            clickable(mActivity::switchEvent) {
-                append(getString(R.string.not_this_event))
-            }
+        header.notThisEvent.setOnClickListener {
+            startActivity(Intent(requireContext(), EventActivity::class.java))
         }
-        header.notThisEvent.text = built
-        header.notThisEvent.movementMethod = BetterLinkMovementMethod.newInstance()
 
         val context = requireContext()
         val event = PreferenceUtil.getCurrentEvent(context)
         header.confName.text = event.displayName.findBestMatch(context)
         header.confLogo.isInverted = true
-        Picasso.get().load(event.logoUrl).into(header.confLogo)
+        header.confLogo.load(event.logoUrl)
     }
 
     override fun onDestroyView() {

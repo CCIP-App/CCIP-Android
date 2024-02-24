@@ -17,7 +17,7 @@ import app.opass.ccip.R
 import app.opass.ccip.model.Feature
 import app.opass.ccip.model.FeatureType
 import app.opass.ccip.ui.DrawerMenuViewHolder.*
-import com.squareup.picasso.Picasso
+import coil.load
 
 class DrawerMenuAdapter(
     private val context: Context,
@@ -78,7 +78,7 @@ class DrawerMenuAdapter(
                         launchIconView?.isGone = !item.shouldShowLaunchIcon
                         if (item.iconDrawable != null) return iconView.setImageDrawable(getDrawable(item.iconDrawable))
                         iconView.setImageDrawable(null)
-                        Picasso.get().load(feature.icon).into(iconView)
+                        iconView.load(feature.icon)
                     }
                 }
             }

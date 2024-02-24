@@ -40,9 +40,9 @@ import app.opass.ccip.ui.schedule.ScheduleTabFragment
 import app.opass.ccip.util.CryptoUtil
 import app.opass.ccip.util.PreferenceUtil
 import app.opass.ccip.util.WifiUtil
+import coil.load
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -240,7 +240,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private fun buildDrawer() {
         val event = PreferenceUtil.getCurrentEvent(this)
 
-        Picasso.get().load(event.logoUrl).into(confLogoImageView)
+        confLogoImageView.load(event.logoUrl)
 
         val role = PreferenceUtil.getRole(this)
         val filteredFeatures = event.features.filter {

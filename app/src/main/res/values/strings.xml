@@ -128,7 +128,7 @@
 
     <!-- DialogFragment -->
     <string name="get_notified_title">Get notified</string>
-    <string name="get_notified_desc">OPass can send you notification just before this event starts. Would you like to allow Opass required permissions?</string>
+    <string name="get_notified_desc">OPass can send you notification just before this event starts. Would you like to allow OPass required permissions?</string>
     <string name="dont_ask_again">Don\'t ask again</string>
     <string name="later">Later</string>
 </resources>

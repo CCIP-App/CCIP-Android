@@ -16,11 +16,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
 
-    <TextView
+    <Button
         android:id="@+id/not_this_event"
-        style="@style/TextAppearance.MaterialComponents.Caption"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/not_this_event" />
+        android:text="@string/not_this_event"
+        android:textAllCaps="false" />
 </merge>
