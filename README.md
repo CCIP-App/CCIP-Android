@@ -10,6 +10,7 @@ Preparing...
 - [x] Logo format SVG to Kotlin
 - [ ] About Me Screen
 - [ ] Settings Screen
+- [ ] Schedule Screen with Multiple Day Support
 - [ ] Login Screen
 - [ ] Login System
 - [ ] Special Event Screen
