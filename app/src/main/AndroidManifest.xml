@@ -1,75 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
     <application
-        android:name=".CCIPApplication"
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.onesignal.NotificationOpened.DEFAULT"
-            android:value="DISABLE" />
-
-        <activity android:name=".ui.LauncherActivity" android:exported="true">
+        android:theme="@style/Theme.OPass"
+        tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.OPass">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="opass.app"
-                    android:scheme="http"
-                    android:pathPrefix="/open" />
-                <data
-                    android:host="opass.app"
-                    android:scheme="https"
-                    android:pathPrefix="/open" />
-                <data
-                    android:host="login"
-                    android:scheme="ccip" />
-            </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.MainActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.fastpass.CountdownActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.sessiondetail.SessionDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.event.EventActivity"
-            android:screenOrientation="portrait" />
-
-        <receiver android:name=".util.SessionAlarmReceiver" />
-        <receiver android:name=".util.RebootReceiver" android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-        <activity android:name=".ui.auth.CaptureActivity" />
-        <activity
-            android:name=".ui.auth.AuthActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.AboutActivity"
-            android:parentActivityName=".ui.MainActivity" />
     </application>
 
 </manifest>

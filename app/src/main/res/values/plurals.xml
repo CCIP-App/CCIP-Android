@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <plurals name="n_matches">
-        <item quantity="one">%d match</item>
-        <item quantity="other">%d matches</item>
-    </plurals>
-</resources>
