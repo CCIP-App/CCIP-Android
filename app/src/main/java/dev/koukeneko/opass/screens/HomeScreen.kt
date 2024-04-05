@@ -1,3 +1,4 @@
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
@@ -140,7 +141,10 @@ fun HomeScreen(
                     "schedule" -> navController.navigate("schedule")
 
                     "telegram" -> if (btn.url != null) {
-
+                    // Directly open the Telegram app
+                    val telegramUrl = "https://t.me/${btn.url}"
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(telegramUrl))
+                        context.startActivity(intent)
                     }
 
                     else -> {
