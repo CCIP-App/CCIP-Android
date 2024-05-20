@@ -4,12 +4,12 @@ import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import app.opass.ccip.ui.MainActivity
-import com.onesignal.OSNotificationOpenedResult
-import com.onesignal.OneSignal
+import com.onesignal.notifications.INotificationClickListener
+import com.onesignal.notifications.INotificationClickEvent
 
-class OSNotificationOpenedHandler(private val context: Application) : OneSignal.OSNotificationOpenedHandler {
-    override fun notificationOpened(result: OSNotificationOpenedResult) {
-        val launchUrl = result.notification.launchURL
+class NotificationClickListener(private val context: Application) : INotificationClickListener {
+    override fun onClick(event: INotificationClickEvent) {
+        val launchUrl = event.result.url
         if (launchUrl != null) {
             context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(launchUrl)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         } else {

@@ -20,9 +20,8 @@ import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.util.PreferenceUtil
 import coil.load
 import com.onesignal.OneSignal
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.json.JSONException
-import org.json.JSONObject
 
 class TokenCheckFragment : AuthActivity.PageFragment() {
     private var hasRequestEnd = false
@@ -74,19 +73,15 @@ class TokenCheckFragment : AuthActivity.PageFragment() {
 
                         PreferenceUtil.setToken(mActivity, token)
                         PreferenceUtil.setRole(mActivity, attendee.role)
-                        try {
-                            JSONObject()
-                                .put(attendee.eventId + attendee.role, attendee.token)
-                                .let(OneSignal::sendTags)
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                        }
+                        OneSignal.User.addTag(attendee.eventId + attendee.role, attendee.token)
 
                         val manager = mActivity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                         if (!manager.areNotificationsEnabled()) {
                             AlertDialog.Builder(mActivity)
                                 .setMessage(R.string.on_login_request_notification_permission)
-                                .setPositiveButton(android.R.string.ok) { _, _ -> OneSignal.promptForPushNotifications() }
+                                .setPositiveButton(android.R.string.ok) { _, _ -> GlobalScope.launch {
+                                    OneSignal.Notifications.requestPermission(true) }
+                                }
                                 .setNegativeButton(android.R.string.cancel) { _, _ -> }
                                 .show()
                         }

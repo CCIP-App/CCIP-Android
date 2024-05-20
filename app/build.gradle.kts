@@ -60,7 +60,7 @@ android {
 dependencies {
 
     implementation("com.google.firebase:firebase-analytics-ktx:22.0.0")
-    implementation("com.onesignal:OneSignal:[4.0.0, 4.99.99]")
+    implementation("com.onesignal:OneSignal:[5.0.0, 5.99.99]")
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.12.0")
