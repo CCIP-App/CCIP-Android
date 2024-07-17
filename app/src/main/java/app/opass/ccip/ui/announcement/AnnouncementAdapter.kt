@@ -13,7 +13,8 @@ import app.opass.ccip.R
 import app.opass.ccip.model.Announcement
 import app.opass.ccip.util.LocaleUtil
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class AnnouncementAdapter(private val mContext: Context, private val announcementList: List<Announcement>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

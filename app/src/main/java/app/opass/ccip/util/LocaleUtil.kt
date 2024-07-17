@@ -3,7 +3,7 @@ package app.opass.ccip.util
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
-import java.util.*
+import java.util.Locale
 
 object LocaleUtil {
     @Suppress("DEPRECATION")

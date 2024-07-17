@@ -3,7 +3,7 @@ package app.opass.ccip.model
 import android.content.Context
 import app.opass.ccip.util.LocaleUtil
 import com.google.gson.annotations.SerializedName
-import java.util.*
+import java.util.Locale
 
 data class Session(
     val id: String,
