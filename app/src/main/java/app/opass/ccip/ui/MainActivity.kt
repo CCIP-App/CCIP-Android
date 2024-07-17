@@ -12,7 +12,6 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -41,6 +40,7 @@ import app.opass.ccip.util.CryptoUtil
 import app.opass.ccip.util.PreferenceUtil
 import app.opass.ccip.util.WifiUtil
 import coil.load
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
@@ -337,7 +337,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun showWifiDialog(networks: List<WifiNetworkInfo>) {
-        val dialog = AlertDialog.Builder(this).setTitle(R.string.choose_network_to_connect).create()
+        val dialog = MaterialAlertDialogBuilder(this).setTitle(R.string.choose_network_to_connect).create()
         val rv = RecyclerView(this).apply {
             layoutParams = RecyclerView.LayoutParams(
                 RecyclerView.LayoutParams.MATCH_PARENT,
