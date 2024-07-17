@@ -28,7 +28,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -37,7 +37,6 @@ android {
             excludes += listOf("META-INF/atomicfu.kotlin_module")
         }
     }
-
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
