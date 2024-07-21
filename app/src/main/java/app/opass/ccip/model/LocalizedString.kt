@@ -1,9 +1,7 @@
 package app.opass.ccip.model
 
 import android.content.Context
-import android.os.Build
 import android.os.LocaleList
-import androidx.annotation.RequiresApi
 
 class LocalizedString {
     companion object {
@@ -34,26 +32,14 @@ class LocalizedString {
         if (translations.size == 0) return null
 
         val keys = translations.keys.toList()
-        if (Build.VERSION.SDK_INT >= 24) {
-            localeListToStringList(context.resources.configuration.locales).firstOrNull(keys::contains)?.let {
-                return translations[it]
-            }
-        } else {
-            val locale = if (Build.VERSION.SDK_INT >= 24) {
-                context.resources.configuration.locales.get(0)
-            } else {
-                @Suppress("DEPRECATION")
-                context.resources.configuration.locale
-            }
-            val language = locale.language
-            if (translations.containsKey(language)) return translations[language]
+        localeListToStringList(context.resources.configuration.locales).firstOrNull(keys::contains)?.let {
+            return translations[it]
         }
 
         // No matches. Fallback to the first translation.
         return translations[keys[0]]
     }
 
-    @RequiresApi(24)
     private fun localeListToStringList(localeList: LocaleList): Array<String> {
         val list = mutableSetOf<String>()
         for (i in 0 until localeList.size()) {
