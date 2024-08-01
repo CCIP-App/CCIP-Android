@@ -1,8 +1,6 @@
 package app.opass.ccip.ui
 
 import android.app.Activity
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -12,11 +10,9 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.core.view.updatePadding
@@ -30,19 +26,17 @@ import app.opass.ccip.extension.setOnApplyWindowInsetsListenerCompat
 import app.opass.ccip.extension.updateMargin
 import app.opass.ccip.model.Feature
 import app.opass.ccip.model.FeatureType
-import app.opass.ccip.model.WifiNetworkInfo
 import app.opass.ccip.network.PortalClient
 import app.opass.ccip.ui.announcement.AnnouncementFragment
 import app.opass.ccip.ui.event.EventActivity
 import app.opass.ccip.ui.fastpass.FastPassFragment
 import app.opass.ccip.ui.fastpass.MyTicketFragment
 import app.opass.ccip.ui.schedule.ScheduleTabFragment
+import app.opass.ccip.ui.wifi.WiFiNetworkFragment
 import app.opass.ccip.util.CryptoUtil
 import app.opass.ccip.util.PreferenceUtil
-import app.opass.ccip.util.WifiUtil
 import coil.load
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -275,7 +269,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 val feature = item.origFeature
                 if (item.shouldShowLaunchIcon) return this.startActivity(Intent(Intent.ACTION_VIEW, feature.url!!.toUri()))
                 if (feature.feature == FeatureType.WIFI) {
-                    feature.wifiNetworks?.let(::showWifiDialog)
+                    feature.wifiNetworks?.let {
+                        WiFiNetworkFragment.show(it, supportFragmentManager)
+                    }
                     mDrawerLayout.closeDrawers()
                     return
                 }
@@ -307,51 +303,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             title = item.origFeature.displayText.findBestMatch(this)
         }
         mDrawerLayout.closeDrawers()
-    }
-
-    private fun onWifiSelected(info: WifiNetworkInfo) {
-        val success = WifiUtil.installNetwork(this, info)
-        if (success) {
-            Snackbar
-                .make(mDrawerLayout, R.string.wifi_saved, Snackbar.LENGTH_SHORT)
-                .setAnchorView(navbarAnchor)
-                .show()
-        } else {
-            val hasPassword = !info.password.isNullOrEmpty()
-            if (!hasPassword) {
-                Snackbar
-                    .make(mDrawerLayout, R.string.failed_to_save_wifi, Snackbar.LENGTH_LONG)
-                    .setAnchorView(navbarAnchor)
-                    .show()
-                return
-            }
-
-            getSystemService<ClipboardManager>()?.run {
-                setPrimaryClip(ClipData.newPlainText("", info.password))
-            } ?: return
-            Snackbar
-                .make(mDrawerLayout, R.string.failed_to_save_wifi_copied_to_clipboard, Snackbar.LENGTH_LONG)
-                .setAnchorView(navbarAnchor)
-                .show()
-        }
-    }
-
-    private fun showWifiDialog(networks: List<WifiNetworkInfo>) {
-        val dialog = AlertDialog.Builder(this).setTitle(R.string.choose_network_to_connect).create()
-        val rv = RecyclerView(this).apply {
-            layoutParams = RecyclerView.LayoutParams(
-                RecyclerView.LayoutParams.MATCH_PARENT,
-                RecyclerView.LayoutParams.MATCH_PARENT
-            )
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = WifiNetworkAdapter(networks) { info ->
-                dialog.dismiss()
-                onWifiSelected(info)
-            }
-        }
-
-        dialog.setView(rv)
-        dialog.show()
     }
 
     private fun isFeatureValid(f: Feature) : Boolean {

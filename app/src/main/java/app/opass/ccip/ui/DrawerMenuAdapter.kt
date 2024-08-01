@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import app.opass.ccip.R
 import app.opass.ccip.model.Feature
 import app.opass.ccip.model.FeatureType
-import app.opass.ccip.ui.DrawerMenuViewHolder.*
+import app.opass.ccip.ui.DrawerMenuViewHolder.DividerViewHolder
+import app.opass.ccip.ui.DrawerMenuViewHolder.MenuItemViewHolder
+import app.opass.ccip.ui.DrawerMenuViewHolder.PlaceholderItemViewHolder
 import coil.load
 
 class DrawerMenuAdapter(

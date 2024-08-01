@@ -15,7 +15,8 @@ import app.opass.ccip.R
 import app.opass.ccip.model.Scenario
 import app.opass.ccip.util.LocaleUtil
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class ScenarioAdapter(
     private val mContext: Context,

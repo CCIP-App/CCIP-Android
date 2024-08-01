@@ -11,7 +11,7 @@ import app.opass.ccip.databinding.ActivityCountdownBinding
 import app.opass.ccip.model.Scenario
 import app.opass.ccip.util.JsonUtil
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 class CountdownActivity : AppCompatActivity() {
     companion object {

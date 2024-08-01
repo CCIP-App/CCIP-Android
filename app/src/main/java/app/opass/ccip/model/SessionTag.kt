@@ -2,7 +2,7 @@ package app.opass.ccip.model
 
 import android.content.Context
 import app.opass.ccip.util.LocaleUtil
-import java.util.*
+import java.util.Locale
 
 data class SessionTag(
     val id: String,

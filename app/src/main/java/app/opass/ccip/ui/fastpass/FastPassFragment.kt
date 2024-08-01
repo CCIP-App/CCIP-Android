@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -25,6 +24,7 @@ import app.opass.ccip.ui.MainActivity
 import app.opass.ccip.ui.auth.AuthActivity
 import app.opass.ccip.util.JsonUtil
 import app.opass.ccip.util.PreferenceUtil
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -195,7 +195,7 @@ class FastPassFragment : Fragment(), CoroutineScope {
                         Toast.makeText(mActivity, message, Toast.LENGTH_LONG).show()
                     }
                     response.code() == 403 -> {
-                        AlertDialog.Builder(mActivity)
+                        MaterialAlertDialogBuilder(mActivity)
                             .setTitle(R.string.connect_to_conference_wifi)
                             .setPositiveButton(android.R.string.ok, null)
                             .show()
@@ -209,7 +209,7 @@ class FastPassFragment : Fragment(), CoroutineScope {
     }
 
     private fun showConfirmDialog(scenario: Scenario) {
-        AlertDialog.Builder(mActivity)
+        MaterialAlertDialogBuilder(mActivity)
             .setTitle(R.string.confirm_dialog_title)
             .setPositiveButton(R.string.positive_button) { dialogInterface, i -> useScenario(scenario) }
             .setNegativeButton(R.string.negative_button, null)
