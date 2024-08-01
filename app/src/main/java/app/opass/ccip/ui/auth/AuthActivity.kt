@@ -17,7 +17,12 @@ import app.opass.ccip.databinding.ActivityAuthBinding
 import app.opass.ccip.ui.MainActivity
 import app.opass.ccip.ui.event.EventActivity
 import com.google.android.material.snackbar.Snackbar
-import com.google.zxing.*
+import com.google.zxing.BinaryBitmap
+import com.google.zxing.ChecksumException
+import com.google.zxing.FormatException
+import com.google.zxing.MultiFormatReader
+import com.google.zxing.NotFoundException
+import com.google.zxing.RGBLuminanceSource
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.integration.android.IntentIntegrator
 import java.io.IOException

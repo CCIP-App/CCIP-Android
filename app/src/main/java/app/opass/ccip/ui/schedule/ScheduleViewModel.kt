@@ -26,7 +26,7 @@ import kotlinx.coroutines.withContext
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 private val SDF_DATE = SimpleDateFormat("MM/dd", Locale.US)
 private val SDF_TIME = SimpleDateFormat("HH:mm", Locale.TAIWAN)

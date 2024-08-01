@@ -4,9 +4,13 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.webkit.PermissionRequest
 import android.webkit.WebSettings
 import androidx.core.view.updatePadding
@@ -52,14 +56,10 @@ class PuzzleFragment : Fragment() {
         webView.webViewClient = OfficialWebViewClient()
         webView.webChromeClient = WebChromeViewClient(binding.progressBar, fun (request) {
             if (!request!!.resources.contains(PermissionRequest.RESOURCE_VIDEO_CAPTURE)) request.deny()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // Android M Permission check
-                if (mActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(arrayOf(Manifest.permission.CAMERA), 2)
-                    request.deny()
-                } else {
-                    request.grant(request.resources)
-                }
+            // Android M Permission check
+            if (mActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(Manifest.permission.CAMERA), 2)
+                request.deny()
             } else {
                 request.grant(request.resources)
             }
@@ -80,9 +80,7 @@ class PuzzleFragment : Fragment() {
         val settings = webView.settings
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
-        if (Build.VERSION.SDK_INT >= 21) {
-            settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
-        }
+        settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
     }
 
     override fun onDestroyView() {

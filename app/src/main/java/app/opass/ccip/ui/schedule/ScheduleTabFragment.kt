@@ -5,7 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isGone
@@ -15,7 +21,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
 import app.opass.ccip.R
 import app.opass.ccip.databinding.FragmentScheduleTabBinding
-import app.opass.ccip.extension.*
+import app.opass.ccip.extension.asyncExecute
+import app.opass.ccip.extension.doOnApplyWindowInsets
+import app.opass.ccip.extension.focusAndShowKeyboard
+import app.opass.ccip.extension.hideIme
+import app.opass.ccip.extension.updateMargin
 import app.opass.ccip.model.ConfSchedule
 import app.opass.ccip.ui.MainActivity
 import app.opass.ccip.util.JsonUtil
@@ -23,11 +33,17 @@ import app.opass.ccip.util.PreferenceUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import kotlin.coroutines.CoroutineContext
 
 class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAwareFragment {

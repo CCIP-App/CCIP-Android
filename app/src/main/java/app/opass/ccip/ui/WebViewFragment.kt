@@ -3,7 +3,6 @@ package app.opass.ccip.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,14 +41,10 @@ class WebViewFragment : Fragment() {
         val webView = binding.webView
         webView.webChromeClient = WebChromeViewClient(binding.progressBar, fun (request) {
             if (!request!!.resources.contains(RESOURCE_VIDEO_CAPTURE)) request.deny()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // Android M Permission check
-                if (mActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(arrayOf(Manifest.permission.CAMERA), 2)
-                    request.deny()
-                } else {
-                    request.grant(request.resources)
-                }
+            // Android M Permission check
+            if (mActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(Manifest.permission.CAMERA), 2)
+                request.deny()
             } else {
                 request.grant(request.resources)
             }
@@ -62,7 +57,7 @@ class WebViewFragment : Fragment() {
                 builtInZoomControls = true
                 displayZoomControls = false
             }
-            if (Build.VERSION.SDK_INT >= 21) mixedContentMode = MIXED_CONTENT_COMPATIBILITY_MODE
+            mixedContentMode = MIXED_CONTENT_COMPATIBILITY_MODE
         }
         webView.loadUrl(args.getString(EXTRA_URL).toString())
     }

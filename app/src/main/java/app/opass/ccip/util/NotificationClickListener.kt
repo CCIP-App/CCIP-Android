@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import app.opass.ccip.ui.MainActivity
-import com.onesignal.notifications.INotificationClickListener
 import com.onesignal.notifications.INotificationClickEvent
+import com.onesignal.notifications.INotificationClickListener
 
 class NotificationClickListener(private val context: Application) : INotificationClickListener {
     override fun onClick(event: INotificationClickEvent) {

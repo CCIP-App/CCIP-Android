@@ -1,6 +1,5 @@
 package app.opass.ccip.ui.auth
 
-import android.app.AlertDialog
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Bundle
@@ -19,6 +18,7 @@ import app.opass.ccip.extension.isInverted
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.util.PreferenceUtil
 import coil.load
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.onesignal.OneSignal
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -77,7 +77,7 @@ class TokenCheckFragment : AuthActivity.PageFragment() {
 
                         val manager = mActivity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                         if (!manager.areNotificationsEnabled()) {
-                            AlertDialog.Builder(mActivity)
+                            MaterialAlertDialogBuilder(mActivity)
                                 .setMessage(R.string.on_login_request_notification_permission)
                                 .setPositiveButton(android.R.string.ok) { _, _ -> GlobalScope.launch {
                                     OneSignal.Notifications.requestPermission(true) }
