@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="select_event">Velg begivenhet</string>
+    <string name="drawer_open">Åpne navigasjonsskuff</string>
+    <string name="drawer_close">Lukk navigasjonsskuff</string>
+</resources>
