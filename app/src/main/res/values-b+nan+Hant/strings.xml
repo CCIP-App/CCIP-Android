@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<!DOCTYPE resources [
+<!ENTITY appname "OPass">
+]>
+<resources>
+    <string name="app_name">&appname;</string>
+    <string name="select_event">選擇活動</string>
+    <string name="schedule">議程</string>
+    <string name="announcement">公告</string>
+    <string name="telegram">Telegram</string>
+    <string name="negative_button">取消</string>
+    <string name="lang">語言</string>
+</resources>
