@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE resources [
-    <!ENTITY appname "OPass">
+<!ENTITY appname "OPass">
 ]>
-
 <resources>
     <string name="app_name">&appname;</string>
-
-    <string name="select_event">Select Event</string>
-
+    <string name="select_event">Select event</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-
     <string name="fast_pass">Fast Pass</string>
     <string name="schedule">Schedule</string>
     <string name="announcement">Announcement</string>
@@ -23,7 +19,6 @@
     <string name="sponsors">Sponsors</string>
     <string name="staffs">Staffs</string>
     <string name="star_on_github">Star on GitHub</string>
-
     <string name="hi">Hi\u0020</string>
     <string name="login_success">Welcome to %1$s!</string>
     <string name="on_login_request_notification_permission">The organizer will send event updates via push notifications. Please allow notifications for firsthand information.</string>
@@ -32,15 +27,11 @@
     <string name="connect_to_conference_wifi">Please connect to the Wi-Fi provided by event</string>
     <string name="tap_to_retry">Tap to retry</string>
     <string name="announcement_empty">There are no announcements!</string>
-
     <string name="confirm_dialog_title">Have you followed the staff\'s instructions?</string>
     <string name="positive_button">CONFIRM</string>
     <string name="negative_button">Cancel</string>
-
     <string name="my_ticket_notice">Please keep your ticket as a secret. Do not share it with anyone else but the staff or event booths.</string>
-
     <string name="offline">No network connection</string>
-
     <string name="lang">Lang</string>
     <string name="time">Time</string>
     <string name="type">Type</string>
@@ -53,12 +44,9 @@
     <string name="speaker_info">Speaker Info</string>
     <string name="program_abstract">Abstract</string>
     <string name="tag">Tag</string>
-
     <string name="min">min</string>
-
     <string name="meal">Meal</string>
     <string name="vegan">Vegan</string>
-
     <string name="keynote">Keynote</string>
     <string name="lightning_talk">Lightning Talk</string>
     <string name="panel_discussion">Panel Discussion</string>
@@ -66,10 +54,8 @@
     <string name="talk">Talk</string>
     <string name="unconf">Unconf</string>
     <string name="event">Event</string>
-
     <string name="share">Share</string>
     <string name="puzzle_share_subject">Here are the puzzles I\'ve collected. Let\'s solve them together!</string>
-
     <string name="add_bookmark">Added to bookmark. You will be notified 10 minutes before the session starts.</string>
     <string name="remove_bookmark">Removed from bookmark</string>
     <string name="bookmark_channel_name">Session bookmark</string>
@@ -83,9 +69,7 @@
     <string name="no_qr_code_found">No QR code found in this picture</string>
     <string name="select_from_gallery">Select from gallery</string>
     <string name="select_picture">Select picture</string>
-
     <string name="copy_to_clipboard">Copied to clipboard</string>
-
     <string name="switch_event">Switch Event</string>
     <string name="no_thanks">No thanks</string>
     <string name="sign_in">Sign in</string>
@@ -125,7 +109,6 @@
     <string name="my_favorite_session_this_year_is">My favorite this year is</string>
     <string name="use_opass_to_make_your_own_agenda_together">Use OPass to make your own agenda together!</string>
     <string name="perm_denied">Required permission denied! Please grant permission manually to get notification for event.</string>
-
     <!-- DialogFragment -->
     <string name="get_notified_title">Get notified</string>
     <string name="get_notified_desc">OPass can send you notification just before this event starts. Would you like to allow OPass required permissions?</string>
