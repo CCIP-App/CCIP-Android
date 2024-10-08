@@ -6,8 +6,16 @@
     <string name="app_name">&appname;</string>
     <string name="select_event">選擇活動</string>
     <string name="schedule">議程</string>
-    <string name="announcement">公告</string>
+    <string name="announcement">大會公告</string>
     <string name="telegram">Telegram</string>
     <string name="negative_button">取消</string>
     <string name="lang">語言</string>
+    <string name="time">時間</string>
+    <string name="type">類型</string>
+    <string name="link">連結</string>
+    <string name="event">活動</string>
+    <string name="share">分享</string>
+    <string name="sign_in">登入</string>
+    <string name="kontinue">繼續</string>
+    <string name="cancel">取消</string>
 </resources>
