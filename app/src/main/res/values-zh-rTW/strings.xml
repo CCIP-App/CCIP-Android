@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE resources [
-    <!ENTITY appname "OPass">
+<!ENTITY appname "OPass">
 ]>
-
 <resources>
     <string name="app_name">&appname;</string>
-
     <string name="select_event">選擇活動</string>
-
     <string name="drawer_open">開啟導覽匣</string>
     <string name="drawer_close">關閉導覽匣</string>
-
     <string name="fast_pass">快速通關</string>
     <string name="schedule">議程</string>
     <string name="announcement">大會訊息</string>
@@ -23,7 +19,6 @@
     <string name="sponsors">贊助</string>
     <string name="staffs">工作人員</string>
     <string name="star_on_github">Star on GitHub</string>
-
     <string name="hi">嗨\u0020</string>
     <string name="login_success">歡迎您加入 %1$s！</string>
     <string name="on_login_request_notification_permission">活動主辦方將透過推播發送活動最新消息，請開啟通知權限以接收第一手資訊。</string>
@@ -32,15 +27,11 @@
     <string name="connect_to_conference_wifi">請使用會場提供的 Wi-Fi</string>
     <string name="tap_to_retry">點擊重試</string>
     <string name="announcement_empty">目前無任何公告哦！</string>
-
     <string name="confirm_dialog_title">是否已聽從工作人員的指示？</string>
     <string name="positive_button">確認使用</string>
     <string name="negative_button">取消</string>
-
     <string name="my_ticket_notice">請妥善保管你的票券，僅提供給工作人員或攤位人員於活動使用</string>
-
     <string name="offline">無網路連線</string>
-
     <string name="lang">語言</string>
     <string name="time">時間</string>
     <string name="type">類型</string>
@@ -53,13 +44,9 @@
     <string name="speaker_info">講者簡介</string>
     <string name="program_abstract">議程簡介</string>
     <string name="tag">標籤</string>
-
-
     <string name="min">分鐘</string>
-
     <string name="meal">葷食</string>
     <string name="vegan">素食</string>
-
     <string name="keynote">Keynote</string>
     <string name="lightning_talk">Lightning Talk</string>
     <string name="panel_discussion">論壇</string>
@@ -67,10 +54,8 @@
     <string name="talk">Talk</string>
     <string name="unconf">Unconf</string>
     <string name="event">活動</string>
-
     <string name="share">分享</string>
     <string name="puzzle_share_subject">這是我的程式碼拼圖，和我一起解題吧！</string>
-
     <string name="add_bookmark">已經加入書籤，議程開始前十分鐘會通知您</string>
     <string name="remove_bookmark">已經移除書籤</string>
     <string name="bookmark_channel_name">議程書籤</string>
@@ -83,9 +68,7 @@
     <string name="no_qr_code_found">未在此圖片中找到 QR code</string>
     <string name="select_from_gallery">從相簿中挑選</string>
     <string name="select_picture">選擇圖片</string>
-
     <string name="copy_to_clipboard">已複製至剪貼簿</string>
-
     <string name="switch_event">切換活動</string>
     <string name="no_thanks">不用了</string>
     <string name="sign_in">登入</string>
