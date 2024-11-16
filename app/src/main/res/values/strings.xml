@@ -91,7 +91,7 @@
     <string name="cannot_load_schedule">Cannot load schedule</string>
     <string name="cannot_read_session_info">Cannot read session info</string>
     <string name="choose_network_to_connect">Choose a network to connect</string>
-    <string name="wifi_saved">Saved Wi-Fi network</string>
+    <string name="wifi_saved">Wi-Fi network saved</string>
     <string name="failed_to_save_wifi">Failed to save Wi-Fi network</string>
     <string name="failed_to_save_wifi_copied_to_clipboard">Failed to save the Wi-Fi information. Password copied to clipboard.</string>
     <string name="about_app">About &appname;</string>
