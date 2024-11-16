@@ -19,7 +19,7 @@
     <string name="sponsors">प्रायोजक</string>
     <string name="staffs">कर्मचारी</string>
     <string name="star_on_github">GitHub पर स्टार लगाएं</string>
-    <string name="hi">नमस्ते\\u0020</string>
+    <string name="hi">"नमस्ते "</string>
     <string name="login_success">%1$s में आपका स्वागत है!</string>
     <string name="on_login_request_notification_permission">आयोजक पुश नोटिफिकेशन के माध्यम से इवेंट अपडेट भेजेगा। कृपया प्रत्यक्ष जानकारी के लिए नोटिफि़ˈकेश्‌न्‌ की अनुमति दें।</string>
     <string name="open_via_link">आप इस ऐप को एक लिंक के जरिए भी खोल सकते हैं।</string>
