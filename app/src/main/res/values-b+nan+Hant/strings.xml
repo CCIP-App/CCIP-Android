@@ -52,4 +52,5 @@
     <string name="star_on_github">佇GitHub拍星</string>
     <string name="on_login_request_notification_permission">主理人會對推送通知寄更新，請允准通知予第一手的資訊。</string>
     <string name="open_via_link">你嘛會當對連結來開這个app。</string>
+    <string name="scan_ticket_qrcode">掃描票券 QR 碼</string>
 </resources>
