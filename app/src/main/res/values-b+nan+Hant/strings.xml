@@ -43,4 +43,13 @@
     <string name="wifi_saved">已經保存 Wi-Fi 網路資訊</string>
     <string name="failed_to_save_wifi">無法度保存 Wi-Fi 網路資訊</string>
     <string name="version">版本 %s</string>
+    <string name="drawer_open">開瀏覽屜仔</string>
+    <string name="drawer_close">共瀏覽屜仔關起來</string>
+    <string name="fast_pass">快速通關</string>
+    <string name="pd">論壇討論</string>
+    <string name="puzzle">擔仔獎勵活動</string>
+    <string name="staffs">工作人員</string>
+    <string name="star_on_github">佇GitHub拍星</string>
+    <string name="on_login_request_notification_permission">主理人會對推送通知寄更新，請允准通知予第一手的資訊。</string>
+    <string name="open_via_link">你嘛會當對連結來開這个app。</string>
 </resources>
