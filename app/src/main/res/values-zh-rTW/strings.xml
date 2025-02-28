@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE resources [
-    <!ENTITY appname "OPass">
+<!ENTITY appname "OPass">
 ]>
-
 <resources>
     <string name="app_name">&appname;</string>
-
     <string name="select_event">選擇活動</string>
-
     <string name="drawer_open">開啟導覽匣</string>
     <string name="drawer_close">關閉導覽匣</string>
-
     <string name="fast_pass">快速通關</string>
     <string name="schedule">議程</string>
     <string name="announcement">大會訊息</string>
@@ -23,7 +19,6 @@
     <string name="sponsors">贊助</string>
     <string name="staffs">工作人員</string>
     <string name="star_on_github">Star on GitHub</string>
-
     <string name="hi">嗨\u0020</string>
     <string name="login_success">歡迎您加入 %1$s！</string>
     <string name="on_login_request_notification_permission">活動主辦方將透過推播發送活動最新消息，請開啟通知權限以接收第一手資訊。</string>
@@ -32,15 +27,11 @@
     <string name="connect_to_conference_wifi">請使用會場提供的 Wi-Fi</string>
     <string name="tap_to_retry">點擊重試</string>
     <string name="announcement_empty">目前無任何公告哦！</string>
-
     <string name="confirm_dialog_title">是否已聽從工作人員的指示？</string>
     <string name="positive_button">確認使用</string>
     <string name="negative_button">取消</string>
-
-    <string name="my_ticket_notice">請妥善保管你的票券，僅提供給工作人員或攤位人員於活動使用</string>
-
+    <string name="my_ticket_notice">請妥善保管你的票券，僅提供給工作人員或攤位人員於活動使用。</string>
     <string name="offline">無網路連線</string>
-
     <string name="lang">語言</string>
     <string name="time">時間</string>
     <string name="type">類型</string>
@@ -53,13 +44,9 @@
     <string name="speaker_info">講者簡介</string>
     <string name="program_abstract">議程簡介</string>
     <string name="tag">標籤</string>
-
-
     <string name="min">分鐘</string>
-
     <string name="meal">葷食</string>
     <string name="vegan">素食</string>
-
     <string name="keynote">Keynote</string>
     <string name="lightning_talk">Lightning Talk</string>
     <string name="panel_discussion">論壇</string>
@@ -67,12 +54,10 @@
     <string name="talk">Talk</string>
     <string name="unconf">Unconf</string>
     <string name="event">活動</string>
-
     <string name="share">分享</string>
     <string name="puzzle_share_subject">這是我的程式碼拼圖，和我一起解題吧！</string>
-
-    <string name="add_bookmark">已經加入書籤，議程開始前十分鐘會通知您</string>
-    <string name="remove_bookmark">已經移除書籤</string>
+    <string name="add_bookmark">已加入書籤，會在議程開始前10分鐘通知您。</string>
+    <string name="remove_bookmark">已移除書籤</string>
     <string name="bookmark_channel_name">議程書籤</string>
     <string name="notification_session_start">%1$s 於 %2$s 將在十分鐘後開始</string>
     <string name="invalid_token">QR code、專屬連結或 token 不正確</string>
@@ -82,20 +67,18 @@
     <string name="token_required">必須輸入 token</string>
     <string name="no_qr_code_found">未在此圖片中找到 QR code</string>
     <string name="select_from_gallery">從相簿中挑選</string>
-    <string name="select_picture">選擇圖片</string>
-
+    <string name="select_picture">選取圖片</string>
     <string name="copy_to_clipboard">已複製至剪貼簿</string>
-
     <string name="switch_event">切換活動</string>
     <string name="no_thanks">不用了</string>
     <string name="sign_in">登入</string>
-    <string name="verify_your_identity">驗證身份</string>
+    <string name="verify_your_identity">驗證身分</string>
     <string name="select_a_verification_method">選擇驗證方式</string>
     <string name="enter_token_manually">手動輸入 token</string>
     <string name="scan_qr_code_from_gallery">從相簿中挑選圖片掃描 QR code</string>
     <string name="scan_qr_code_from_camera">用相機掃描 QR code</string>
     <string name="please_wait">請稍候</string>
-    <string name="couldnt_verify_your_identity">無法驗證身份</string>
+    <string name="couldnt_verify_your_identity">無法驗證身分</string>
     <string name="checking_event_info">正在取得活動資訊</string>
     <string name="couldnt_get_event_info">無法取得活動資訊</string>
     <string name="kontinue">繼續</string>
@@ -103,11 +86,11 @@
     <string name="back">返回</string>
     <string name="try_again">重試</string>
     <string name="unexpected_error_try_again">發生未預期的錯誤，請稍候再試。</string>
-    <string name="verify_identity_to_use_this_function">請先驗證票券再使用此功能</string>
+    <string name="verify_identity_to_use_this_function">請先驗證票券再使用此功能。</string>
     <string name="cannot_load_schedule">無法載入議程</string>
     <string name="cannot_read_session_info">無法讀取議程資訊</string>
     <string name="choose_network_to_connect">選擇要連線的網路</string>
-    <string name="wifi_saved">Wi-Fi 網路資訊已儲存</string>
+    <string name="wifi_saved">已儲存 Wi-Fi 網路資訊</string>
     <string name="failed_to_save_wifi">無法儲存 Wi-Fi 網路資訊</string>
     <string name="failed_to_save_wifi_copied_to_clipboard">無法儲存 Wi-Fi 網路資訊。網路密碼已複製到剪貼簿。</string>
     <string name="about_app">關於 &appname;</string>
@@ -115,16 +98,16 @@
     <string name="privacy_policy">隱私權政策</string>
     <string name="no_matching_sessions_multiple_day">這天沒有符合篩選條件的議程</string>
     <string name="no_matching_sessions">沒有符合篩選條件的議程</string>
-    <string name="filter">篩選器</string>
-    <string name="reset_filters">重設篩選器</string>
-    <string name="collapse_filter_panel">收合篩選器面板</string>
+    <string name="filter">篩選條件</string>
+    <string name="reset_filters">重設篩選條件</string>
+    <string name="collapse_filter_panel">收合篩選條件面板</string>
     <string name="bookmarked">已加入書籤</string>
     <string name="search_sessions">搜尋議程</string>
     <string name="not_this_event">不是這場活動嗎？</string>
     <string name="is_about_to_start">%s 即將要開始囉！</string>
     <string name="my_favorite_session_this_year_is">今年我最感興趣的議程是</string>
     <string name="use_opass_to_make_your_own_agenda_together">一起使用 OPass 製作屬於你自己的議程表吧！</string>
-    <string name="perm_denied">沒有提供所需要的權限！請提供通知權限來取得活動提醒</string>
+    <string name="perm_denied">沒有提供所需要的權限！請提供通知權限來取得活動提醒。</string>
     <string name="get_notified_title">收到通知</string>
     <string name="get_notified_desc">OPass 可以在此活動開始之前向您發送通知。 您想要允許 OPass 所需的權限嗎？</string>
     <string name="dont_ask_again">不再詢問</string>
