@@ -61,7 +61,7 @@
     <string name="bookmark_channel_name">Session bookmark</string>
     <string name="notification_session_start">%1$s will start in 10 minutes at %2$s</string>
     <string name="invalid_token">Invalid QR code, invite link, or token</string>
-    <string name="tap_here_to_scan">Tap here to scan the KKTIX QR Code ticket via the camera or gallery
+    <string name="tap_here_to_scan">Tap here to scan the KKTIX QR code ticket via the camera or gallery
     </string>
     <string name="enter_token_button">I have a token</string>
     <string name="enter_your_token">Enter your token</string>
@@ -94,6 +94,24 @@
     <string name="wifi_saved">Wi-Fi network saved</string>
     <string name="failed_to_save_wifi">Failed to save Wi-Fi network</string>
     <string name="failed_to_save_wifi_copied_to_clipboard">Failed to save the Wi-Fi information. Password copied to clipboard.</string>
+    <string name="switch_language">Switch language</string>
+    <string name="choose_app_language">Choose app language</string>
+    <string name="lang_local_name_en_us" translatable="false">English</string>
+    <string name="lang_translated_name_en_us">English</string>
+    <string name="lang_local_name_nan_hant_tw" translatable="false">閩南語 - 傳統漢字</string>
+    <string name="lang_translated_name_nan_hant_tw">Hokkien - Traditional Han script</string>
+    <string name="lang_local_name_nan_latn_tw_pehoeji" translatable="false">Bân-lâm-gú - Pe̍h-ōe-jī</string>
+    <string name="lang_translated_name_nan_latn_tw_pehoeji">Hokkien - Pe̍h-ōe-jī</string>
+    <string name="lang_local_name_nan_latn_tw_tailo" translatable="false">Bân-lâm-gú - Tâi-lô</string>
+    <string name="lang_translated_name_nan_latn_tw_tailo">Hokkien - Tâi-lô</string>
+    <string name="lang_local_name_hi_in" translatable="false">हिन्दी</string>
+    <string name="lang_translated_name_hi_in">Hindi</string>
+    <string name="lang_local_name_nb_no" translatable="false">norsk bokmål</string>
+    <string name="lang_translated_name_nb_no">Norwegian Bokmål</string>
+    <string name="lang_local_name_ta_in" translatable="false">தமிழ்</string>
+    <string name="lang_translated_name_ta_in">Tamil</string>
+    <string name="lang_local_name_zh_hant_tw" translatable="false">繁體中文</string>
+    <string name="lang_translated_name_zh_hant_tw">Mandarin - Traditional Han script</string>
     <string name="about_app">About &appname;</string>
     <string name="version">Version %s</string>
     <string name="privacy_policy">Privacy Policy</string>

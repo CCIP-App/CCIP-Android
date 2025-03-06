@@ -262,6 +262,11 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 this.startActivity(Intent(this, EventActivity::class.java))
                 finish()
             }
+            MenuAction.LAUNCH_LANGUAGE_PREFERENCE_FRAGMENT -> {
+                LanguagePreferenceFragment.show(supportFragmentManager)
+                mDrawerLayout.closeDrawers()
+                return
+            }
             MenuAction.LAUNCH_ABOUT_SCREEN -> {
                 this.startActivity(Intent(this, AboutActivity::class.java))
             }

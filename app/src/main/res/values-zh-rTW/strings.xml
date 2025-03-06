@@ -93,6 +93,16 @@
     <string name="wifi_saved">已儲存 Wi-Fi 網路資訊</string>
     <string name="failed_to_save_wifi">無法儲存 Wi-Fi 網路資訊</string>
     <string name="failed_to_save_wifi_copied_to_clipboard">無法儲存 Wi-Fi 網路資訊。網路密碼已複製到剪貼簿。</string>
+    <string name="switch_language">切換語言</string>
+    <string name="choose_app_language">選擇應用程式語言</string>
+    <string name="lang_translated_name_en_us">英語</string>
+    <string name="lang_translated_name_nan_hant_tw">閩南語 - 傳統漢字</string>
+    <string name="lang_translated_name_nan_latn_tw_pehoeji">閩南語 - 白話字</string>
+    <string name="lang_translated_name_nan_latn_tw_tailo">閩南語 - 臺羅拼音</string>
+    <string name="lang_translated_name_hi_in">印地語</string>
+    <string name="lang_translated_name_nb_no">書面挪威語</string>
+    <string name="lang_translated_name_ta_in">坦米爾語</string>
+    <string name="lang_translated_name_zh_hant_tw">繁體中文</string>
     <string name="about_app">關於 &appname;</string>
     <string name="version">版本 %s</string>
     <string name="privacy_policy">隱私權政策</string>
