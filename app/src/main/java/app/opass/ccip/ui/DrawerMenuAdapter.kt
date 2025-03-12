@@ -112,6 +112,7 @@ class DrawerMenuAdapter(
         merged.addAll(features.map(FeatureItem.Companion::fromFeature))
         merged.addAll(arrayOf(
             DividerItem,
+            MenuAction.LAUNCH_LANGUAGE_PREFERENCE_FRAGMENT,
             MenuAction.LAUNCH_ABOUT_SCREEN
         ))
         return merged
@@ -120,12 +121,14 @@ class DrawerMenuAdapter(
     private fun getTitleByAction(action: MenuAction): String {
         return when (action) {
             MenuAction.SWITCH_EVENT -> context.resources.getString(R.string.switch_event)
+            MenuAction.LAUNCH_LANGUAGE_PREFERENCE_FRAGMENT -> context.getString(R.string.switch_language)
             MenuAction.LAUNCH_ABOUT_SCREEN -> context.getString(R.string.about_app)
         }
     }
 
     private fun getIconByAction(action: MenuAction): Int = when (action) {
         MenuAction.SWITCH_EVENT -> R.drawable.ic_swap_horiz_black_24dp
+        MenuAction.LAUNCH_LANGUAGE_PREFERENCE_FRAGMENT -> R.drawable.ic_languages_black_24dp
         MenuAction.LAUNCH_ABOUT_SCREEN -> R.drawable.ic_info_black_24dp
     }
 
@@ -192,6 +195,7 @@ object DividerItem
 
 enum class MenuAction {
     SWITCH_EVENT,
+    LAUNCH_LANGUAGE_PREFERENCE_FRAGMENT,
     LAUNCH_ABOUT_SCREEN
 }
 
