@@ -35,42 +35,42 @@ class LanguagePreferenceFragment : DialogFragment() {
             adapter = LanguagePreferenceAdapter(
                 items = listOf(
                     LanguageOptionItem(
-                        key = "en-US",
+                        languageTag = "en-US",
                         localName = requireContext().getString(R.string.lang_local_name_en_us),
                         translatedName = requireContext().getString(R.string.lang_translated_name_en_us)
                     ),
                     LanguageOptionItem(
-                        key = "nan-Hant-TW",
+                        languageTag = "nan-Hant-TW",
                         localName = requireContext().getString(R.string.lang_local_name_nan_hant_tw),
                         translatedName = requireContext().getString(R.string.lang_translated_name_nan_hant_tw)
                     ),
                     LanguageOptionItem(
-                        key = "nan-Latn-TW-pehoeji",
+                        languageTag = "nan-Latn-TW-pehoeji",
                         localName = requireContext().getString(R.string.lang_local_name_nan_latn_tw_pehoeji),
                         translatedName = requireContext().getString(R.string.lang_translated_name_nan_latn_tw_pehoeji)
                     ),
                     LanguageOptionItem(
-                        key = "nan-Latn-TW-tailo",
+                        languageTag = "nan-Latn-TW-tailo",
                         localName = requireContext().getString(R.string.lang_local_name_nan_latn_tw_tailo),
                         translatedName = requireContext().getString(R.string.lang_translated_name_nan_latn_tw_tailo)
                     ),
                     LanguageOptionItem(
-                        key = "hi-IN",
+                        languageTag = "hi-IN",
                         localName = requireContext().getString(R.string.lang_local_name_hi_in),
                         translatedName = requireContext().getString(R.string.lang_translated_name_hi_in)
                     ),
                     LanguageOptionItem(
-                        key = "nb-NO",
+                        languageTag = "nb-NO",
                         localName = requireContext().getString(R.string.lang_local_name_nb_no),
                         translatedName = requireContext().getString(R.string.lang_translated_name_nb_no)
                     ),
                     LanguageOptionItem(
-                        key = "ta-IN",
+                        languageTag = "ta-IN",
                         localName = requireContext().getString(R.string.lang_local_name_ta_in),
                         translatedName = requireContext().getString(R.string.lang_translated_name_ta_in)
                     ),
                     LanguageOptionItem(
-                        key = "zh-Hant-TW",
+                        languageTag = "zh-Hant-TW",
                         localName = requireContext().getString(R.string.lang_local_name_zh_hant_tw),
                         translatedName = requireContext().getString(R.string.lang_translated_name_zh_hant_tw)
                     )
@@ -78,7 +78,7 @@ class LanguagePreferenceFragment : DialogFragment() {
             ) { item ->
                 dialog?.dismiss()
                 AppCompatDelegate.setApplicationLocales(
-                    LocaleListCompat.forLanguageTags(item.key)
+                    LocaleListCompat.forLanguageTags(item.languageTag)
                 )
             }
         }
@@ -91,7 +91,7 @@ class LanguagePreferenceFragment : DialogFragment() {
 }
 
 data class LanguageOptionItem(
-    val key: String,
+    val languageTag: String,
     val localName: String,
     val translatedName: String
 )
