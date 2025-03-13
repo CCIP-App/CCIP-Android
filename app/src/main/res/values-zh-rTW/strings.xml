@@ -95,6 +95,7 @@
     <string name="failed_to_save_wifi_copied_to_clipboard">無法儲存 Wi-Fi 網路資訊。網路密碼已複製到剪貼簿。</string>
     <string name="switch_language">切換語言</string>
     <string name="choose_app_language">選擇應用程式語言</string>
+    <string name="lang_translated_name_x_default">系統預設</string>
     <string name="lang_translated_name_en_us">英語</string>
     <string name="lang_translated_name_nan_hant_tw">閩南語 - 傳統漢字</string>
     <string name="lang_translated_name_nan_latn_tw_pehoeji">閩南語 - 白話字</string>

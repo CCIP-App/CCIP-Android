@@ -35,6 +35,11 @@ class LanguagePreferenceFragment : DialogFragment() {
             adapter = LanguagePreferenceAdapter(
                 items = listOf(
                     LanguageOptionItem(
+                        languageTag = "x-default",
+                        localName = requireContext().getString(R.string.lang_translated_name_x_default),
+                        translatedName = requireContext().getString(R.string.lang_translated_name_x_default)
+                    ),
+                    LanguageOptionItem(
                         languageTag = "en-US",
                         localName = requireContext().getString(R.string.lang_local_name_en_us),
                         translatedName = requireContext().getString(R.string.lang_translated_name_en_us)
@@ -78,7 +83,13 @@ class LanguagePreferenceFragment : DialogFragment() {
             ) { item ->
                 dialog?.dismiss()
                 AppCompatDelegate.setApplicationLocales(
-                    LocaleListCompat.forLanguageTags(item.languageTag)
+                    (
+                        if (item.languageTag == "x-default") {
+                            LocaleListCompat.getEmptyLocaleList()
+                        } else {
+                            LocaleListCompat.forLanguageTags(item.languageTag)
+                        }
+                    )
                 )
             }
         }

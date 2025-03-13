@@ -96,6 +96,7 @@
     <string name="failed_to_save_wifi_copied_to_clipboard">Failed to save the Wi-Fi information. Password copied to clipboard.</string>
     <string name="switch_language">Switch language</string>
     <string name="choose_app_language">Choose app language</string>
+    <string name="lang_translated_name_x_default">System default</string>
     <string name="lang_local_name_en_us" translatable="false">English</string>
     <string name="lang_translated_name_en_us">English</string>
     <string name="lang_local_name_nan_hant_tw" translatable="false">閩南語 - 傳統漢字</string>
