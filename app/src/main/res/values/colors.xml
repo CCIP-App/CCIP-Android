@@ -11,4 +11,5 @@
     <color name="textColorPrimary">@android:color/black</color>
     <color name="textColorSecondary">@color/colorPrimary</color>
     <color name="backgroundColorPrimary">@color/background_material_light</color>
+    <color name="secondaryContainer">#E8DEF8</color>
 </resources>
