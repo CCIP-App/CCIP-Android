@@ -11,4 +11,5 @@
     <color name="textColorPrimary">@android:color/white</color>
     <color name="textColorSecondary">@color/colorAccent</color>
     <color name="backgroundColorPrimary">@color/background_material_dark</color>
+    <color name="secondaryContainer">#4A4458</color>
 </resources>

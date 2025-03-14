@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
@@ -141,11 +142,14 @@ class LanguagePreferenceAdapter(
 
         if (!isSelected) {
             holder.selectedIcon.setImageDrawable(null)
+        } else {
+            holder.optionItem.setBackgroundResource(R.color.secondaryContainer)
         }
     }
 }
 
 class LanguagePreferenceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val optionItem: LinearLayout = view.findViewById(R.id.option_language_item)
     val localName: TextView = view.findViewById(R.id.option_local_name)
     val translatedName: TextView = view.findViewById(R.id.option_translated_name)
     val selectedIcon: ImageView = view.findViewById(R.id.icon_selected)
