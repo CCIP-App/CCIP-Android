@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
@@ -82,6 +83,7 @@ class LanguagePreferenceFragment : DialogFragment() {
                 )
             ) { item ->
                 dialog?.dismiss()
+
                 AppCompatDelegate.setApplicationLocales(
                     (
                         if (item.languageTag == "x-default") {
@@ -126,12 +128,25 @@ class LanguagePreferenceAdapter(
 
     override fun onBindViewHolder(holder: LanguagePreferenceViewHolder, position: Int) {
         val item = items[position]
+        val isSelected = (
+            if (item.languageTag == "x-default") {
+                AppCompatDelegate.getApplicationLocales() == LocaleListCompat.getEmptyLocaleList()
+            } else {
+                AppCompatDelegate.getApplicationLocales() == LocaleListCompat.forLanguageTags(item.languageTag)
+            }
+        )
+
         holder.localName.text = item.localName
         holder.translatedName.text = item.translatedName
+
+        if (!isSelected) {
+            holder.selectedIcon.setImageDrawable(null)
+        }
     }
 }
 
 class LanguagePreferenceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val localName: TextView = view.findViewById(R.id.option_local_name)
     val translatedName: TextView = view.findViewById(R.id.option_translated_name)
+    val selectedIcon: ImageView = view.findViewById(R.id.icon_selected)
 }
