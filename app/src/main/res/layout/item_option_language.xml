@@ -9,17 +9,15 @@
     android:background="?attr/selectableItemBackground"
     android:focusable="true"
     android:orientation="horizontal"
-    android:paddingStart="32dp"
-    android:paddingTop="16dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="16dp">
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp">
 
     <LinearLayout
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:focusable="true"
         android:orientation="vertical">
         <TextView
             android:id="@+id/option_local_name"

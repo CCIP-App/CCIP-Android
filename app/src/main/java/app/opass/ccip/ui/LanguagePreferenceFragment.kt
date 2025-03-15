@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
+import app.opass.ccip.extension.updateMargin
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class LanguagePreferenceFragment : DialogFragment() {
@@ -139,6 +140,14 @@ class LanguagePreferenceAdapter(
 
         holder.localName.text = item.localName
         holder.translatedName.text = item.translatedName
+
+        if (position == 0) {
+            holder.optionItem.updateMargin(top = 36)
+        }
+
+        if (position == items.size - 1) {
+            holder.optionItem.updateMargin(bottom = 36)
+        }
 
         if (!isSelected) {
             holder.selectedIcon.setImageDrawable(null)
