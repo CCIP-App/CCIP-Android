@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#3C2354</color>
     <color name="colorPrimaryDark">#1D162B</color>
-    <color name="colorAccent">#765987</color>
+    <color name="colorAccent">#b4a0c0</color>
+    <color name="colorAccentDark">#694f78</color>
     <color name="colorDietMeat">#FFA000</color>
     <color name="colorDietVegetarian">#298A08</color>
     <color name="colorWhite">#FFFFFF</color>
@@ -11,5 +12,6 @@
     <color name="textColorPrimary">@android:color/black</color>
     <color name="textColorSecondary">@color/colorPrimary</color>
     <color name="backgroundColorPrimary">@color/background_material_light</color>
+    <color name="backgroundColorAccent">@color/colorPrimary</color>
     <color name="secondaryContainer">#E8DEF8</color>
 </resources>

@@ -29,9 +29,10 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
                 android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="8dp"
                 android:maxLines="1"
                 android:padding="2dp"
-                android:text="New Text"
+                android:text="TR412-1"
                 app:layout_constraintBottom_toTopOf="@id/tagsBarrier"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
