@@ -48,12 +48,12 @@
     <string name="not_this_event">M̄-sī chit-ê gī-têng?</string>
     <string name="is_about_to_start">%s í-keng boeh khai-sí--ah!</string>
     <string name="get_notified_desc">OPass ē-tàng tī gī-têng khai-sí chìn-chêng thong-ti lí. Lí kám boeh ún-chún OPass tit-tio̍h siong-koan ê khoân-hān?</string>
-    <string name="fast_pass">Khoài-sok Thong-koan</string>
+    <string name="fast_pass">Khoài-sok thong-koan</string>
     <string name="drawer_open">Khui liû-lám thoah-á</string>
     <string name="drawer_close">Kā liû-lám thoah-á kuiⁿ--khí-lâi</string>
     <string name="pd">Lūn-tôaⁿ Thó-lūn</string>
     <string name="puzzle">Tàⁿ-á chióng-le oa̍h-tāng</string>
-    <string name="staffs">Kang-chok Jîn-oân</string>
+    <string name="staffs">Kang-chok jîn-oân</string>
     <string name="star_on_github">tī GitHub phah Chhiⁿ</string>
     <string name="slide">Kán-pò</string>
     <string name="co_write">Kiōng-tông pian-chi̍p</string>
@@ -112,4 +112,12 @@
     <string name="my_favorite_session_this_year_is">Kin-nî siōng-ài ê sī</string>
     <string name="use_opass_to_make_your_own_agenda_together">Su-iōng OPass lâi chòe ka-kī ê gī-têng chheng-toaⁿ!</string>
     <string name="perm_denied">Su-iàu ê khoân-hān hō͘ kū-choa̍t! Chhiáⁿ chhiú-tōng tiâu-chéng khoân-hān lâi siu-tio̍h gī-têng thong-ti.</string>
+    <string name="lang_translated_name_en_us">Eng-gí</string>
+    <string name="lang_translated_name_nan_hant_tw">Bân-lâm-gí - Thoân-thóng Hàn-jī</string>
+    <string name="switch_language">Chhiat-ōaⁿ gí-giân</string>
+    <string name="lang_translated_name_x_default">Hē-thóng ū-siat</string>
+    <string name="lang_translated_name_hi_in">Hindi-gí</string>
+    <string name="lang_translated_name_nan_latn_tw_pehoeji">Bân-lâm-gí - Pe̍h-ōe-jī</string>
+    <string name="lang_translated_name_nan_latn_tw_tailo">Bân-lâm-gí - Tâi-lô</string>
+    <string name="lang_translated_name_ta_in">Tamil-gí</string>
 </resources>

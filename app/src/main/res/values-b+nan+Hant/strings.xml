@@ -112,4 +112,12 @@
     <string name="get_notified_desc">OPass 會當佇議程開始進前通知你。你敢欲允准 OPass 得著相關的權限？</string>
     <string name="dont_ask_again">莫閣問</string>
     <string name="later">較晏</string>
+    <string name="switch_language">切換語言</string>
+    <string name="lang_translated_name_x_default">系統預設</string>
+    <string name="lang_translated_name_en_us">英語</string>
+    <string name="lang_translated_name_hi_in">Hindi語</string>
+    <string name="lang_translated_name_nan_hant_tw">閩南語 - 傳統漢字</string>
+    <string name="lang_translated_name_nan_latn_tw_pehoeji">閩南語 - 白話字</string>
+    <string name="lang_translated_name_nan_latn_tw_tailo">閩南語 - 臺羅</string>
+    <string name="lang_translated_name_ta_in">Tamil語</string>
 </resources>
