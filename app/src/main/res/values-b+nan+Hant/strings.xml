@@ -120,4 +120,5 @@
     <string name="lang_translated_name_nan_latn_tw_pehoeji">閩南語 - 白話字</string>
     <string name="lang_translated_name_nan_latn_tw_tailo">閩南語 - 臺羅</string>
     <string name="lang_translated_name_ta_in">Tamil 語</string>
+    <string name="choose_app_language">選擇應用程式个語言</string>
 </resources>
