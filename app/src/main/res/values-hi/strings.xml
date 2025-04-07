@@ -44,7 +44,7 @@
     <string name="speaker_info">वक्ता की जानकारी</string>
     <string name="program_abstract">सार</string>
     <string name="tag">टैग</string>
-    <string name="min"> मिनट</string>
+    <string name="min">" मिनट"</string>
     <string name="meal">खाना</string>
     <string name="vegan">शुद्ध शाकाहारी</string>
     <string name="keynote">मुख्य भाषण</string>

@@ -47,7 +47,7 @@
     <string name="speaker_info">பேச்சாளர் செய்தி</string>
     <string name="program_abstract">சுருக்கம்</string>
     <string name="tag">குறிச்சொல்</string>
-    <string name="min">மணித்துளி</string>
+    <string name="min">" மணித்துளி"</string>
     <string name="meal">உணவு</string>
     <string name="vegan">சைவ உணவு</string>
     <string name="keynote">முக்கிய குறிப்பு</string>
@@ -96,7 +96,7 @@
     <string name="wifi_saved">வைஃபை பிணையம் சேமிக்கப்பட்டது</string>
     <string name="failed_to_save_wifi">வைஃபை நெட்வொர்க்கை சேமிப்பதில் தோல்வி</string>
     <string name="failed_to_save_wifi_copied_to_clipboard">வைஃபை தகவல்களைச் சேமிப்பதில் தோல்வி. கடவுச்சொல் இடைநிலைப்பலகைக்கு நகலெடுக்கப்பட்டது.</string>
-    <string name="about_app">பற்றி &amp; appName;</string>
+    <string name="about_app">பற்றி &appname;</string>
     <string name="version">பதிப்பு %s</string>
     <string name="privacy_policy">தனியுரிமைக் கொள்கை</string>
     <string name="no_matching_sessions_multiple_day">இந்த நாளில் எந்த அமர்வும் உங்கள் வடிப்பானுடன் பொருந்தவில்லை</string>
