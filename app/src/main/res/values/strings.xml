@@ -103,9 +103,9 @@
     <string name="lang_translated_name_hi_in">Hindi</string>
     <string name="lang_local_name_nan_hant_tw" translatable="false">閩南語 - 傳統漢字</string>
     <string name="lang_translated_name_nan_hant_tw">Hokkien - Traditional Han script</string>
-    <string name="lang_local_name_nan_latn_tw_pehoeji" translatable="false">Bân-lâm-gú - Pe̍h-ōe-jī</string>
+    <string name="lang_local_name_nan_latn_tw_pehoeji" translatable="false">Bân-lâm-gí - Pe̍h-ōe-jī</string>
     <string name="lang_translated_name_nan_latn_tw_pehoeji">Hokkien - Pe̍h-ōe-jī</string>
-    <string name="lang_local_name_nan_latn_tw_tailo" translatable="false">Bân-lâm-gú - Tâi-lô</string>
+    <string name="lang_local_name_nan_latn_tw_tailo" translatable="false">Bân-lâm-gí - Tâi-lô</string>
     <string name="lang_translated_name_nan_latn_tw_tailo">Hokkien - Tâi-lô</string>
     <string name="lang_local_name_nb_no" translatable="false">norsk bokmål</string>
     <string name="lang_translated_name_nb_no">Norwegian Bokmål</string>
