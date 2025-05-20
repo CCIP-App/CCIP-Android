@@ -102,7 +102,7 @@
     <string name="reset_filters">重設篩選</string>
     <string name="collapse_filter_panel">共篩選平台收起來</string>
     <string name="bookmarked">已經收藏矣</string>
-    <string name="search_sessions">搜揣議程</string>
+    <string name="search_sessions">揣議程</string>
     <string name="not_this_event">毋是這个議程？</string>
     <string name="is_about_to_start">%s已經欲開始矣！</string>
     <string name="my_favorite_session_this_year_is">今年上愛的是</string>

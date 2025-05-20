@@ -122,7 +122,7 @@
     <string name="reset_filters">Reset filters</string>
     <string name="collapse_filter_panel">Collapse filter panel</string>
     <string name="bookmarked">Bookmarked</string>
-    <string name="search_sessions">Search sessions</string>
+    <string name="search_sessions">Search for sessions</string>
     <string name="not_this_event">Not this event?</string>
     <string name="is_about_to_start">%s is about to start!</string>
     <string name="my_favorite_session_this_year_is">My favorite this year is</string>
