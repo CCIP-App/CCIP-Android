@@ -6,7 +6,7 @@
     <string name="use_opass_to_make_your_own_agenda_together">உங்கள் சொந்த நிகழ்ச்சி நிரலை ஒன்றாக உருவாக்க OPASS ஐப் பயன்படுத்தவும்!</string>
     <string name="perm_denied">தேவையான இசைவு மறுக்கப்பட்டது! நிகழ்வுக்கான அறிவிப்பைப் பெற கைமுறையாக இசைவு வழங்கவும்.</string>
     <string name="get_notified_title">அறிவிக்க</string>
-    <string name="app_name">&amp; உயர்வு;</string>
+    <string name="app_name">&appname;</string>
     <string name="select_event">நிகழ்வைத் தேர்ந்தெடுக்கவும்</string>
     <string name="drawer_open">திறந்த வழிசெலுத்தல் அலமாரியை</string>
     <string name="drawer_close">வழிசெலுத்தல் அலமாரியை மூடு</string>
@@ -28,7 +28,6 @@
     <string name="open_via_link">இந்த பயன்பாட்டை இணைப்பு வழியாக திறக்கலாம்.</string>
     <string name="scan_ticket_qrcode">டிக்கெட் QR குறியீட்டை ச்கேன் செய்யுங்கள்</string>
     <string name="connect_to_conference_wifi">நிகழ்வால் வழங்கப்பட்ட வைஃபை உடன் இணைக்கவும்</string>
-    <string name="tap_to_retry">மீண்டும் முயற்சிக்கவும்</string>
     <string name="announcement_empty">அறிவிப்புகள் எதுவும் இல்லை!</string>
     <string name="confirm_dialog_title">ஊழியர்களின் அறிவுறுத்தல்களை நீங்கள் பின்பற்றியிருக்கிறீர்களா?</string>
     <string name="positive_button">உறுதிப்படுத்தவும்</string>
