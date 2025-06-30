@@ -1,25 +1,26 @@
 [versions]
-androidGradlePlugin = "8.8.2"
-appcompat = "1.7.0"
+androidGradlePlugin = "8.11.0"
+appcompat = "1.7.1"
 cardview = "1.0.0"
-coil = "2.6.0"
+coil = "3.2.0"
 constraintlayout = "2.2.1"
-converterGson = "2.9.0"
-core = "1.15.0"
-coroutinesVersion = "1.8.1"
-firebaseAnalytics = "22.3.0"
+converterGson = "3.0.0"
+core = "1.16.0"
+coroutinesVersion = "1.10.2"
+firebaseAnalytics = "22.5.0"
 flexbox = "3.0.0"
-fragment = "1.8.6"
-gson = "2.10.1"
-kotlin = "2.0.0"
-lifecycleVersion = "2.8.7"
+fragment = "1.8.8"
+gson = "2.13.1"
+kotlin = "2.2.0"
+lifecycleVersion = "2.9.1"
 markwonVersion = "4.6.2"
 material = "1.12.0"
 okhttp = "4.12.0"
-onesignal = "5.1.17"
-playServices = "4.4.2"
+onesignal = "5.1.34"
+playServices = "4.4.3"
 recyclerview = "1.4.0"
-retrofit = "2.11.0"
+retrofit = "3.0.0"
+swiperefreshlayout = "1.1.0"
 viewpager2 = "1.1.0"
 zxingAndroidEmbedded = "4.3.0"
 
@@ -33,7 +34,9 @@ androidx-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", vers
 androidx-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleVersion" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
-coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+coil-core = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
+coil-network = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
 google-flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
 google-firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalytics" }
 google-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }

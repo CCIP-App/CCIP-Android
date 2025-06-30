@@ -19,7 +19,7 @@ import app.opass.ccip.model.FeatureType
 import app.opass.ccip.ui.DrawerMenuViewHolder.DividerViewHolder
 import app.opass.ccip.ui.DrawerMenuViewHolder.MenuItemViewHolder
 import app.opass.ccip.ui.DrawerMenuViewHolder.PlaceholderItemViewHolder
-import coil.load
+import coil3.load
 
 class DrawerMenuAdapter(
     private val context: Context,

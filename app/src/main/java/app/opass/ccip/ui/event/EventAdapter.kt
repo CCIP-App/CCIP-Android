@@ -15,7 +15,7 @@ import app.opass.ccip.model.Event
 import app.opass.ccip.network.PortalClient
 import app.opass.ccip.ui.MainActivity
 import app.opass.ccip.util.PreferenceUtil
-import coil.load
+import coil3.load
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
