@@ -35,7 +35,7 @@ import app.opass.ccip.ui.schedule.ScheduleTabFragment
 import app.opass.ccip.ui.wifi.WiFiNetworkFragment
 import app.opass.ccip.util.CryptoUtil
 import app.opass.ccip.util.PreferenceUtil
-import coil.load
+import coil3.load
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

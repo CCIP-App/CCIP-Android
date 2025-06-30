@@ -17,7 +17,7 @@ import app.opass.ccip.extension.getFastPassUrl
 import app.opass.ccip.extension.isInverted
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.util.PreferenceUtil
-import coil.load
+import coil3.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.onesignal.OneSignal
 import kotlinx.coroutines.GlobalScope

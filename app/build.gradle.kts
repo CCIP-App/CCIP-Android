@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.livedata)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.viewpager2)
+    implementation(libs.androidx.swiperefreshlayout)
 
     // Google
     implementation(libs.google.material)
@@ -76,7 +77,8 @@ dependencies {
     implementation(libs.google.firebase.analytics)
 
     // Coil
-    implementation(libs.coil)
+    implementation(libs.coil.core)
+    implementation(libs.coil.network)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)

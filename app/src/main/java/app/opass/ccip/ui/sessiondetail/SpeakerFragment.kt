@@ -8,7 +8,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import app.opass.ccip.R
 import app.opass.ccip.model.Speaker
-import coil.load
+import coil3.load
 
 class SpeakerFragment : Fragment() {
     companion object {
