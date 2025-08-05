@@ -111,6 +111,8 @@
     <string name="lang_translated_name_nb_no">Norwegian Bokmål</string>
     <string name="lang_local_name_ta_in" translatable="false">தமிழ்</string>
     <string name="lang_translated_name_ta_in">Tamil</string>
+    <string name="lang_local_name_zh_hans_cn" translatable="false">简体中文</string>
+    <string name="lang_translated_name_zh_hans_cn">Mandarin - Simplified Han script</string>
     <string name="lang_local_name_zh_hant_tw" translatable="false">繁體中文</string>
     <string name="lang_translated_name_zh_hant_tw">Mandarin - Traditional Han script</string>
     <string name="about_app">About &appname;</string>

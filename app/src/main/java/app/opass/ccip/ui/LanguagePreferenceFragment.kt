@@ -78,6 +78,11 @@ class LanguagePreferenceFragment : DialogFragment() {
                         translatedName = requireContext().getString(R.string.lang_translated_name_ta_in)
                     ),
                     LanguageOptionItem(
+                        languageTag = "zh-Hans-CN",
+                        localName = requireContext().getString(R.string.lang_local_name_zh_hans_cn),
+                        translatedName = requireContext().getString(R.string.lang_translated_name_zh_hans_cn)
+                    ),
+                    LanguageOptionItem(
                         languageTag = "zh-Hant-TW",
                         localName = requireContext().getString(R.string.lang_local_name_zh_hant_tw),
                         translatedName = requireContext().getString(R.string.lang_translated_name_zh_hant_tw)
