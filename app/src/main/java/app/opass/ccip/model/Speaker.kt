@@ -11,10 +11,9 @@ data class Speaker(
     val en: En_
 ) {
     fun getSpeakerDetail(context: Context): SpeakerDetail {
-        return if (LocaleUtil.getCurrentLocale(context).language == Locale("zh").language) {
-            zh
-        } else {
-            en
+        return when (LocaleUtil.getCurrentLocale(context).language) {
+            "nan", "zh" -> zh
+            else -> en
         }
     }
 }
