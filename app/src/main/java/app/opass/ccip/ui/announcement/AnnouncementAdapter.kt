@@ -37,10 +37,10 @@ class AnnouncementAdapter(private val mContext: Context, private val announcemen
         val sdf = SimpleDateFormat("MM/dd HH:mm")
         val (datetime, msgEn, msgZh, uri) = announcementList[position]
 
-        if (LocaleUtil.getCurrentLocale(mContext).toString().startsWith(Locale.TAIWAN.toString())) {
-            holder.msg.text = msgZh
-        } else {
-            holder.msg.text = msgEn
+
+        holder.msg.text = when (LocaleUtil.getCurrentLocale(mContext).language) {
+            "nan", "zh" -> msgZh
+            else -> msgEn
         }
         holder.time.text = sdf.format(Date(datetime * 1000L))
         holder.itemView.setOnClickListener {
