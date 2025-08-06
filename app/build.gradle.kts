@@ -12,8 +12,8 @@ android {
         applicationId = "app.opass.ccip"
         minSdk = 24
         targetSdk = 36
-        versionCode = 57
-        versionName = "3.7.0"
+        versionCode = 58
+        versionName = "3.8.0"
 
         manifestPlaceholders["manifestApplicationId"] = "$applicationId"
     }
