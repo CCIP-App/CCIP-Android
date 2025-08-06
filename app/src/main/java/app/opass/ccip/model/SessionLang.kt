@@ -10,7 +10,10 @@ data class SessionLang(
     val en: En
 ) {
     fun getDetails(context: Context) =
-        if (LocaleUtil.getCurrentLocale(context).language == Locale("zh").language) zh else en
+        when (LocaleUtil.getCurrentLocale(context).language) {
+            "nan", "zh" -> zh
+            else -> en
+        }
 
     interface LocalizedDetail {
         val name: String

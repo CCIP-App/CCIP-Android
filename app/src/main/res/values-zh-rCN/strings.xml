@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+<!ENTITY appname "OPass">
+]>
+<resources>
+    <string name="min">分钟</string>
+    <string name="negative_button">取消</string>
+    <string name="lang_translated_name_x_default">系统默认</string>
+    <string name="type">类型</string>
+    <string name="choose_app_language">选择应用程序语言</string>
+    <string name="select_a_verification_method">选择验证方式</string>
+    <string name="app_name">&appname;</string>
+    <string name="offline">无网络连接</string>
+    <string name="lang">语言</string>
+    <string name="time">时间</string>
+    <string name="telegram">Telegram</string>
+    <string name="positive_button">确认</string>
+    <string name="tap_to_retry">点击重试</string>
+    <string name="tag">标签</string>
+    <string name="sign_in">登录</string>
+    <string name="verify_your_identity">验证身份</string>
+    <string name="couldnt_verify_your_identity">无法验证您的身份</string>
+    <string name="kontinue">继续</string>
+    <string name="cancel">取消</string>
+    <string name="back">返回</string>
+    <string name="try_again">重试</string>
+    <string name="share">分享</string>
+    <string name="switch_language">切换语言</string>
+    <string name="lang_translated_name_en_us">英语</string>
+    <string name="lang_translated_name_hi_in">印地语</string>
+    <string name="lang_translated_name_nan_hant_tw">闽南语 - 传统汉字</string>
+    <string name="lang_translated_name_nan_latn_tw_pehoeji">闽南语 - 白话字</string>
+    <string name="lang_translated_name_nan_latn_tw_tailo">闽南语 - 台罗拼音</string>
+    <string name="lang_translated_name_zh_hant_tw">繁体中文</string>
+    <string name="lang_translated_name_ta_in">泰米尔语</string>
+    <string name="privacy_policy">隐私政策</string>
+    <string name="about_app">关于 &appname;</string>
+    <string name="lang_translated_name_nb_no">书面挪威语</string>
+    <string name="select_event">选择活动</string>
+    <string name="irclog">IRC Log</string>
+    <string name="sponsors">赞助</string>
+    <string name="staffs">工作人员</string>
+    <string name="hi">"嗨 "</string>
+    <string name="login_success">欢迎您加入 %1$s ！</string>
+    <string name="announcement_empty">目前无任何公告哦！</string>
+    <string name="confirm_dialog_title">是否已听从工作人员的指示？</string>
+    <string name="qa">Q &amp; A</string>
+    <string name="event">活动</string>
+    <string name="is_about_to_start">%s 即将要开始了喔！</string>
+    <string name="get_notified_title">收到通知</string>
+    <string name="dont_ask_again">不再询问</string>
+</resources>

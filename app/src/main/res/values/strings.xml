@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE resources [
-    <!ENTITY appname "OPass">
+<!ENTITY appname "OPass">
 ]>
-
 <resources>
     <string name="app_name">&appname;</string>
-
-    <string name="select_event">Select Event</string>
-
+    <string name="select_event">Select event</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-
     <string name="fast_pass">Fast Pass</string>
     <string name="schedule">Schedule</string>
     <string name="announcement">Announcement</string>
@@ -23,7 +19,6 @@
     <string name="sponsors">Sponsors</string>
     <string name="staffs">Staffs</string>
     <string name="star_on_github">Star on GitHub</string>
-
     <string name="hi">Hi\u0020</string>
     <string name="login_success">Welcome to %1$s!</string>
     <string name="on_login_request_notification_permission">The organizer will send event updates via push notifications. Please allow notifications for firsthand information.</string>
@@ -32,15 +27,11 @@
     <string name="connect_to_conference_wifi">Please connect to the Wi-Fi provided by event</string>
     <string name="tap_to_retry">Tap to retry</string>
     <string name="announcement_empty">There are no announcements!</string>
-
     <string name="confirm_dialog_title">Have you followed the staff\'s instructions?</string>
     <string name="positive_button">CONFIRM</string>
     <string name="negative_button">Cancel</string>
-
     <string name="my_ticket_notice">Please keep your ticket as a secret. Do not share it with anyone else but the staff or event booths.</string>
-
     <string name="offline">No network connection</string>
-
     <string name="lang">Lang</string>
     <string name="time">Time</string>
     <string name="type">Type</string>
@@ -53,12 +44,9 @@
     <string name="speaker_info">Speaker Info</string>
     <string name="program_abstract">Abstract</string>
     <string name="tag">Tag</string>
-
-    <string name="min">min</string>
-
+    <string name="min">" min"</string>
     <string name="meal">Meal</string>
     <string name="vegan">Vegan</string>
-
     <string name="keynote">Keynote</string>
     <string name="lightning_talk">Lightning Talk</string>
     <string name="panel_discussion">Panel Discussion</string>
@@ -66,16 +54,14 @@
     <string name="talk">Talk</string>
     <string name="unconf">Unconf</string>
     <string name="event">Event</string>
-
     <string name="share">Share</string>
     <string name="puzzle_share_subject">Here are the puzzles I\'ve collected. Let\'s solve them together!</string>
-
     <string name="add_bookmark">Added to bookmark. You will be notified 10 minutes before the session starts.</string>
     <string name="remove_bookmark">Removed from bookmark</string>
     <string name="bookmark_channel_name">Session bookmark</string>
     <string name="notification_session_start">%1$s will start in 10 minutes at %2$s</string>
     <string name="invalid_token">Invalid QR code, invite link, or token</string>
-    <string name="tap_here_to_scan">Tap here to scan the KKTIX QR Code ticket via the camera or gallery
+    <string name="tap_here_to_scan">Tap here to scan the KKTIX QR code ticket via the camera or gallery
     </string>
     <string name="enter_token_button">I have a token</string>
     <string name="enter_your_token">Enter your token</string>
@@ -83,9 +69,7 @@
     <string name="no_qr_code_found">No QR code found in this picture</string>
     <string name="select_from_gallery">Select from gallery</string>
     <string name="select_picture">Select picture</string>
-
     <string name="copy_to_clipboard">Copied to clipboard</string>
-
     <string name="switch_event">Switch Event</string>
     <string name="no_thanks">No thanks</string>
     <string name="sign_in">Sign in</string>
@@ -107,9 +91,30 @@
     <string name="cannot_load_schedule">Cannot load schedule</string>
     <string name="cannot_read_session_info">Cannot read session info</string>
     <string name="choose_network_to_connect">Choose a network to connect</string>
-    <string name="wifi_saved">Saved Wi-Fi network</string>
+    <string name="wifi_saved">Wi-Fi network saved</string>
     <string name="failed_to_save_wifi">Failed to save Wi-Fi network</string>
     <string name="failed_to_save_wifi_copied_to_clipboard">Failed to save the Wi-Fi information. Password copied to clipboard.</string>
+    <string name="switch_language">Switch language</string>
+    <string name="choose_app_language">Choose app language</string>
+    <string name="lang_translated_name_x_default">System default</string>
+    <string name="lang_local_name_en_us" translatable="false">English</string>
+    <string name="lang_translated_name_en_us">English</string>
+    <string name="lang_local_name_hi_in" translatable="false">हिन्दी</string>
+    <string name="lang_translated_name_hi_in">Hindi</string>
+    <string name="lang_local_name_nan_hant_tw" translatable="false">閩南語 - 傳統漢字</string>
+    <string name="lang_translated_name_nan_hant_tw">Hokkien - Traditional Han script</string>
+    <string name="lang_local_name_nan_latn_tw_pehoeji" translatable="false">Bân-lâm-gí - Pe̍h-ōe-jī</string>
+    <string name="lang_translated_name_nan_latn_tw_pehoeji">Hokkien - Pe̍h-ōe-jī</string>
+    <string name="lang_local_name_nan_latn_tw_tailo" translatable="false">Bân-lâm-gí - Tâi-lô</string>
+    <string name="lang_translated_name_nan_latn_tw_tailo">Hokkien - Tâi-lô</string>
+    <string name="lang_local_name_nb_no" translatable="false">norsk bokmål</string>
+    <string name="lang_translated_name_nb_no">Norwegian Bokmål</string>
+    <string name="lang_local_name_ta_in" translatable="false">தமிழ்</string>
+    <string name="lang_translated_name_ta_in">Tamil</string>
+    <string name="lang_local_name_zh_hans_cn" translatable="false">简体中文</string>
+    <string name="lang_translated_name_zh_hans_cn">Mandarin - Simplified Han script</string>
+    <string name="lang_local_name_zh_hant_tw" translatable="false">繁體中文</string>
+    <string name="lang_translated_name_zh_hant_tw">Mandarin - Traditional Han script</string>
     <string name="about_app">About &appname;</string>
     <string name="version">Version %s</string>
     <string name="privacy_policy">Privacy Policy</string>
@@ -119,13 +124,12 @@
     <string name="reset_filters">Reset filters</string>
     <string name="collapse_filter_panel">Collapse filter panel</string>
     <string name="bookmarked">Bookmarked</string>
-    <string name="search_sessions">Search sessions</string>
+    <string name="search_sessions">Search for sessions</string>
     <string name="not_this_event">Not this event?</string>
     <string name="is_about_to_start">%s is about to start!</string>
     <string name="my_favorite_session_this_year_is">My favorite this year is</string>
     <string name="use_opass_to_make_your_own_agenda_together">Use OPass to make your own agenda together!</string>
     <string name="perm_denied">Required permission denied! Please grant permission manually to get notification for event.</string>
-
     <!-- DialogFragment -->
     <string name="get_notified_title">Get notified</string>
     <string name="get_notified_desc">OPass can send you notification just before this event starts. Would you like to allow OPass required permissions?</string>

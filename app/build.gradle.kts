@@ -6,14 +6,14 @@ plugins {
 
 android {
     namespace = "app.opass.ccip"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "app.opass.ccip"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 57
-        versionName = "3.7.0"
+        targetSdk = 36
+        versionCode = 58
+        versionName = "3.8.0"
 
         manifestPlaceholders["manifestApplicationId"] = "$applicationId"
     }
@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.livedata)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.viewpager2)
+    implementation(libs.androidx.swiperefreshlayout)
 
     // Google
     implementation(libs.google.material)
@@ -76,7 +77,8 @@ dependencies {
     implementation(libs.google.firebase.analytics)
 
     // Coil
-    implementation(libs.coil)
+    implementation(libs.coil.core)
+    implementation(libs.coil.network)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)

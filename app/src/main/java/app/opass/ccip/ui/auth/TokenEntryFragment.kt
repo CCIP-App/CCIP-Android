@@ -14,7 +14,7 @@ import app.opass.ccip.extension.focusAndShowKeyboard
 import app.opass.ccip.extension.isInverted
 import app.opass.ccip.ui.event.EventActivity
 import app.opass.ccip.util.PreferenceUtil
-import coil.load
+import coil3.load
 
 class TokenEntryFragment : AuthActivity.PageFragment() {
     private val mActivity: AuthActivity by lazy { requireActivity() as AuthActivity }

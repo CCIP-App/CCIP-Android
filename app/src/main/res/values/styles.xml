@@ -15,12 +15,31 @@
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:colorBackground">@color/backgroundColorPrimary</item>
         <item name="android:navigationBarColor">@color/navigationBarColor</item>
+        <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
         <item name="textAppearanceButton">@style/ButtonTextAppearance</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarNeutralButtonStyle">@style/NeutralButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="NeutralButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
 
     <style name="Widget.CardContent" parent="android:Widget">
         <item name="android:paddingLeft">16dp</item>
@@ -54,5 +73,9 @@
 
     <style name="ButtonTextAppearance" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/textColorSecondary</item>
     </style>
 </resources>

@@ -35,7 +35,7 @@ import app.opass.ccip.ui.schedule.ScheduleTabFragment
 import app.opass.ccip.ui.wifi.WiFiNetworkFragment
 import app.opass.ccip.util.CryptoUtil
 import app.opass.ccip.util.PreferenceUtil
-import coil.load
+import coil3.load
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -261,6 +261,11 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             MenuAction.SWITCH_EVENT -> {
                 this.startActivity(Intent(this, EventActivity::class.java))
                 finish()
+            }
+            MenuAction.LAUNCH_LANGUAGE_PREFERENCE_FRAGMENT -> {
+                LanguagePreferenceFragment.show(supportFragmentManager)
+                mDrawerLayout.closeDrawers()
+                return
             }
             MenuAction.LAUNCH_ABOUT_SCREEN -> {
                 this.startActivity(Intent(this, AboutActivity::class.java))

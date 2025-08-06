@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE resources [
-    <!ENTITY appname "OPass">
-    ]>
-
+<!ENTITY appname "OPass">
+]>
 <resources>
     <string name="app_name">&appname;</string>
     <string name="select_event">आयोजन चुनें</string>
@@ -20,7 +19,7 @@
     <string name="sponsors">प्रायोजक</string>
     <string name="staffs">कर्मचारी</string>
     <string name="star_on_github">GitHub पर स्टार लगाएं</string>
-    <string name="hi">नमस्ते\\u0020</string>
+    <string name="hi">"नमस्ते "</string>
     <string name="login_success">%1$s में आपका स्वागत है!</string>
     <string name="on_login_request_notification_permission">आयोजक पुश नोटिफिकेशन के माध्यम से इवेंट अपडेट भेजेगा। कृपया प्रत्यक्ष जानकारी के लिए नोटिफि़ˈकेश्‌न्‌ की अनुमति दें।</string>
     <string name="open_via_link">आप इस ऐप को एक लिंक के जरिए भी खोल सकते हैं।</string>
@@ -45,7 +44,7 @@
     <string name="speaker_info">वक्ता की जानकारी</string>
     <string name="program_abstract">सार</string>
     <string name="tag">टैग</string>
-    <string name="min"> मिनट</string>
+    <string name="min">" मिनट"</string>
     <string name="meal">खाना</string>
     <string name="vegan">शुद्ध शाकाहारी</string>
     <string name="keynote">मुख्य भाषण</string>
@@ -113,4 +112,14 @@
     <string name="get_notified_desc">इस इवेंट के शुरू होने से ठीक पहले OPass आपको सूचना भेज सकता है। क्या आप Opass को आवश्यक अनुमतियाँ देना चाहेंगे?</string>
     <string name="dont_ask_again">दोबारा मत पूछो</string>
     <string name="later">बाद में</string>
+    <string name="lang_translated_name_nan_latn_tw_tailo">होक्किएन - ताई-लो</string>
+    <string name="lang_translated_name_en_us">अंग्रेज़ी</string>
+    <string name="lang_translated_name_nan_hant_tw">होक्किएन - पारंपरिक हान लिपि</string>
+    <string name="lang_translated_name_nan_latn_tw_pehoeji">होक्किएन - पेह-ओ-जी</string>
+    <string name="lang_translated_name_hi_in">हिंदी</string>
+    <string name="switch_language">भाषा बदलें</string>
+    <string name="lang_translated_name_nb_no">नॉर्वेजियन बोकमाल</string>
+    <string name="lang_translated_name_ta_in">तमिल</string>
+    <string name="lang_translated_name_zh_hant_tw">मैंडारिन - पारंपरिक हान लिपि</string>
+    <string name="lang_translated_name_x_default">डिफ़ॉल्ट भाषा</string>
 </resources>

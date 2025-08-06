@@ -57,10 +57,9 @@ class ScenarioAdapter(
 
         holder.scenarioIcon.alpha = 1f
 
-        if (LocaleUtil.getCurrentLocale(mContext).toString().startsWith(Locale.TAIWAN.toString())) {
-            holder.scenarioName.text = scenario.displayText.zhTW
-        } else {
-            holder.scenarioName.text = scenario.displayText.enUS
+        holder.scenarioName.text = when (LocaleUtil.getCurrentLocale(mContext).language) {
+            "nan", "zh" -> scenario.displayText.zhTW
+            else -> scenario.displayText.enUS
         }
 
         holder.scenarioName.setTextColor(ContextCompat.getColor(mContext, android.R.color.black))
