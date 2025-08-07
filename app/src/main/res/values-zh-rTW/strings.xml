@@ -123,4 +123,5 @@
     <string name="get_notified_desc">OPass 可以在此活動開始之前向您發送通知。 您想要允許 OPass 所需的權限嗎？</string>
     <string name="dont_ask_again">不再詢問</string>
     <string name="later">稍後</string>
+    <string name="lang_translated_name_zh_hans_cn">華語 - 簡化漢字</string>
 </resources>
