@@ -1,3 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+<!ENTITY appname "OPass">
+]>
 <resources>
+    <string name="app_name">&appname;</string>
+    <string name="select_event">イベントの選択</string>
+    <string name="drawer_open">ナビゲーションドロワーを開きます</string>
+    <string name="drawer_close">ナビゲーションドロワーを閉じます</string>
+    <string name="fast_pass">ファストパス</string>
+    <string name="schedule">スケジュール</string>
+    <string name="announcement">お知らせ</string>
+    <string name="my_ticket">チケット</string>
+    <string name="telegram">Telegram</string>
+    <string name="irclog">IRC ログ</string>
+    <string name="venue">会場</string>
+    <string name="sponsors">スポンサー</string>
+    <string name="staffs">スタッフ</string>
+    <string name="star_on_github">GitHub でスターを付ける</string>
+    <string name="positive_button">確認</string>
+    <string name="negative_button">キャンセル</string>
+    <string name="offline">ネットワーク接続がありません</string>
+    <string name="lang">言語</string>
+    <string name="time">時間</string>
+    <string name="link">リンク</string>
+    <string name="speaker_info">登壇者</string>
+    <string name="program_abstract">概要</string>
+    <string name="tag">タグ</string>
+    <string name="min">" 分間"</string>
+    <string name="share">共有</string>
+    <string name="kontinue">続行</string>
+    <string name="cancel">キャンセル</string>
+    <string name="back">戻る</string>
+    <string name="try_again">再試行</string>
 </resources>
