@@ -103,7 +103,7 @@
     <string name="lang_translated_name_hi_in">印地語</string>
     <string name="lang_translated_name_nb_no">書面挪威語</string>
     <string name="lang_translated_name_ta_in">坦米爾語</string>
-    <string name="lang_translated_name_zh_hant_tw">繁體中文</string>
+    <string name="lang_translated_name_zh_hant_tw">華語 - 正體漢字</string>
     <string name="about_app">關於 &appname;</string>
     <string name="version">版本 %s</string>
     <string name="privacy_policy">隱私權政策</string>
