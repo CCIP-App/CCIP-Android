@@ -32,4 +32,5 @@
     <string name="cancel">キャンセル</string>
     <string name="back">戻る</string>
     <string name="try_again">再試行</string>
+    <string name="unexpected_error_try_again">予期せぬエラーが発生しました。後でもう一度お試しください。</string>
 </resources>
