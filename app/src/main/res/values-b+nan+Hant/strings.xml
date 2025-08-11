@@ -122,5 +122,6 @@
     <string name="lang_translated_name_ta_in">Tamil 語</string>
     <string name="choose_app_language">選擇應用程式个語言</string>
     <string name="lang_translated_name_nb_no">書面挪威語</string>
-    <string name="lang_translated_name_zh_hant_tw">繁體中文</string>
+    <string name="lang_translated_name_zh_hant_tw">華語 - 傳統漢字</string>
+    <string name="lang_translated_name_zh_hans_cn">華語 - 簡化漢字</string>
 </resources>

@@ -103,7 +103,7 @@
     <string name="lang_translated_name_hi_in">印地語</string>
     <string name="lang_translated_name_nb_no">書面挪威語</string>
     <string name="lang_translated_name_ta_in">坦米爾語</string>
-    <string name="lang_translated_name_zh_hant_tw">繁體中文</string>
+    <string name="lang_translated_name_zh_hant_tw">華語 - 正體漢字</string>
     <string name="about_app">關於 &appname;</string>
     <string name="version">版本 %s</string>
     <string name="privacy_policy">隱私權政策</string>
@@ -123,4 +123,5 @@
     <string name="get_notified_desc">OPass 可以在此活動開始之前向您發送通知。 您想要允許 OPass 所需的權限嗎？</string>
     <string name="dont_ask_again">不再詢問</string>
     <string name="later">稍後</string>
+    <string name="lang_translated_name_zh_hans_cn">華語 - 簡化漢字</string>
 </resources>
