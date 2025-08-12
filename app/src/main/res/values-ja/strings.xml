@@ -45,4 +45,17 @@
     <string name="notification_session_start">あと10分で%1$sが始まります(%2$s)</string>
     <string name="switch_language">言語切り替え</string>
     <string name="about_app">&appname; について</string>
+    <string name="announcement_empty">お知らせがありません!</string>
+    <string name="tap_to_retry">タップして再試行</string>
+    <string name="tap_here_to_scan">ここをタップして、カメラまたは画像から KKTIX チケットの QR コードをスキャン</string>
+    <string name="scan_ticket_qrcode">チケットの QR コードをスキャン</string>
+    <string name="invalid_token">QR コード、招待リンクまたはトークンが無効</string>
+    <string name="no_qr_code_found">画像に QR コードが見つかりませんでした</string>
+    <string name="scan_qr_code_from_gallery">ギャラリーから画像を選択して QR コードをスキャン</string>
+    <string name="scan_qr_code_from_camera">カメラで QR コードをスキャン</string>
+    <string name="connect_to_conference_wifi">会場が提供した Wi-Fi をご利用ください</string>
+    <string name="my_ticket_notice">チケットをちゃんと保管し、スタッフやイベントブース以外の人と共有しないでください。</string>
+    <string name="switch_event">イベントを切り替え</string>
+    <string name="checking_event_info">イベント情報を取得中</string>
+    <string name="couldnt_get_event_info">イベント情報を取得できませんでした</string>
 </resources>
