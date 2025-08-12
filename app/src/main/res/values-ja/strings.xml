@@ -33,4 +33,16 @@
     <string name="back">戻る</string>
     <string name="try_again">再試行</string>
     <string name="unexpected_error_try_again">予期せぬエラーが発生しました。後でもう一度お試しください。</string>
+    <string name="login_success">%1$s へようこそ!</string>
+    <string name="on_login_request_notification_permission">イベント主催者はプッシュ通知に通じて新しい情報を送ります。最新情報を受け取るために通知を許可してください。</string>
+    <string name="open_via_link">リンクに通じてこのアプリを開くこともできます。</string>
+    <string name="type">タイプ</string>
+    <string name="event">イベント</string>
+    <string name="please_wait">お待ちください</string>
+    <string name="add_bookmark">ブックマークに追加しました。セッションが始まる10分前に通知が届きます。</string>
+    <string name="remove_bookmark">ブックマークから削除しました</string>
+    <string name="bookmark_channel_name">セッションブックマーク</string>
+    <string name="notification_session_start">あと10分で%1$sが始まります(%2$s)</string>
+    <string name="switch_language">言語切り替え</string>
+    <string name="about_app">&appname; について</string>
 </resources>
