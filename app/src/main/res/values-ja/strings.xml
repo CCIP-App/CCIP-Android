@@ -68,7 +68,7 @@
     <string name="co_write">共同メモ</string>
     <string name="record">録画</string>
     <string name="qa">Q&amp;A</string>
-    <string name="bookmarked">ブックマークされた</string>
+    <string name="bookmarked">ブックマーク済み</string>
     <string name="enter_token_button">トークンを手動で入力</string>
     <string name="enter_your_token">トークンを入力</string>
     <string name="token_required">トークンが必要</string>
