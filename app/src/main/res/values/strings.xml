@@ -101,6 +101,8 @@
     <string name="lang_translated_name_en_us">English</string>
     <string name="lang_local_name_hi_in" translatable="false">हिन्दी</string>
     <string name="lang_translated_name_hi_in">Hindi</string>
+    <string name="lang_local_name_ja_jp" translatable="false">日本語</string>
+    <string name="lang_translated_name_ja_jp">Japanese</string>
     <string name="lang_local_name_nan_hant_tw" translatable="false">閩南語 - 傳統漢字</string>
     <string name="lang_translated_name_nan_hant_tw">Hokkien - Traditional Han script</string>
     <string name="lang_local_name_nan_latn_tw_pehoeji" translatable="false">Bân-lâm-gí - Pe̍h-ōe-jī</string>
@@ -111,9 +113,9 @@
     <string name="lang_translated_name_nb_no">Norwegian Bokmål</string>
     <string name="lang_local_name_ta_in" translatable="false">தமிழ்</string>
     <string name="lang_translated_name_ta_in">Tamil</string>
-    <string name="lang_local_name_zh_hans_cn" translatable="false">简体中文</string>
+    <string name="lang_local_name_zh_hans_cn" translatable="false">华语 - 简化汉字</string>
     <string name="lang_translated_name_zh_hans_cn">Mandarin - Simplified Han script</string>
-    <string name="lang_local_name_zh_hant_tw" translatable="false">繁體中文</string>
+    <string name="lang_local_name_zh_hant_tw" translatable="false">華語 - 正體漢字</string>
     <string name="lang_translated_name_zh_hant_tw">Mandarin - Traditional Han script</string>
     <string name="about_app">About &appname;</string>
     <string name="version">Version %s</string>
