@@ -110,4 +110,5 @@
     <string name="select_a_verification_method">確認方法を選択してください</string>
     <string name="couldnt_verify_your_identity">チケットを確認できませんでした</string>
     <string name="verify_identity_to_use_this_function">この機能を利用する前にチケットを確認してください。</string>
+    <string name="lang_translated_name_ja_jp">日本語</string>
 </resources>
