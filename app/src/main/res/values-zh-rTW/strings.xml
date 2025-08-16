@@ -124,4 +124,5 @@
     <string name="dont_ask_again">不再詢問</string>
     <string name="later">稍後</string>
     <string name="lang_translated_name_zh_hans_cn">華語 - 簡化漢字</string>
+    <string name="lang_translated_name_ja_jp">日語</string>
 </resources>
