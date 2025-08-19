@@ -51,10 +51,10 @@
     <string name="staffs">工作人員</string>
     <string name="star_on_github">佇 GitHub 拍星</string>
     <string name="on_login_request_notification_permission">主理人會對推送通知寄更新，請允准通知予第一手的資訊。</string>
-    <string name="open_via_link">汝嘛會當對連結來開這个 app。</string>
+    <string name="open_via_link">汝嘛會當對連結來開這兮 app。</string>
     <string name="scan_ticket_qrcode">掃描票券 QR 碼</string>
     <string name="announcement_empty">猶無公告！</string>
-    <string name="connect_to_conference_wifi">請對大會提供个 Wi-Fi 來連結</string>
+    <string name="connect_to_conference_wifi">請對大會提供兮 Wi-Fi 來連結</string>
     <string name="tap_to_retry">揤這个來閣試一改</string>
     <string name="confirm_dialog_title">你敢有遵照工作人員的指示？</string>
     <string name="panel_discussion">論壇討論</string>
@@ -69,7 +69,7 @@
     <string name="remove_bookmark">對書籤移除</string>
     <string name="bookmark_channel_name">議程書籤</string>
     <string name="notification_session_start">%1$s 个佇 10 分鐘了後个 %2$s 開始</string>
-    <string name="invalid_token">無效个 QR 碼，邀請連結，抑是已經用過矣</string>
+    <string name="invalid_token">無效兮 QR 碼，邀請連結，抑是已經用過矣</string>
     <string name="tap_here_to_scan">揤遮來對翕相機抑是圖庫掃描 KKTIX QR 碼票券</string>
     <string name="no_qr_code_found">這个相片揣無 QR 碼</string>
     <string name="select_from_gallery">對圖庫選擇</string>
@@ -79,17 +79,17 @@
     <string name="select_a_verification_method">選擇認證的方式</string>
     <string name="scan_qr_code_from_gallery">對圖庫掃描 QR 碼</string>
     <string name="scan_qr_code_from_camera">對翕相機掃描 QR 碼</string>
-    <string name="verify_your_identity">認證恁个身分</string>
+    <string name="verify_your_identity">認證恁兮身分</string>
     <string name="my_ticket_notice">請共票券保管好，莫凊彩分享予工作人員抑是擔仔以外的人。</string>
     <string name="offline">無網路連線</string>
     <string name="slide">簡報</string>
     <string name="co_write">共同編輯</string>
     <string name="record">紀錄</string>
-    <string name="couldnt_verify_your_identity">無法度認證恁个身分</string>
+    <string name="couldnt_verify_your_identity">無法度認證恁兮身分</string>
     <string name="checking_event_info">檢查活動資訊</string>
     <string name="couldnt_get_event_info">無法度得著活動資訊</string>
-    <string name="unexpected_error_try_again">無預期个錯誤發生矣。請閣試一改。</string>
-    <string name="verify_identity_to_use_this_function">愛使用這个功能請先認證恁个身分。</string>
+    <string name="unexpected_error_try_again">無預期兮錯誤發生矣。請閣試一改。</string>
+    <string name="verify_identity_to_use_this_function">愛使用這个功能請先認證恁兮身分。</string>
     <string name="cannot_load_schedule">無法度載入時間表</string>
     <string name="cannot_read_session_info">無法度載入議程資訊</string>
     <string name="choose_network_to_connect">選擇愛連線的網路</string>
@@ -120,8 +120,9 @@
     <string name="lang_translated_name_nan_latn_tw_pehoeji">閩南語 - 白話字</string>
     <string name="lang_translated_name_nan_latn_tw_tailo">閩南語 - 臺羅</string>
     <string name="lang_translated_name_ta_in">Tamil 語</string>
-    <string name="choose_app_language">選擇應用程式个語言</string>
+    <string name="choose_app_language">選擇應用程式兮語言</string>
     <string name="lang_translated_name_nb_no">書面挪威語</string>
     <string name="lang_translated_name_zh_hant_tw">華語 - 傳統漢字</string>
     <string name="lang_translated_name_zh_hans_cn">華語 - 簡化漢字</string>
+    <string name="lang_translated_name_ja_jp">日本語</string>
 </resources>
