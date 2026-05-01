@@ -18,6 +18,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -112,12 +113,13 @@ class SessionDetailActivity : AppCompatActivity() {
                 override fun onPageSelected(position: Int) {
                     markwon.setMarkdown(speakerInfo, session.speakers[position].getSpeakerDetail(mActivity).bio)
                     binding.toolbarLayout.title = session.speakers[position].getSpeakerDetail(mActivity).name
+                    updateSpeakerDots(position)
                 }
 
                 override fun onPageScrollStateChanged(state: Int) = Unit
             })
 
-            binding.springDotsIndicator.setupWithViewPager(speakerViewPager)
+            setupSpeakerDots(session.speakers.size, speakerViewPager)
         }
         if (session.speakers.size <= 1) binding.springDotsIndicator.visibility = View.INVISIBLE
 
@@ -181,6 +183,32 @@ class SessionDetailActivity : AppCompatActivity() {
         fab = binding.fab
         checkFabIcon()
         fab.setOnClickListener { view -> toggleFab(view) }
+    }
+
+    private fun setupSpeakerDots(count: Int, speakerViewPager: ViewPager) {
+        binding.springDotsIndicator.removeAllViews()
+        binding.springDotsIndicator.bringToFront()
+
+        repeat(count) { index ->
+            val dotSize = resources.getDimensionPixelSize(R.dimen.speaker_dot_size)
+            val dotMargin = resources.getDimensionPixelSize(R.dimen.speaker_dot_margin)
+            val dot = View(this).apply {
+                background = ContextCompat.getDrawable(this@SessionDetailActivity, R.drawable.tab_selector)
+                isSelected = index == speakerViewPager.currentItem
+                setOnClickListener { speakerViewPager.currentItem = index }
+            }
+            val params = LinearLayout.LayoutParams(dotSize, dotSize).apply {
+                marginStart = dotMargin
+                marginEnd = dotMargin
+            }
+            binding.springDotsIndicator.addView(dot, params)
+        }
+    }
+
+    private fun updateSpeakerDots(selectedPosition: Int) {
+        for (index in 0 until binding.springDotsIndicator.childCount) {
+            binding.springDotsIndicator.getChildAt(index).isSelected = index == selectedPosition
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
