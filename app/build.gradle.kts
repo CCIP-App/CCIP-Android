@@ -12,8 +12,8 @@ android {
         applicationId = "app.opass.ccip"
         minSdk = 24
         targetSdk = 36
-        versionCode = 60
-        versionName = "3.9.0"
+        versionCode = 61
+        versionName = "3.9.1"
 
         manifestPlaceholders["manifestApplicationId"] = "$applicationId"
     }
@@ -27,7 +27,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
         }
@@ -43,16 +43,18 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-
     lint {
         lintConfig = file("lint.xml")
     }
 
     androidResources {
         generateLocaleConfig = true
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
 
