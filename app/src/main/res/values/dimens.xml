@@ -8,4 +8,6 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="icon_size">24dp</dimen>
     <dimen name="padding_safe_area">100dp</dimen>
+    <dimen name="speaker_dot_size">10dp</dimen>
+    <dimen name="speaker_dot_margin">4dp</dimen>
 </resources>

@@ -33,16 +33,6 @@
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="parallax" />
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/spring_dots_indicator"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center"
-                    android:background="@android:color/transparent"
-                    app:tabBackground="@drawable/tab_selector"
-                    app:tabGravity="center"
-                    app:tabIndicatorHeight="0dp" />
-
             </FrameLayout>
 
             <androidx.appcompat.widget.Toolbar
@@ -58,6 +48,20 @@
     <include
         android:id="@+id/content"
         layout="@layout/content_session_detail" />
+
+    <LinearLayout
+        android:id="@+id/spring_dots_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:background="@android:color/transparent"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:translationY="-16dp"
+        android:translationZ="8dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|center" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
