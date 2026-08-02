@@ -103,6 +103,8 @@
     <string name="lang_translated_name_hi_in">Hindi</string>
     <string name="lang_local_name_ja_jp" translatable="false">日本語</string>
     <string name="lang_translated_name_ja_jp">Japanese</string>
+    <string name="lang_local_name_ko_kr" translatable="false">한국어</string>
+    <string name="lang_translated_name_ko_kr">Korean</string>
     <string name="lang_local_name_nan_hant_tw" translatable="false">閩南語 - 傳統漢字</string>
     <string name="lang_translated_name_nan_hant_tw">Hokkien - Traditional Han script</string>
     <string name="lang_local_name_nan_latn_tw_pehoeji" translatable="false">Bân-lâm-gí - Pe̍h-ōe-jī</string>
@@ -137,4 +139,5 @@
     <string name="get_notified_desc">OPass can send you notification just before this event starts. Would you like to allow OPass required permissions?</string>
     <string name="dont_ask_again">Don\'t ask again</string>
     <string name="later">Later</string>
+    <string name="close">Close</string>
 </resources>
