@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -129,6 +130,21 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         }
         currentEventId = event.eventId
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                when {
+                    mDrawerLayout.isDrawerOpen(GravityCompat.START) -> mDrawerLayout.closeDrawers()
+                    dispatchBackPressToChildFragment() -> Unit
+                    isDefaultFeatureSelected -> {
+                        isEnabled = false
+                        onBackPressedDispatcher.onBackPressed()
+                        isEnabled = true
+                    }
+                    else -> onDrawerItemClick(defaultFeatureItem)
+                }
+            }
+        })
+
         launch {
             try {
                 val response = PortalClient.get().getEventConfig(event.eventId).asyncExecute()
@@ -186,16 +202,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         val fragment = supportFragmentManager.findFragmentById(R.id.content_frame) ?: return false
         if (fragment !is BackPressAwareFragment) return false
         return fragment.onBackPressed()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        when {
-            mDrawerLayout.isDrawerOpen(GravityCompat.START) -> mDrawerLayout.closeDrawers()
-            dispatchBackPressToChildFragment() -> Unit
-            isDefaultFeatureSelected -> super.onBackPressed()
-            else -> onDrawerItemClick(defaultFeatureItem)
-        }
     }
 
     override fun onNewIntent(intent: Intent?) {

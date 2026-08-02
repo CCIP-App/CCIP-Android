@@ -43,19 +43,12 @@ object AlarmUtil {
             val calendar = Calendar.getInstance()
             calendar.time = date
 
-            val intent = Intent(context, SessionAlarmReceiver::class.java)
-            intent.action = session.id
-            intent.putExtra(SessionDetailActivity.INTENT_EXTRA_SESSION_ID, session.id)
-
-            val pendingIntent = PendingIntent
-                .getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             AlarmManagerCompat.setExactAndAllowWhileIdle(
                 alarmManager,
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis - 10 * 60 * 1000,
-                pendingIntent
+                getSessionAlarmPendingIntent(context, session)
             )
         } catch (exception: Exception) {
             Log.e(TAG, "Failed to schedule event!", exception)
@@ -63,13 +56,18 @@ object AlarmUtil {
     }
 
     fun cancelSessionAlarm(context: Context, session: Session) {
-        val intent = Intent(context, SessionDetailActivity::class.java)
-        intent.action = session.id
-
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(
-            PendingIntent
-                .getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        )
+        alarmManager.cancel(getSessionAlarmPendingIntent(context, session))
     }
+
+    private fun getSessionAlarmPendingIntent(context: Context, session: Session) =
+        PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent(context, SessionAlarmReceiver::class.java).apply {
+                action = session.id
+                putExtra(SessionDetailActivity.INTENT_EXTRA_SESSION_ID, session.id)
+            },
+            PendingIntent.FLAG_IMMUTABLE
+        )
 }
