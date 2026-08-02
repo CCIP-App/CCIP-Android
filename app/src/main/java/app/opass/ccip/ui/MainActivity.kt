@@ -36,6 +36,7 @@ import app.opass.ccip.ui.schedule.ScheduleTabFragment
 import app.opass.ccip.ui.wifi.WiFiNetworkFragment
 import app.opass.ccip.util.CryptoUtil
 import app.opass.ccip.util.PreferenceUtil
+import app.opass.ccip.util.ScheduleUtil
 import coil3.load
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.CoroutineScope
@@ -89,6 +90,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         setContentView(R.layout.activity_main)
         mActivity = this
         mJob = Job()
+        launch(Dispatchers.Default) {
+            ScheduleUtil.rescheduleStarredSessionAlarms(applicationContext)
+        }
 
         mDrawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
