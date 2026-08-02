@@ -6,7 +6,8 @@ plugins {
 
 android {
     namespace = "app.opass.ccip"
-    compileSdk = 36
+    compileSdk = 37
+    compileSdkMinor = 1
 
     defaultConfig {
         applicationId = "app.opass.ccip"
