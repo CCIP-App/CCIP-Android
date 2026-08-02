@@ -49,7 +49,7 @@ class TokenCheckFragment : AuthActivity.PageFragment() {
     }
 
     override fun onNextButtonClicked() {
-        if (hasErrorOccurred) mActivity.onBackPressed()
+        if (hasErrorOccurred) mActivity.onBackPressedDispatcher.onBackPressed()
         else mActivity.onAuthFinished()
     }
 

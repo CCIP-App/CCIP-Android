@@ -6,14 +6,15 @@ plugins {
 
 android {
     namespace = "app.opass.ccip"
-    compileSdk = 36
+    compileSdk = 37
+    compileSdkMinor = 1
 
     defaultConfig {
         applicationId = "app.opass.ccip"
         minSdk = 24
         targetSdk = 36
-        versionCode = 62
-        versionName = "3.9.2"
+        versionCode = 63
+        versionName = "3.9.3"
 
         manifestPlaceholders["manifestApplicationId"] = "$applicationId"
     }

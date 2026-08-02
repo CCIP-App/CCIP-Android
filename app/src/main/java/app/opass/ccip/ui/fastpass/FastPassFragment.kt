@@ -200,10 +200,10 @@ class FastPassFragment : Fragment(), CoroutineScope {
                             .setPositiveButton(android.R.string.ok, null)
                             .show()
                     }
-                    else -> Toast.makeText(mActivity, "Unexpected response", Toast.LENGTH_LONG).show()
+                    else -> Toast.makeText(mActivity, R.string.unexpected_error_try_again, Toast.LENGTH_LONG).show()
                 }
             } catch (t: Throwable) {
-                Toast.makeText(mActivity, "Use req fail, " + t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(mActivity, R.string.unexpected_error_try_again, Toast.LENGTH_LONG).show()
             }
         }
     }

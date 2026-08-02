@@ -259,13 +259,13 @@ class SessionDetailActivity : AppCompatActivity() {
         } else {
             sessionIds.add(session.id)
 
-            if (PreferenceUtil.shouldPromptForNotification(this)) {
-                val notificationManager =
-                    this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                if (!notificationManager.areNotificationsEnabled()) {
-                    NotificationDialogFragment (::requestNotificationPermission)
-                        .show(supportFragmentManager, NotificationDialogFragment.TAG)
-                }
+            val notificationManager =
+                this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            if (notificationManager.areNotificationsEnabled()) {
+                scheduleAlarm()
+            } else if (PreferenceUtil.shouldPromptForNotification(this)) {
+                NotificationDialogFragment (::requestNotificationPermission)
+                    .show(supportFragmentManager, NotificationDialogFragment.TAG)
             }
         }
         PreferenceUtil.saveStarredIds(this, sessionIds)

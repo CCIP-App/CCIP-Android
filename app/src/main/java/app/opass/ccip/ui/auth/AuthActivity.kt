@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -79,21 +80,24 @@ class AuthActivity : AppCompatActivity() {
         })
         binding.viewPager.adapter = adapter
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val item = adapter.fragments[binding.viewPager.currentItem]
+                if (!item.onBackPressed() && !popFragment()) {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                    isEnabled = true
+                }
+            }
+        })
+
         nextButton.setOnClickListener {
             if (adapter.fragments.lastIndex >= binding.viewPager.currentItem) {
                 adapter.fragments[binding.viewPager.currentItem].onNextButtonClicked()
             }
         }
-        prevButton.setOnClickListener { onBackPressed() }
+        prevButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         onPageSelected()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        val item = adapter.fragments[binding.viewPager.currentItem]
-        if (!item.onBackPressed() && !popFragment()) {
-            super.onBackPressed()
-        }
     }
 
     @Deprecated("Deprecated in Java")
