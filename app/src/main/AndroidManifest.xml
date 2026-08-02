@@ -19,7 +19,7 @@
             android:value="DISABLE" />
 
         <activity android:name=".ui.LauncherActivity" android:exported="true">
-            <intent-filter android:autoVerify="true">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
