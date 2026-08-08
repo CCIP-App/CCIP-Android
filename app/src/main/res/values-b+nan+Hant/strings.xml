@@ -68,7 +68,7 @@
     <string name="add_bookmark">加添到書籤，你議程開始 10 分鐘進前个予通知。</string>
     <string name="remove_bookmark">對書籤移除</string>
     <string name="bookmark_channel_name">議程書籤</string>
-    <string name="notification_session_start">%1$s 个佇 10 分鐘了後个 %2$s 開始</string>
+    <string name="notification_session_start">%1$s 十分鐘後佇 %2$s 開始</string>
     <string name="invalid_token">無效兮 QR 碼，邀請連結，抑是已經用過矣</string>
     <string name="tap_here_to_scan">揤遮來對翕相機抑是圖庫掃描 KKTIX QR 碼票券</string>
     <string name="no_qr_code_found">這个相片揣無 QR 碼</string>
