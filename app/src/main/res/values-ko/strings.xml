@@ -42,7 +42,7 @@
     <string name="scan_ticket_qrcode">티켓 QR 코드 스캔</string>
     <string name="connect_to_conference_wifi">행사장 Wi-Fi에 연결해 주세요</string>
     <string name="tap_to_retry">눌러서 다시 시도</string>
-    <string name="announcement_empty">등록된 공지가 없습니다!</string>
+    <string name="announcement_empty">등록된 공지가 없습니다</string>
     <string name="confirm_dialog_title">스태프의 안내를 따르셨습니까?</string>
     <string name="positive_button">확인</string>
     <string name="negative_button">취소</string>
