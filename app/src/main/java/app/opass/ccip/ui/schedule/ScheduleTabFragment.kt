@@ -69,6 +69,19 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
 
     private val scheduleUrl by lazy { requireArguments().getString(EXTRA_URL)!! }
     private val vm: ScheduleViewModel by viewModels()
+    private val tabSelectedListener = object : TabLayout.OnTabSelectedListener {
+        override fun onTabSelected(tab: TabLayout.Tab) {}
+        override fun onTabUnselected(tab: TabLayout.Tab) {}
+        override fun onTabReselected(tab: TabLayout.Tab) {
+            for (fragment in childFragmentManager.fragments) {
+                if (fragment !is ScheduleFragment) continue
+                if (fragment.date == tab.text) {
+                    fragment.scrollToTop()
+                    break
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -213,6 +226,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
     }
 
     override fun onDestroy() {
+        tabLayout.removeOnTabSelectedListener(tabSelectedListener)
         tabLayout.setupWithViewPager(null)
         tabLayout.isGone = true
         super.onDestroy()
@@ -232,19 +246,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
 
         tabLayout.isGone = dates.size <= 1
         tabLayout.setupWithViewPager(binding.pager)
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {}
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                for (fragment in childFragmentManager.fragments) {
-                    if (fragment !is ScheduleFragment) continue
-                    if (fragment.date == tab.text) {
-                        fragment.scrollToTop()
-                        break
-                    }
-                }
-            }
-        })
+        tabLayout.addOnTabSelectedListener(tabSelectedListener)
     }
 
     override fun onBackPressed(): Boolean {
