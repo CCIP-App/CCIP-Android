@@ -125,4 +125,6 @@
     <string name="later">稍後</string>
     <string name="lang_translated_name_zh_hans_cn">華語 - 簡化漢字</string>
     <string name="lang_translated_name_ja_jp">日語</string>
+    <string name="lang_translated_name_ko_kr">韓語</string>
+    <string name="close">關閉</string>
 </resources>
