@@ -20,6 +20,7 @@ import app.opass.ccip.extension.updateMargin
 import app.opass.ccip.model.Scenario
 import app.opass.ccip.network.CCIPClient
 import app.opass.ccip.network.ErrorUtil
+import app.opass.ccip.push.PushTopicManager
 import app.opass.ccip.ui.MainActivity
 import app.opass.ccip.ui.auth.AuthActivity
 import app.opass.ccip.util.JsonUtil
@@ -103,7 +104,9 @@ class FastPassFragment : Fragment(), CoroutineScope {
     }
 
     private fun updateStatus() {
-        val token = PreferenceUtil.getToken(mActivity)
+        val event = PreferenceUtil.getCurrentEvent(mActivity)
+        val snapshot = PreferenceUtil.captureIdentity(mActivity, event.eventId)
+        val token = snapshot.token
         if (token == null) {
             loginView.visibility = View.VISIBLE
             swipeRefreshLayout.visibility = View.GONE
@@ -116,15 +119,18 @@ class FastPassFragment : Fragment(), CoroutineScope {
         noNetworkView.visibility = View.GONE
         notConfWifiView.visibility = View.GONE
 
-        val event = PreferenceUtil.getCurrentEvent(mActivity)
+        val push = PushTopicManager.get(mActivity)
         launch {
             try {
                 val response = CCIPClient.withBaseUrl(event.getFastPassUrl()!!).status(token).asyncExecute()
 
+                if (!PreferenceUtil.isCurrent(mActivity, snapshot)) return@launch
                 when {
                     response.isSuccessful -> {
-                        val attendee = response.body()
-                        val attr = attendee!!.attr.asJsonObject
+                        val attendee = response.body() ?: error("Missing attendee")
+                        if (!push.applyVerifiedIdentity(snapshot, token, attendee)) return@launch
+                        if (PreferenceUtil.getCurrentEvent(mActivity).eventId != event.eventId) return@launch
+                        val attr = attendee.attr.asJsonObject
 
                         attr.get("title")?.let {
                             mActivity.setUserTitle(it.asString)
@@ -156,16 +162,17 @@ class FastPassFragment : Fragment(), CoroutineScope {
                             updateStatus()
                         }
                     }
-                    else -> {
+                    push.isInvalidCredentials(response) -> {
+                        if (!push.invalidateIdentity(snapshot)) return@launch
+                        if (PreferenceUtil.getCurrentEvent(mActivity).eventId != event.eventId) return@launch
                         Snackbar
                             .make(requireView(), getString(R.string.invalid_token), Snackbar.LENGTH_LONG)
                             .setAnchorView(navbarAnchor)
                             .show()
-                        PreferenceUtil.setToken(mActivity, null)
-                        PreferenceUtil.setRole(mActivity, null)
                         loginView.visibility = View.VISIBLE
                         swipeRefreshLayout.visibility = View.GONE
                     }
+                    else -> noNetworkView.visibility = View.VISIBLE
                 }
             } catch (t: Throwable) {
                 noNetworkView.visibility = View.VISIBLE

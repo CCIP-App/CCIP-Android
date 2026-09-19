@@ -96,8 +96,7 @@ dependencies {
     implementation(libs.squareup.retrofit)
     implementation(libs.squareup.converter.gson)
 
-    // OneSignal
-    implementation(libs.onesignal)
+    implementation(libs.google.firebase.messaging)
     testImplementation(libs.junit)
 
     // Zxing

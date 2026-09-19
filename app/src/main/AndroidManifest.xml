@@ -3,6 +3,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
@@ -15,8 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
-            android:name="com.onesignal.NotificationOpened.DEFAULT"
-            android:value="DISABLE" />
+            android:name="firebase_messaging_installation_id_enabled"
+            android:value="true" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="announcements" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_announcement" />
+        <service android:name=".push.PushMessagingService" android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <activity android:name=".ui.LauncherActivity" android:exported="true">
             <intent-filter>

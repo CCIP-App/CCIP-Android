@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.core.content.edit
 import app.opass.ccip.model.ConfSchedule
 import app.opass.ccip.model.EventConfig
+import app.opass.ccip.push.IdentitySnapshot
+import java.util.UUID
 
 object PreferenceUtil {
     private const val PREF_EVENT = "event"
@@ -22,7 +24,10 @@ object PreferenceUtil {
 
     fun setCurrentEvent(context: Context, eventConfig: EventConfig) {
         context.getSharedPreferences(PREF_EVENT, Context.MODE_PRIVATE)
-            .edit(true) { putString(PREF_CURRENT_EVENT, JsonUtil.toJson(eventConfig)) }
+            .edit(true) {
+                putString(PREF_CURRENT_EVENT, JsonUtil.toJson(eventConfig))
+                putString("config_" + eventConfig.eventId, JsonUtil.toJson(eventConfig))
+            }
     }
 
     fun getCurrentEvent(context: Context): EventConfig {
@@ -37,19 +42,47 @@ object PreferenceUtil {
         }
     }
 
-    fun setToken(context: Context, token: String?) {
-        context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
-            .edit(true) { putString(getCurrentEvent(context).eventId + PREF_AUTH_TOKEN, token) }
-    }
-
     fun getToken(context: Context): String? {
-        val sharedPreferences = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
-        return sharedPreferences.getString(getCurrentEvent(context).eventId + PREF_AUTH_TOKEN, null)
+        return captureIdentity(context, getCurrentEvent(context).eventId).token
     }
 
-    fun setRole(context: Context, role: String?) {
-        context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
-            .edit(true) { putString(getCurrentEvent(context).eventId + PREF_AUTH_ROLE, role)}
+    @Synchronized
+    fun captureIdentity(context: Context, eventId: String): IdentitySnapshot {
+        val prefs = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
+        return IdentitySnapshot(eventId, prefs.getString(eventId + PREF_AUTH_TOKEN, null),
+            prefs.getString(eventId + "_revision", "")!!)
+    }
+
+    @Synchronized
+    fun isCurrent(context: Context, snapshot: IdentitySnapshot) = captureIdentity(context, snapshot.eventId) == snapshot
+
+    @Synchronized
+    fun updateIdentity(context: Context, snapshot: IdentitySnapshot, token: String?, role: String?,
+                       newLogin: Boolean = false, beforeCommit: (IdentitySnapshot) -> Unit): Boolean {
+        return snapshot.applyIfCurrent(captureIdentity(context, snapshot.eventId)) {
+            val prefs = context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE)
+            val changed = newLogin || token != snapshot.token || role != prefs.getString(snapshot.eventId + PREF_AUTH_ROLE, null)
+            val next = snapshot.copy(token = token, revision = if (changed) UUID.randomUUID().toString() else snapshot.revision)
+            // A crash between these writes leaves an unmatched revision, requiring revalidation.
+            beforeCommit(next)
+            check(prefs.edit()
+                .putString(snapshot.eventId + PREF_AUTH_TOKEN, token)
+                .putString(snapshot.eventId + PREF_AUTH_ROLE, role)
+                .putString(snapshot.eventId + "_revision", next.revision).commit())
+        }
+    }
+
+    @Synchronized
+    fun loggedInIdentities(context: Context): List<IdentitySnapshot> =
+        context.getSharedPreferences(PREF_AUTH, Context.MODE_PRIVATE).all
+            .filter { (key, value) -> key.endsWith(PREF_AUTH_TOKEN) && value is String && value.isNotEmpty() }
+            .keys.map { captureIdentity(context, it.removeSuffix(PREF_AUTH_TOKEN)) }
+
+    fun getEvent(context: Context, eventId: String): EventConfig? {
+        val json = context.getSharedPreferences(PREF_EVENT, Context.MODE_PRIVATE)
+            .getString("config_$eventId", null)
+        return if (json != null) JsonUtil.fromJson(json, EventConfig::class.java)
+        else getCurrentEvent(context).takeIf { it.eventId == eventId }
     }
 
     fun getRole(context: Context): String? {
