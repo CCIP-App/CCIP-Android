@@ -98,6 +98,7 @@ dependencies {
 
     // OneSignal
     implementation(libs.onesignal)
+    testImplementation(libs.junit)
 
     // Zxing
     implementation(libs.zxing.android.embedded)

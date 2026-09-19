@@ -17,6 +17,7 @@ markwonVersion = "4.6.2"
 material = "1.14.0"
 okhttp = "5.4.0"
 onesignal = "5.9.8"
+junit = "4.13.2"
 playServices = "4.5.0"
 recyclerview = "1.4.0"
 retrofit = "3.0.0"
@@ -46,6 +47,7 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 markwon-core = { module = "io.noties.markwon:core", version.ref = "markwonVersion" }
 markwon-linkify = { module = "io.noties.markwon:linkify", version.ref = "markwonVersion" }
 onesignal = { module = "com.onesignal:OneSignal", version.ref = "onesignal" }
+junit = { module = "junit:junit", version.ref = "junit" }
 squareup-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 squareup-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 squareup-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
