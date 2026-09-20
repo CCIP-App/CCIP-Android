@@ -15,6 +15,8 @@ Some of the conferences in which OPass has been in use for the past few years ar
 
 ## Development
 
+公開活動推播的建置、訂閱恢復與驗收說明見 [docs/push.md](docs/push.md)。
+
 - OPass is licensed and distributed under the GNU GENERAL PUBLIC LICENSE v3
 - List of contributors can be viewed on this repository's [contributors graph](https://github.com/CCIP-App/CCIP-Android/graphs/contributors).
 

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.opass.ccip.R
 import app.opass.ccip.extension.updateMargin
+import app.opass.ccip.push.PushTopicManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class LanguagePreferenceFragment : DialogFragment() {
@@ -99,6 +100,7 @@ class LanguagePreferenceFragment : DialogFragment() {
                     )
                 )
             ) { item ->
+                PushTopicManager.get(requireContext()).localeChanged(item.languageTag)
                 dialog?.dismiss()
 
                 AppCompatDelegate.setApplicationLocales(

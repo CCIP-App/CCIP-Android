@@ -28,6 +28,8 @@ import app.opass.ccip.extension.updateMargin
 import app.opass.ccip.model.Feature
 import app.opass.ccip.model.FeatureType
 import app.opass.ccip.network.PortalClient
+import app.opass.ccip.push.PushTopicManager
+import androidx.appcompat.app.AppCompatDelegate
 import app.opass.ccip.ui.announcement.AnnouncementFragment
 import app.opass.ccip.ui.event.EventActivity
 import app.opass.ccip.ui.fastpass.FastPassFragment
@@ -156,7 +158,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                     return@launch
                 }
                 val newEvent = response.body()!!
-                if (event != newEvent) {
+                if (newEvent.eventId == event.eventId && PreferenceUtil.getCurrentEvent(this@MainActivity).eventId == event.eventId && event != newEvent) {
                     PreferenceUtil.setCurrentEvent(this@MainActivity, newEvent)
                     restartActivity()
                 }
@@ -168,11 +170,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onResume() {
         super.onResume()
+        if (PreferenceUtil.getCurrentEvent(this).eventId.isEmpty()) return
+        PushTopicManager.get(this).localeChanged(AppCompatDelegate.getApplicationLocales()[0]?.toLanguageTag() ?: "x-default")
+        PushTopicManager.get(this).refreshAll()
         buildDrawer()
     }
 
     override fun onDestroy() {
-        mJob.cancel()
+        if (::mJob.isInitialized) mJob.cancel()
         super.onDestroy()
     }
 
@@ -210,6 +215,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        if (intent != null) setIntent(intent)
         if (PreferenceUtil.getCurrentEvent(this).eventId != currentEventId) {
             restartActivity()
         } else if (intent?.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false) == true) {
@@ -229,6 +235,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private fun restartActivity() {
         val restartIntent = Intent(this, this::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            putExtra(ARG_IS_FROM_NOTIFICATION, intent.getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false))
         }
         overridePendingTransition(0, 0)
         finish()
