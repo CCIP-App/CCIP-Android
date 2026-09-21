@@ -19,6 +19,7 @@ import androidx.core.view.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.lifecycleScope
 import app.opass.ccip.R
 import app.opass.ccip.databinding.FragmentScheduleTabBinding
 import app.opass.ccip.extension.asyncExecute
@@ -34,9 +35,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -44,9 +43,8 @@ import okhttp3.Request
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.coroutines.CoroutineContext
 
-class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAwareFragment {
+class ScheduleTabFragment : Fragment(), MainActivity.BackPressAwareFragment {
     companion object {
         private val SDF_DATE = SimpleDateFormat("MM/dd", Locale.US)
         private const val EXTRA_URL = "EXTRA_URL"
@@ -63,9 +61,6 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
     private lateinit var sheetBehavior: BottomSheetBehavior<View>
 
     private var scheduleTabAdapter: ScheduleTabAdapter? = null
-    private lateinit var mJob: Job
-    override val coroutineContext: CoroutineContext
-        get() = mJob + Dispatchers.Main
 
     private val scheduleUrl by lazy { requireArguments().getString(EXTRA_URL)!! }
     private val vm: ScheduleViewModel by viewModels()
@@ -98,7 +93,6 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
 
         mActivity = requireActivity()
         tabLayout = mActivity.findViewById(R.id.tabs)
-        mJob = Job()
         binding.swipeContainer.isEnabled = false
         setHasOptionsMenu(true)
 
@@ -181,7 +175,7 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
             }
         }
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             binding.swipeContainer.isRefreshing = true
             try {
                 val client = OkHttpClient()
@@ -230,7 +224,6 @@ class ScheduleTabFragment : Fragment(), CoroutineScope, MainActivity.BackPressAw
         tabLayout.setupWithViewPager(null)
         tabLayout.isGone = true
         super.onDestroy()
-        mJob.cancel()
     }
 
     private fun setupViewPager() {
